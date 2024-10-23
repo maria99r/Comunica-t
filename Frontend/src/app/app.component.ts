@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { NavComponent } from "./pages/nav/nav.component";
+import { NavComponent } from "./components/nav/nav.component";
 
 @Component({
   selector: 'app-root',

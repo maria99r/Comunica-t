@@ -2,12 +2,13 @@ import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { ImageModule } from 'primeng/image';
 
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [NgClass, MenubarModule],
+  imports: [NgClass, MenubarModule, ImageModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
@@ -19,11 +20,6 @@ export class NavComponent {
 
     // elementos del menú  
     this.items = [
-      {
-        label: 'logo',
-        icon: '',
-        routerLink: '/'
-      },
       {
         label: 'Inicio',
         icon: '',

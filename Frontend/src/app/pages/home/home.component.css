@@ -1,0 +1,41 @@
+.panel-top{
+    background-image: url("https://img.freepik.com/vector-gratis/particula-tecnologia-abstracta-realista-fondo_23-2148431735.jpg?t=st=1729693820~exp=1729697420~hmac=1e39a6f352c45300dc9de38aac6475ca43e4cce891782d20a64ca53a1e8a149a&w=740");
+    background-size: cover;
+    text-align: center;
+    align-content: center;
+}
+
+.panel-down{
+    background-image: url("https://img.freepik.com/vector-gratis/fondo-lineas-circuito-tecnologia-azul-abstracto_1017-23965.jpg?t=st=1729699570~exp=1729703170~hmac=c324baf79abc801aff52297bc96742d116a209b53611d47e099e9a8265714aea&w=826");
+    background-size: cover;
+    text-align: center;
+    align-content: center;
+    color: #2A345D;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;                  /* Permitir que las tarjetas se ajusten en múltiples filas */
+    gap: 10px;                        /* Espacio entre las tarjetas */
+    justify-content: center;          /* Centrar las tarjetas horizontalmente */
+    align-items: center;              /* Alinear verticalmente */
+    padding: 20px;
+    font-size: larger;
+    vertical-align: middle;
+}
+
+.card-advantage {
+    color: #2A345D;
+    flex: 1 1 45%;                    /* Las dos primeras tarjetas ocuparán el 45% del ancho (dos en la primera fila) */
+    max-width: 400px;                 /* Limitar el ancho máximo de cada tarjeta */
+    padding: 10px;
+    text-align: left;
+}
+
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .card-advantage {
+        flex: 1 1 100%;              
+    }
+}               

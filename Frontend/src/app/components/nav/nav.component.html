@@ -1,0 +1,14 @@
+<p-menubar [model]="items" styleClass="custom-menubar">
+    <ng-template pTemplate="start">
+        <p-image height="30px" src="https://edu-innovacom.odoo.com/web/image/website/1/logo/InnovaCom?unique=7c15378" alt="Logo" ></p-image>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <a routerLink="/cart" class="p-menubar-icon">
+            <i class="pi pi-shopping-cart" style="font-size: 1.5rem; margin-right: 15px;"></i>
+        </a>
+        <a routerLink="/user" class="p-menubar-icon">
+            <i class="pi pi-user" style="font-size: 1.5rem;"></i>
+        </a>
+    </ng-template>
+</p-menubar>
+

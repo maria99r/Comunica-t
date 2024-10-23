@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { NavComponent } from './pages/nav/nav.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
-    {path: 'nav', component: NavComponent}
+    { path: '', component: HomeComponent },  // Ruta pantalla inicio home
 ];
