@@ -1,0 +1,23 @@
+footer{
+    color: #D1DEFF;
+    text-align: center;
+    margin: 0;
+    background-color: #2A345D;
+    display: flex;
+}
+
+img{
+    margin: 20px;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    margin: 10px;
+    text-decoration: none;
+    color: #D1DEFF;
+}
+
