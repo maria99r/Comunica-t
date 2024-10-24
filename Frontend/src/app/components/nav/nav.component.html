@@ -3,14 +3,10 @@
         <img height="30px" src="logo_oscuro.png" alt="Logo Innovacom" style="margin: 10px;"/>
     </ng-template>
     <ng-template pTemplate="end">
-        <a routerLink="/cart" class="p-menubar-icon" style=" margin-right: 20px; color:rgb(37, 98, 117); text-decoration: none;">
-            <i class="pi pi-shopping-cart" style="font-size: 1.5rem;"></i>
-            0 <!-- aqui habrá que poner una variable que cuente el numero de productos_cesta -->
-        </a>
-
-        <a routerLink="/login" class="p-menubar-icon">
-            <i class="pi pi-user" style="font-size: 1.5rem; color:rgb(37, 98, 117); margin-right: 10px;"></i>
-        </a>
+        <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px" class="mr-1">
+        <!-- Poner Variable de numero de productos en cesta-->
+        <span>0</span> 
+        <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px" class="mr-2 ml-4">
     </ng-template>
 </p-menubar>
 

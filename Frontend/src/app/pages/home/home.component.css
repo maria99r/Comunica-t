@@ -1,13 +1,17 @@
 .panel-top{
-    background-image: url("https://img.freepik.com/vector-gratis/particula-tecnologia-abstracta-realista-fondo_23-2148431735.jpg?t=st=1729693820~exp=1729697420~hmac=1e39a6f352c45300dc9de38aac6475ca43e4cce891782d20a64ca53a1e8a149a&w=740");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-placa-base_23-2151733789.jpg?t=st=1729794199~exp=1729797799~hmac=b66faa72f5783a4ba35b83db8f2e033939890d227b5e901bfd1d319ab6580538&w=740");
     background-size: cover;
+    background-position: center;
     text-align: center;
     align-content: center;
+    text-shadow: #12182e 0 0 1em;
+    background-attachment: fixed;
 }
 
 .panel-down{
-    background-image: url("https://img.freepik.com/vector-gratis/fondo-lineas-circuito-tecnologia-azul-abstracto_1017-23965.jpg?t=st=1729699570~exp=1729703170~hmac=c324baf79abc801aff52297bc96742d116a209b53611d47e099e9a8265714aea&w=826");
+    background:linear-gradient(to top, transparent, rgb(255, 255, 255)), url("https://img.freepik.com/vector-gratis/diseno-concepto-abstracto-tecnologia-malla-alambre_1017-14624.jpg?t=st=1729795122~exp=1729798722~hmac=dde2bf0b5f7121fdfddc12ee8506d660202912da1677bc675c2bb6fb9535d3c6&w=1280");
     background-size: cover;
+    background-position: top;
     text-align: center;
     align-content: center;
     color: #2A345D;
