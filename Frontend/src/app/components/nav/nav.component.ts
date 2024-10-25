@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { ImageModule } from 'primeng/image';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [NgClass, MenubarModule, ImageModule],
+  imports: [NgClass, MenubarModule, ImageModule, RouterModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
