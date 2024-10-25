@@ -1,16 +1,23 @@
+<!-- NAVBAR MENU RESPONSIVE -->
 <p-menubar [model]="items" styleClass="custom-menubar">
+
+    <!-- Logo Innovacom-->
     <ng-template pTemplate="start">
         <img height="30px" src="logo_oscuro.png" alt="Logo Innovacom" style="margin: 10px;" />
     </ng-template>
+
+    <!-- Cart and User icons -->
     <ng-template pTemplate="end">
+
         <a routerLink="/cart">
             <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px" class="mr-1">
-            <span>0</span>
+            <span>0</span> <!-- Recoger de BBDD nº de productos de cesta -->
         </a>
-        <!-- Poner Variable de numero de productos en cesta-->
+        
         <a [routerLink]="['/login']">
             <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px"
                 class="mr-2 ml-4">
         </a>
     </ng-template>
+
 </p-menubar>

@@ -6,6 +6,7 @@ import { ImageModule } from 'primeng/image';
 import { RouterModule } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-nav',
   standalone: true,
@@ -19,7 +20,7 @@ export class NavComponent {
 
   ngOnInit() {
 
-    // elementos del menú  
+    // Nav items
     this.items = [
       {
         label: 'Inicio',
