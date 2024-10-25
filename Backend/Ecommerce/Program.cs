@@ -1,4 +1,5 @@
 using Ecommerce.Models;
+using Ecommerce.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Inyectamos el DbContext
 builder.Services.AddScoped<EcommerceContext>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
