@@ -5,7 +5,8 @@
     },
     "sqlite1": {
       "type": "sqlite",
-      "connectionId": "Ecommerce"
+      "connectionId": "Ecommerce",
+      "dynamicId": null
     }
   }
 }

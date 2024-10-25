@@ -7,7 +7,8 @@
       "secretStore": "LocalSecretsFile",
       "resourceId": null,
       "type": "sqlite.local",
-      "connectionId": "Ecommerce"
+      "connectionId": "Ecommerce",
+      "dynamicId": null
     }
   }
 }
