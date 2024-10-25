@@ -5,6 +5,7 @@
     },
     "sqlite1": {
       "secretStore": "LocalSecretsFile",
+      "resourceId": null,
       "type": "sqlite.local",
       "connectionId": "Ecommerce",
       "dynamicId": null
