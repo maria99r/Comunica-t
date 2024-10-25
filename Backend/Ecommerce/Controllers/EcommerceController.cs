@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Models;
+using Ecommerce.Repositories.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
@@ -7,17 +8,24 @@ namespace Ecommerce.Controllers
     [Route("api/[controller]")]
     public class EcommerceController : ControllerBase
     {
-        private EcommerceContext _dbContext;
+        private readonly UserRepository _userRepository;
 
-        public EcommerceController(EcommerceContext dbContext) {
-            _dbContext = dbContext;
+        public EcommerceController(UserRepository userRepository) {
+            _userRepository = userRepository;
         }
-
-        [HttpGet]
-        public IEnumerable<User> GetUser()
+        
+        // Devuelve un usuario buscado por email
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetByEmail(string email)
         {
-            return _dbContext.Users;
+            var user = await _userRepository.GetByEmail(email);
 
+            if (user == null) // Si no se encuentra el correo
+            {
+                return NotFound(new { message = $"El usuario con el correo: '{email}' no ha sido encontrado." }); // Da un mensaje de error
+            }
+
+            return Ok(user); // Devuelve el usuario encontrado
         }
     }
 }

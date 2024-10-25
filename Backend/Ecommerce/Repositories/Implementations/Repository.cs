@@ -15,7 +15,7 @@ namespace Ecommerce.Repositories.Implementations
             Context = context;
         }
 
-        public async Task<ICollection<TEntity>> GetAllAsync()
+        public async Task<ICollection<TEntity>> GetByEmail()
         {
             return await Context.Set<TEntity>().ToArrayAsync();
         }
@@ -62,6 +62,5 @@ namespace Ecommerce.Repositories.Implementations
         {
             return await GetByIdAsync(id) != null;
         }
-        // Falta crear un repositorio para cada entidad
     }
 }
