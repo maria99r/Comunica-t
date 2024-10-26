@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Models.Database.Repositories.Implementations
 {
-    public class CustomerOrderRepository : Repository<CustomerOrder, int>
+    public class CustomerOrderRepository : Repository<CustomerOrder>
     {
         public CustomerOrderRepository(EcommerceContext context) : base(context)
         {
