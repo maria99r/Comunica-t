@@ -18,12 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Models\Dtos\" />
-    <Folder Include="Models\Mappers\" />
-<<<<<<< Updated upstream
+    <Folder Include="Models\" />
     <Folder Include="Helpers\" />
-=======
->>>>>>> Stashed changes
     <Folder Include="Services\" />
   </ItemGroup>
 
