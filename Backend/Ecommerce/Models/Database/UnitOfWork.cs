@@ -1,6 +1,6 @@
-﻿using Ecommerce.Models;
+﻿using Ecommerce.Models.Database.Repositories.Implementations;
 
-namespace Ecommerce.Repositories.Implementations
+namespace Ecommerce.Models.Database
 {
     public class UnitOfWork
     {
@@ -21,7 +21,8 @@ namespace Ecommerce.Repositories.Implementations
         public CustomerOrderRepository CustomerOrderRepository => _customerOrderRepository ??= new CustomerOrderRepository(_context);
         public CartRepository CartRepository => _cartRepository ??= new CartRepository(_context);
 
-        public UnitOfWork(EcommerceContext context) { 
+        public UnitOfWork(EcommerceContext context)
+        {
             _context = context;
         }
 

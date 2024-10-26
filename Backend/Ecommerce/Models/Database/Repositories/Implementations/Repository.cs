@@ -1,9 +1,8 @@
-﻿using Ecommerce.Models;
-using Ecommerce.Repositories.Interfaces;
+﻿using Ecommerce.Models.Database.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Ecommerce.Repositories.Implementations
+namespace Ecommerce.Models.Database.Repositories.Implementations
 {
     // Implementación del repositorio común
     public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
@@ -15,7 +14,7 @@ namespace Ecommerce.Repositories.Implementations
             Context = context;
         }
 
-        public async Task<ICollection<TEntity>> GetByEmail()
+        public async Task<ICollection<TEntity>> GetAllAsync()
         {
             return await Context.Set<TEntity>().ToArrayAsync();
         }
@@ -61,6 +60,11 @@ namespace Ecommerce.Repositories.Implementations
         public async Task<bool> ExistAsync(TId id)
         {
             return await GetByIdAsync(id) != null;
+        }
+
+        public Task<ICollection<TEntity>> GetByEmail()
+        {
+            throw new NotImplementedException();
         }
     }
 }

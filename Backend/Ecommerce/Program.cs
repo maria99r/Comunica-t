@@ -1,5 +1,5 @@
-using Ecommerce.Models;
-using Ecommerce.Repositories.Implementations;
+using Ecommerce.Models.Database;
+using Ecommerce.Models.Database.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
