@@ -1,0 +1,39 @@
+<div class="login-container">
+
+  <div class="logo">
+    <img src="logo.png" alt="Innovacom Logo" />
+  </div>
+
+  <div class="login-box">
+
+    <div class="user-logo">
+      <img src="user-logo.png" alt="User Logo" />
+    </div>
+
+    <p class="iniciar">Iniciar sesión</p>
+
+    <div class="p-fluid">
+
+      <div class="p-field icon-input-container">
+        <i class="pi pi-envelope input-icon"></i>
+        <input type="text" pInputText placeholder="Correo electrónico" class="icon-input" required [(ngModel)]="email" />
+      </div>
+
+      <div class="p-field icon-input-container">
+        <i class="pi pi-lock input-icon"></i>
+        <input type="password" pInputText placeholder="Contraseña" class="icon-input" required [(ngModel)]="password" />
+      </div>
+
+      <div class="p-mt-3">
+        <button type="submit" class="submit-button">Iniciar sesión</button>
+      </div>
+
+    </div>
+
+    <div class="register-link">
+      <p>¿Eres un cliente nuevo? <a href="#">Regístrate</a></p>
+    </div>
+
+  </div>
+
+</div>
