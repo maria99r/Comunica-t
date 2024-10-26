@@ -21,8 +21,7 @@ public partial class EcommerceContext : DbContext
     {
     }
 
-    public EcommerceContext(DbContextOptions<EcommerceContext> options)
-        : base(options)
+    public EcommerceContext(DbContextOptions<EcommerceContext> options) : base(options)
     {
     }
 
@@ -57,9 +56,9 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("INT")
                 .HasColumnName("user_id");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Carts)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            //entity.HasOne(d => d.User).WithMany(p => p.Carts)
+            //    .HasForeignKey(d => d.UserId)
+            //   .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<CustomerOrder>(entity =>
@@ -88,9 +87,9 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("INT")
                 .HasColumnName("user_id");
 
-            entity.HasOne(d => d.User).WithMany(p => p.CustomerOrders)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            //entity.HasOne(d => d.User).WithMany(p => p.CustomerOrders)
+            //    .HasForeignKey(d => d.UserId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -196,9 +195,9 @@ public partial class EcommerceContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.HasOne(d => d.User).WithMany(p => p.Reviews)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            //entity.HasOne(d => d.User).WithMany(p => p.Reviews)
+            //    .HasForeignKey(d => d.UserId)
+            //   .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>

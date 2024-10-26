@@ -5,66 +5,53 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace Ecommerce.Models.Database.Repositories.Implementations
 {
     // Implementación del repositorio común
-    public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected EcommerceContext Context { get; init; }
+        protected EcommerceContext _context;
 
         public Repository(EcommerceContext context)
         {
-            Context = context;
+            _context = context;
         }
 
         public async Task<ICollection<TEntity>> GetAllAsync()
         {
-            return await Context.Set<TEntity>().ToArrayAsync();
+            return await _context.Set<TEntity>().ToArrayAsync();
         }
 
         public IQueryable<TEntity> GetQueryable(bool asNoTracking = true)
         {
-            DbSet<TEntity> entities = Context.Set<TEntity>();
+            DbSet<TEntity> entities = _context.Set<TEntity>();
             return asNoTracking ? entities.AsNoTracking() : entities;
         }
 
-        public async Task<TEntity> GetByIdAsync(TId id)
+        public async Task<TEntity> GetByIdAsync(object id)
         {
-            return await Context.Set<TEntity>().FindAsync(id);
+            return await _context.Set<TEntity>().FindAsync(id);
         }
 
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            EntityEntry<TEntity> entry = await Context.Set<TEntity>().AddAsync(entity);
-            await SaveAsync();
+            EntityEntry<TEntity> entry = await _context.Set<TEntity>().AddAsync(entity);
 
             return entry.Entity;
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
-            EntityEntry<TEntity> entry = Context.Set<TEntity>().Update(entity);
-            await SaveAsync();
+            EntityEntry<TEntity> entry = _context.Set<TEntity>().Update(entity);
 
             return entry.Entity;
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public void Delete(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
-            await SaveAsync();
+            _context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<bool> SaveAsync()
-        {
-            return await Context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<bool> ExistAsync(TId id)
+        public async Task<bool> ExistAsync(object id)
         {
             return await GetByIdAsync(id) != null;
-        }
-
-        public Task<ICollection<TEntity>> GetByEmail()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Models.Database.Repositories.Implementations
 {
-    public class ReviewRepository : Repository<Review, int>
+    public class ReviewRepository : Repository<Review>
     {
         public ReviewRepository(EcommerceContext context) : base(context)
         {
