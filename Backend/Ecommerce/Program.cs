@@ -1,6 +1,8 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Database.Repositories.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,19 @@ if (builder.Environment.IsDevelopment())
         });
     });
 }
+
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        string key = "A8$wX#pQ3dZ7v&kB1nY!rT@9mL%j6sHf4^g2Uc5*o";
+
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        };
+    });
 
 var app = builder.Build();
 
