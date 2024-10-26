@@ -1,0 +1,88 @@
+<h1>Signup</h1>
+
+<header>
+  <h2>Bienvenido al formulario de registro</h2>
+</header>
+<body>
+
+
+<section>
+  <form (ngSubmit)="submit()">
+    <label>
+      Nombre:
+      <input type="text" formControlName="name" />
+    </label>
+
+    <div *ngIf="myForm.get('name')?.invalid" id="nameError" class="error">
+      <div *ngIf="myForm.get('name')?.hasError('required')">
+        Nombre es obligatorio.
+      </div>
+    </div>
+
+    <br>
+
+    <label>
+      Direccion:
+      <input type="text" formControlName="direction" />
+    </label>
+
+    <div *ngIf="myForm.get('direction')?.invalid" id="directionError" class="error">
+      <div *ngIf="myForm.get('direction')?.hasError('required')">
+        Direccion Obligatoria
+      </div>
+    </div>
+
+    <br>
+
+    <label>
+      Correo electrónico:
+      <input type="email" formControlName="email" />
+    </label>
+
+    <div *ngIf="myForm.get('email')?.invalid" id="emailError" class="error">
+      <div *ngIf="myForm.get('email')?.hasError('required')">
+        Correo electrónico es obligatorio.
+      </div>
+      <div *ngIf="myForm.get('email')?.hasError('email')">
+        Tiene que ser un email válido.
+      </div>
+    </div>
+
+    <br>
+
+    <label>
+      Contraseña:
+      <input type="password" formControlName="password" />
+    </label>
+
+    <div *ngIf="myForm.get('password')?.invalid" id="passwordError" class="error">
+      <div *ngIf="myForm.get('password')?.hasError('required')">
+        Contraseña es obligatorio.
+      </div>
+      <div *ngIf="myForm.get('password')?.hasError('minlength')">
+        La contraseña debe tener mínimo 6 caracteres.
+      </div>
+    </div>
+
+    <br>
+
+    <label>
+      Repetir contraseña:
+      <input type="password" formControlName="confirmPassword" />
+    </label>
+
+    <div *ngIf="myForm.get('confirmPassword')?.invalid" id="confirmPasswordError" class="error">
+      <div *ngIf="myForm.get('confirmPassword')?.hasError('mismatch')">
+        Debe coincidir con la contraseña.
+      </div>
+    </div>
+
+    <br>
+    <input type="submit" />
+  </form>
+</section>
+</body>
+
+<footer>
+  <p>© 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+</footer>
