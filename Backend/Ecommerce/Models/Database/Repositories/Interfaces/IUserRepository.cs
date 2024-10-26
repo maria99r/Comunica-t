@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Repositories.Interfaces
+﻿namespace Ecommerce.Models.Database.Repositories.Interfaces
 {
     public interface IUserRepository<TEntity, TId> where TEntity : class
     {

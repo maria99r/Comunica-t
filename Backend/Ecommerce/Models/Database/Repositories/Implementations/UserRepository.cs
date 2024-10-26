@@ -1,7 +1,7 @@
-﻿using Ecommerce.Models;
+﻿using Ecommerce.Models.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Repositories.Implementations
+namespace Ecommerce.Models.Database.Repositories.Implementations
 {
     public class UserRepository : Repository<User, int>
     {
