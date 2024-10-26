@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ecommerce.Models;
+namespace Ecommerce.Models.Database.Entities;
 
 public partial class Review
 {

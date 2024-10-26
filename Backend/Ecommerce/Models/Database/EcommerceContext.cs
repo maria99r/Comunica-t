@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ecommerce.Models.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Models;
+namespace Ecommerce.Models.Database;
 
 public partial class EcommerceContext : DbContext
 {
@@ -31,7 +32,7 @@ public partial class EcommerceContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("DataSource=C:\\Users\\rgsha\\OneDrive\\Escritorio\\Clase\\2DAM\\AccesoDatos\\Ecommerce\\Backend\\Ecommerce.db");
+        => optionsBuilder.UseSqlite("DataSource=C:\\Users\\Rocío\\Desktop\\Cosas clase\\2DAM\\AccesoADatos\\Ecommerce\\Backend\\Ecommerce.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
