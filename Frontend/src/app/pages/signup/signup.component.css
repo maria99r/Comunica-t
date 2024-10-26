@@ -1,9 +1,9 @@
 /* Estilo general para el contenedor del formulario */
 h1 {
-    text-align: center; /* Centrar el título */
+    text-align: center; 
     font-family: "Inter-Regular", Helvetica;
     font-weight: 700;
-    color: #333; /* Color oscuro para el título */
+    color: #333; 
   }
   
   /* Encabezado */
@@ -16,7 +16,7 @@ h1 {
   header h2 {
     font-family: "Inter-Regular", Helvetica;
     font-weight: 700;
-    color: #333; /* Color del encabezado */
+    color: #333; 
   }
   
   /* Sección del formulario */
@@ -26,66 +26,66 @@ h1 {
     max-width: 500px; 
     padding: 20px; 
     background-image: url(/public/FondoRegister.jpg); 
-    background-size: cover; /* Ajustar imagen */
-    background-position: center; /* Centrar imagen */
+    background-size: cover;
+    background-position: center;
     border-radius: 10px; 
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
     margin: 20px auto; 
-    min-height: 300px; /* Asegurar que el contenedor tenga altura */
+    min-height: 300px; 
 }
   
   /* Etiquetas y campos de entrada */
   label {
-    display: block; /* Cada etiqueta ocupa una línea completa */
-    margin-bottom: 10px; /* Espacio entre etiquetas y campos */
+    display: block; 
+    margin-bottom: 10px; 
     font-family: "Inter-Regular", Helvetica;
     font-weight: 600;
-    color: #333; /* Color del texto */
+    color: #333; 
   }
   
   input[type="text"],
   input[type="number"],
   input[type="email"],
   input[type="password"] {
-    width: 100%; /* Ancho completo del contenedor */
-    padding: 10px; /* Espaciado interno */
-    margin-bottom: 10px; /* Espaciado entre campos */
-    border: 1px solid #ccc; /* Borde suave */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de fuente */
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 16px; 
   }
   
   /* Estilo para mensajes de error */
   .error {
-    color: red; /* Color de error */
-    font-size: 14px; /* Tamaño de fuente para mensajes de error */
+    color: red; 
+    font-size: 14px; 
   }
   
   /* Estilo para el botón de envío */
   input[type="submit"] {
-    background-color: #7461c7; /* Color del botón */
-    color: #ffffff; /* Color del texto en el botón */
-    padding: 12px 20px; /* Espaciado interno del botón */
-    border: none; /* Sin borde */
-    border-radius: 100px; /* Bordes completamente redondeados */
-    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
-    font-size: 16px; /* Tamaño de fuente */
-    transition: background-color 0.3s; /* Transición suave al cambiar color */
+    background-color: #7461c7; 
+    color: #ffffff; 
+    padding: 12px 20px; 
+    border: none;
+    border-radius: 100px; 
+    cursor: pointer;
+    font-size: 16px; 
+    transition: background-color 0.3s; 
   }
   
   input[type="submit"]:hover {
-    background-color: #5e47a1; /* Color más oscuro al pasar el cursor */
+    background-color: #5e47a1;
   }
   
   /* Estilo para el pie de página */
   footer {
-    margin-top: 20px; /* Espaciado arriba del pie de página */
-    text-align: center; /* Centrando el texto */
+    margin-top: 20px;
+    text-align: center; 
     font-family: "Inter-Regular", Helvetica;
-    color: #8b8b8b; /* Color más claro para el pie de página */
+    color: #8b8b8b;
   }
   
   footer p {
-    font-size: 14px; /* Tamaño de fuente del pie de página */
+    font-size: 14px; 
   }
   
