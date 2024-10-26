@@ -1,6 +1,6 @@
-﻿using Ecommerce.Models;
+﻿using Ecommerce.Models.Database.Entities;
 
-namespace Ecommerce.Repositories.Implementations
+namespace Ecommerce.Models.Database.Repositories.Implementations
 {
     public class ProductCartRepository : Repository<ProductCart, int>
     {
