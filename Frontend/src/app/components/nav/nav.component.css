@@ -1,0 +1,25 @@
+.custom-menubar{
+    background-color: white;
+}
+
+.p-menuitem-link{
+    background-color: #75308a;
+}
+
+span{
+    color: #75308a;
+    font-weight: 400;
+    font-size: larger;
+}
+
+a{
+    text-decoration: none;
+    text-decoration-color: none;
+}
+
+img:hover{
+    /* transform: scale(0.95); */
+    filter: drop-shadow(0px 4px 10px rgb(208, 223, 255));
+}
+
+

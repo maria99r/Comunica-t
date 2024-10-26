@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Inyectamos el DbContext
 builder.Services.AddScoped<EcommerceContext>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
