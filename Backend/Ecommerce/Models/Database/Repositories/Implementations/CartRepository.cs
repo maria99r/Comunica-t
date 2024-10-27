@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Models.Database.Repositories.Implementations
 {
-    public class CartRepository : Repository<Cart, int>
+    public class CartRepository : Repository<Cart>
     {
         public CartRepository(EcommerceContext context) : base(context)
         {

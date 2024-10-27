@@ -1,5 +1,9 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
+using Ecommerce.Models.Database.Repositories.Interfaces;
+using Ecommerce.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +11,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Inyectamos el DbContext
 builder.Services.AddScoped<EcommerceContext>();
-builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UnitOfWork>();
+
+// Inyección de todos los repositorios
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductOrderRepository>();
+builder.Services.AddScoped<ProductCartRepository>();
+builder.Services.AddScoped<CustomerOrderRepository>();
+builder.Services.AddScoped<CartRepository>();
+
+// Inyección de UserService
+builder.Services.AddScoped<UserService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,6 +42,19 @@ if (builder.Environment.IsDevelopment())
         });
     });
 }
+
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        string key = "A8$wX#pQ3dZ7v&kB1nY!rT@9mL%j6sHf4^g2Uc5*o";
+
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        };
+    });
 
 var app = builder.Build();
 

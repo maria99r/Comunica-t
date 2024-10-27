@@ -3,14 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database.Repositories.Implementations
 {
-    public class UserRepository : Repository<User, int>
+    public class UserRepository : Repository<User>
     {
         public UserRepository(EcommerceContext context) : base(context)
         {
 
         }
 
-        public async Task<User?> GetByEmail(string email)
+        // Muestra el usuario que tenga el email pasado por parámetro
+        public async Task<User?> GetByEmailAsync(string email)
         {
             return await GetQueryable()
                 .FirstOrDefaultAsync(user => user.Email == email);

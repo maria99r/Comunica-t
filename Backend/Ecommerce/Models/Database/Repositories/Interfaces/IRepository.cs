@@ -1,15 +1,14 @@
 ﻿namespace Ecommerce.Models.Database.Repositories.Interfaces
 {
     // Interfaz común
-    public interface IRepository<TEntity, TId> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         Task<ICollection<TEntity>> GetAllAsync();
         IQueryable<TEntity> GetQueryable(bool asNoTracking = true);
-        Task<TEntity> GetByIdAsync(TId id);
+        Task<TEntity> GetByIdAsync(object id);
         Task<TEntity> InsertAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TEntity entity);
-        Task DeleteAsync(TEntity entity);
-        Task<bool> SaveAsync();
-        Task<bool> ExistAsync(TId id);
+        TEntity Update(TEntity entity);
+        void Delete(TEntity entity);
+        Task<bool> ExistAsync(object id);
     }
 }
