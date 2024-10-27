@@ -1,6 +1,7 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Database.Repositories.Interfaces;
+using Ecommerce.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -21,6 +22,8 @@ builder.Services.AddScoped<ProductCartRepository>();
 builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 
+// Inyección de UserService
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
