@@ -207,8 +207,8 @@ public partial class EcommerceContext : DbContext
             entity.HasIndex(e => e.Email, "IX_User_email").IsUnique();
 
             entity.Property(e => e.UserId)
-                .ValueGeneratedNever()
-                .HasColumnType("INT")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("INTEGER")
                 .HasColumnName("user_id");
             entity.Property(e => e.Address)
                 .HasColumnType("VARCHAR(255)")

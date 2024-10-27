@@ -38,13 +38,14 @@ namespace Ecommerce.Services
             // Obtiene el usuario según el email introducido
             var user = await _unitOfWork.UserRepository.GetByEmailAsync(email);
 
-            // Verifica que el usuario exista y la contraseña coincida
-            if (user != null || !PasswordHelper.Verify(password, user.Password))
+            // Verifica que el usuario exista y que la contraseña coincida
+            if (user == null || !PasswordHelper.Verify(password, user.Password))
             {
                 throw new InvalidOperationException("Datos de inicio de sesión incorrectos.");
             }
 
             return user;
         }
+
     }
 }

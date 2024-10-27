@@ -1,4 +1,5 @@
-﻿using Ecommerce.Models.Dtos;
+﻿using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Dtos;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +81,41 @@ public class AuthController : ControllerBase
         {
             // Si hay algún error, se devuelve Unauthorized
             return Unauthorized("Datos de inicio de sesión incorrectos.");
+        }
+    }
+
+    [HttpPost("register")]
+    public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto model)
+    {
+        try
+        {
+            // Se crea un nuevo usuario
+            var newUser = new User
+            {
+                Name = model.Name,
+                Email = model.Email,
+                Address = model.Address,
+                Role = "Usuario"
+            };
+
+            // Se guarda en la BBDD
+            var createdUser = await _userService.RegisterUserAsync(newUser, model.Password);
+
+            // Se devuelve solo la información necesaria
+            var userDto = new UserDto
+            {
+                UserId = createdUser.UserId,
+                Name = createdUser.Name,
+                Email = createdUser.Email,
+                Address = createdUser.Address,
+                Role = createdUser.Role
+            };
+
+            return CreatedAtAction("Register", new { id = userDto.UserId }, userDto);
+        }
+        catch (InvalidOperationException)
+        {
+            throw new InvalidOperationException("Este email ya está en uso.");
         }
     }
 }
