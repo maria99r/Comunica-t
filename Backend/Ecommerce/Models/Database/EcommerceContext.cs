@@ -39,8 +39,8 @@ public partial class EcommerceContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-   
-        
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,16 +49,17 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Cart");
 
             entity.Property(e => e.CartId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("INT")
                 .HasColumnName("cart_id");
             entity.Property(e => e.UserId)
                 .HasColumnType("INT")
                 .HasColumnName("user_id");
 
-            //entity.HasOne(d => d.User).WithMany(p => p.Carts)
-            //    .HasForeignKey(d => d.UserId)
-            //   .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.User)
+                .WithOne(p => p.Cart)
+                .HasForeignKey<Cart>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<CustomerOrder>(entity =>
@@ -68,7 +69,7 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Customer_order");
 
             entity.Property(e => e.OrderId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("INT")
                 .HasColumnName("order_id");
             entity.Property(e => e.PaymentDate)
@@ -97,7 +98,7 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Product");
 
             entity.Property(e => e.ProductId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("INT")
                 .HasColumnName("product_id");
             entity.Property(e => e.Description)
@@ -172,7 +173,7 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Review");
 
             entity.Property(e => e.ReviewId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("INT")
                 .HasColumnName("review_id");
             entity.Property(e => e.Category)
@@ -195,9 +196,9 @@ public partial class EcommerceContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //entity.HasOne(d => d.User).WithMany(p => p.Reviews)
-            //    .HasForeignKey(d => d.UserId)
-            //   .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.User).WithMany(p => p.Reviews)
+               .HasForeignKey(d => d.UserId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -208,7 +209,7 @@ public partial class EcommerceContext : DbContext
 
             entity.Property(e => e.UserId)
                 .ValueGeneratedOnAdd()
-                .HasColumnType("INTEGER")
+                .HasColumnType("INT")
                 .HasColumnName("user_id");
             entity.Property(e => e.Address)
                 .HasColumnType("VARCHAR(255)")

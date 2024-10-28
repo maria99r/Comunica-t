@@ -1,20 +1,33 @@
-﻿using Ecommerce.Models.Database.Entities;
+﻿using Ecommerce.Helpers;
+using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Models.Database.Repositories.Implementations
+namespace Ecommerce.Models.Database.Repositories.Implementations;
+
+public class UserRepository : Repository<User, int>
 {
-    public class UserRepository : Repository<User>
+
+    public UserRepository(EcommerceContext context) : base(context) { }
+
+    public async Task<User> GetByEmail(string email)
     {
-        public UserRepository(EcommerceContext context) : base(context)
-        {
+        return await GetQueryable()
+            .FirstOrDefaultAsync(user => user.Email == email);
+    }
 
+
+    // Crear un nuevo usuario
+    public async Task<User> InsertUserAsync(User newUser)
+    {
+
+        await base.InsertAsync(newUser);
+
+        if (await SaveAsync())
+        {
+            return newUser;
         }
 
-        // Muestra el usuario que tenga el email pasado por parámetro
-        public async Task<User?> GetByEmailAsync(string email)
-        {
-            return await GetQueryable()
-                .FirstOrDefaultAsync(user => user.Email == email);
-        }
+        throw new Exception("No se pudo crear el nuevo usuario.");
     }
 }
