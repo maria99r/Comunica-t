@@ -12,23 +12,27 @@
 
     <p class="iniciar">Iniciar sesión</p>
 
-    <div class="p-fluid">
+    <form (submit)="submit()">
+      <div class="p-fluid">
 
-      <div class="p-field icon-input-container">
-        <i class="pi pi-envelope input-icon"></i>
-        <input type="text" pInputText placeholder="Correo electrónico" class="icon-input" required [(ngModel)]="email" />
+        <div class="p-field icon-input-container">
+          <i class="pi pi-envelope input-icon"></i>
+          <input type="text" pInputText placeholder="Correo electrónico" class="icon-input" required [(ngModel)]="email"
+            [ngModelOptions]="{standalone: true}" />
+        </div>
+
+        <div class="p-field icon-input-container">
+          <i class="pi pi-lock input-icon"></i>
+          <input type="password" pInputText placeholder="Contraseña" class="icon-input" required [(ngModel)]="password"
+            [ngModelOptions]="{standalone: true}" />
+        </div>
+
+        <div class="p-mt-3">
+          <button type="submit" class="submit-button">Iniciar sesión</button>
+        </div>
+
       </div>
-
-      <div class="p-field icon-input-container">
-        <i class="pi pi-lock input-icon"></i>
-        <input type="password" pInputText placeholder="Contraseña" class="icon-input" required [(ngModel)]="password" />
-      </div>
-
-      <div class="p-mt-3">
-        <button type="submit" class="submit-button">Iniciar sesión</button>
-      </div>
-
-    </div>
+    </form>
 
     <div class="register-link">
       <p>¿Eres un cliente nuevo? <a [routerLink]="['/signup']">Regístrate</a></p>
