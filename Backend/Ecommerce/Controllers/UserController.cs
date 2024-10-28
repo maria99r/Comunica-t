@@ -10,15 +10,16 @@ namespace Ecommerce.Controllers
     {
         private readonly UserRepository _userRepository;
 
-        public UserController(UserRepository userRepository) {
+        public UserController(UserRepository userRepository)
+        {
             _userRepository = userRepository;
         }
-        
+
         // Devuelve un usuario buscado por email
         [HttpGet("{email}")]
         public async Task<IActionResult> GetByEmailAsync(string email)
         {
-            var user = await _userRepository.GetByEmailAsync(email);
+            var user = await _userRepository.GetByEmail(email);
 
             if (user == null) // Si no se encuentra el correo
             {

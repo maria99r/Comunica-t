@@ -39,8 +39,8 @@ public partial class EcommerceContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-   
-        
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,16 +49,17 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Cart");
 
             entity.Property(e => e.CartId)
-                .ValueGeneratedNever()
-                .HasColumnType("INT")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("INTEGER")
                 .HasColumnName("cart_id");
             entity.Property(e => e.UserId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("user_id");
 
-            //entity.HasOne(d => d.User).WithMany(p => p.Carts)
-            //    .HasForeignKey(d => d.UserId)
-            //   .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.User)
+                .WithOne(p => p.Cart)
+                .HasForeignKey<Cart>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<CustomerOrder>(entity =>
@@ -68,8 +69,8 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Customer_order");
 
             entity.Property(e => e.OrderId)
-                .ValueGeneratedNever()
-                .HasColumnType("INT")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("INTEGER")
                 .HasColumnName("order_id");
             entity.Property(e => e.PaymentDate)
                 .HasColumnType("DATE")
@@ -84,12 +85,12 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("DECIMAL(10,2)")
                 .HasColumnName("total_price");
             entity.Property(e => e.UserId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("user_id");
 
-            //entity.HasOne(d => d.User).WithMany(p => p.CustomerOrders)
-            //    .HasForeignKey(d => d.UserId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.User).WithMany(p => p.CustomerOrders)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -97,8 +98,8 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Product");
 
             entity.Property(e => e.ProductId)
-                .ValueGeneratedNever()
-                .HasColumnType("INT")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("INTEGER")
                 .HasColumnName("product_id");
             entity.Property(e => e.Description)
                 .HasColumnType("VARCHAR(255)")
@@ -113,7 +114,7 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("DECIMAL(10,2)")
                 .HasColumnName("price");
             entity.Property(e => e.Stock)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("stock");
         });
 
@@ -124,10 +125,10 @@ public partial class EcommerceContext : DbContext
                 .ToTable("Product_cart");
 
             entity.Property(e => e.CartId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("cart_id");
             entity.Property(e => e.ProductId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("product_id");
             entity.Property(e => e.Quantity)
                 .HasColumnType("INT")
@@ -149,10 +150,10 @@ public partial class EcommerceContext : DbContext
                 .ToTable("Product_order");
 
             entity.Property(e => e.OrderId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("order_id");
             entity.Property(e => e.ProductId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("product_id");
             entity.Property(e => e.Quantity)
                 .HasColumnType("INT")
@@ -172,14 +173,14 @@ public partial class EcommerceContext : DbContext
             entity.ToTable("Review");
 
             entity.Property(e => e.ReviewId)
-                .ValueGeneratedNever()
-                .HasColumnType("INT")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("INTEGER")
                 .HasColumnName("review_id");
             entity.Property(e => e.Category)
                 .HasColumnType("VARCHAR(50)")
                 .HasColumnName("category");
             entity.Property(e => e.ProductId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("product_id");
             entity.Property(e => e.PublicationDate)
                 .HasColumnType("DATE")
@@ -188,16 +189,16 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("VARCHAR(255)")
                 .HasColumnName("text");
             entity.Property(e => e.UserId)
-                .HasColumnType("INT")
+                .HasColumnType("INTEGER")
                 .HasColumnName("user_id");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //entity.HasOne(d => d.User).WithMany(p => p.Reviews)
-            //    .HasForeignKey(d => d.UserId)
-            //   .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.User).WithMany(p => p.Reviews)
+               .HasForeignKey(d => d.UserId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -206,10 +207,14 @@ public partial class EcommerceContext : DbContext
 
             entity.HasIndex(e => e.Email, "IX_User_email").IsUnique();
 
+            entity.HasKey(e => e.UserId);
+
             entity.Property(e => e.UserId)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("INTEGER")
-                .HasColumnName("user_id");
+                .HasColumnName("user_id")
+                .IsRequired();
+                
             entity.Property(e => e.Address)
                 .HasColumnType("VARCHAR(255)")
                 .HasColumnName("address");

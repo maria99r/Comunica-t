@@ -1,6 +1,7 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Database.Repositories.Interfaces;
+using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -21,28 +22,30 @@ builder.Services.AddScoped<ProductOrderRepository>();
 builder.Services.AddScoped<ProductCartRepository>();
 builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
+builder.Services.AddScoped<UserMapper>();
 
 // Inyección de UserService
 builder.Services.AddScoped<UserService>();
 
-builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-if (builder.Environment.IsDevelopment()) 
+// Configuración de CORS
+builder.Services.AddCors(options =>
 {
-    builder.Services.AddCors(options =>
+    options.AddPolicy("AllowAllOrigins", builder =>
     {
-        options.AddDefaultPolicy(builder =>
-        {
-            builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+        builder.AllowAnyOrigin() // Permitir cualquier origen
+               .AllowAnyHeader()
+               .AllowAnyMethod();
     });
-}
+});
 
+builder.Services.AddControllers();
+
+// Configuración de autenticación
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {
@@ -63,10 +66,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    // Permite CORS
-    app.UseCors();
 }
+
+// Permite CORS
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
