@@ -1,4 +1,4 @@
-﻿using Ecommerce.Helpers;
+using Ecommerce.Helpers;
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;

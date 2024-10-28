@@ -196,9 +196,9 @@ public partial class EcommerceContext : DbContext
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            //entity.HasOne(d => d.User).WithMany(p => p.Reviews)
-            //    .HasForeignKey(d => d.UserId)
-            //   .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.User).WithMany(p => p.Reviews)
+               .HasForeignKey(d => d.UserId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>
