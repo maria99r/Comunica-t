@@ -3,86 +3,67 @@
 <header>
   <h2>Bienvenido al formulario de registro</h2>
 </header>
+
 <body>
-
-
-<section>
-  <form (ngSubmit)="submit()">
-    <label>
-      Nombre:
-      <input type="text" formControlName="name" />
-    </label>
-
-    <div *ngIf="myForm.get('name')?.invalid" id="nameError" class="error">
-      <div *ngIf="myForm.get('name')?.hasError('required')">
-        Nombre es obligatorio.
+  <section>
+    <form [formGroup]="myForm" (ngSubmit)="submit()">
+      <label>
+        Nombre:
+        <input type="text" formControlName="name" />
+      </label>
+      <div *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched" class="error">
+        <div *ngIf="myForm.get('name')?.hasError('required')">Nombre es obligatorio.</div>
       </div>
-    </div>
 
-    <br>
+      <br>
 
-    <label>
-      Direccion:
-      <input type="text" formControlName="direction" />
-    </label>
-
-    <div *ngIf="myForm.get('direction')?.invalid" id="directionError" class="error">
-      <div *ngIf="myForm.get('direction')?.hasError('required')">
-        Direccion Obligatoria
+      <label>
+        Dirección:
+        <input type="text" formControlName="address" />
+      </label>
+      <div *ngIf="myForm.get('address')?.invalid && myForm.get('address')?.touched" class="error">
+        <div *ngIf="myForm.get('address')?.hasError('required')">Dirección es obligatoria.</div>
       </div>
-    </div>
 
-    <br>
+      <br>
 
-    <label>
-      Correo electrónico:
-      <input type="email" formControlName="email" />
-    </label>
-
-    <div *ngIf="myForm.get('email')?.invalid" id="emailError" class="error">
-      <div *ngIf="myForm.get('email')?.hasError('required')">
-        Correo electrónico es obligatorio.
+      <label>
+        Correo electrónico:
+        <input type="email" formControlName="email" />
+      </label>
+      <div *ngIf="myForm.get('email')?.invalid && myForm.get('email')?.touched" class="error">
+        <div *ngIf="myForm.get('email')?.hasError('required')">Correo electrónico es obligatorio.</div>
+        <div *ngIf="myForm.get('email')?.hasError('email')">Debe ser un correo electrónico válido.</div>
       </div>
-      <div *ngIf="myForm.get('email')?.hasError('email')">
-        Tiene que ser un email válido.
+
+      <br>
+
+      <label>
+        Contraseña:
+        <input type="password" formControlName="password" />
+      </label>
+      <div *ngIf="myForm.get('password')?.invalid && myForm.get('password')?.touched" class="error">
+        <div *ngIf="myForm.get('password')?.hasError('required')">La contraseña es obligatoria.</div>
+        <div *ngIf="myForm.get('password')?.hasError('minlength')">La contraseña debe tener mínimo 6 caracteres.</div>
       </div>
-    </div>
 
-    <br>
+      <br>
 
-    <label>
-      Contraseña:
-      <input type="password" formControlName="password" />
-    </label>
-
-    <div *ngIf="myForm.get('password')?.invalid" id="passwordError" class="error">
-      <div *ngIf="myForm.get('password')?.hasError('required')">
-        Contraseña es obligatorio.
+      <label>
+        Repetir contraseña:
+        <input type="password" formControlName="confirmPassword" />
+      </label>
+      <div *ngIf="myForm.get('confirmPassword')?.invalid && myForm.get('confirmPassword')?.touched" class="error">
+        <div *ngIf="myForm.get('confirmPassword')?.hasError('mismatch')">Las contraseñas deben coincidir.</div>
       </div>
-      <div *ngIf="myForm.get('password')?.hasError('minlength')">
-        La contraseña debe tener mínimo 6 caracteres.
-      </div>
-    </div>
 
-    <br>
+      <br>
+      <input type="submit" [disabled]="myForm.invalid" value="Enviar" />
 
-    <label>
-      Repetir contraseña:
-      <input type="password" formControlName="confirmPassword" />
-    </label>
-
-    <div *ngIf="myForm.get('confirmPassword')?.invalid" id="confirmPasswordError" class="error">
-      <div *ngIf="myForm.get('confirmPassword')?.hasError('mismatch')">
-        Debe coincidir con la contraseña.
-      </div>
-    </div>
-
-    <br>
-    <input type="submit" />
-  </form>
-</section>
+    </form>
+  </section>
 </body>
 
 <footer>
-  <p>© 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+  <p>© 2024 INNOVACOM.</p>
 </footer>
