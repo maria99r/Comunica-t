@@ -19,7 +19,7 @@ export class SignupComponent {
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      direction: ['', Validators.required],
+      address: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
@@ -31,25 +31,29 @@ export class SignupComponent {
     const password = form.get('password')?.value;
     const confirmPasswordControl = form.get('confirmPassword');
     const confirmPassword = confirmPasswordControl?.value;
-   
+  
     if (password !== confirmPassword && confirmPasswordControl) {
       confirmPasswordControl.setErrors({ mismatch: true });
     } else if (confirmPasswordControl) {
       confirmPasswordControl.setErrors(null); // Asegúrate de limpiar el error si coinciden
     }
   }
+  
 
   submit() {
     if (this.myForm.valid) {
+
       const formData = this.myForm.value;
-      this.http.post('api', formData).subscribe(
-        (response) => {
-          console.log('Registro exitoso', response);
-        },
-        (error) => {
-          console.error('Error en el registro', error);
-        }
-      );
+      const api = 'https://localhost:7185/api/Auth/Signup'
+      this.http.post(api, formData)
+        .subscribe(
+          (response) => {
+            console.log('Registro exitoso', response);
+          },
+          (error) => {
+            console.error('Error en el registro', error);
+          }
+        );
     } else {
       alert('Formulario no válido');
     }

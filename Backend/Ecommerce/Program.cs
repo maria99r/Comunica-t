@@ -20,23 +20,37 @@ builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 
 
-builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-if (builder.Environment.IsDevelopment()) 
+// Configuración de CORS
+builder.Services.AddCors(options =>
 {
-    builder.Services.AddCors(options =>
+    options.AddPolicy("AllowAllOrigins", builder =>
     {
-        options.AddDefaultPolicy(builder =>
-        {
-            builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+        builder.AllowAnyOrigin() // Permitir cualquier origen
+               .AllowAnyHeader()
+               .AllowAnyMethod();
     });
-}
+});
+
+builder.Services.AddControllers();
+
+// Configuración de autenticación
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        string key = "A8$wX#pQ3dZ7v&kB1nY!rT@9mL%j6sHf4^g2Uc5*o";
+
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        };
+    });
 
 var app = builder.Build();
 
@@ -45,10 +59,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    // Permite CORS
-    app.UseCors();
 }
+
+// Permite CORS
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
