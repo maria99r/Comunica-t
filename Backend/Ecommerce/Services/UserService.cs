@@ -1,50 +1,73 @@
 ﻿using Ecommerce.Helpers;
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Dtos;
+using Ecommerce.Models.Mappers;
 
-namespace Ecommerce.Services
+
+namespace Ecommerce.Services;
+
+public class UserService
 {
-    public class UserService
+    private readonly UnitOfWork _unitOfWork;
+    private readonly UserMapper _userMapper;
+
+    public UserService(UnitOfWork unitOfWork, UserMapper userMapper)
     {
-        private readonly UnitOfWork _unitOfWork;
+        _unitOfWork = unitOfWork;
+        _userMapper = userMapper;
+    }
 
-        public UserService(UnitOfWork unitOfWork)
+    public async Task<List<UserDto>> GetAllUsersAsync()
+    {
+        var users = await _unitOfWork.UserRepository.GetAllAsync();
+        return _userMapper.UsersToDto(users).ToList();
+    }
+
+    public async Task<UserDto> GetByEmail(string email)
+    {
+        var user = await _unitOfWork.UserRepository.GetByEmail(email);
+        if (user == null)
         {
-            _unitOfWork = unitOfWork;
+            return null; // o lanzar una excepción según tu lógica
+        }
+        return _userMapper.UserToDto(user);
+    }
+
+    public async Task<User> LoginAsync(string email, string password)
+    {
+        var user = await _unitOfWork.UserRepository.GetByEmail(email);
+
+        if (user == null || user.Password != PasswordHelper.Hash(password))
+        {
+            return null;
         }
 
-        // Registro
-        public async Task<User> RegisterUserAsync(User newUser, string password)
+        return user;
+    }
+
+
+    public async Task<User> RegisterAsync(RegisterDto model)
+    {
+        // Verifica si el usuario ya existe
+        var existingUser = await GetByEmail(model.Email);
+        if (existingUser != null)
         {
-            // Verifica si el email ya está en uso
-            var emailExist = await _unitOfWork.UserRepository.GetByEmailAsync(newUser.Email);
-            if (emailExist != null)
-            {
-                throw new InvalidOperationException("Este email ya está en uso.");
-            }
-
-            // Hashea la contraseña y la guarda hasheada en la tabla 
-            newUser.Password = PasswordHelper.Hash(password);
-
-            // Guarda el nuevo usuario en la tabla User de la BBDD
-            await _unitOfWork.UserRepository.InsertAsync(newUser);
-            await _unitOfWork.SaveAsync();
-            return newUser;
+            throw new Exception("El usuario ya existe.");
         }
 
-        // Login
-        public async Task<User?> LoginAsync(string email, string password)
+        var newUser = new User
         {
-            // Obtiene el usuario según el email introducido
-            var user = await _unitOfWork.UserRepository.GetByEmailAsync(email);
+            Email = model.Email,
+            Name = model.Name,
+            Address = model.Address,
+            Role = "Client", // Rol por defecto
+            Password = PasswordHelper.Hash(model.Password)
+        };
 
-            // Verifica que el usuario exista y la contraseña coincida
-            if (user != null || !PasswordHelper.Verify(password, user.Password))
-            {
-                throw new InvalidOperationException("Datos de inicio de sesión incorrectos.");
-            }
+        await _unitOfWork.UserRepository.InsertUserAsync(newUser);
+        await _unitOfWork.SaveAsync();
 
-            return user;
-        }
+        return newUser;
     }
 }

@@ -1,6 +1,7 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Database.Repositories.Interfaces;
+using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<ProductOrderRepository>();
 builder.Services.AddScoped<ProductCartRepository>();
 builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
+builder.Services.AddScoped<UserMapper>();
 
 // Inyección de UserService
 builder.Services.AddScoped<UserService>();
