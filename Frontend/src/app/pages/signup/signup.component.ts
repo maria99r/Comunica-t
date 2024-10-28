@@ -48,9 +48,11 @@ export class SignupComponent {
       this.http.post(api, formData)
         .subscribe(
           (response) => {
+            alert('Registro exitoso');
             console.log('Registro exitoso', response);
           },
           (error) => {
+            alert('Error en el registro');
             console.error('Error en el registro', error);
           }
         );
