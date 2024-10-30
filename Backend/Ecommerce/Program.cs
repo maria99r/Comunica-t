@@ -68,6 +68,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// wwwroot
+app.UseStaticFiles();
+
 // Permite CORS
 app.UseCors("AllowAllOrigins");
 
