@@ -33,7 +33,7 @@ export class NavComponent {
       {
         label: 'Tienda',
         icon: '',
-        routerLink: '/shop'
+        routerLink: '/catalog'
       },
       {
         label: 'Sobre nosotros',
@@ -42,7 +42,7 @@ export class NavComponent {
       }
     ];
   }
-
+  
   authClick() {
     if (this.authService.isAuthenticated()) {
       this.authService.logout();

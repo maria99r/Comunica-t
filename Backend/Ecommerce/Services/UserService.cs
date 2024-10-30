@@ -29,7 +29,7 @@ public class UserService
         var user = await _unitOfWork.UserRepository.GetByEmail(email);
         if (user == null)
         {
-            return null; // o lanzar una excepción según tu lógica
+            return null;
         }
         return _userMapper.UserToDto(user);
     }
