@@ -78,4 +78,20 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// metodo para el seeder
+static void SeedDataBaseAsync(IServiceProvider serviceProvider)
+{
+    using IServiceScope scope = serviceProvider.CreateScope();
+    using EcommerceContext dbContext = scope.ServiceProvider.GetService<EcommerceContext>();
+
+    // Si no existe la base de datos, la creamos y ejecutamos el seeder
+    if (dbContext.Database.EnsureCreated())
+    {
+        Seeder seeder = new Seeder(dbContext);
+        Task task = seeder.SeedAsync();
+    }
+}
+
+SeedDataBaseAsync(app.Services);
+
 app.Run();
