@@ -9,7 +9,13 @@ import { ApiService } from './api.service';
 })
 
 export class AuthService {
-  constructor(private api: ApiService) { }
+
+  constructor(private api: ApiService) {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      this.api.jwt = token;
+    }
+  }
 
   async login(authData: AuthRequest): Promise<Result<AuthResponse>> {
     const result = await this.api.post<AuthResponse>('Auth/login', authData);
@@ -21,4 +27,12 @@ export class AuthService {
     return result;
   }
 
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('jwtToken');
+    return !!token;
+  }
+
+  logout(): void {
+    localStorage.removeItem('jwtToken');
+  }
 }
