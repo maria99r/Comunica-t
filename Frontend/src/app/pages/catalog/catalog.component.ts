@@ -14,7 +14,9 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 })
 export class CatalogComponent {
 
+  //allProducts: Product[] = [];
   query: string = '';
+  //filteredProducts: Product[] = [];
   value: String[];
   first = 1;
   rows = 2;
