@@ -27,6 +27,11 @@
             [ngModelOptions]="{standalone: true}" />
         </div>
 
+        <div class="p-field-checkbox">
+          <p-checkbox [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}" inputId="rememberMe" binary="true"></p-checkbox>
+          <label for="rememberMe" class="remember-me-label">Recuérdame</label>
+        </div>
+
         <div class="p-mt-3">
           <button type="submit" class="submit-button">Iniciar sesión</button>
         </div>
@@ -40,4 +45,7 @@
 
   </div>
 
+  <footer>
+    <p>© 2024 INNOVACOM.</p>
+  </footer>
 </div>
