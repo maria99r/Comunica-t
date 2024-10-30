@@ -1,0 +1,69 @@
+/* 1º block */
+.panel-top{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/vector-gratis/fondo-cibernetico-tecnologia-degradado_23-2149112205.jpg?t=st=1730286135~exp=1730289735~hmac=12023e0e26bd4c98642939336db0a99319385b8982b45822356756248f3ad31c&w=996");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    align-content: center;
+    text-shadow: #12182e 0 0 1em;
+    background-attachment: fixed;
+}
+
+/* Block with advantages  */
+.card-container {
+    gap: 10px;                        
+    justify-content: center;          
+    align-items: center;              
+    padding: 10px;
+    font-size: larger;
+    vertical-align: middle;
+}
+
+/* Each advantage */
+.card-advantage {
+    display: flex; 
+    flex-direction: column; 
+    border-radius: 8%;
+    width: 25%;
+    box-shadow: 2px 7px 13px 0px rgba(0,0,0,0.2);
+    overflow: hidden; 
+}
+
+/* Card content */
+.card-content {
+    background-color: #0341b4ac;
+    flex-grow: 1; 
+    text-align: center;
+    padding: 10%;
+}
+
+.card-data{
+    display: flex;
+}
+
+.card-content h2{
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 100%;
+    margin: 0px; 
+    padding: 0px; 
+} 
+.card-content p {
+    color: #ffffff;
+    margin: 5%;
+}
+
+.p-button{
+    border: 0px;
+    background-color: #6f42c1;
+    color: white;
+    border-radius: 30px;
+}
+
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .card-advantage {
+        flex: 1 1 100%;              
+    }
+}               
