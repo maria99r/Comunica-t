@@ -13,11 +13,17 @@
             <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px" class="mr-1">
             <span>0</span> <!-- Recoger de BBDD nº de productos de cesta -->
         </a>
-        
-        <a [routerLink]="['/login']">
-            <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px"
-                class="mr-2 ml-4">
+
+        <img *ngIf="authService.isAuthenticated()" src="icons/user-icon.png" alt="icono-user"
+            class="vertical-align-middle" width="40px" class="mr-2 ml-4">
+
+        <a *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
+            <img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">
         </a>
+        <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
+            <img src="icons/logout.png" alt="icono-logout" class="vertical-align-middle" width="40px" class="mr-2 ml-4">
+        </a>
+
     </ng-template>
 
 </p-menubar>

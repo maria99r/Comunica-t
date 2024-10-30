@@ -136,6 +136,14 @@ p {
   margin-bottom: 30px; /* Margen inferior */
 }
 
+/* Estilos para el texto "Recuérdame" */
+.remember-me-label {
+  font-size: 14px; /* Tamaño de fuente */
+  color: white; /* Color del texto */
+  margin-left: 10px; /* Separación respecto al checkbox */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el texto */
+}
+
 /* Pantallas de hasta 480px */
 @media (max-width: 480px) {
   .logo img {
