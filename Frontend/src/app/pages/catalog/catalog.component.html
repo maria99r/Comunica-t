@@ -10,19 +10,13 @@
 
 <div style="text-align: center; margin-top: 1%">
     <br />
-    <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input type="text" placeholder="Buscar producto" pInputText [(ngModel)]="value" />
-    </span>
-
-    <button type="submit" class="p-button font-bold ml-2" style="
-        border: 0px;
-        background-color: #6f42c1;
-        color: white;
-        border-radius: 30px;
-    ">
-        Buscar
-    </button>
+    <form class="filter" (ngSubmit)="search()">
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText [(ngModel)]="query" [ngModelOptions]="{standalone: true}" placeholder="Buscar producto" />
+            <input type="submit" value="Buscar" class="p-button font-bold ml-2"/>
+        </span>
+    </form>
 </div>
 
 <div class="w-10 h-auto card-container m-auto mt-4 grid">
@@ -112,8 +106,8 @@
         (onPageChange)="onPageChange($event)" 
         [first]="first" 
         [rows]="rows" 
-        [totalRecords]="120" 
-        [rowsPerPageOptions]="[10, 20, 30]" />
+        [totalRecords]="6" 
+    />
 </div>
 
 <br>

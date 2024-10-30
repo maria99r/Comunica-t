@@ -14,12 +14,16 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 })
 export class CatalogComponent {
 
+  query: string = '';
   value: String[];
-  first: number;
-  rows: unknown;
+  first = 1;
+  rows = 2;
 
 onPageChange($event: PaginatorState) {
   throw new Error('Method not implemented.');
+}
+
+search(){
 }
 
 }
