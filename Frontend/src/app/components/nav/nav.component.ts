@@ -30,7 +30,7 @@ export class NavComponent {
       {
         label: 'Tienda',
         icon: '',
-        routerLink: '/shop'
+        routerLink: '/catalog'
       },
       {
         label: 'Sobre nosotros',
@@ -38,5 +38,5 @@ export class NavComponent {
         routerLink: '/about-us'
       }
     ];
-}
+  }
 }

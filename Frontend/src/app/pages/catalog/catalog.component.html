@@ -1,0 +1,122 @@
+<!-- NAV BAR -->
+<app-nav></app-nav>
+
+<!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
+<div class="panel-top h-20rem d-flex w-full">
+    <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
+        - Catálogo de productos -
+    </p>
+</div>
+
+<div style="text-align: center; margin-top: 1%">
+    <br />
+    <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" placeholder="Buscar producto" pInputText [(ngModel)]="value" />
+    </span>
+
+    <button type="submit" class="p-button font-bold ml-2" style="
+        border: 0px;
+        background-color: #6f42c1;
+        color: white;
+        border-radius: 30px;
+    ">
+        Buscar
+    </button>
+</div>
+
+<div class="w-10 h-auto card-container m-auto mt-4 grid">
+    <div class="m-auto h-20rem card-advantage">
+        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730289566~exp=1730293166~hmac=e792c7d636ddabe1b0328a914fda4500a92794d7498968c84e8c64a387519588&w=996"
+            alt="Producto" />
+        <div class="card-content">
+            <h2>Producto</h2>
+            <div class="card-data">
+                <p>15€</p>
+                <p>Stock</p>
+                <p>Reseñas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-auto h-20rem card-advantage">
+        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730289566~exp=1730293166~hmac=e792c7d636ddabe1b0328a914fda4500a92794d7498968c84e8c64a387519588&w=996"
+            alt="Producto" />
+        <div class="card-content">
+            <h2>Producto</h2>
+            <div class="card-data">
+                <p>15€</p>
+                <p>Stock</p>
+                <p>Reseñas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-auto h-20rem card-advantage">
+        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730289566~exp=1730293166~hmac=e792c7d636ddabe1b0328a914fda4500a92794d7498968c84e8c64a387519588&w=996"
+            alt="Producto" />
+        <div class="card-content">
+            <h2>Producto</h2>
+            <div class="card-data">
+                <p>15€</p>
+                <p>Stock</p>
+                <p>Reseñas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-auto h-20rem card-advantage">
+        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730289566~exp=1730293166~hmac=e792c7d636ddabe1b0328a914fda4500a92794d7498968c84e8c64a387519588&w=996"
+            alt="Producto" />
+        <div class="card-content">
+            <h2>Producto</h2>
+            <div class="card-data">
+                <p>15€</p>
+                <p>Stock</p>
+                <p>Reseñas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-auto h-20rem card-advantage">
+        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730289566~exp=1730293166~hmac=e792c7d636ddabe1b0328a914fda4500a92794d7498968c84e8c64a387519588&w=996"
+            alt="Producto" />
+        <div class="card-content">
+            <h2>Producto</h2>
+            <div class="card-data">
+                <p>15€</p>
+                <p>Stock</p>
+                <p>Reseñas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-auto h-20rem card-advantage">
+        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730289566~exp=1730293166~hmac=e792c7d636ddabe1b0328a914fda4500a92794d7498968c84e8c64a387519588&w=996"
+            alt="Producto" />
+        <div class="card-content">
+            <h2>Producto</h2>
+            <div class="card-data">
+                <p>15€</p>
+                <p>Stock</p>
+                <p>Reseñas</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="card flex justify-content-center">
+    <p-paginator 
+        (onPageChange)="onPageChange($event)" 
+        [first]="first" 
+        [rows]="rows" 
+        [totalRecords]="120" 
+        [rowsPerPageOptions]="[10, 20, 30]" />
+</div>
+
+<br>
+
+<!-- FOOTER -->
+<app-footer></app-footer>
