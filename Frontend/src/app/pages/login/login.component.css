@@ -5,7 +5,7 @@
   align-items: center; /* Centra los elementos horizontalmente */
   justify-content: center; /* Centra los elementos verticalmente */
   height: 100vh; /* Ocupa el 100% de la altura de la ventana */
-  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Fondo con degradado */
+  background: linear-gradient(135deg, #182c53, #305aa8, #834ac8, #4b2b73); /* Fondo con degradado */
   position: relative; /* Posiciona el contenedor en relación a sus elementos hijos */
 }
 
