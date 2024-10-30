@@ -1,7 +1,9 @@
 <div class="signup-container">
 
   <div class="logo">
-    <img src="logo.png" alt="Innovacom Logo" />
+    <a routerLink="/">
+      <img src="logo.png" alt="Innovacom Logo" />
+    </a>
   </div>
 
   <body>
@@ -24,58 +26,60 @@
               <div *ngIf="myForm.get('name')?.hasError('required')">Nombre es obligatorio.</div>
             </div>
           </div>
-        
 
-        <br>
 
-        <div class="p-field icon-input-container">
-          <i class="pi pi-home input-icon"></i>
-          <input class="icon-input" placeholder="Dirección" type="text" formControlName="address" />
+          <br>
 
-          <div *ngIf="myForm.get('address')?.invalid && myForm.get('address')?.touched" class="error">
-            <div *ngIf="myForm.get('address')?.hasError('required')">Dirección es obligatoria.</div>
+          <div class="p-field icon-input-container">
+            <i class="pi pi-home input-icon"></i>
+            <input class="icon-input" placeholder="Dirección" type="text" formControlName="address" />
+
+            <div *ngIf="myForm.get('address')?.invalid && myForm.get('address')?.touched" class="error">
+              <div *ngIf="myForm.get('address')?.hasError('required')">Dirección es obligatoria.</div>
+            </div>
           </div>
+
+          <br>
+
+          <div class="p-field icon-input-container">
+            <i class="pi pi-envelope input-icon"></i>
+            <input class="icon-input" placeholder="Correo electrónico" type="email" formControlName="email" />
+
+            <div *ngIf="myForm.get('email')?.invalid && myForm.get('email')?.touched" class="error">
+              <div *ngIf="myForm.get('email')?.hasError('required')">Correo electrónico es obligatorio.</div>
+              <div *ngIf="myForm.get('email')?.hasError('email')">Debe ser un correo electrónico válido.</div>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="p-field icon-input-container">
+            <i class="pi pi-lock input-icon"></i>
+            <input class="icon-input" placeholder="Contraseña" type="password" formControlName="password" />
+
+            <div *ngIf="myForm.get('password')?.invalid && myForm.get('password')?.touched" class="error">
+              <div *ngIf="myForm.get('password')?.hasError('required')">La contraseña es obligatoria.</div>
+              <div *ngIf="myForm.get('password')?.hasError('minlength')">La contraseña debe tener mínimo 6 caracteres.
+              </div>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="p-field icon-input-container">
+            <i class="pi pi-lock input-icon"></i>
+            <input class="icon-input" placeholder="Repetir contraseña" type="password"
+              formControlName="confirmPassword" />
+
+            <div *ngIf="myForm.get('confirmPassword')?.invalid && myForm.get('confirmPassword')?.touched" class="error">
+              <div *ngIf="myForm.get('confirmPassword')?.hasError('mismatch')">Las contraseñas deben coincidir.</div>
+            </div>
+          </div>
+
+          <br>
+          <input type="submit" [disabled]="myForm.invalid" value="Enviar" />
         </div>
 
-        <br>
-
-        <div class="p-field icon-input-container">
-          <i class="pi pi-envelope input-icon"></i>
-          <input class="icon-input" placeholder="Correo electrónico" type="email" formControlName="email" />
-        
-          <div *ngIf="myForm.get('email')?.invalid && myForm.get('email')?.touched" class="error">
-            <div *ngIf="myForm.get('email')?.hasError('required')">Correo electrónico es obligatorio.</div>
-            <div *ngIf="myForm.get('email')?.hasError('email')">Debe ser un correo electrónico válido.</div>
-          </div>
-        </div>
-
-        <br>
-
-        <div class="p-field icon-input-container">
-          <i class="pi pi-lock input-icon"></i>
-          <input class="icon-input" placeholder="Contraseña" type="password" formControlName="password" />
-
-          <div *ngIf="myForm.get('password')?.invalid && myForm.get('password')?.touched" class="error">
-            <div *ngIf="myForm.get('password')?.hasError('required')">La contraseña es obligatoria.</div>
-            <div *ngIf="myForm.get('password')?.hasError('minlength')">La contraseña debe tener mínimo 6 caracteres.</div>
-          </div>
-        </div>
-
-        <br>
-
-        <div class="p-field icon-input-container">
-          <i class="pi pi-lock input-icon"></i>
-          <input class="icon-input" placeholder="Repetir contraseña" type="password" formControlName="confirmPassword" />
-
-          <div *ngIf="myForm.get('confirmPassword')?.invalid && myForm.get('confirmPassword')?.touched" class="error">
-            <div *ngIf="myForm.get('confirmPassword')?.hasError('mismatch')">Las contraseñas deben coincidir.</div>
-          </div>
-        </div>
-
-        <br>
-        <input type="submit" [disabled]="myForm.invalid" value="Enviar" />
-      </div>
-      
       </form>
       <div class="login-link">
         <p>¿Ya tienes cuenta? <a [routerLink]="['/login']">Inicia sesión</a></p>

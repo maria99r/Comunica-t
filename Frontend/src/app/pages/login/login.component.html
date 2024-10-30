@@ -1,7 +1,9 @@
 <div class="login-container">
 
   <div class="logo">
-    <img src="logo.png" alt="Innovacom Logo" />
+    <a routerLink="/">
+      <img src="logo.png" alt="Innovacom Logo" />
+    </a>
   </div>
 
   <div class="login-box">
@@ -28,7 +30,8 @@
         </div>
 
         <div class="p-field-checkbox">
-          <p-checkbox [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}" inputId="rememberMe" binary="true"></p-checkbox>
+          <p-checkbox [(ngModel)]="rememberMe" [ngModelOptions]="{standalone: true}" inputId="rememberMe"
+            binary="true"></p-checkbox>
           <label for="rememberMe" class="remember-me-label">Recuérdame</label>
         </div>
 
