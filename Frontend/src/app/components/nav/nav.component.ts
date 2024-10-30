@@ -17,11 +17,18 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavComponent {
 
+  name: string | null = null; // nombre del usuario
+
   constructor(public authService: AuthService, public router: Router) { }
 
   items: MenuItem[] = [];
 
   ngOnInit() {
+
+    // usuario logueado
+    const user = this.authService.getUser();
+    this.name = user ? user.name : null;
+
 
     // Nav items
     this.items = [
@@ -42,7 +49,7 @@ export class NavComponent {
       }
     ];
   }
-  
+
   authClick() {
     if (this.authService.isAuthenticated()) {
       this.authService.logout();
@@ -51,4 +58,7 @@ export class NavComponent {
       this.router.navigate(['/login']);
     }
   }
+
+ 
+
 }
