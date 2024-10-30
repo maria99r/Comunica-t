@@ -5,13 +5,12 @@ import { Result } from '../models/result';
 import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthService {
-
   constructor(private api: ApiService) {
-    const token = localStorage.getItem('jwtToken');
+    const token =
+      localStorage.getItem('jwtToken');
     if (token) {
       this.api.jwt = token;
     }
@@ -28,11 +27,13 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('jwtToken');
+    const token =
+      localStorage.getItem('jwtToken') || sessionStorage.getItem('jwtToken');
     return !!token;
   }
 
   logout(): void {
+    sessionStorage.removeItem('jwtToken');
     localStorage.removeItem('jwtToken');
   }
 }

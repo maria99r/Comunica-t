@@ -35,6 +35,7 @@ export class LoginComponent {
     if (result.success) {
       this.jwt = result.data.accessToken;
       alert('Has iniciado sesión correctamente.');
+      sessionStorage.setItem('jwtToken', this.jwt);
 
       if (this.rememberMe) {
         localStorage.setItem('jwtToken', this.jwt);
