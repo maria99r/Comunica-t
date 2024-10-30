@@ -1,12 +1,12 @@
 /* 1º block */
 .panel-top{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/vector-gratis/fondo-cibernetico-tecnologia-degradado_23-2149112205.jpg?t=st=1730286135~exp=1730289735~hmac=12023e0e26bd4c98642939336db0a99319385b8982b45822356756248f3ad31c&w=996");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/vector-gratis/fondo-conexion-degradado_23-2150516356.jpg?t=st=1730312600~exp=1730316200~hmac=1281f5754171a898d5392eda307d61904ae3d751547b853530ec50b0d09c4b67&w=1980");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     text-align: center;
     align-content: center;
     text-shadow: #12182e 0 0 1em;
-    background-attachment: fixed;
 }
 
 /* Block with advantages  */
