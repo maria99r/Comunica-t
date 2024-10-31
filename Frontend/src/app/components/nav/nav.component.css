@@ -28,7 +28,20 @@ img:hover {
 
 #inicio-sesion span {
     height: 30px;
-    margin: 15px;
-    padding-bottom: 10px;
+    
 }
 
+button{
+    border: 0px;
+    background-color: #6f42c1;
+    color: white;
+    border-radius: 30px;
+    padding: 15px;
+    font-size: large;
+    margin: 10px;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #4d20a1;
+}

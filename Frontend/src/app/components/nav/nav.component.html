@@ -12,7 +12,7 @@
         </span>
 
         <a routerLink="/cart">
-            <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px" class="mr-1">
+            <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px">
             <span>0</span> <!-- Recoger de BBDD nº de productos de cesta -->
         </a>
 
@@ -20,7 +20,7 @@
             class="vertical-align-middle" width="40px" class="mr-2 ml-4"> -->
 
         <a id="inicio-sesion" *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
-                <span>Iniciar sesión</span>
+                <button class="p-button font-bold ml-4 vertical-align-middle">Iniciar sesión</button>
                 <!--<img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">-->
         </a>
         <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
