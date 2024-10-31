@@ -10,8 +10,9 @@ public class ProductRepository : Repository<Product, int>
 
     }
 
-    /*public async Task<Product> GetByID(int id)
+    public async Task<Product> GetProductById(int id)
     {
         return await GetQueryable()
-    }*/
+            .FirstOrDefaultAsync(Product => Product.ProductId == id);
+    }
 }
