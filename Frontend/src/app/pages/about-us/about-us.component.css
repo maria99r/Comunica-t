@@ -46,7 +46,7 @@ a{
 .card-advantage {
     background-color: #f0f0f0;
     color: #2A345D;
-    width: 30%; /* Ancho para 3 tarjetas en la primera fila */
+    width: 30%; 
     max-width: 400px;
     padding: 20px;
     text-align: left;
@@ -55,13 +55,13 @@ a{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 350px; /* Altura fija para todas las tarjetas */
+    height: 350px; 
 }
 
 /* Segunda fila: 2 tarjetas ocupando más espacio */
 .fila:nth-child(2) .card-advantage {
-    width: 45%; /* Ancho de cada tarjeta en la segunda fila */
-    height: 350px; /* Altura fija igual a la de la primera fila */
+    width: 45%; 
+    height: 350px; 
 }
 
 /* Imagen y nombre */
@@ -73,7 +73,7 @@ a{
 
 /* Ajustes para el texto */
 .card-advantage p {
-    flex-grow: 1; /* Fuerza al párrafo a ocupar el espacio vertical */
+    flex-grow: 1;
     margin: 0;
 }
 /* Responsivo para pantallas pequeñas */
