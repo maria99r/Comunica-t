@@ -13,6 +13,5 @@ public class ProductRepository : Repository<Product, int>
     /*public async Task<Product> GetByID(int id)
     {
         return await GetQueryable()
-            .Select(product => product.ProductId == id);
     }*/
 }

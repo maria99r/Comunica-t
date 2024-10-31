@@ -106,12 +106,12 @@ export class ApiService {
 
   // Obtener todos los productos
 
-  async getAllProducts(): Promise<Product[]> {
+  /*async getAllProducts(): Promise<Product[]> {
     const requests: Observable<Object>[] = [];
     
     for (let i = 1; i <= 6; i++) {
       requests.push(this.http.get(`${this.BASE_URL}products/${i}`));
     }
     return;
-  }
+  }*/
 }
