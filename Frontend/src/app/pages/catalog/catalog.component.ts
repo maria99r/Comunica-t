@@ -4,6 +4,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { Product } from '../../models/product';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-catalog',
@@ -15,11 +17,19 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 export class CatalogComponent {
 
   allProducts: Product[] = [];
-  query: string = '';
   filteredProducts: Product[] = [];
+  products: Product[] = [];
+  
+  query: string = '';
   value: String[];
   first = 1;
   rows = 2;
+
+  constructor(private apiService: ApiService){}
+
+  async ngOnInit(): Promise<void>{
+    
+  }
 
 onPageChange($event: PaginatorState) {
   throw new Error('Method not implemented.');

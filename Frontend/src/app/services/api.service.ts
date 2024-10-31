@@ -3,13 +3,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } 
 import { Observable, lastValueFrom } from 'rxjs';
 import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private BASE_URL = environment.apiUrl;
+  private readonly BASE_URL = environment.apiUrl;
 
   jwt: string;
 
@@ -102,4 +103,15 @@ export class ApiService {
     return new HttpHeaders(header);
   }
   
+
+  // Obtener todos los productos
+
+  /*async getAllProducts(): Promise<Product[]> {
+    const requests: Observable<Object>[] = [];
+    
+    for (let i = 1; i <= 6; i++) {
+      requests.push(this.http.get(`${this.BASE_URL}products/${i}`));
+    }
+    return;
+  }*/
 }
