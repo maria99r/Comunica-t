@@ -54,14 +54,14 @@ public class Seeder
                     Price = 25,
                     Stock = 300,
                     Description = "Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu-electrónico.png"
+                    Image = "products/menu-electronico.png"
                 },
                 new Product {
                     Name = "LOTE DE 5 - Menú electrónico" ,
                     Price = 115,
                     Stock = 300,
                     Description = "LOTE DE 5 - Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu-electrónico.png"
+                    Image = "products/menu-electronico.png"
                 },
                 new Product {
                     Name = "Selector de opciones" ,
