@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, forkJoin, lastValueFrom } from 'rxjs';
 import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
 import { Product } from '../models/product';
@@ -106,12 +106,27 @@ export class ApiService {
 
   // Obtener todos los productos
 
-  /*async getAllProducts(): Promise<Product[]> {
+  async getAllProducts(): Promise<Product[]> {
     const requests: Observable<Object>[] = [];
     
-    for (let i = 1; i <= 6; i++) {
-      requests.push(this.http.get(`${this.BASE_URL}products/${i}`));
+    for (let i = 1; i <= 12; i++) {
+      requests.push(this.http.get(`${this.BASE_URL}Product/${i}`));
     }
-    return;
-  }*/
+
+    const allDataRaw: any[] = await lastValueFrom(forkJoin(requests));
+    const products: Product[] = [];
+
+    for (const data of allDataRaw) {
+      const product: Product = {
+        productId: data.productId,
+        name: data.name,
+        price: data.price,
+        stock: data.stock,
+        description: data.description,
+        image: data.image
+      }
+      products.push(product)
+    }
+    return products;
+  }
 }
