@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Services
+﻿ namespace Ecommerce.Services
 {
     using System.Globalization;
     using System.Text;
