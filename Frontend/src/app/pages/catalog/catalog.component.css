@@ -12,7 +12,6 @@
 /* Block with advantages  */
 .card-container {
     gap: 10px;                        
-    justify-content: center;          
     align-items: center;              
     padding: 10px;
     font-size: larger;
@@ -24,17 +23,18 @@
     display: flex; 
     flex-direction: column; 
     border-radius: 8%;
-    width: 25%;
-    box-shadow: 2px 7px 13px 0px rgba(0,0,0,0.2);
+    width: 300px;
+    height: 215px;
+    box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
 }
 
 /* Card content */
 .card-content {
     background-color: #0341b4ac;
-    flex-grow: 1; 
+    flex-grow: 10; 
     text-align: center;
-    padding: 10%;
+    padding: 5%;
 }
 
 .card-data{
@@ -44,7 +44,7 @@
 .card-content h2{
     color: #ffffff;
     font-weight: bold;
-    font-size: 100%;
+    font-size: 90%;
     margin: 0px; 
     padding: 0px; 
 } 
@@ -53,11 +53,26 @@
     margin: 5%;
 }
 
+img{
+    height: 215px;
+}
+
 .p-button{
     border: 0px;
     background-color: #6f42c1;
     color: white;
     border-radius: 30px;
+}
+.product-flex {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se muevan a la siguiente línea */
+    justify-content: space-between; /* Espaciado entre los elementos */
+    gap: 1rem; /* Espacio entre los elementos */
+}
+
+.card-container {
+    flex: 1 1 250px; /* Crece y se reduce con un tamaño mínimo de 250px */
+    margin: 1rem; /* Margen opcional */
 }
 
 

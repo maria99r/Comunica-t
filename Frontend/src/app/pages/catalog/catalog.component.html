@@ -19,6 +19,7 @@
     </form>
 </div>
 
+<!--
 <div class="w-10 h-auto card-container m-auto mt-4 grid">
     <div class="m-auto h-20rem card-advantage">
         <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
@@ -32,81 +33,54 @@
             </div>
         </div>
     </div>
-
-    <div class="m-auto h-20rem card-advantage">
-        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
-            alt="Producto" />
-        <div class="card-content">
-            <h2>Producto</h2>
-            <div class="card-data">
-                <p>15€</p>
-                <p>Stock</p>
-                <p>Reseñas</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="m-auto h-20rem card-advantage">
-        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
-            alt="Producto" />
-        <div class="card-content">
-            <h2>Producto</h2>
-            <div class="card-data">
-                <p>15€</p>
-                <p>Stock</p>
-                <p>Reseñas</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="m-auto h-20rem card-advantage">
-        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
-            alt="Producto" />
-        <div class="card-content">
-            <h2>Producto</h2>
-            <div class="card-data">
-                <p>15€</p>
-                <p>Stock</p>
-                <p>Reseñas</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="m-auto h-20rem card-advantage">
-        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
-            alt="Producto" />
-        <div class="card-content">
-            <h2>Producto</h2>
-            <div class="card-data">
-                <p>15€</p>
-                <p>Stock</p>
-                <p>Reseñas</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="m-auto h-20rem card-advantage">
-        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
-            alt="Producto" />
-        <div class="card-content">
-            <h2>Producto</h2>
-            <div class="card-data">
-                <p>15€</p>
-                <p>Stock</p>
-                <p>Reseñas</p>
-            </div>
-        </div>
-    </div>
 </div>
+-->
+
+<div class="product-flex">
+    @if (allProducts.length > 0) {
+        @for (product of allProducts; track product.productId) {
+
+            <div class="w-10 h-auto card-container m-auto mt-4">
+                <div class="m-auto h-20rem card-advantage">
+
+                    <img [src]="IMG_URL + product.image">
+
+                    <div class="card-content">
+                        <h2>{{product.name}}</h2>
+
+                        <div class="card-data">
+                            <p>{{product.price}}€</p>
+                            
+                            @if (product.stock > 0) {
+                                <p style="color:darkgreen">Stock</p>
+                            } @else {
+                                <p style="color:darkred">Stock</p>
+                            }
+                            <p>Reseñas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @empty {
+            <div>No hay resultados</div>
+        }
+    }
+    @else {
+        <div>Cargando...</div>
+    }
+</div>   
+
 
 <br>
 
 <div class="card flex justify-content-center">
     <p-paginator 
         (onPageChange)="onPageChange($event)" 
-        [first]="first" 
-        [rows]="rows" 
-        [totalRecords]="6" 
+        [first]="currentPage" 
+        [rows]="pageSize" 
+        [totalRecords]="totalPages"
+        [rowsPerPageOptions]="[1, 2, 3]" 
     />
 </div>
 
