@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -12,10 +13,10 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  
+
   myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private authService: AuthService, private router: Router) {
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -23,7 +24,7 @@ export class SignupComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
-    { validators: this.passwordMatchValidator });
+      { validators: this.passwordMatchValidator });
   }
 
   // Validator personalizado
@@ -31,32 +32,38 @@ export class SignupComponent {
     const password = form.get('password')?.value;
     const confirmPasswordControl = form.get('confirmPassword');
     const confirmPassword = confirmPasswordControl?.value;
-  
+
     if (password !== confirmPassword && confirmPasswordControl) {
       confirmPasswordControl.setErrors({ mismatch: true });
     } else if (confirmPasswordControl) {
-      confirmPasswordControl.setErrors(null); // Asegúrate de limpiar el error si coinciden
+      confirmPasswordControl.setErrors(null);
     }
   }
-  
 
-  submit() {
+
+  async submit() {
     if (this.myForm.valid) {
-
       const formData = this.myForm.value;
-      const api = 'https://localhost:7185/api/Auth/Signup'
-      this.http.post(api, formData)
-        .subscribe(
-          (response) => {
-            alert('Registro exitoso');
-            console.log('Registro exitoso', response);
-            this.router.navigate(['/']);
-          },
-          (error) => {
-            alert('Error en el registro');
-            console.error('Error en el registro', error);
-          }
-        );
+      const signupResult = await this.authService.signup(formData); // Registro
+
+      if (signupResult.success) {
+        alert('Registro exitoso');
+        console.log('Registro exitoso', signupResult);
+
+        const authData = { email: formData.email, password: formData.password };
+        const loginResult = await this.authService.login(authData, false); // Login
+
+        if (loginResult.success) {
+          console.log('Inicio de sesión exitoso', loginResult);
+          this.router.navigate(['/']);
+        } else {
+          alert('Error en el inicio de sesión');
+        }
+
+      } else {
+        alert('Error en el registro');
+      }
+
     } else {
       alert('Formulario no válido');
     }
