@@ -33,6 +33,7 @@ export class LoginComponent {
 
     if (result.success) {
       alert('Has iniciado sesión correctamente.');
+      console.log('Inicio de sesión exitoso', result);
       this.router.navigate(['/']);
 
     } else {
