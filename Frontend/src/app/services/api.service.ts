@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, forkJoin, lastValueFrom } from 'rxjs';
 import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
+import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private BASE_URL = environment.apiUrl;
+  private readonly BASE_URL = environment.apiUrl;
 
   jwt: string;
 
@@ -102,4 +103,30 @@ export class ApiService {
     return new HttpHeaders(header);
   }
   
+
+  // Obtener todos los productos
+
+  async getAllProducts(): Promise<Product[]> {
+    const requests: Observable<Object>[] = [];
+    
+    for (let i = 1; i <= 12; i++) {
+      requests.push(this.http.get(`${this.BASE_URL}Product/${i}`));
+    }
+
+    const allDataRaw: any[] = await lastValueFrom(forkJoin(requests));
+    const products: Product[] = [];
+
+    for (const data of allDataRaw) {
+      const product: Product = {
+        productId: data.productId,
+        name: data.name,
+        price: data.price,
+        stock: data.stock,
+        description: data.description,
+        image: data.image
+      }
+      products.push(product)
+    }
+    return products;
+  }
 }
