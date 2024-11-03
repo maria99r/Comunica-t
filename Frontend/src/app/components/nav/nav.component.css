@@ -2,9 +2,6 @@
     background-color: white;
 }
 
-.p-menuitem-link {
-    background-color: #75308a;
-}
 
 span {
     color: #75308a;
@@ -26,10 +23,6 @@ img:hover {
     cursor: pointer;
 }
 
-#inicio-sesion span {
-    height: 30px;
-    
-}
 
 button{
     border: 0px;
@@ -37,11 +30,18 @@ button{
     color: white;
     border-radius: 30px;
     padding: 15px;
-    font-size: large;
-    margin: 10px;
+    font-size: small;
+    letter-spacing: 1px;
 }
 
 button:hover{
     cursor: pointer;
     background-color: #4d20a1;
+}
+
+@media (max-width: 600px) {
+    ng-template{
+        display: flex;
+        flex-wrap: wrap
+    }
 }

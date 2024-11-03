@@ -8,7 +8,8 @@
 
     <!-- Cart and User icons -->
     <ng-template pTemplate="end">
-        <span style="margin-right:100px;" *ngIf="authService.isAuthenticated()">  ¡Hola, {{ name }}!
+        <span class="vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">  
+            ¡Hola, {{ name }}!
         </span>
 
         <a routerLink="/cart">
@@ -24,7 +25,7 @@
                 <!--<img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">-->
         </a>
         <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
-            <img src="icons/logout.png" alt="icono-logout" class="vertical-align-middle" width="40px" class="mr-2 ml-4">
+            <img src="icons/logout.png" alt="icono-logout" width="40px" class="mr-2 ml-4 vertical-align-middle">
         </a>
 
     </ng-template>

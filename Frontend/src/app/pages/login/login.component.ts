@@ -34,6 +34,13 @@ export class LoginComponent {
     if (result.success) {
       alert('Has iniciado sesión correctamente.');
       console.log('Inicio de sesión exitoso', result);
+
+      
+      if (this.rememberMe) {
+        localStorage.setItem('jwtToken', this.jwt);
+      }
+      
+
       this.router.navigate(['/']);
 
     } else {
