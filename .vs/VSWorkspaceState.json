@@ -4,8 +4,9 @@
     "\\Backend",
     "\\Backend\\Ecommerce",
     "\\Backend\\Ecommerce\\Controllers",
-    "\\Backend\\Ecommerce\\Properties"
+    "\\Backend\\Ecommerce\\Properties",
+    "\\Backend\\Ecommerce\\Services"
   ],
-  "SelectedNode": "\\Backend\\Ecommerce.sln",
+  "SelectedNode": "\\Backend\\Ecommerce\\Services\\UserService.cs",
   "PreviewInSolutionExplorer": false
 }
