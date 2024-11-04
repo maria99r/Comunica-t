@@ -143,4 +143,33 @@ public class Seeder
     }
 
 
+    private async Task SeedReviewAsync()
+    {
+        Review[] reviews = [
+                new Review {
+                    Text ="Me encanta este producto",
+                    Category = "buena",
+                    PublicationDate = new DateTime(2024, 11, 4, 15, 33, 00),
+                    UserId = 1,
+                    ProductId = 1
+                },
+                new Review {
+                    Text ="No me gusta mucho",
+                    Category = "regular",
+                    PublicationDate = new DateTime(2024, 11, 4, 15, 50, 00),
+                    UserId = 2,
+                    ProductId = 1
+                },
+                new Review {
+                    Text ="Lo odio",
+                    Category = "mala",
+                    PublicationDate = new DateTime(2024, 11, 4, 16, 50, 00),
+                    UserId = 2,
+                    ProductId = 1
+                }
+            ];
+        await _context.Reviews.AddRangeAsync(reviews);
+    }
+
+
 }

@@ -82,7 +82,7 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("VARCHAR(50)")
                 .HasColumnName("status");
             entity.Property(e => e.TotalPrice)
-                .HasColumnType("DECIMAL(10,2)")
+                .HasColumnType("INTEGER")
                 .HasColumnName("total_price");
             entity.Property(e => e.UserId)
                 .HasColumnType("INTEGER")
@@ -111,7 +111,7 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("VARCHAR(100)")
                 .HasColumnName("name");
             entity.Property(e => e.Price)
-                .HasColumnType("DECIMAL(10,2)")
+                .HasColumnType("INTEGER")
                 .HasColumnName("price");
             entity.Property(e => e.Stock)
                 .HasColumnType("INTEGER")
