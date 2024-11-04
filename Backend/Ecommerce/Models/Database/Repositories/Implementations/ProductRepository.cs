@@ -5,7 +5,7 @@ namespace Ecommerce.Models.Database.Repositories.Implementations;
 
 public class ProductRepository : Repository<Product, int>
 {
-    public ProductRepository(EcommerceContext context) : base(context)
+    public ProductRepository(EcommerceContext context) : base(context) 
     {
 
     }
@@ -15,4 +15,10 @@ public class ProductRepository : Repository<Product, int>
         return await GetQueryable()
             .FirstOrDefaultAsync(Product => Product.ProductId == id);
     }
+
+    public async Task<List<Product>> GetAllProductsAsync()
+    {
+        return await GetQueryable().ToListAsync();
+    }
+
 }

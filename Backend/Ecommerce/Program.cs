@@ -26,6 +26,9 @@ builder.Services.AddScoped<UserMapper>();
 
 // Inyección de UserService
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<SmartSearchService>(); 
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

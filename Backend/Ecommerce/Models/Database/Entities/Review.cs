@@ -7,7 +7,7 @@ public partial class Review
 {
     public string Text { get; set; } = null!;
 
-    public string Category { get; set; } = null!;
+    public int Category { get; set; }
 
     public DateTime PublicationDate { get; set; }
 

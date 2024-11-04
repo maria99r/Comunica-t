@@ -8,40 +8,91 @@ import { Product } from '../../models/product';
 import { ApiService } from '../../services/api.service';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { CriterioOrden } from '../../models/searchDto';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputTextModule, FormsModule, PaginatorModule, RouterModule],
+  imports: [NavComponent, FooterComponent, InputTextModule, 
+    FormsModule, PaginatorModule, RouterModule, SelectButtonModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })
-export class CatalogComponent implements OnInit{
+export class CatalogComponent implements OnInit {
 
   public readonly IMG_URL = environment.apiImg;
 
   allProducts: Product[] = [];
   filteredProducts: Product[] = [];
-  products: Product[] = [];
-  
+
   query: string = '';
-  value: String[];
   currentPage = 1;
-  pageSize = 2;
-  totalPages = 4;
+  pageSize = 8;
+  totalPages = 0;
 
-  constructor(private apiService: ApiService){}
+  sortOrder: boolean = true;  // asc por defecto
+  sortCriterio: CriterioOrden = CriterioOrden.Name; // nombre por defecto
 
-  async ngOnInit(): Promise<void>{
-    this.allProducts = await this.apiService.getAllProducts();
+  constructor(private apiService: ApiService) { }
+
+  // al cargar la pagina se cargan todos lo productos
+  async ngOnInit(): Promise<void> {
+    await this.loadProducts();
   }
 
-
-  onPageChange($event: PaginatorState) {
-    throw new Error('Method not implemented.');
+  // metodo que carga los productos
+  async loadProducts(): Promise<void> {
+    const searchDto = {
+      consulta: this.query,
+      Criterio: this.sortCriterio, 
+      Orden: this.sortOrder, //por defecto asc
+      CantidadPaginas: this.pageSize,
+      PaginaActual: this.currentPage,
+    };
+    try {
+      const result = await this.apiService.searchProducts(searchDto);
+      this.filteredProducts = result.products;
+      this.totalPages = result.totalPages;
+    }
+    catch (error) {
+      console.error("Error al cargar los productos:", error);
+    }
   }
 
-  search(){
+  // al avanzar la pagina
+  onPageChange(event: PaginatorState) {
+    this.currentPage = event.page + 1;
+    this.loadProducts();
+  }
+
+  // cuando cambie criterio de orden se vuelve a cargar la pagina
+  onSortChange(criterio: CriterioOrden) {
+    this.sortCriterio = criterio;
+    this.loadProducts();
+  }
+
+  // cuando cambie el orden se vuelve a cargar la pagina
+  onOrderChange(order: boolean) {
+    this.sortOrder = order;
+    this.loadProducts();
+  }
+
+  // al darle al boton de buscar
+  search() {
+    this.currentPage = 1;
+    this.loadProducts();
+    console.log("Datos enviados:", {
+      query: this.query,
+      currentPage: this.currentPage,
+      pageSize: this.pageSize,
+    });
+  }
+
+  // nº de productos por pagina
+  onPageSizeChange(size: number) {
+    this.pageSize = size;
+    this.loadProducts();
   }
 
 }
