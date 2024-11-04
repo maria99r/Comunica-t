@@ -177,7 +177,7 @@ public partial class EcommerceContext : DbContext
                 .HasColumnType("INTEGER")
                 .HasColumnName("review_id");
             entity.Property(e => e.Category)
-                .HasColumnType("VARCHAR(50)")
+                .HasColumnType("INTEGER")
                 .HasColumnName("category");
             entity.Property(e => e.ProductId)
                 .HasColumnType("INTEGER")
