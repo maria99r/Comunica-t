@@ -4,6 +4,7 @@ import { Observable, forkJoin, lastValueFrom } from 'rxjs';
 import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
 import { Product } from '../models/product';
+import { SearchDto } from '../models/searchDto';
 
 @Injectable({
   providedIn: 'root'
@@ -89,10 +90,8 @@ export class ApiService {
   }
 
   private getHeader(accept = null, contentType = null): HttpHeaders {
-    let header: any = {};
-
+    let header: any = { 'Authorization': `Bearer ${this.jwt}`};
     // Para cuando haya que poner un JWT
-    header['Authorization'] = `Bearer ${this.jwt}`;
 
     if (accept)
       header['Accept'] = accept;
@@ -102,13 +101,13 @@ export class ApiService {
 
     return new HttpHeaders(header);
   }
-  
+
 
   // Obtener todos los productos
 
   async getAllProducts(): Promise<Product[]> {
     const requests: Observable<Object>[] = [];
-    
+
     for (let i = 1; i <= 12; i++) {
       requests.push(this.http.get(`${this.BASE_URL}Product/${i}`));
     }
@@ -129,4 +128,17 @@ export class ApiService {
     }
     return products;
   }
+
+  // busqueda de productos (con la paginacion) (devuelve los productos y el nº de paginas)
+  async searchProducts(searchDto: SearchDto): Promise<{ products: Product[], totalPages: number }> {
+    const url = `${this.BASE_URL}Product/search`;
+    const headers = this.getHeader();
+
+    const response = await lastValueFrom(
+      this.http.post<{ products: Product[], totalPages: number }>(url, searchDto, { headers }));
+    return response;
+  }
+
+
+
 }

@@ -5,8 +5,14 @@
 public class SearchDto
 {
     public string consulta { get; set; } // lo que buscas
-    public Enum Criterio { get; set; }  // nombre, precio
-    public Boolean Orden { get; set; } // o tamb enum, asc o desc
+                                         
+    public enum CriterioOrden  
+    {
+        Name,
+        Price
+    }
+    public CriterioOrden Criterio { get; set; }
+    public bool Orden { get; set; } // o tamb enum, asc o desc
     public int CantidadPaginas { get; set; }  
     public int PaginaActual  { get; set; }
 

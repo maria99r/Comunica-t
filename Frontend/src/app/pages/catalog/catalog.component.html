@@ -14,9 +14,21 @@
         <span class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input pInputText [(ngModel)]="query" [ngModelOptions]="{standalone: true}" placeholder="Buscar producto" />
-            <input type="submit" value="Buscar" class="p-button font-bold ml-2"/>
+            <input type="submit" value="Buscar" class="p-button font-bold ml-2" />
         </span>
     </form>
+    
+    <!-- ordenar por nombre o precio-->
+    <select [(ngModel)]="sortCriterio" (change)="onSortChange(sortCriterio)">
+        <option [ngValue]=0>Ordenar por Nombre</option>
+        <option [ngValue]=1>Ordenar por Precio</option>
+    </select>
+
+    <!-- ordenar asc o desc-->
+    <select [(ngModel)]="sortOrder" (change)="onOrderChange(sortOrder)">
+        <option [ngValue]="true">Ascendente</option>
+        <option [ngValue]="false">Descendente</option>
+    </select>
 </div>
 
 <!--
@@ -36,52 +48,55 @@
 </div>
 -->
 
+
+
 <div class="product-flex">
-    @if (allProducts.length > 0) {
-        @for (product of allProducts; track product.productId) {
+    @if (filteredProducts.length > 0) {
+    @for (product of filteredProducts; track product.productId) {
 
-            <div class="w-10 h-auto card-container m-auto mt-4">
-                <div class="m-auto h-20rem card-advantage">
+    <div class="w-10 h-auto card-container m-auto mt-4">
+        <div class="m-auto h-20rem card-advantage">
 
-                    <img [src]="IMG_URL + product.image">
+            <img [src]="IMG_URL + product.image">
 
-                    <div class="card-content">
-                        <h2>{{product.name}}</h2>
+            <div class="card-content">
+                <h2>{{product.name}}</h2>
 
-                        <div class="card-data">
-                            <p>{{product.price}}€</p>
-                            
-                            @if (product.stock > 0) {
-                                <p style="color:darkgreen">Stock</p>
-                            } @else {
-                                <p style="color:darkred">Stock</p>
-                            }
-                            <p>Reseñas</p>
-                        </div>
-                    </div>
+                <div class="card-data">
+                    <p>{{product.price}}€</p>
+
+                    @if (product.stock > 0) {
+                    <p style="color:darkgreen">Stock</p>
+                    } @else {
+                    <p style="color:darkred">Sin stock</p>
+                    }
+                    <p>Reseñas</p>
                 </div>
             </div>
-        }
-        @empty {
-            <div>No hay resultados</div>
-        }
+        </div>
+    </div>
+    }
+    @empty {
+    <div>No hay resultados</div>
+    }
     }
     @else {
-        <div>Cargando...</div>
+    <div>Cargando...</div>
     }
-</div>   
+</div>
 
 
 <br>
 
 <div class="card flex justify-content-center">
-    <p-paginator 
-        (onPageChange)="onPageChange($event)" 
-        [first]="currentPage" 
-        [rows]="pageSize" 
-        [totalRecords]="totalPages"
-        [rowsPerPageOptions]="[1, 2, 3]" 
-    />
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="(currentPage - 1) * pageSize" [rows]="pageSize"
+        [totalRecords]="totalPages * pageSize"></p-paginator>
+
+    <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option [ngValue]="8">8</option>
+        <option [ngValue]="16">16</option>
+        <option [ngValue]="24">24</option>
+    </select>
 </div>
 
 <br>
