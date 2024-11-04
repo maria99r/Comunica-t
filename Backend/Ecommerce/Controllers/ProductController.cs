@@ -1,5 +1,9 @@
 ﻿using Ecommerce.Models.Database.Repositories.Implementations;
+using Ecommerce.Models.Dtos;
+using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
+
+
 
 namespace Ecommerce.Controllers
 {
@@ -8,23 +12,61 @@ namespace Ecommerce.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ProductRepository _productRepository;
+        private readonly ProductService _productService;
 
-        public ProductController(ProductRepository productRepository)
+        public ProductController(ProductRepository productRepository, ProductService productService)
         {
             _productRepository = productRepository;
+            _productService = productService;
         }
-        [HttpGet("{id}")]
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var products = await _productService.GetAllProductsAsync();
+
+            if (products == null || products.Count == 0)
+            {
+                return NotFound("No se encontraron productos.");
+            }
+            return Ok(products);
+        }
+
+
+
+        [HttpGet("{id}")]
+        // busqueda por id de productos
         public async Task<IActionResult> GetProductByIdAsync(int id)
         {
             var product = await _productRepository.GetProductById(id);
 
             if (product == null) 
             {
-                return NotFound(new { message = $"El producto con la id: '{id}' no ha sido encontrado." }); // Da un mensaje de error
+                return NotFound(new { message = $"El producto con la id: '{id}' no ha sido encontrado." });
             }
 
             return Ok(product); 
         }
+
+        // busqueda de productos por criterio
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchProducts([FromBody] SearchDto searchDto)
+        {
+            if (searchDto == null)
+            {
+                return BadRequest("Busqueda fallida.");
+            }
+
+            var result = await _productService.SearchProductsAsync(searchDto);
+
+            if (result.Products == null || result.Products.Count == 0)
+            {
+                return NotFound("No se encontraron productos.");
+            }
+
+            return Ok(new { products = result.Products, totalPages = result.TotalPages });
+
+        }
+
     }
 }
