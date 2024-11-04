@@ -236,21 +236,21 @@ public class Seeder
         Review[] reviews = [
                 new Review {
                     Text ="Me encanta este producto",
-                    Category = "buena",
+                    Category = 1,
                     PublicationDate = new DateTime(2024, 11, 4, 15, 33, 00),
                     UserId = 1,
                     ProductId = 1
                 },
                 new Review {
                     Text ="No me gusta mucho",
-                    Category = "regular",
+                    Category = 0,
                     PublicationDate = new DateTime(2024, 11, 4, 15, 50, 00),
                     UserId = 2,
                     ProductId = 1
                 },
                 new Review {
                     Text ="Lo odio",
-                    Category = "mala",
+                    Category = -1,
                     PublicationDate = new DateTime(2024, 11, 4, 16, 50, 00),
                     UserId = 2,
                     ProductId = 1
