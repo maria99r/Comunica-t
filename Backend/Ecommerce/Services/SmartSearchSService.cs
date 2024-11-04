@@ -21,7 +21,9 @@
             "Identificador",
             "Zonas",
             "Packs",
-            "Paquetes"
+            "Paquetes",
+            "Lote",
+            "Lora"
             
         ];
 

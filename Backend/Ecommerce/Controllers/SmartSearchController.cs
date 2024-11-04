@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Examples.WebApi.Controllers;
 

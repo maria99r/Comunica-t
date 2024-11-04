@@ -17,8 +17,8 @@ export class LoginComponent {
 
   email: string = '';
   password: string = '';
-  jwt: string = '';
   rememberMe: boolean = false;
+  jwt: string = '';
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -30,17 +30,18 @@ export class LoginComponent {
 
   async submit() {
     const authData = { email: this.email, password: this.password };
-    const result = await this.authService.login(authData);
+    const result = await this.authService.login(authData, this.rememberMe);
 
     if (result.success) {
       this.jwt = result.data.accessToken;
       alert('Has iniciado sesión correctamente.');
-      sessionStorage.setItem('jwtToken', this.jwt);
-
+      console.log('Inicio de sesión exitoso', result);
+      
       if (this.rememberMe) {
         localStorage.setItem('jwtToken', this.jwt);
       }
       
+
       this.router.navigate(['/']);
 
     } else {

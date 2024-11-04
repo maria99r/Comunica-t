@@ -1,6 +1,6 @@
 /* 1º block */
 .panel-top{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/vector-gratis/fondo-conexion-degradado_23-2150516356.jpg?t=st=1730312600~exp=1730316200~hmac=1281f5754171a898d5392eda307d61904ae3d751547b853530ec50b0d09c4b67&w=1980");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/fondo-tecnologico.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -12,7 +12,6 @@
 /* Block with advantages  */
 .card-container {
     gap: 10px;                        
-    justify-content: center;          
     align-items: center;              
     padding: 10px;
     font-size: larger;
@@ -24,17 +23,18 @@
     display: flex; 
     flex-direction: column; 
     border-radius: 8%;
-    width: 25%;
-    box-shadow: 2px 7px 13px 0px rgba(0,0,0,0.2);
+    width: 250px;
+    height: 215px;
+    box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.5);
     overflow: hidden; 
 }
 
 /* Card content */
 .card-content {
     background-color: #0341b4ac;
-    flex-grow: 1; 
+    flex-grow: 10; 
     text-align: center;
-    padding: 10%;
+    padding: 5%;
 }
 
 .card-data{
@@ -44,7 +44,7 @@
 .card-content h2{
     color: #ffffff;
     font-weight: bold;
-    font-size: 100%;
+    font-size: 90%;
     margin: 0px; 
     padding: 0px; 
 } 
@@ -53,11 +53,36 @@
     margin: 5%;
 }
 
+img{
+    height: 215px;
+}
+
 .p-button{
     border: 0px;
     background-color: #6f42c1;
     color: white;
     border-radius: 30px;
+}
+.product-flex {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+    gap: 1rem; 
+    margin: 0px 30px;
+}
+
+.card-container {
+    flex: 1 1 250px; 
+    margin: 1rem; 
+}
+
+select{
+    border: 1px solid #6f42c1;
+    border-radius: 5px;
+    margin: 10px 20px;
+    font-size: medium;
+    padding: 5px;
+    color: #12182e;
 }
 
 

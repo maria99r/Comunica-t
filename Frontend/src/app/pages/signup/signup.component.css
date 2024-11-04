@@ -66,7 +66,7 @@ p {
 
 /* Margen inferior para cada campo de entrada */
 .p-field {
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
 }
 
 /* Contenedor para los campos de entrada con iconos */
@@ -102,17 +102,17 @@ p {
 
 /* Estilo para el texto de registro */
 .login-link p {
-  font-size: 0.8em; /* Tamaño reducido de la fuente */
-  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-  margin-top: 1rem; /* Espacio superior */
-  color: white; /* Color del texto */
+  font-size: 0.8em; 
+  white-space: nowrap; 
+  margin-top: 1rem; 
+  color: white; 
 }
 
 /* Estilo para el enlace de registro */
 .login-link a {
-  color: #fdbb2d; /* Color del enlace */
-  text-decoration: none; /* Elimina el subrayado del enlace */
-  font-weight: bold; /* Texto en negrita */
+  color: #fdbb2d; 
+  text-decoration: none; 
+  font-weight: bold; 
 }
 
 /* Estilo del enlace al pasar el cursor */
@@ -150,6 +150,20 @@ input[type="submit"]:disabled {
   margin-top: 30px; /* Margen superior */
   margin-bottom: 30px; /* Margen inferior */
 }
+
+
+/* clase para los mensajes de error*/
+.error{
+  color: rgb(255, 110, 110);
+  text-align: left;
+  font-size: smaller;
+  height: 14px;
+  padding-top: 5px;
+}
+
+
+
+
 
 /* Pantallas de hasta 480px */
 @media (max-width: 480px) {
