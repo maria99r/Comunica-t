@@ -23,8 +23,6 @@
   height: auto;
 }
 
-
-
 /* Caja de inicio de sesión */
 .login-box {
   background: rgba(255, 255, 255, 0.1); 
@@ -142,23 +140,23 @@ p {
 /* Pantallas de hasta 480px */
 @media (max-width: 480px) {
   .logo img {
-    width: 150px; /* Reducir logo */
+    width: 150px;
   }
 
   .login-box {
     padding: 1rem;
-    max-width: 90%;  /* Limitar el ancho */
+    max-width: 90%;
   }
 
   .user-logo img {
-    width: 70px; /* Reducir logo del usuario */
+    width: 70px;
   }
 
   .iniciar {
-    font-size: 1.2em; /* Fuente más pequeña */
+    font-size: 1.2em;
   }
 
   .submit-button {
-    font-size: 0.9em; /* Fuente más pequeña para el botón */
+    font-size: 0.9em;
   }
 }

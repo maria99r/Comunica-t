@@ -20,7 +20,6 @@
 /* Tamaño del logo */
 .logo img {
   width: 250px;
-  height: auto;
 }
 
 /* Caja de inicio de sesión */
@@ -32,8 +31,6 @@
   text-align: center;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-  padding-bottom: 5px;
   margin-top: 25%;
 }
 
@@ -48,7 +45,6 @@
 /* Tamaño y estilo del logo del usuario */
 .user-logo img {
   width: 100px;
-  height: auto;
   border-radius: 50%;
 }
 
@@ -64,15 +60,9 @@ p {
   font-weight: bold;
 }
 
-/* Margen inferior para cada campo de entrada */
-.p-field {
-  margin-bottom: 0rem;
-}
-
 /* Contenedor para los campos de entrada con iconos */
 .icon-input-container {
   position: relative; 
-  width: 100%; 
 }
 
 /* Estilo para el icono dentro del campo de entrada */
@@ -117,7 +107,7 @@ p {
 
 /* Estilo del enlace al pasar el cursor */
 .login-link a:hover {
-  text-decoration: underline; /* Añade subrayado al pasar el cursor */
+  text-decoration: underline;
 }
 
 /* Estilo para el botón de envío */
@@ -145,46 +135,11 @@ input[type="submit"]:disabled {
   opacity: 0.7;
 }
 
-/* Clase para añadir margen superior e inferior al botón*/
-.p-mt-3 {
-  margin-top: 30px; /* Margen superior */
-  margin-bottom: 30px; /* Margen inferior */
-}
-
-
-/* clase para los mensajes de error*/
-.error{
+/* clase para los mensajes de error */
+.error {
   color: rgb(255, 110, 110);
   text-align: left;
   font-size: smaller;
   height: 14px;
   padding-top: 5px;
-}
-
-
-
-
-
-/* Pantallas de hasta 480px */
-@media (max-width: 480px) {
-  .logo img {
-    width: 150px; /* Reducir logo */
-  }
-
-  .login-box {
-    padding: 1rem; /* Menos padding */
-    max-width: 90%;  /* Limitar el ancho */
-  }
-
-  .user-logo img {
-    width: 70px; /* Reducir logo del usuario */
-  }
-
-  .iniciar {
-    font-size: 1.2em; /* Fuente más pequeña */
-  }
-
-  .submit-button {
-    font-size: 0.9em; /* Fuente más pequeña para el botón */
-  }
 }

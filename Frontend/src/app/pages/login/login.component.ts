@@ -41,7 +41,6 @@ export class LoginComponent {
         localStorage.setItem('jwtToken', this.jwt);
       }
       
-
       this.router.navigate(['/']);
 
     } else {
