@@ -53,7 +53,7 @@ public class AuthController : ControllerBase
                 // Se añaden los datos que autorizan al usuario
                 Claims = new Dictionary<string, object>
                 {
-                    { ClaimTypes.NameIdentifier, user.UserId },  // ID del usuario
+                    { ClaimTypes.NameIdentifier, user.Id },  // ID del usuario
                     { ClaimTypes.Name, user.Name },              // Nombre del usuario
                     { ClaimTypes.Role, user.Role }               // Rol del usuario
                 },
