@@ -1,0 +1,45 @@
+.infoProduct{
+    padding: 20px;
+
+}
+
+.inputQuantity{
+    width: 50px;
+}
+
+p{
+    line-height: 24px;
+    font-size: larger;
+}
+
+button{
+    border: 0px;
+    background-color: #4d20a1;
+    color: white;
+    border-radius: 30px;
+    padding: 15px;
+    font-size: medium;
+    letter-spacing: 1px;
+    font-family: inherit;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #6f42c1;
+}
+
+h1{
+    color: #2A345D;
+    font-size: xx-large;
+}
+
+.price{
+    font-size: larger;
+    color: #6f42c1;
+    font-weight: bold;
+}
+
+
+img{
+    border-radius: 20px;
+}
