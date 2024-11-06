@@ -40,12 +40,12 @@ public class ProductController : ControllerBase
     {
         var product = await _productRepository.GetProductById(id);
 
-        if (product == null) 
+        if (product == null)
         {
             return NotFound(new { message = $"El producto con la id: '{id}' no ha sido encontrado." });
         }
 
-        return Ok(product); 
+        return Ok(product);
     }
 
     // busqueda de productos por criterio
@@ -59,12 +59,12 @@ public class ProductController : ControllerBase
 
         var result = await _productService.SearchProductsAsync(searchDto);
 
-        if (result.Products == null || result.Products.Count == 0)
+        if (result.Product == null || result.Product.Count == 0)
         {
             return NotFound("No se encontraron productos.");
         }
 
-        return Ok(new { products = result.Products, totalPages = result.TotalPages });
+        return Ok(new { products = result.Product, totalPages = result.TotalPages });
 
     }
 
