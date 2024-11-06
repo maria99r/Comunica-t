@@ -17,6 +17,7 @@ public class Seeder
     {
         await SeedUsersAsync();
         await SeedProductAsync();
+       // await SeedReviewAsync();
 
         await _context.SaveChangesAsync();
     }
@@ -231,29 +232,30 @@ public class Seeder
     }
 
 
+    // review de prueba para el calendario de rutinas
     private async Task SeedReviewAsync()
     {
         Review[] reviews = [
                 new Review {
                     Text ="Me encanta este producto",
                     Category = 1,
-                    PublicationDate = new DateTime(2024, 11, 4, 15, 33, 00),
+                    PublicationDate = DateTime.UtcNow,
                     UserId = 1,
-                    ProductId = 1
+                    ProductId = 8
                 },
                 new Review {
                     Text ="No me gusta mucho",
                     Category = 0,
-                    PublicationDate = new DateTime(2024, 11, 4, 15, 50, 00),
+                    PublicationDate = DateTime.UtcNow,
                     UserId = 2,
-                    ProductId = 1
+                    ProductId = 8
                 },
                 new Review {
                     Text ="Lo odio",
                     Category = -1,
-                    PublicationDate = new DateTime(2024, 11, 4, 16, 50, 00),
+                    PublicationDate = DateTime.UtcNow,
                     UserId = 2,
-                    ProductId = 1
+                    ProductId = 8
                 }
             ];
         await _context.Reviews.AddRangeAsync(reviews);

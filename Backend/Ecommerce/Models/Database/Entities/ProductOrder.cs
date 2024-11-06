@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class ProductOrder
+public class ProductOrder
 {
     public int Quantity { get; set; }
 

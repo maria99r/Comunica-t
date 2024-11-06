@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class Review
+public class Review
 {
     public string Text { get; set; } = null!;
 
@@ -11,7 +11,7 @@ public partial class Review
 
     public DateTime PublicationDate { get; set; }
 
-    public int ReviewId { get; set; }
+    public int Id { get; set; }
 
     public int UserId { get; set; }
 

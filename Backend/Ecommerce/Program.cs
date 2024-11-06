@@ -27,6 +27,7 @@ builder.Services.AddScoped<UserMapper>();
 // Inyección de UserService
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ReviewService>();
 builder.Services.AddScoped<SmartSearchService>(); 
 
 
@@ -84,8 +85,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+await SeedDataBaseAsync(app.Services);
+
+app.Run();
+
 // metodo para el seeder
-static void SeedDataBaseAsync(IServiceProvider serviceProvider)
+static async Task SeedDataBaseAsync(IServiceProvider serviceProvider)
 {
     using IServiceScope scope = serviceProvider.CreateScope();
     using EcommerceContext dbContext = scope.ServiceProvider.GetService<EcommerceContext>();
@@ -94,10 +100,6 @@ static void SeedDataBaseAsync(IServiceProvider serviceProvider)
     if (dbContext.Database.EnsureCreated())
     {
         Seeder seeder = new Seeder(dbContext);
-        Task task = seeder.SeedAsync();
+        await seeder.SeedAsync();
     }
 }
-
-SeedDataBaseAsync(app.Services);
-
-app.Run();

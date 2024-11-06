@@ -48,7 +48,7 @@ public partial class EcommerceContext : DbContext
         {
             entity.ToTable("Cart");
 
-            entity.Property(e => e.CartId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("INTEGER")
                 .HasColumnName("cart_id");
@@ -64,11 +64,11 @@ public partial class EcommerceContext : DbContext
 
         modelBuilder.Entity<CustomerOrder>(entity =>
         {
-            entity.HasKey(e => e.OrderId);
+            entity.HasKey(e => e.Id);
 
             entity.ToTable("Customer_order");
 
-            entity.Property(e => e.OrderId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("INTEGER")
                 .HasColumnName("order_id");
@@ -97,7 +97,7 @@ public partial class EcommerceContext : DbContext
         {
             entity.ToTable("Product");
 
-            entity.Property(e => e.ProductId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("INTEGER")
                 .HasColumnName("product_id");
@@ -172,7 +172,7 @@ public partial class EcommerceContext : DbContext
         {
             entity.ToTable("Review");
 
-            entity.Property(e => e.ReviewId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("INTEGER")
                 .HasColumnName("review_id");
@@ -207,9 +207,9 @@ public partial class EcommerceContext : DbContext
 
             entity.HasIndex(e => e.Email, "IX_User_email").IsUnique();
 
-            entity.HasKey(e => e.UserId);
+            entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.UserId)
+            entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnType("INTEGER")
                 .HasColumnName("user_id")

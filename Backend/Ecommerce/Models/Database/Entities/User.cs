@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class User
+public class User
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int UserId { get; set; }
+    public int Id { get; set; }
 
     public string Name { get; set; } = null!;
 
