@@ -27,7 +27,7 @@ public class ProductService
         return await _productRepository.GetProductById(id);
     }
 
-    public async Task<(List<Product> Products, int TotalPages)> SearchProductsAsync(SearchDto searchDto)
+    public async Task<(List<Product> Product, int TotalPages)> SearchProductsAsync(SearchDto searchDto)
     {
 
         var products = await _productRepository.GetAllProductsAsync();

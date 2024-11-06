@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class CustomerOrder
+public class CustomerOrder
 {
-    public int OrderId { get; set; }
+    public int Id { get; set; }
 
     public DateTime PaymentDate { get; set; }
 

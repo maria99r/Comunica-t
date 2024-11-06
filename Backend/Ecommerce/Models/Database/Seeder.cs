@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Helpers;
 using Ecommerce.Models.Database.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database;
 
@@ -8,7 +7,7 @@ public class Seeder
 {
     private readonly EcommerceContext _context;
 
-    public Seeder (EcommerceContext context)
+    public Seeder(EcommerceContext context)
     {
         _context = context;
     }
@@ -17,6 +16,7 @@ public class Seeder
     {
         await SeedUsersAsync();
         await SeedProductAsync();
+        //await SeedReviewAsync();
 
         await _context.SaveChangesAsync();
     }
@@ -41,7 +41,7 @@ public class Seeder
                 }
             ];
 
-        await _context.Users.AddRangeAsync(users);
+        await _context.User.AddRangeAsync(users);
     }
 
 
@@ -107,7 +107,7 @@ public class Seeder
                 },
                 new Product {
                     Name = "LOTE DE 10 - Calendario de rutinas" ,
-                    Price = 11500, 
+                    Price = 11500,
                     Stock = 300,
                     Description = "LOTE DE 10 - Con una base de datos y una aplicación, a cada persona se le pondrían unas tareas durante la mañana y otras durante la noche.",
                     Image = "products/calendario/calendario-rutinas.png"
@@ -178,7 +178,7 @@ public class Seeder
                 },
                 new Product {
                     Name = "Identificador de zonas" ,
-                    Price = 3550, 
+                    Price = 3550,
                     Stock = 300,
                     Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
                     Image = "products/identificador/identificador-zonas.png"
@@ -227,36 +227,37 @@ public class Seeder
                 }
             ];
 
-        await _context.Products.AddRangeAsync(products);
+        await _context.Product.AddRangeAsync(products);
     }
 
 
+    // review de prueba para el calendario de rutinas
     private async Task SeedReviewAsync()
     {
         Review[] reviews = [
                 new Review {
                     Text ="Me encanta este producto",
                     Category = 1,
-                    PublicationDate = new DateTime(2024, 11, 4, 15, 33, 00),
+                    PublicationDate = DateTime.UtcNow,
                     UserId = 1,
-                    ProductId = 1
+                    ProductId = 8
                 },
                 new Review {
                     Text ="No me gusta mucho",
                     Category = 0,
-                    PublicationDate = new DateTime(2024, 11, 4, 15, 50, 00),
+                    PublicationDate = DateTime.UtcNow,
                     UserId = 2,
-                    ProductId = 1
+                    ProductId = 8
                 },
                 new Review {
                     Text ="Lo odio",
                     Category = -1,
-                    PublicationDate = new DateTime(2024, 11, 4, 16, 50, 00),
+                    PublicationDate = DateTime.UtcNow,
                     UserId = 2,
-                    ProductId = 1
+                    ProductId = 8
                 }
             ];
-        await _context.Reviews.AddRangeAsync(reviews);
+        await _context.Review.AddRangeAsync(reviews);
     }
 
 
