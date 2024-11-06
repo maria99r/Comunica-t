@@ -33,7 +33,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   position: relative;
   padding-bottom: 5px;
-  margin-top: 25%;
+  margin-top: 35%;
 }
 
 /* caja con iconos */
@@ -144,7 +144,7 @@ input[type="submit"]:disabled {
   font-size: x-small;
   height: 14px;
   padding-top: 2px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 
