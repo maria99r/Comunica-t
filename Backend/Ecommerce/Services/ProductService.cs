@@ -44,6 +44,12 @@ public class ProductService
                 matchedNames.Any(name => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)) ||
                 p.Name.Contains(searchDto.consulta, StringComparison.OrdinalIgnoreCase)
                 ).ToList();
+
+        }
+
+        if (products.Count == 0)
+        {
+            return (new List<Product>(), 0); // totalPages será 0 en este caso
         }
 
 

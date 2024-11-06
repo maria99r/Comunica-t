@@ -10,12 +10,13 @@ import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CriterioOrden } from '../../models/searchDto';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
   imports: [NavComponent, FooterComponent, InputTextModule, 
-    FormsModule, PaginatorModule, RouterModule, SelectButtonModule],
+    FormsModule, PaginatorModule, RouterModule, SelectButtonModule, NgFor],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })
@@ -54,9 +55,10 @@ export class CatalogComponent implements OnInit {
       const result = await this.apiService.searchProducts(searchDto);
       this.filteredProducts = result.products;
       this.totalPages = result.totalPages;
+      console.log(this.filteredProducts)
     }
     catch (error) {
-      console.error("Error al cargar los productos:", error);
+      this.filteredProducts = null;
     }
   }
 
