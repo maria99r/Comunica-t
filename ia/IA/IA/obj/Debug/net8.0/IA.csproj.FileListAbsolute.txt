@@ -1,0 +1,5 @@
+C:\Users\villo\Desktop\ia\IA\IA\obj\Debug\net8.0\IA.csproj.AssemblyReference.cache
+C:\Users\villo\Desktop\ia\IA\IA\obj\Debug\net8.0\IA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\villo\Desktop\ia\IA\IA\obj\Debug\net8.0\IA.AssemblyInfoInputs.cache
+C:\Users\villo\Desktop\ia\IA\IA\obj\Debug\net8.0\IA.AssemblyInfo.cs
+C:\Users\villo\Desktop\ia\IA\IA\obj\Debug\net8.0\IA.csproj.CoreCompileInputs.cache
