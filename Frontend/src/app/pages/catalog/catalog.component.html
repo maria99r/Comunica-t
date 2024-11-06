@@ -63,14 +63,14 @@
                 <h2>{{product.name}}</h2>
 
                 <div class="card-data">
-                    <p>{{product.price}}€</p>
+                    <p>{{product.price / 100}}€</p>
 
                     @if (product.stock > 0) {
                     <p style="color:darkgreen">Stock</p>
                     } @else {
                     <p style="color:darkred">Sin stock</p>
                     }
-                    <p>Reseñas</p>
+                    <p>😀</p>
                 </div>
             </div>
         </div>
@@ -93,9 +93,9 @@
         [totalRecords]="totalPages * pageSize"></p-paginator>
 
     <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
+        <option [ngValue]="4">4</option>
         <option [ngValue]="8">8</option>
         <option [ngValue]="16">16</option>
-        <option [ngValue]="24">24</option>
     </select>
 </div>
 

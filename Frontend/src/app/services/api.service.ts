@@ -103,31 +103,6 @@ export class ApiService {
   }
 
 
-  // Obtener todos los productos
-
-  async getAllProducts(): Promise<Product[]> {
-    const requests: Observable<Object>[] = [];
-
-    for (let i = 1; i <= 12; i++) {
-      requests.push(this.http.get(`${this.BASE_URL}Product/${i}`));
-    }
-
-    const allDataRaw: any[] = await lastValueFrom(forkJoin(requests));
-    const products: Product[] = [];
-
-    for (const data of allDataRaw) {
-      const product: Product = {
-        productId: data.productId,
-        name: data.name,
-        price: data.price,
-        stock: data.stock,
-        description: data.description,
-        image: data.image
-      }
-      products.push(product)
-    }
-    return products;
-  }
 
   // busqueda de productos (con la paginacion) (devuelve los productos y el nº de paginas)
   async searchProducts(searchDto: SearchDto): Promise<{ products: Product[], totalPages: number }> {

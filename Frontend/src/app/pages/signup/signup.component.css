@@ -19,7 +19,6 @@
 
 .logo img {
   width: 250px;
-  height: auto;
 }
 
 /* caja inicio de sesión */
@@ -34,6 +33,7 @@
   position: relative;
   padding-bottom: 5px;
   margin-top: 35%;
+
 }
 
 /* caja con iconos */
@@ -47,7 +47,6 @@
 /* icono usuario */
 .user-logo img {
   width: 100px;
-  height: auto;
   border-radius: 50%;
 }
 
@@ -58,10 +57,9 @@
   font-weight: bold;
 }
 
+
 .icon-input-container {
   position: relative; 
-
-}
 
 /*iconos*/
 .input-icon {
@@ -101,6 +99,7 @@ a {
   font-weight: bold; 
 }
 
+
 a:hover {
   text-decoration: underline;
 }
@@ -130,15 +129,8 @@ input[type="submit"]:disabled {
   opacity: 0.7;
 }
 
-/* Clase para añadir margen superior e inferior al botón*/
-.p-mt-3 {
-  margin-top: 30px; /* Margen superior */
-  margin-bottom: 30px; /* Margen inferior */
-}
-
-
-/* clase para los mensajes de error*/
-.error{
+/* clase para los mensajes de error */
+.error {
   color: rgb(255, 110, 110);
   text-align: left;
   font-size: x-small;
@@ -146,7 +138,3 @@ input[type="submit"]:disabled {
   padding-top: 2px;
   margin-bottom: 10px;
 }
-
-
-
-
