@@ -41,8 +41,9 @@ public class ProductService
             Console.WriteLine($"Búsqueda: {searchDto.consulta}, Coincidencias: {string.Join(", ", matchedNames)}");
 
             products = products.Where(p =>
-            p.Name.Contains(searchDto.consulta, StringComparison.OrdinalIgnoreCase) ||
-            matchedNames.Contains(p.Name)).ToList();
+                matchedNames.Any(name => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)) ||
+                p.Name.Contains(searchDto.consulta, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
         }
 
 
