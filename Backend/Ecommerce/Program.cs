@@ -1,6 +1,5 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
-using Ecommerce.Models.Database.Repositories.Interfaces;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
 using Microsoft.IdentityModel.Tokens;
@@ -28,7 +27,7 @@ builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ReviewService>();
-builder.Services.AddScoped<SmartSearchService>(); 
+builder.Services.AddScoped<SmartSearchService>();
 
 
 
