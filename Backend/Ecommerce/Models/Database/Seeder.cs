@@ -72,7 +72,7 @@ public class Seeder
                 },
                 new Product {
                     Name = "LOTE DE 10 - Menú electrónico - Colores mixtos" ,
-                    Price = 11500,
+                    Price = 20000,
                     Stock = 300,
                     Description = "LOTE DE 5 - Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
                     Image = "products/menu/lote-menu.png"
@@ -220,7 +220,7 @@ public class Seeder
                 },
                 new Product {
                     Name = "LOTE DE 10 - Identificador de zonas - Colores mixtos" ,
-                    Price = 32500,
+                    Price = 60000,
                     Stock = 300,
                     Description = "LOTE DE 10 - Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
                     Image = "products/identificador/lote-identificador.png"
