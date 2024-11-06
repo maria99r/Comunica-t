@@ -31,13 +31,9 @@
   text-align: center;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-<<<<<<< Updated upstream
   position: relative;
   padding-bottom: 5px;
   margin-top: 25%;
-=======
-  margin-top: 37%;
->>>>>>> Stashed changes
 }
 
 /* caja con iconos */
@@ -62,21 +58,9 @@
   font-weight: bold;
 }
 
-<<<<<<< Updated upstream
-/* Margen inferior para cada campo de entrada */
-.p-field {
-  margin-bottom: 0rem;
-}
-
-/* Contenedor para los campos de entrada con iconos */
-.icon-input-container {
-  position: relative; 
-  width: 100%; 
-=======
 .icon-input-container {
   position: relative; 
 
->>>>>>> Stashed changes
 }
 
 /*iconos*/
@@ -117,14 +101,8 @@ a {
   font-weight: bold; 
 }
 
-<<<<<<< Updated upstream
-/* Estilo del enlace al pasar el cursor */
-.login-link a:hover {
-  text-decoration: underline; /* Añade subrayado al pasar el cursor */
-=======
 a:hover {
   text-decoration: underline;
->>>>>>> Stashed changes
 }
 
 /* botón de envío */
@@ -172,27 +150,3 @@ input[type="submit"]:disabled {
 
 
 
-
-/* Pantallas de hasta 480px */
-@media (max-width: 480px) {
-  .logo img {
-    width: 150px; /* Reducir logo */
-  }
-
-  .login-box {
-    padding: 1rem; /* Menos padding */
-    max-width: 90%;  /* Limitar el ancho */
-  }
-
-  .user-logo img {
-    width: 70px; /* Reducir logo del usuario */
-  }
-
-  .iniciar {
-    font-size: 1.2em; /* Fuente más pequeña */
-  }
-
-  .submit-button {
-    font-size: 0.9em; /* Fuente más pequeña para el botón */
-  }
-}
