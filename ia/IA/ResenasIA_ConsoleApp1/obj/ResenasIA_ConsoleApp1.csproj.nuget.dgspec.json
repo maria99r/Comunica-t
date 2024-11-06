@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\villo\\Desktop\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj": {}
+    "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\villo\\Desktop\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj": {
+    "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\villo\\Desktop\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj",
+        "projectUniqueName": "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj",
         "projectName": "ResenasIA_ConsoleApp1",
-        "projectPath": "C:\\Users\\villo\\Desktop\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj",
-        "packagesPath": "C:\\Users\\villo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\villo\\Desktop\\ia\\IA\\ResenasIA_ConsoleApp1\\obj\\",
+        "projectPath": "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\ResenasIA_ConsoleApp1\\ResenasIA_ConsoleApp1.csproj",
+        "packagesPath": "C:\\Users\\mvilbou1403\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\ResenasIA_ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\villo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mvilbou1403\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -73,19 +73,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.31, 6.0.31]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.31, 6.0.31]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.31, 6.0.31]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.35, 6.0.35]"
+              "version": "[6.0.31, 6.0.31]"
             }
           ],
           "frameworkReferences": {
@@ -93,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

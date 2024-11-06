@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\villo\\Desktop\\ia\\IA\\IA\\IA.csproj": {}
+    "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\IA\\IA.csproj": {}
   },
   "projects": {
-    "C:\\Users\\villo\\Desktop\\ia\\IA\\IA\\IA.csproj": {
+    "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\IA\\IA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\villo\\Desktop\\ia\\IA\\IA\\IA.csproj",
+        "projectUniqueName": "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\IA\\IA.csproj",
         "projectName": "IA",
-        "projectPath": "C:\\Users\\villo\\Desktop\\ia\\IA\\IA\\IA.csproj",
-        "packagesPath": "C:\\Users\\villo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\villo\\Desktop\\ia\\IA\\IA\\obj\\",
+        "projectPath": "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\IA\\IA.csproj",
+        "packagesPath": "C:\\Users\\mvilbou1403\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mvilbou1403\\Desktop\\Ecommerce\\ia\\IA\\IA\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\villo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mvilbou1403\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

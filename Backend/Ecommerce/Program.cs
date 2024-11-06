@@ -2,7 +2,9 @@ using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Database.Repositories.Interfaces;
 using Ecommerce.Models.Mappers;
+using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
+using Microsoft.Extensions.ML;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -27,8 +29,11 @@ builder.Services.AddScoped<UserMapper>();
 // Inyección de UserService
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<SmartSearchService>(); 
+builder.Services.AddScoped<SmartSearchService>();
 
+// Inyeccion de la IA
+builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
+    .FromFile("ReviewAI.mlnet");
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
