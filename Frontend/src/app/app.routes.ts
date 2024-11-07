@@ -6,6 +6,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },  // Ruta pantalla inicio home
@@ -13,5 +14,6 @@ export const routes: Routes = [
     { path: 'signup', component: SignupComponent}, // Ruta registro
     { path: 'catalog', component: CatalogComponent}, // Ruta catálogo
     { path: 'about-us', component: AboutUsComponent}, //Ruta sobre nosotros  
-    { path: 'cart', component: CartComponent}   //Ruta carrito 
+    { path: 'cart', component: CartComponent},   //Ruta carrito 
+    { path: 'product/:id', component: ProductDetailComponent }  // Ruta detalles de producto
 ];

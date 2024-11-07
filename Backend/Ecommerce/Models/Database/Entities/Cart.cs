@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class Cart
+[Index(nameof(Id), IsUnique = true)]
+public class Cart
 {
-    public int CartId { get; set; }
+    public int Id { get; set; }
 
     public int UserId { get; set; }
 

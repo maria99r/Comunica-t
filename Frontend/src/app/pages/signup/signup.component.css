@@ -33,7 +33,6 @@
   position: relative;
   padding-bottom: 5px;
   margin-top: 35%;
-
 }
 
 /* caja con iconos */
@@ -60,6 +59,7 @@
 
 .icon-input-container {
   position: relative; 
+}
 
 /*iconos*/
 .input-icon {

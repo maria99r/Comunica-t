@@ -1,0 +1,49 @@
+<app-nav></app-nav>
+
+
+@if (product) {
+<div class="container flex flex-wrap justify-content-center m-8 ">
+
+    <!--imagen producto-->
+    <section class="imageProduct w-3 m-auto">
+        <img [src]="IMG_URL + product.image" class="m-auto w-full">
+    </section>
+
+    <!-- info del producto -->
+    <section class="infoProduct w-6">
+        <h1>{{product.name}}</h1>
+        <span class="price">{{product.price/100}}€</span>
+        <p>{{product.description}}</p>
+
+        <div class="inputQuantity">
+            <p-inputNumber [(ngModel)]="quantity" class="w-full" [showButtons]="true" buttonLayout="horizontal"
+                inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1"
+                decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
+                incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
+        </div>
+
+
+        <!-- boton añadir cesta -->
+        <button class="m-4 p-button font-bold ml-4 vertical-align-middle">Añadir a la cesta</button>
+
+
+    </section>
+
+    <section class="review w-full">
+        <h1>Reseñas</h1>
+
+        @for (review of product.reviews; track review.reviewId) {
+            
+        }
+        @empty {
+        <div>No hay reseñas</div>
+        }
+
+
+    </section>
+
+
+</div>
+}
+
+<app-footer></app-footer>

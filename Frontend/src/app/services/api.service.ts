@@ -90,7 +90,7 @@ export class ApiService {
   }
 
   private getHeader(accept = null, contentType = null): HttpHeaders {
-    let header: any = { 'Authorization': `Bearer ${this.jwt}`};
+    let header: any = { 'Authorization': `Bearer ${this.jwt}` };
     // Para cuando haya que poner un JWT
 
     if (accept)
@@ -113,6 +113,28 @@ export class ApiService {
       this.http.post<{ products: Product[], totalPages: number }>(url, searchDto, { headers }));
     return response;
   }
+
+
+  // devuelve producto con esa id (Para vista detalle de productos)
+  async getProduct(id: number): Promise<Product> {
+    const request: Observable<Object> =
+      this.http.get(`${this.BASE_URL}Product/${id}`);
+    const dataRaw: any = await lastValueFrom(request);
+    const product: Product = {
+      id: dataRaw.productId,
+      name: dataRaw.name,
+      image: dataRaw.image,
+      price: dataRaw.price,
+      description: dataRaw.description,
+      stock: dataRaw.stock,
+      reviews: dataRaw.reviews
+    };
+    console.log(product)
+
+    return product;
+  }
+
+  
 
 
 
