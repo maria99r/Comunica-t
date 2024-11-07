@@ -1,7 +1,7 @@
 import { Review } from "./review"
 
 export interface Product {
-    productId: number,
+    id: number,
     name: string,
     price: number,
     stock: number,

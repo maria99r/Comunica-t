@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database;
 
+
 public class EcommerceContext : DbContext
 {
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { InputTextModule } from 'primeng/inputtext';
@@ -10,13 +11,13 @@ import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CriterioOrden } from '../../models/searchDto';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { NgFor } from '@angular/common';
+
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputTextModule, 
-    FormsModule, PaginatorModule, RouterModule, SelectButtonModule, NgFor],
+  imports: [NavComponent, FooterComponent, InputTextModule,
+    FormsModule, PaginatorModule, RouterModule, SelectButtonModule, CommonModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })
@@ -46,7 +47,7 @@ export class CatalogComponent implements OnInit {
   async loadProducts(): Promise<void> {
     const searchDto = {
       consulta: this.query,
-      Criterio: this.sortCriterio, 
+      Criterio: this.sortCriterio,
       Orden: this.sortOrder, //por defecto asc
       CantidadPaginas: this.pageSize,
       PaginaActual: this.currentPage,
@@ -96,5 +97,6 @@ export class CatalogComponent implements OnInit {
     this.pageSize = size;
     this.loadProducts();
   }
+
 
 }

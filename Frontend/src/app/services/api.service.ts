@@ -121,7 +121,7 @@ export class ApiService {
       this.http.get(`${this.BASE_URL}Product/${id}`);
     const dataRaw: any = await lastValueFrom(request);
     const product: Product = {
-      productId: dataRaw.productId,
+      id: dataRaw.productId,
       name: dataRaw.name,
       image: dataRaw.image,
       price: dataRaw.price,
@@ -133,6 +133,8 @@ export class ApiService {
 
     return product;
   }
+
+  
 
 
 

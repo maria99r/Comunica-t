@@ -7,12 +7,13 @@ import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule],
+  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
