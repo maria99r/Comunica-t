@@ -26,18 +26,5 @@ export class CartComponent implements OnInit {
     this.cartProducts = cart;
   }
 
-  // Actualizar la cantidad de un producto en el carrito
-  updateQuantity(product: Product, quantity: number): void {
-    const updatedCart = this.cartProducts.map(p => 
-      p.productId === product.productId ? { ...p, quantity } : p
-    );
-    this.cartProducts = updatedCart;
-    localStorage.setItem('cartProducts', JSON.stringify(this.cartProducts));
-  }
-
-  // Método para eliminar un producto del carrito por su ID
-  removeFromCart(productId: number): void {
-    this.cartProducts = this.cartProducts.filter(product => product.productId !== productId);
-    localStorage.setItem('cartProducts', JSON.stringify(this.cartProducts));  
-  }
+  
 }

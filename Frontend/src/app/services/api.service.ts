@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { Product } from '../models/product';
 import { SearchDto } from '../models/searchDto';
 import { Review } from '../models/review';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -131,7 +132,6 @@ export class ApiService {
       stock: dataRaw.stock,
       reviews: dataRaw.reviews
     };
-    console.log(product)
 
     return product;
   }
@@ -160,6 +160,22 @@ export class ApiService {
       console.log(reviews)
     }
     return reviews;
+  }
 
+  async getUser(id: number): Promise<User> {
+    const request: Observable<Object> =
+      this.http.get(`${this.BASE_URL}User/${id}`);
+
+    const dataRaw: any = await lastValueFrom(request);
+
+    const user: User = {
+      id: dataRaw.productId,
+      name: dataRaw.name,
+      email : dataRaw.email,
+      address : dataRaw.address,
+      role: dataRaw.role
+      
+    };
+    return user;
   }
 }

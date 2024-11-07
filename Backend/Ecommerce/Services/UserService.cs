@@ -1,6 +1,8 @@
-﻿using Ecommerce.Helpers;
+﻿using Ecommerce.Controllers;
+using Ecommerce.Helpers;
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 
@@ -11,6 +13,7 @@ public class UserService
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly UserMapper _userMapper;
+
 
     public UserService(UnitOfWork unitOfWork, UserMapper userMapper)
     {
@@ -33,6 +36,17 @@ public class UserService
         }
         return _userMapper.UserToDto(user);
     }
+
+    public async Task<UserDto> GetByIdAsync(int id)
+    {
+        var user = await _unitOfWork.UserRepository.GetById(id);
+        if (user == null)
+        {
+            return null;
+        }
+        return _userMapper.UserToDto(user);
+    }
+
 
     public async Task<User> LoginAsync(string email, string password)
     {

@@ -8,46 +8,7 @@
     </p>
 </div>
 
-<div class="cart-flex">
-    @if (cartProducts.length > 0) {
-        @for (product of cartProducts; track product.productId) {
 
-        <div class="w-10 h-auto cart-card-container m-auto mt-4">
-            <div class="m-auto h-20rem cart-card-advantage">
-
-                <img [src]="IMG_URL + product.image" alt="Imagen del producto">
-
-                <div class="cart-card-content">
-                    <h2>{{ product.name }}</h2>
-
-                    <div class="cart-card-data">
-                        <p>{{ product.price / 100 }}€</p>
-                        
-                        <!-- disminuir -->
-                        <button (click)="updateQuantity(product, product.quantity - 1)" [disabled]="product.quantity <= 1">-</button>
-        
-                        <!-- cantidad  -->
-                        <span>{{ product.quantity }}</span>
-                        
-                        <!-- aumentar -->
-                        <button (click)="updateQuantity(product, product.quantity + 1)">+</button>
-                        
-                        <!--eliminar-->
-                        <img src="icons/bin.png" alt="Eliminar" 
-                             (click)="removeFromCart(product.productId)" 
-                             class="remove-icon">
-                    </div>
-                </div>
-            </div>
-        </div>
-        }
-        @empty {
-            <div>Tu carrito está vacío</div>
-        }
-    } @else {
-        <div>Cargando...</div>
-    }
-</div>
 
 <!-- FOOTER -->
 <app-footer></app-footer>
