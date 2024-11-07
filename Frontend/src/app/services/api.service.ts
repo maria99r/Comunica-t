@@ -5,6 +5,7 @@ import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
 import { Product } from '../models/product';
 import { SearchDto } from '../models/searchDto';
+import { Review } from '../models/review';
 
 @Injectable({
   providedIn: 'root'
@@ -120,6 +121,7 @@ export class ApiService {
     const request: Observable<Object> =
       this.http.get(`${this.BASE_URL}Product/${id}`);
     const dataRaw: any = await lastValueFrom(request);
+
     const product: Product = {
       id: dataRaw.productId,
       name: dataRaw.name,
@@ -134,8 +136,30 @@ export class ApiService {
     return product;
   }
 
-  
+  // carga de las reseñas segun el producto
+  async loadReviews(id: number): Promise< Review[]> {
 
+    const request: Observable<Object> = this.http.get(`${this.BASE_URL}Review/byproduct/${id}`);
 
+    const dataRaw: any = await lastValueFrom(request);
 
+    const reviews: Review[] = [];
+
+    for (const data of dataRaw) {
+      const review: Review = {
+        reviewId: data.id,
+        text: data.text,
+        category: data.category,
+        date: data.publicationDate,
+        userId: data.userId,
+        productId: data.productId
+      }
+
+      reviews.push(review);
+
+      console.log(reviews)
+    }
+    return reviews;
+
+  }
 }

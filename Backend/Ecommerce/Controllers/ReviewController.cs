@@ -21,22 +21,8 @@ public class ReviewController : ControllerBase
         _reviewService = reviewService;
     }
 
-    [HttpGet("idReview")]
-    // busqueda por id de reviews
-    public async Task<IActionResult> GetReviewByIdAsync(int id)
-    {
-        var review = await _reviewRepository.GetReviewById(id);
 
-        if (review == null)
-        {
-            return NotFound(new { message = $"La reseña '{id}' no ha sido encontrada." });
-        }
-
-        return Ok(review);
-    }
-
-
-    [HttpGet("allReviews")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAllReviews()
     {
         var reviews = await _reviewService.GetAllReviewsAsync();
@@ -48,12 +34,12 @@ public class ReviewController : ControllerBase
         return Ok(reviews);
     }
 
-    [HttpGet("ReviewByProduct")]
+    [HttpGet("byproduct/{id}")]
     public async Task<IActionResult> GetReviewByProduct(int id)
     {
         var reviews = await _reviewService.GetReviewByProductAsync(id);
 
-        if (reviews == null )
+        if (reviews == null || reviews.Count == 0)
         {
             return NotFound("No se encontraron reseñas para este producto.");
         }

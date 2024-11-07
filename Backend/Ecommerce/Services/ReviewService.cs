@@ -29,7 +29,7 @@ public class ReviewService
         return await _reviewRepository.GetReviewById(id);
     }
 
-    public async Task<Review> GetReviewByProductAsync(int id)
+    public async Task<List<Review>> GetReviewByProductAsync(int id)
     {
         return await _reviewRepository.GetReviewByProduct(id);
     }

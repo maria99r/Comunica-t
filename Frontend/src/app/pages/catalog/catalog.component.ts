@@ -71,12 +71,14 @@ export class CatalogComponent implements OnInit {
 
   // cuando cambie criterio de orden se vuelve a cargar la pagina
   onSortChange(criterio: CriterioOrden) {
+    this.currentPage = 1;
     this.sortCriterio = criterio;
     this.loadProducts();
   }
 
   // cuando cambie el orden se vuelve a cargar la pagina
   onOrderChange(order: boolean) {
+    this.currentPage = 1;
     this.sortOrder = order;
     this.loadProducts();
   }
@@ -94,6 +96,7 @@ export class CatalogComponent implements OnInit {
 
   // nº de productos por pagina
   onPageSizeChange(size: number) {
+    this.currentPage = 1;
     this.pageSize = size;
     this.loadProducts();
   }
