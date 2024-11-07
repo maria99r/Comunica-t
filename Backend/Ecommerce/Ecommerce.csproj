@@ -16,11 +16,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML.TorchSharp" Version="0.21.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+    <PackageReference Include="TorchSharp-cpu" Version="0.101.5" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReviewAI.mlnet">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
