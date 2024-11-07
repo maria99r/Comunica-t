@@ -95,18 +95,4 @@ export class CatalogComponent implements OnInit {
     this.loadProducts();
   }
 
-  // método para agregar productos al carrito
-  addToCart(product: Product): void {
-    const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-    const productInCart = cart.find((p: Product & { quantity: number }) => p.productId === product.productId);
-    
-    if (productInCart) {
-      productInCart.quantity += 1;
-    } else {
-      cart.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem('cartProducts', JSON.stringify(cart));  // Guardamos el carrito actualizado en localStorage
-    console.log('Producto añadido al carrito:', product);
-  }
 }

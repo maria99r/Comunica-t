@@ -9,50 +9,57 @@
     text-shadow: #12182e 0 0 1em;
 }
 
-/* Block with advantages  */
-.card-container {
-    gap: 10px;                        
-    align-items: center;              
+/* Fondo gris para la carta de productos */
+.cart-card-container {
+    background-color: #f0f0f0; /* Fondo gris */
+    border-radius: 8px;
     padding: 10px;
-    font-size: larger;
-    vertical-align: middle;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Each advantage */
-.card-advantage {
-    display: flex; 
-    flex-direction: column; 
-    border-radius: 8%;
-    width: 275px;
-    height: 215px;
-    box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.5);
-    overflow: hidden; 
+/* Tamaño más pequeño para la imagen de la papelera */
+.remove-icon {
+    width: 18px; /* Tamaño más pequeño */
+    height: 18px;
+    cursor: pointer;
 }
 
-/* Card content */
-.card-content {
-    background-color: #0341b4ac;
-    flex-grow: 10; 
-    text-align: center;
-    padding: 5%;
-}
-
-.card-data{
+/* Ajuste de estilo para la tarjeta de productos */
+.cart-card-advantage {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
-.card-content h2{
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 90%;
-    margin: 0px; 
-    padding: 0px; 
-} 
-.card-content p {
-    color: #ffffff;
-    margin: 5%;
+/* Contenido de la tarjeta */
+.cart-card-content {
+    background-color: #f0f0f0; /* Fondo gris para coherencia */
+    padding: 10px;
+    flex-grow: 1;
+    text-align: left;
 }
+
+/* Ajuste de datos en la tarjeta */
+.cart-card-data {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ajuste de tamaño de la imagen del producto */
+.cart-card-advantage img {
+    width: 100px; /* Ajusta el ancho según tus preferencias */
+    height: auto;
+    border-radius: 8px;
+}
+
+
+
+
+
+
+
+
 
 img{
     height: 215px;
@@ -75,6 +82,12 @@ img{
 .card-container {
     flex: 1 1 250px; 
     margin: 1rem; 
+}
+
+.remove-icon {
+    width: 18px; /* Tamaño más pequeño */
+    height: 18px;
+    cursor: pointer;
 }
 
 select{

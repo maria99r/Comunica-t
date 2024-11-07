@@ -1,3 +1,4 @@
+<!-- NAV BAR -->
 <app-nav></app-nav>
 
 <!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
@@ -22,12 +23,19 @@
                     <div class="cart-card-data">
                         <p>{{ product.price / 100 }}€</p>
                         
+                        <!-- disminuir -->
+                        <button (click)="updateQuantity(product, product.quantity - 1)" [disabled]="product.quantity <= 1">-</button>
+        
+                        <!-- cantidad  -->
+                        <span>{{ product.quantity }}</span>
                         
+                        <!-- aumentar -->
+                        <button (click)="updateQuantity(product, product.quantity + 1)">+</button>
                         
-                        <!-- Botón para eliminar producto del carrito -->
-                        <button (click)="removeFromCart(product.productId)" class="remove-button">
-                            Eliminar del carrito
-                        </button>
+                        <!--eliminar-->
+                        <img src="icons/bin.png" alt="Eliminar" 
+                             (click)="removeFromCart(product.productId)" 
+                             class="remove-icon">
                     </div>
                 </div>
             </div>
@@ -41,4 +49,5 @@
     }
 </div>
 
+<!-- FOOTER -->
 <app-footer></app-footer>
