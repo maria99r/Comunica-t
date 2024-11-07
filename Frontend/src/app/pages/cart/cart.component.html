@@ -1,0 +1,44 @@
+<app-nav></app-nav>
+
+<!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
+<div class="panel-top h-20rem d-flex w-full">
+    <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
+        - carrito -
+    </p>
+</div>
+
+<div class="cart-flex">
+    @if (cartProducts.length > 0) {
+        @for (product of cartProducts; track product.productId) {
+
+        <div class="w-10 h-auto cart-card-container m-auto mt-4">
+            <div class="m-auto h-20rem cart-card-advantage">
+
+                <img [src]="IMG_URL + product.image" alt="Imagen del producto">
+
+                <div class="cart-card-content">
+                    <h2>{{ product.name }}</h2>
+
+                    <div class="cart-card-data">
+                        <p>{{ product.price / 100 }}€</p>
+                        
+                        
+                        
+                        <!-- Botón para eliminar producto del carrito -->
+                        <button (click)="removeFromCart(product.productId)" class="remove-button">
+                            Eliminar del carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        @empty {
+            <div>Tu carrito está vacío</div>
+        }
+    } @else {
+        <div>Cargando...</div>
+    }
+</div>
+
+<app-footer></app-footer>

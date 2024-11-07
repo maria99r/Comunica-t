@@ -54,10 +54,10 @@
     @if (filteredProducts.length > 0) {
     @for (product of filteredProducts; track product.productId) {
 
-    <div class="w-10 h-auto card-container m-auto mt-4">
+    <div class="w-10 h-auto card-container m-auto mt-4" >
         <div class="m-auto h-20rem card-advantage">
 
-            <img [src]="IMG_URL + product.image">
+            <img [src]="IMG_URL + product.image" (click)="addToCart(product)">
 
             <div class="card-content">
                 <h2>{{product.name}}</h2>
