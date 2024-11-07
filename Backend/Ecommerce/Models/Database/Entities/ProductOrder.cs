@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class ProductOrder
+[Keyless]
+public class ProductOrder
 {
     public int Quantity { get; set; }
 

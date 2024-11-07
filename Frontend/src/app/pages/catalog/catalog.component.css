@@ -86,6 +86,9 @@ select{
     color: #12182e;
 }
 
+a{
+    text-decoration: none;
+}
 
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
