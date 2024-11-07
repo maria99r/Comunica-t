@@ -237,21 +237,21 @@ public class Seeder
         Review[] reviews = [
                 new Review {
                     Text ="Me encanta este producto",
-                    Category = 1,
+                    Label = 1,
                     PublicationDate = DateTime.UtcNow,
                     UserId = 1,
                     ProductId = 8
                 },
                 new Review {
                     Text ="No me gusta mucho",
-                    Category = 0,
+                    Label = 0,
                     PublicationDate = DateTime.UtcNow,
                     UserId = 2,
                     ProductId = 8
                 },
                 new Review {
                     Text ="Lo odio",
-                    Category = -1,
+                    Label = -1,
                     PublicationDate = DateTime.UtcNow,
                     UserId = 2,
                     ProductId = 8

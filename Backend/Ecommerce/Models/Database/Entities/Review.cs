@@ -9,7 +9,7 @@ public class Review
 {
     public string Text { get; set; } = null!;
 
-    public int Category { get; set; }
+    public int Label { get; set; }
 
     public DateTime PublicationDate { get; set; }
 

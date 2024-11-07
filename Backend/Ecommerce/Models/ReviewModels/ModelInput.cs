@@ -10,9 +10,8 @@ namespace Ecommerce.Models.ReviewModels
         public string Text { get; set; }
 
         [LoadColumn(1)]
-        [ColumnName(@"category")]
-
-        public int Category {  get; set; }
+        [ColumnName(@"label")]
+        public float Label { get; set; }
 
     }
 }

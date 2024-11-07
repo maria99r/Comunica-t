@@ -6,7 +6,7 @@ namespace Ecommerce.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ModelController : Controller
+    public class ModelController : ControllerBase
     {
         private readonly PredictionEnginePool<ModelInput, ModelOutput> _model;
 
@@ -18,7 +18,8 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public ModelOutput Predict(string text)
         {
-            ModelInput input = new ModelInput { 
+            ModelInput input = new ModelInput
+            {
                 Text = text
             };
             ModelOutput output = _model.Predict(input);

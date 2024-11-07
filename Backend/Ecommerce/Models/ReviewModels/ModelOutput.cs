@@ -7,11 +7,11 @@ namespace Ecommerce.Models.ReviewModels
         [ColumnName(@"text")]
         public string Text { get; set; }
 
-        [ColumnName(@"category")]
-        public int Category { get; set; }
+        [ColumnName(@"label")]
+        public uint Label { get; set; }
 
-        [ColumnName(@"PredictedCategory")]
-        public int PredictedCategory { get; set; }
+        [ColumnName(@"PredictedLabel")]
+        public float PredictedLabel { get; set; }
 
         [ColumnName(@"Score")]
         public float[] Score { get; set; }
