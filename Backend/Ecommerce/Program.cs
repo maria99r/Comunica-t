@@ -1,7 +1,9 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Mappers;
+using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
+using Microsoft.Extensions.ML;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -13,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<EcommerceContext>();
 builder.Services.AddScoped<UnitOfWork>();
 
-// Inyección de todos los repositorios
+// Inyecciï¿½n de todos los repositorios
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ReviewRepository>();
 builder.Services.AddScoped<ProductRepository>();
@@ -23,19 +25,22 @@ builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<UserMapper>();
 
-// Inyección de UserService
+// Inyecciï¿½n de Servicios
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
 
+// Inyeccion de la IA
+builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
+    .FromFile("ReviewAI.mlnet");
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuración de CORS
+// Configuraciï¿½n de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder =>
@@ -48,7 +53,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
-// Configuración de autenticación
+// Configuraciï¿½n de autenticaciï¿½n
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {

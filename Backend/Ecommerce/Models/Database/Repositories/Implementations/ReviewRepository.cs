@@ -16,10 +16,10 @@ public class ReviewRepository : Repository<Review, int>
             .FirstOrDefaultAsync(Review => Review.Id == id);
     }
 
-    public async Task<Review> GetReviewByProduct(int id)
+    public async Task<List<Review?>> GetReviewByProduct(int id)
     {
         return await GetQueryable()
-            .FirstOrDefaultAsync(Review => Review.ProductId == id);
+            .Where(Review => Review.ProductId == id).ToListAsync();
     }
 
 

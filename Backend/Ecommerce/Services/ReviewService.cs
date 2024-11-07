@@ -29,7 +29,7 @@ public class ReviewService
         return await _reviewRepository.GetReviewById(id);
     }
 
-    public async Task<Review> GetReviewByProductAsync(int id)
+    public async Task<List<Review>> GetReviewByProductAsync(int id)
     {
         return await _reviewRepository.GetReviewByProduct(id);
     }
@@ -45,7 +45,7 @@ public class ReviewService
         var newReview = new Review
         {
             Text = model.Text,
-            Category = model.Category, // aqui usar la IA para que la evalue sola
+            Label = model.Label, // aqui usar la IA para que la evalue sola
             PublicationDate = model.Date,
             UserId = model.UserId,
             ProductId = model.ProductId
