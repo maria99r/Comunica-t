@@ -90,7 +90,7 @@ export class ApiService {
   }
 
   private getHeader(accept = null, contentType = null): HttpHeaders {
-    let header: any = { 'Authorization': `Bearer ${this.jwt}`};
+    let header: any = { 'Authorization': `Bearer ${this.jwt}` };
     // Para cuando haya que poner un JWT
 
     if (accept)
@@ -103,31 +103,6 @@ export class ApiService {
   }
 
 
-  // Obtener todos los productos
-
-  async getAllProducts(): Promise<Product[]> {
-    const requests: Observable<Object>[] = [];
-
-    for (let i = 1; i <= 12; i++) {
-      requests.push(this.http.get(`${this.BASE_URL}Product/${i}`));
-    }
-
-    const allDataRaw: any[] = await lastValueFrom(forkJoin(requests));
-    const products: Product[] = [];
-
-    for (const data of allDataRaw) {
-      const product: Product = {
-        productId: data.productId,
-        name: data.name,
-        price: data.price,
-        stock: data.stock,
-        description: data.description,
-        image: data.image
-      }
-      products.push(product)
-    }
-    return products;
-  }
 
   // busqueda de productos (con la paginacion) (devuelve los productos y el nº de paginas)
   async searchProducts(searchDto: SearchDto): Promise<{ products: Product[], totalPages: number }> {
@@ -137,6 +112,26 @@ export class ApiService {
     const response = await lastValueFrom(
       this.http.post<{ products: Product[], totalPages: number }>(url, searchDto, { headers }));
     return response;
+  }
+
+
+  // devuelve producto con esa id (Para vista detalle de productos)
+  async getProduct(id: number): Promise<Product> {
+    const request: Observable<Object> =
+      this.http.get(`${this.BASE_URL}Product/${id}`);
+    const dataRaw: any = await lastValueFrom(request);
+    const product: Product = {
+      productId: dataRaw.productId,
+      name: dataRaw.name,
+      image: dataRaw.image,
+      price: dataRaw.price,
+      description: dataRaw.description,
+      stock: dataRaw.stock,
+      reviews: dataRaw.reviews
+    };
+    console.log(product)
+
+    return product;
   }
 
 

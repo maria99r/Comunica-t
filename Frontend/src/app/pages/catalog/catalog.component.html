@@ -55,25 +55,27 @@
     @for (product of filteredProducts; track product.productId) {
 
     <div class="w-10 h-auto card-container m-auto mt-4">
-        <div class="m-auto h-20rem card-advantage">
+        <a [routerLink]="['/product', product.productId]">
+            <div class="m-auto h-20rem card-advantage">
 
-            <img [src]="IMG_URL + product.image">
+                <img [src]="IMG_URL + product.image">
 
-            <div class="card-content">
-                <h2>{{product.name}}</h2>
+                <div class="card-content">
+                    <h2>{{product.name}}</h2>
 
-                <div class="card-data">
-                    <p>{{product.price}}€</p>
+                    <div class="card-data">
+                        <p>{{product.price / 100}}€</p>
 
-                    @if (product.stock > 0) {
-                    <p style="color:darkgreen">Stock</p>
-                    } @else {
-                    <p style="color:darkred">Sin stock</p>
-                    }
-                    <p>Reseñas</p>
+                        @if (product.stock > 0) {
+                        <p style="color:darkgreen">Stock</p>
+                        } @else {
+                        <p style="color:darkred">Sin stock</p>
+                        }
+                        <p>😀</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
     }
     @empty {

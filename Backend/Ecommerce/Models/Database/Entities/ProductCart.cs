@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class ProductCart
+[Keyless]
+public class ProductCart
 {
     public int Quantity { get; set; }
 

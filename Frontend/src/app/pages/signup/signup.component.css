@@ -1,4 +1,4 @@
-/* Contenedor principal para la página de registro */
+/* contenedor principal pagina de registro */
 .signup-container {
   display: flex; 
   flex-direction: column; 
@@ -9,7 +9,7 @@
   position: relative;
 }
 
-/* Estilo para el logo de la parte superior */
+/* logo */
 .logo {
   position: absolute;
   top: 20px;
@@ -17,13 +17,11 @@
   transform: translateX(-50%);
 }
 
-/* Tamaño del logo */
 .logo img {
   width: 250px;
-  height: auto;
 }
 
-/* Caja de inicio de sesión */
+/* caja inicio de sesión */
 .signup-box {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -34,10 +32,11 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   position: relative;
   padding-bottom: 5px;
-  margin-top: 25%;
+  margin-top: 35%;
+
 }
 
-/* Logo del usuario que aparece en la parte superior de la caja */
+/* caja con iconos */
 .user-logo {
   position: absolute;
   top: -50px;
@@ -45,37 +44,24 @@
   transform: translateX(-50%);
 }
 
-/* Tamaño y estilo del logo del usuario */
+/* icono usuario */
 .user-logo img {
   width: 100px;
-  height: auto;
   border-radius: 50%;
 }
 
-/* Estilo general para los párrafos */
-p {
-  color: white;
-}
-
-/* Estilo para el título "Registro" */
+/* titulo registro*/
 .registrar {
   font-size: 20px; 
-  margin-bottom: 30px; 
+  margin-bottom: 20px; 
   font-weight: bold;
 }
 
-/* Margen inferior para cada campo de entrada */
-.p-field {
-  margin-bottom: 0rem;
-}
 
-/* Contenedor para los campos de entrada con iconos */
 .icon-input-container {
   position: relative; 
-  width: 100%; 
 }
-
-/* Estilo para el icono dentro del campo de entrada */
+/*iconos*/
 .input-icon {
   position: absolute; 
   top: 50%;
@@ -85,7 +71,7 @@ p {
   font-size: 1.2em;
 }
 
-/* Estilo para los campos de entrada */
+/*campos entrada*/
 .icon-input {
   width: 100%; 
   padding: 10px 40px;
@@ -94,33 +80,31 @@ p {
   box-sizing: border-box;
 }
 
-/* Estilo cuando el campo de entrada está enfocado */
+/* campo de entrada enfocado */
 .icon-input:focus {
   border-color: #fdbb2d; 
   outline: none;
 }
 
-/* Estilo para el texto de registro */
-.login-link p {
+p {
   font-size: 0.8em; 
   white-space: nowrap; 
   margin-top: 1rem; 
   color: white; 
 }
 
-/* Estilo para el enlace de registro */
-.login-link a {
+a {
   color: #fdbb2d; 
   text-decoration: none; 
   font-weight: bold; 
 }
 
-/* Estilo del enlace al pasar el cursor */
-.login-link a:hover {
-  text-decoration: underline; /* Añade subrayado al pasar el cursor */
+
+a:hover {
+  text-decoration: underline;
 }
 
-/* Estilo para el botón de envío */
+/* botón de envío */
 input[type="submit"] {
   background-color: #7461c7; 
   color: #ffffff; 
@@ -132,12 +116,12 @@ input[type="submit"] {
   transition: background-color 0.3s; 
 }
 
-/* Estilo para el botón de envío al pasar el cursor */
+/* botón de envío al pasar el cursor */
 input[type="submit"]:hover {
   background-color: #5e47a1;
 }
 
-/* Estilo para el botón de envío desactivado */
+/* botón de envío desactivado */
 input[type="submit"]:disabled {
   background-color: #c3b7e6;
   color: #ffffff;
@@ -145,46 +129,12 @@ input[type="submit"]:disabled {
   opacity: 0.7;
 }
 
-/* Clase para añadir margen superior e inferior al botón*/
-.p-mt-3 {
-  margin-top: 30px; /* Margen superior */
-  margin-bottom: 30px; /* Margen inferior */
-}
-
-
-/* clase para los mensajes de error*/
-.error{
+/* clase para los mensajes de error */
+.error {
   color: rgb(255, 110, 110);
   text-align: left;
-  font-size: smaller;
+  font-size: x-small;
   height: 14px;
-  padding-top: 5px;
-}
-
-
-
-
-
-/* Pantallas de hasta 480px */
-@media (max-width: 480px) {
-  .logo img {
-    width: 150px; /* Reducir logo */
-  }
-
-  .login-box {
-    padding: 1rem; /* Menos padding */
-    max-width: 90%;  /* Limitar el ancho */
-  }
-
-  .user-logo img {
-    width: 70px; /* Reducir logo del usuario */
-  }
-
-  .iniciar {
-    font-size: 1.2em; /* Fuente más pequeña */
-  }
-
-  .submit-button {
-    font-size: 0.9em; /* Fuente más pequeña para el botón */
-  }
+  padding-top: 2px;
+  margin-bottom: 10px;
 }

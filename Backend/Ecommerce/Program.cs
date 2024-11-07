@@ -1,6 +1,5 @@
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
-using Ecommerce.Models.Database.Repositories.Interfaces;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
@@ -16,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<EcommerceContext>();
 builder.Services.AddScoped<UnitOfWork>();
 
-// Inyección de todos los repositorios
+// Inyecciï¿½n de todos los repositorios
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ReviewRepository>();
 builder.Services.AddScoped<ProductRepository>();
@@ -26,9 +25,10 @@ builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<UserMapper>();
 
-// Inyección de UserService
+// Inyecciï¿½n de Servicios
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
 
 // Inyeccion de la IA
@@ -40,7 +40,7 @@ builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuración de CORS
+// Configuraciï¿½n de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder =>
@@ -53,7 +53,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
-// Configuración de autenticación
+// Configuraciï¿½n de autenticaciï¿½n
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {
@@ -89,8 +89,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+await SeedDataBaseAsync(app.Services);
+
+app.Run();
+
 // metodo para el seeder
-static void SeedDataBaseAsync(IServiceProvider serviceProvider)
+static async Task SeedDataBaseAsync(IServiceProvider serviceProvider)
 {
     using IServiceScope scope = serviceProvider.CreateScope();
     using EcommerceContext dbContext = scope.ServiceProvider.GetService<EcommerceContext>();
@@ -99,10 +104,6 @@ static void SeedDataBaseAsync(IServiceProvider serviceProvider)
     if (dbContext.Database.EnsureCreated())
     {
         Seeder seeder = new Seeder(dbContext);
-        Task task = seeder.SeedAsync();
+        await seeder.SeedAsync();
     }
 }
-
-SeedDataBaseAsync(app.Services);
-
-app.Run();

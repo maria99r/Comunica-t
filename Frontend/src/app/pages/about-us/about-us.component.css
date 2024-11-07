@@ -1,0 +1,84 @@
+a{
+    text-decoration: none;
+}
+
+/* 1º block */
+.panel-top{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-placa-base_23-2151733789.jpg?t=st=1729794199~exp=1729797799~hmac=b66faa72f5783a4ba35b83db8f2e033939890d227b5e901bfd1d319ab6580538&w=740");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    align-content: center;
+    text-shadow: #12182e 0 0 1em;
+    background-attachment: fixed;
+}
+
+/* 2º block (with shop button) */
+.panel-down{
+    background:linear-gradient(to top, transparent, rgb(255, 255, 255)), url("https://img.freepik.com/vector-gratis/diseno-concepto-abstracto-tecnologia-malla-alambre_1017-14624.jpg?t=st=1729795122~exp=1729798722~hmac=dde2bf0b5f7121fdfddc12ee8506d660202912da1677bc675c2bb6fb9535d3c6&w=1280");
+    background-size: cover;
+    background-position: top;
+    text-align: center;
+    align-content: center;
+    color: #2A345D;
+}
+
+/* Contenedor general */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    font-size: larger;
+}
+
+/* Fila específica */
+.fila {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: stretch; /* Fuerza que todas las tarjetas tengan la misma altura */
+}
+
+/* Estilos de tarjeta */
+.card-advantage {
+    background-color: #f0f0f0;
+    color: #2A345D;
+    width: 30%; 
+    max-width: 400px;
+    padding: 20px;
+    text-align: left;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 350px; 
+}
+
+/* Segunda fila: 2 tarjetas ocupando más espacio */
+.fila:nth-child(2) .card-advantage {
+    width: 45%; 
+    height: 350px; 
+}
+
+/* Imagen y nombre */
+.card-advantage .text-2xl {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Ajustes para el texto */
+.card-advantage p {
+    flex-grow: 1;
+    margin: 0;
+}
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .card-advantage {
+        flex: 1 1 100%;              
+    }
+}               

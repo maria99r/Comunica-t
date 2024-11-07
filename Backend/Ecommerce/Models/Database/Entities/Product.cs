@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Ecommerce.Models.Database.Entities;
 
-public partial class Product
+public class Product
 {
-    public int ProductId { get; set; }
+    public int Id { get; set; }
 
     public string Name { get; set; } = null!;
 
-    public decimal Price { get; set; }
+    public int Price { get; set; }
 
     public int Stock { get; set; }
 

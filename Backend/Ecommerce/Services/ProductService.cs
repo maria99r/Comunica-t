@@ -27,7 +27,7 @@ public class ProductService
         return await _productRepository.GetProductById(id);
     }
 
-    public async Task<(List<Product> Products, int TotalPages)> SearchProductsAsync(SearchDto searchDto)
+    public async Task<(List<Product> Product, int TotalPages)> SearchProductsAsync(SearchDto searchDto)
     {
 
         var products = await _productRepository.GetAllProductsAsync();
@@ -41,8 +41,9 @@ public class ProductService
             Console.WriteLine($"Búsqueda: {searchDto.consulta}, Coincidencias: {string.Join(", ", matchedNames)}");
 
             products = products.Where(p =>
-            p.Name.Contains(searchDto.consulta, StringComparison.OrdinalIgnoreCase) ||
-            matchedNames.Contains(p.Name)).ToList();
+                matchedNames.Any(name => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)) ||
+                p.Name.Contains(searchDto.consulta, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
         }
 
 

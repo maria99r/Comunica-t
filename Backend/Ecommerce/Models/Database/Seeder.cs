@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Helpers;
 using Ecommerce.Models.Database.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database;
 
@@ -8,7 +7,7 @@ public class Seeder
 {
     private readonly EcommerceContext _context;
 
-    public Seeder (EcommerceContext context)
+    public Seeder(EcommerceContext context)
     {
         _context = context;
     }
@@ -17,6 +16,7 @@ public class Seeder
     {
         await SeedUsersAsync();
         await SeedProductAsync();
+        //await SeedReviewAsync();
 
         await _context.SaveChangesAsync();
     }
@@ -41,7 +41,7 @@ public class Seeder
                 }
             ];
 
-        await _context.Users.AddRangeAsync(users);
+        await _context.User.AddRangeAsync(users);
     }
 
 
@@ -51,95 +51,213 @@ public class Seeder
         Product[] products = [
                 new Product {
                     Name = "Menú electrónico" ,
-                    Price = 25M,
+                    Price = 2500,
                     Stock = 300,
                     Description = "Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu-electronico.png"
+                    Image = "products/menu/menu-electronico.png"
+                },
+                new Product {
+                    Name = "Menú electrónico - Modo Oscuro" ,
+                    Price = 2500,
+                    Stock = 300,
+                    Description = "Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
+                    Image = "products/menu/menu-electronico-oscuro.png"
                 },
                 new Product {
                     Name = "LOTE DE 5 - Menú electrónico" ,
-                    Price = 115M,
+                    Price = 11500,
                     Stock = 300,
                     Description = "LOTE DE 5 - Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu-electronico.png"
+                    Image = "products/menu/menu-electronico.png"
+                },
+                new Product {
+                    Name = "LOTE DE 10 - Menú electrónico - Colores mixtos" ,
+                    Price = 20000,
+                    Stock = 300,
+                    Description = "LOTE DE 5 - Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
+                    Image = "products/menu/lote-menu.png"
                 },
                 new Product {
                     Name = "Selector de opciones" ,
-                    Price = 15M,
+                    Price = 1500,
                     Stock = 300,
                     Description = "Con este apoyo visual, la persona con problemas de comunicacion pueda elegir entre las dos opciones y comunicar lo que prefiere.",
-                    Image = "products/selector-opciones.png"
+                    Image = "products/selector/selector-opciones.png"
+                },
+                new Product {
+                    Name = "Selector de opciones - Modo Oscuro" ,
+                    Price = 1500,
+                    Stock = 300,
+                    Description = "Con este apoyo visual, la persona con problemas de comunicacion pueda elegir entre las dos opciones y comunicar lo que prefiere.",
+                    Image = "products/selector/selector-opciones-oscuro.png"
                 },
                 new Product {
                     Name = "LOTE DE 10 - Selector de opciones" ,
-                    Price = 135M,
+                    Price = 13500,
                     Stock = 300,
                     Description = "LOTE DE 10 - Con este apoyo visual, la persona con problemas de comunicacion pueda elegir entre las dos opciones y comunicar lo que prefiere.",
-                    Image = "products/selector-opciones.png"
+                    Image = "products/selector/lote-selector.png"
                 },
                 new Product {
                     Name = "Calendario de rutinas" ,
-                    Price = 12.75M, // los decimales llevan el sufijo M
+                    Price = 1275,
                     Stock = 300,
                     Description = "Con una base de datos y una aplicación, a cada persona se le pondrían unas tareas durante la mañana y otras durante la noche.",
-                    Image = "products/calendario-rutinas.png"
+                    Image = "products/calendario/calendario-rutinas.png"
                 },
                 new Product {
                     Name = "LOTE DE 10 - Calendario de rutinas" ,
-                    Price = 115M, 
+                    Price = 11500,
                     Stock = 300,
                     Description = "LOTE DE 10 - Con una base de datos y una aplicación, a cada persona se le pondrían unas tareas durante la mañana y otras durante la noche.",
-                    Image = "products/calendario-rutinas.png"
+                    Image = "products/calendario/calendario-rutinas.png"
                 },
                 new Product {
                     Name = "Localizador gps con Lora" ,
-                    Price = 10M,
+                    Price = 1000,
                     Stock = 300,
                     Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
                     "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador-lora.png"
+                    Image = "products/localizador/localizador-lora.png"
+                },
+                new Product {
+                    Name = "Localizador gps con Lora - Azul" ,
+                    Price = 1000,
+                    Stock = 300,
+                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
+                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
+                    Image = "products/localizador/localizador-lora-azul.png"
+                },
+                new Product {
+                    Name = "Localizador gps con Lora - Morado" ,
+                    Price = 1000,
+                    Stock = 300,
+                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
+                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
+                    Image = "products/localizador/localizador-lora-morado.png"
+                },
+                new Product {
+                    Name = "Localizador gps con Lora - Naranja" ,
+                    Price = 1000,
+                    Stock = 300,
+                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
+                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
+                    Image = "products/localizador/localizador-lora-naranja.png"
+                },
+                new Product {
+                    Name = "Localizador gps con Lora - Verde" ,
+                    Price = 1000,
+                    Stock = 300,
+                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
+                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
+                    Image = "products/localizador/localizador-lora-verde.png"
                 },
                 new Product {
                     Name = "LOTE DE 10 - Localizador gps con Lora" ,
-                    Price = 90M,
+                    Price = 9000,
                     Stock = 300,
                     Description = "LOTE DE 10 - Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
                     "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador-lora.png"
+                    Image = "products/localizador/lote-localizadores.png"
                 },
                 new Product {
                     Name = "LOTE DE 25 - Localizador gps con Lora" ,
-                    Price = 225M,
+                    Price = 22500,
                     Stock = 300,
                     Description = "LOTE DE 25 - Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
                     "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador-lora.png"
+                    Image = "products/localizador/lote-localizadores.png"
                 },
                 new Product {
                     Name = "LOTE DE 50 - Localizador gps con Lora" ,
-                    Price = 450M,
+                    Price = 45000,
                     Stock = 300,
                     Description = "LOTE DE 50 - Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
                     "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador-lora.png"
+                    Image = "products/localizador/lote-localizadores.png"
                 },
                 new Product {
                     Name = "Identificador de zonas" ,
-                    Price = 35.50M, 
+                    Price = 3550,
                     Stock = 300,
                     Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador-zonas.png"
+                    Image = "products/identificador/identificador-zonas.png"
                 },
                 new Product {
-                    Name = "LOTE DE 10 - Identificador de zonas" ,
-                    Price = 325M,
+                    Name = "Identificador de zonas - Azul" ,
+                    Price = 3550,
+                    Stock = 300,
+                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
+                    Image = "products/identificador/identificador-zonas-azul.png"
+                },
+                new Product {
+                    Name = "Identificador de zonas - Beige" ,
+                    Price = 3550,
+                    Stock = 300,
+                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
+                    Image = "products/identificador/identificador-zonas-beige.png"
+                },
+                new Product {
+                    Name = "Identificador de zonas - Gris" ,
+                    Price = 3550,
+                    Stock = 300,
+                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
+                    Image = "products/identificador/identificador-zonas-gris.png"
+                },
+                new Product {
+                    Name = "Identificador de zonas - Morado" ,
+                    Price = 3550,
+                    Stock = 300,
+                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
+                    Image = "products/identificador/identificador-zonas-morado.png"
+                },
+                new Product {
+                    Name = "LOTE DE 5 - Identificador de zonas - Colores mixtos" ,
+                    Price = 32500,
+                    Stock = 300,
+                    Description = "LOTE DE 5 - Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
+                    Image = "products/identificador/lote-identificador.png"
+                },
+                new Product {
+                    Name = "LOTE DE 10 - Identificador de zonas - Colores mixtos" ,
+                    Price = 60000,
                     Stock = 300,
                     Description = "LOTE DE 10 - Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador-zonas.png"
+                    Image = "products/identificador/lote-identificador.png"
                 }
             ];
 
-        await _context.Products.AddRangeAsync(products);
+        await _context.Product.AddRangeAsync(products);
+    }
+
+
+    // review de prueba para el calendario de rutinas
+    private async Task SeedReviewAsync()
+    {
+        Review[] reviews = [
+                new Review {
+                    Text ="Me encanta este producto",
+                    Category = 1,
+                    PublicationDate = DateTime.UtcNow,
+                    UserId = 1,
+                    ProductId = 8
+                },
+                new Review {
+                    Text ="No me gusta mucho",
+                    Category = 0,
+                    PublicationDate = DateTime.UtcNow,
+                    UserId = 2,
+                    ProductId = 8
+                },
+                new Review {
+                    Text ="Lo odio",
+                    Category = -1,
+                    PublicationDate = DateTime.UtcNow,
+                    UserId = 2,
+                    ProductId = 8
+                }
+            ];
+        await _context.Review.AddRangeAsync(reviews);
     }
 
 
