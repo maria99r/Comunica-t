@@ -40,11 +40,6 @@
         @for (review of reviews; track review.reviewId) {
             <div class="review">
                 <span>{{review.userId}}</span> 
-                @for (user of users; track user.id) {
-                    @if(user.id == review.userId){
-                        <span>{{user.name}}</span>
-                    }
-                }
                 <span> {{review.date}}</span>
                 <p>{{review.text}}</p>
             </div>

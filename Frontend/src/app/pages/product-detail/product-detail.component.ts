@@ -11,7 +11,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user';
 
 
 @Component({
@@ -29,7 +28,7 @@ export class ProductDetailComponent implements OnInit {
 
   public readonly IMG_URL = environment.apiImg;
 
-  users: User[];
+
 
   quantity = 1;
 
@@ -42,13 +41,6 @@ export class ProductDetailComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
     this.product = await this.api.getProduct(id);
     this.reviews = await this.api.loadReviews(id);
-
-    // obtiene info de los usuarios que han comentado
-    for(const review of this.reviews){
-      this.users.push(await this.api.getUser(review.userId));
-    }
-    console.log(this.users);
-    
   }
 
 
