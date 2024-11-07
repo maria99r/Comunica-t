@@ -1,7 +1,7 @@
 /* contenedor principal pagina de registro */
 .signup-container {
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
@@ -52,20 +52,20 @@
 
 /* titulo registro*/
 .registrar {
-  font-size: 20px; 
-  margin-bottom: 20px; 
+  font-size: 20px;
+  margin-bottom: 20px;
   font-weight: bold;
 }
 
-
 .icon-input-container {
-  position: relative; 
+  position: relative;
+}
 
 /*iconos*/
 .input-icon {
-  position: absolute; 
+  position: absolute;
   top: 50%;
-  left: 10px; 
+  left: 10px;
   transform: translateY(-50%);
   color: gray;
   font-size: 1.2em;
@@ -73,7 +73,7 @@
 
 /*campos entrada*/
 .icon-input {
-  width: 100%; 
+  width: 100%;
   padding: 10px 40px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -82,23 +82,22 @@
 
 /* campo de entrada enfocado */
 .icon-input:focus {
-  border-color: #fdbb2d; 
+  border-color: #fdbb2d;
   outline: none;
 }
 
 p {
-  font-size: 0.8em; 
-  white-space: nowrap; 
-  margin-top: 1rem; 
-  color: white; 
+  font-size: 0.8em;
+  white-space: nowrap;
+  margin-top: 1rem;
+  color: white;
 }
 
 a {
-  color: #fdbb2d; 
-  text-decoration: none; 
-  font-weight: bold; 
+  color: #fdbb2d;
+  text-decoration: none;
+  font-weight: bold;
 }
-
 
 a:hover {
   text-decoration: underline;
@@ -106,14 +105,14 @@ a:hover {
 
 /* botón de envío */
 input[type="submit"] {
-  background-color: #7461c7; 
-  color: #ffffff; 
-  padding: 12px 20px; 
+  background-color: #7461c7;
+  color: #ffffff;
+  padding: 12px 20px;
   border: none;
-  border-radius: 100px; 
+  border-radius: 100px;
   cursor: pointer;
-  font-size: 16px; 
-  transition: background-color 0.3s; 
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 /* botón de envío al pasar el cursor */
