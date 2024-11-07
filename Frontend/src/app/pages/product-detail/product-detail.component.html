@@ -1,5 +1,6 @@
 <app-nav></app-nav>
 
+
 @if (product) {
 <div class="container flex flex-wrap justify-content-center m-8 ">
 
@@ -30,8 +31,18 @@
 
     <section class="review w-full">
         <h1>Reseñas</h1>
+        <p>{{reviews.length}} reseñas.</p>
 
-        @for (review of product.reviews; track review.reviewId) {
+        <p *ngIf="!authService.isAuthenticated()" >
+           Para poder escribir una reseña debe <a href="/login">iniciar sesión.</a> 
+        </p>
+
+        @for (review of reviews; track review.reviewId) {
+            <div class="review">
+                <span>{{review.userId}}</span> 
+                <span> {{review.date}}</span>
+                <p>{{review.text}}</p>
+            </div>
             
         }
         @empty {

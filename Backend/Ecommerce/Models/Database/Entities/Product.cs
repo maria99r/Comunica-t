@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+
 
 namespace Ecommerce.Models.Database.Entities;
 
+[Index(nameof(Id), IsUnique = true)]
 public class Product
 {
     public int Id { get; set; }

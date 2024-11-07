@@ -52,10 +52,10 @@
 
 <div class="product-flex">
     @if (filteredProducts.length > 0) {
-    @for (product of filteredProducts; track product.productId) {
+    @for (product of filteredProducts; track product.id) {
 
     <div class="w-10 h-auto card-container m-auto mt-4">
-        <a [routerLink]="['/product', product.productId]">
+        <a [routerLink]="['/product', product.id]">
             <div class="m-auto h-20rem card-advantage">
 
                 <img [src]="IMG_URL + product.image">
