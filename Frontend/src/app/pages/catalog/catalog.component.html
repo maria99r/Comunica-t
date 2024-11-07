@@ -69,9 +69,10 @@
                         @if (product.stock > 0) {
                         <p style="color:darkgreen">Stock</p>
                         } @else {
-                        <p style="color:darkred">Sin stock</p>
+                        <p style="color:darkred">No stock</p>
                         }
-                        <p>😀</p>
+                        <p>😀({{product.reviews.length}})</p>
+                        
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@
 
 .card-data{
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
 }
 
 .card-content h2{
