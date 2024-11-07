@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models.Database.Entities;
 
 
+[Index(nameof(Id), IsUnique = true)]
 public class Review
 {
     public string Text { get; set; } = null!;
 
-    public int Category { get; set; }
+    public int Label { get; set; }
 
     public DateTime PublicationDate { get; set; }
 
