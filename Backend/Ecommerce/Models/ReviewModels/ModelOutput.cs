@@ -8,10 +8,10 @@ namespace Ecommerce.Models.ReviewModels
         public string Text { get; set; }
 
         [ColumnName(@"category")]
-        public string Category { get; set; }
+        public int Category { get; set; }
 
         [ColumnName(@"PredictedCategory")]
-        public string PredictedCategory { get; set; }
+        public int PredictedCategory { get; set; }
 
         [ColumnName(@"Score")]
         public float[] Score { get; set; }
