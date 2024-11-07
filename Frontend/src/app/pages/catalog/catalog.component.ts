@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavComponent } from '../../components/nav/nav.component';
-import { FooterComponent } from '../../components/footer/footer.component';
+
+import { CommonModule } from '@angular/common';
+import { NavComponent } from "../../components/nav/nav.component";
+import { FooterComponent } from "../../components/footer/footer.component";
+
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
@@ -11,18 +14,14 @@ import { environment } from '../../../environments/environment';
 import { CriterioOrden, SearchDto } from '../../models/searchDto';
 import { SelectButtonModule } from 'primeng/selectbutton';
 
+
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [
-    NavComponent,
-    FooterComponent,
-    InputTextModule,
-    FormsModule,
-    PaginatorModule,
-    RouterModule,
-    SelectButtonModule,
-  ],
+
+  imports: [NavComponent, FooterComponent, InputTextModule,
+    FormsModule, PaginatorModule, RouterModule, SelectButtonModule, CommonModule],
+
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
 })
@@ -79,7 +78,7 @@ export class CatalogComponent implements OnInit {
     const searchDto = {
       consulta: this.query,
       Criterio: this.sortCriterio,
-      Orden: this.sortOrder,
+      Orden: this.sortOrder, //por defecto asc
       CantidadPaginas: this.pageSize,
       PaginaActual: this.currentPage,
     };
@@ -94,6 +93,7 @@ export class CatalogComponent implements OnInit {
       const result = await this.apiService.searchProducts(searchDto);
       this.filteredProducts = result.products;
       this.totalPages = result.totalPages;
+
     } catch (error) {
       console.error('Error al cargar los productos:', error);
     }
@@ -112,6 +112,7 @@ export class CatalogComponent implements OnInit {
     this.sortOrder = config.Orden;
     this.pageSize = config.CantidadPaginas;
     this.currentPage = config.PaginaActual;
+
   }
 
   // al avanzar la pagina
@@ -122,12 +123,14 @@ export class CatalogComponent implements OnInit {
 
   // cuando cambie criterio de orden se vuelve a cargar la pagina
   onSortChange(criterio: CriterioOrden) {
+    this.currentPage = 1;
     this.sortCriterio = criterio;
     this.loadProducts();
   }
 
   // cuando cambie el orden se vuelve a cargar la pagina
   onOrderChange(order: boolean) {
+    this.currentPage = 1;
     this.sortOrder = order;
     this.loadProducts();
   }
@@ -145,7 +148,9 @@ export class CatalogComponent implements OnInit {
 
   // nº de productos por pagina
   onPageSizeChange(size: number) {
+    this.currentPage = 1;
     this.pageSize = size;
     this.loadProducts();
   }
+
 }

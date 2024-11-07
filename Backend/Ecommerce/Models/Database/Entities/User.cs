@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecommerce.Models.Database.Entities;
 
 [Index(nameof(Email), IsUnique=true)]
+[Index(nameof(Id), IsUnique = true)]
 public class User
 {
     [Key]
