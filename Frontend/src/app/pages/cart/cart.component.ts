@@ -30,17 +30,17 @@ export class CartComponent implements OnInit {
   // Método para actualizar la cantidad de un producto en el carrito
   changeQuantity(product: ProductWithQuantity, quantity: number): void {
     if (quantity <= 0) {
-      this.removeProduct(product.id); // Si la cantidad es 0 o menos, se elimina el producto
+      this.removeProduct(product.id); 
     } else {
-      product.quantity = quantity;  // Actualiza la cantidad en el producto
-      this.cartService.updateCartProduct(product); // Actualiza el producto en el carrito del servicio
+      product.quantity = quantity;  
+      this.cartService.updateCartProduct(product); 
     }
   }
 
   // Método para eliminar un producto del carrito
   removeProduct(id: number): void {
-    this.cartService.removeFromCart(id); // Elimina el producto del carrito en el servicio
-    this.cartProducts = this.cartProducts.filter(p => p.id !== id); // Actualiza la lista local
+    this.cartService.removeFromCart(id); 
+    this.cartProducts = this.cartProducts.filter(p => p.id !== id); 
   }
 
   // Calcula el total del carrito

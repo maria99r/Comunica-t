@@ -30,7 +30,7 @@ export class CartService {
       cart.push({ ...product, quantity: product.quantity || 1 });
     }
 
-    this.saveCart(cart);  // Actualizamos el carrito en localStorage
+    this.saveCart(cart);  
   }
 
   // Actualizar la cantidad de un producto específico en el carrito
@@ -40,14 +40,14 @@ export class CartService {
     
     if (index !== -1) {
       cart[index] = product;
-      this.saveCart(cart);  // Guardamos los cambios en localStorage
+      this.saveCart(cart);  
     }
   }
 
   // Eliminar un producto del carrito
   removeFromCart(id: number): void {
     const cart = this.getCartProducts().filter(p => p.id !== id);
-    this.saveCart(cart);  // Guardamos el carrito actualizado en localStorage
+    this.saveCart(cart);  
   }
 
   // Limpiar el carrito completo

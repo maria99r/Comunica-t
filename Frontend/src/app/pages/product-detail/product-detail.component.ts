@@ -11,6 +11,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';  // Importa el servicio CartService
+import { ProductWithQuantity } from '../../models/product-with-quantity';
 
 
 @Component({
@@ -24,7 +26,7 @@ export class ProductDetailComponent implements OnInit {
 
   product: Product | null = null;
 
-  reviews: Review[];
+  reviews: Review[] = [];  
 
   public readonly IMG_URL = environment.apiImg;
 
@@ -35,7 +37,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private api: ApiService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService) { }
 
   async ngOnInit(): Promise<void> {
     const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
@@ -43,7 +46,20 @@ export class ProductDetailComponent implements OnInit {
     this.reviews = await this.api.loadReviews(id);
   }
 
+  // Método para añadir al carrito
+  addToCart(): void {
+    if (this.product) {
+      const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+      const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product!.id);
 
-  
+      if (productInCart) {
+        productInCart.quantity += this.quantity;
+      } else {
+        cart.push({ ...this.product, quantity: this.quantity });
+      }
 
+      localStorage.setItem('cartProducts', JSON.stringify(cart));
+      console.log('Producto añadido al carrito:', this.product);
+    }
+  }
 }
