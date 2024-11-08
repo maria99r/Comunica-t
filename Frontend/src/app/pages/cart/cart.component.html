@@ -8,6 +8,36 @@
     </p>
 </div>
 
-
+<div class="cart-container">
+    <div class="cart-content">
+      <h2>Carrito de Compras</h2>
+  
+      <div *ngIf="cartProducts.length === 0" class="empty-cart">
+        <p>Tu carrito está vacío.</p>
+      </div>
+    
+          <div *ngIf="cartProducts.length > 0">
+            <div class="cart-product" *ngFor="let product of cartProducts">
+              <img [src]="IMG_URL + product.image" alt="{{ product.name }}" />
+              
+              <div class="product-details">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <p>{{ product.price / 100 }} €</p>
+      
+                <label>Cantidad:</label>
+                <input type="number" [(ngModel)]="product.quantity" (ngModelChange)="changeQuantity(product, product.quantity)" min="1" />
+                
+                <button pButton label="Eliminar" (click)="removeProduct(product.id)"></button>
+              </div>
+            </div>
+      
+            <div class="cart-summary">
+              <p>Total: {{ total | currency:'EUR' }}</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
 <!-- FOOTER -->
 <app-footer></app-footer>
