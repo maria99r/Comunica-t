@@ -37,6 +37,13 @@
            Para poder escribir una reseña debe <a href="/login">iniciar sesión.</a> 
         </p>
 
+        <!-- FORMULARIO PARA HACER RESEÑA -->
+        <!-- <form *ngIf="authService.isAuthenticated()" (ngSubmit)="search()">
+                <textarea  pInputText [(ngModel)]="textReview" [ngModelOptions]="{standalone: true}" placeholder="Escribe una reseña">
+                </textarea> 
+                <input type="submit" value="Enviar" class="p-button font-bold ml-2" />
+        </form> -->
+
         @for (review of reviews; track review.reviewId) {
             <div class="review">
                 <span>{{review.userId}}</span> 
