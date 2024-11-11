@@ -27,6 +27,8 @@ export class ProductDetailComponent implements OnInit {
 
   reviews: Review[];
 
+  textReview : String;
+
   public readonly IMG_URL = environment.apiImg;
 
   users: User[];
@@ -52,6 +54,14 @@ export class ProductDetailComponent implements OnInit {
   }
 
 
-  
+  // crear reseña 
+  async publicReview(){
+    try {
+      const result = await this.api.publicReview(this.textReview);
+
+    } catch (error) {
+      console.error('Error al publicar la reseña: ', error);
+    }
+  }
 
 }

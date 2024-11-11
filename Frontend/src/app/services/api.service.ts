@@ -178,4 +178,8 @@ export class ApiService {
     };
     return user;
   }
+
+  async publicReview(textReview: String): Promise<Result<any>> { // Registro
+    return this.post<any>('Review/newReview', textReview);
+  }
 }
