@@ -25,13 +25,13 @@ export class ProductDetailComponent implements OnInit {
 
   product: Product | null = null;
 
-  reviews: Review[];
+  reviews: Review[] = [];
 
   textReview : String;
 
   public readonly IMG_URL = environment.apiImg;
 
-  users: User[];
+  users: User[] = [];
 
   quantity = 1;
 
@@ -41,14 +41,20 @@ export class ProductDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
+    // id del producto
     const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
+
+    // carga el producto
     this.product = await this.api.getProduct(id);
+
+    // carga sus reseñas
     this.reviews = await this.api.loadReviews(id);
 
     // obtiene info de los usuarios que han comentado
     for(const review of this.reviews){
       this.users.push(await this.api.getUser(review.userId));
     }
+
     console.log(this.users);
     
   }

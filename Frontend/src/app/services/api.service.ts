@@ -137,10 +137,9 @@ export class ApiService {
   }
 
   // carga de las reseñas segun el producto
-  async loadReviews(id: number): Promise< Review[]> {
+  async loadReviews(id: number): Promise<Review[]> {
 
     const request: Observable<Object> = this.http.get(`${this.BASE_URL}Review/byproduct/${id}`);
-
     const dataRaw: any = await lastValueFrom(request);
 
     const reviews: Review[] = [];
@@ -149,7 +148,7 @@ export class ApiService {
       const review: Review = {
         reviewId: data.id,
         text: data.text,
-        category: data.category,
+        label: data.label,
         date: data.publicationDate,
         userId: data.userId,
         productId: data.productId
@@ -160,6 +159,7 @@ export class ApiService {
       console.log(reviews)
     }
     return reviews;
+
   }
 
   async getUser(id: number): Promise<User> {
@@ -169,12 +169,12 @@ export class ApiService {
     const dataRaw: any = await lastValueFrom(request);
 
     const user: User = {
-      id: dataRaw.productId,
+      id: id,
       name: dataRaw.name,
-      email : dataRaw.email,
-      address : dataRaw.address,
+      email: dataRaw.email,
+      address: dataRaw.address,
       role: dataRaw.role
-      
+
     };
     return user;
   }

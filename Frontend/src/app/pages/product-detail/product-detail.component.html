@@ -33,29 +33,46 @@
         <h1>Reseñas</h1>
         <p>{{reviews.length}} reseñas.</p>
 
-        <p *ngIf="!authService.isAuthenticated()" >
-           Para poder escribir una reseña debe <a href="/login">iniciar sesión.</a> 
+        <p *ngIf="!authService.isAuthenticated()">
+            Para poder escribir una reseña debe <a href="/login">iniciar sesión.</a>
         </p>
 
         <!-- FORMULARIO PARA HACER RESEÑA -->
-        <form *ngIf="authService.isAuthenticated()" (ngSubmit)="publicReview()">
-                <textarea  pInputText [(ngModel)]="textReview" [ngModelOptions]="{standalone: true}" placeholder="Escribe una reseña">
-                </textarea> 
+        <div *ngIf="authService.isAuthenticated()">
+            <form (ngSubmit)="publicReview()">
+                <textarea pInputText [(ngModel)]="textReview" [ngModelOptions]="{standalone: true}"
+                    placeholder="Escribe una reseña">
+                </textarea>
                 <input type="submit" value="Enviar" class="p-button font-bold ml-2" />
-        </form>
+            </form>
+        </div>
+
+
+        <br>
 
         @for (review of reviews; track review.reviewId) {
-            <div class="review">
-                <span>{{review.userId}}</span> 
-                @for (user of users; track user.id) {
-                    @if(user.id == review.userId){
-                        <span>{{user.name}}</span>
-                    }
+        <div class="review">
+            @for (user of users; track user.id) {
+                @if(user.id == review.userId){
+                <span class="font-bold">{{user.name}}</span>
                 }
-                <span> {{review.date}}</span>
-                <p>{{review.text}}</p>
-            </div>
+            }
+            <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
             
+            @switch (review.label) {
+                @case (1) {
+                    <div>😀</div>
+                }
+                @case (0) {
+                    <div>😐</div>
+                }
+                @case (-1) {
+                    <div>😥</div>
+                }
+            }
+            <p>{{review.text}}</p>
+        </div>
+
         }
         @empty {
         <div>No hay reseñas</div>
