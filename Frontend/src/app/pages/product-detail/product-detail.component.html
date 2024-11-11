@@ -15,6 +15,7 @@
         <span class="price">{{product.price/100}}€</span>
         <p>{{product.description}}</p>
 
+        <p class="text-sm text-indigo-500">{{product.stock}} en stock</p>
         <div class="inputQuantity">
             <p-inputNumber [(ngModel)]="quantity" class="w-full" [showButtons]="true" buttonLayout="horizontal"
                 inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1"
@@ -29,22 +30,43 @@
 
     </section>
 
-    <section class="review w-full">
+
+    <section class="w-full">
         <h1>Reseñas</h1>
-        <p>{{reviews.length}} reseñas.</p>
+        <p>{{reviews.length}} reseñas. Media:
+            <span>
+                @switch (this.avg) {
+                @case (1) {
+                ⭐⭐⭐
+                }
+                @case (0) {
+                ⭐⭐✩
+                }
+                @case (-1) {
+                ⭐✩✩
+                }
+                }
+            </span>
+        </p>
 
         <p *ngIf="!authService.isAuthenticated()">
             Para poder escribir una reseña debe <a href="/login">iniciar sesión.</a>
         </p>
 
         <!-- FORMULARIO PARA HACER RESEÑA -->
-        <div *ngIf="authService.isAuthenticated()">
+        <div *ngIf="authService.isAuthenticated() && !hasComment">
+            <p>Añade una reseña:</p>
             <form (ngSubmit)="publicReview()">
-                <textarea pInputText [(ngModel)]="textReview" [ngModelOptions]="{standalone: true}"
-                    placeholder="Escribe una reseña">
+                <textarea class="w-full" rows="10" pInputText [(ngModel)]="textReview"
+                    [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu reseña.">
                 </textarea>
                 <input type="submit" value="Enviar" class="p-button font-bold ml-2" />
             </form>
+        </div>
+
+        <!--  si ya ha comentado -->
+        <div *ngIf="authService.isAuthenticated() && hasComment">
+            <p class="font-bold">Ya has dejado una reseña para este producto. ¡Gracias por tu opinión!</p>
         </div>
 
 
@@ -52,25 +74,28 @@
 
         @for (review of reviews; track review.reviewId) {
         <div class="review">
+            <!-- nombre usuario que ha comentado-->
             @for (user of users; track user.id) {
                 @if(user.id == review.userId){
-                <span class="font-bold">{{user.name}}</span>
+                <span class="font-bold">👤{{user.name}}</span>
                 }
             }
-            <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
-            
+
             @switch (review.label) {
-                @case (1) {
-                    <div>😀</div>
-                }
-                @case (0) {
-                    <div>😐</div>
-                }
-                @case (-1) {
-                    <div>😥</div>
-                }
+            @case (1) {
+            <span>⭐⭐⭐</span>
             }
-            <p>{{review.text}}</p>
+            @case (0) {
+            <span>⭐⭐✩</span>
+            }
+            @case (-1) {
+            <span>⭐✩✩ </span>
+            }
+            }
+            <!-- hay que pasarlo a hora local -->
+            <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
+
+            <p class="text-sm">{{review.text}}</p>
         </div>
 
         }

@@ -7,6 +7,7 @@ import { Product } from '../models/product';
 import { SearchDto } from '../models/searchDto';
 import { Review } from '../models/review';
 import { User } from '../models/user';
+import { ReviewDto } from '../models/reviewDto';
 
 @Injectable({
   providedIn: 'root'
@@ -156,10 +157,9 @@ export class ApiService {
 
       reviews.push(review);
 
-      console.log(reviews)
     }
+    console.log(reviews)
     return reviews;
-
   }
 
   async getUser(id: number): Promise<User> {
@@ -179,7 +179,7 @@ export class ApiService {
     return user;
   }
 
-  async publicReview(textReview: String): Promise<Result<any>> { // Registro
-    return this.post<any>('Review/newReview', textReview);
+  async publicReview(reviewData: ReviewDto): Promise<Result<any>> { // Registro
+    return this.post<any>('Review/newReview', reviewData);
   }
 }
