@@ -11,6 +11,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';  // Importa el servicio CartService
+import { ProductWithQuantity } from '../../models/product-with-quantity';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 
@@ -25,6 +27,7 @@ import { ReviewDto } from '../../models/reviewDto';
 export class ProductDetailComponent implements OnInit {
 
   product: Product | null = null;
+
 
   reviews: Review[] = [];
 
@@ -45,7 +48,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private api: ApiService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService) { }
 
   async ngOnInit(): Promise<void> {
     // id del producto
@@ -72,7 +76,17 @@ export class ProductDetailComponent implements OnInit {
     this.calculeAvg();
   }
 
+  // Método para añadir al carrito
+  addToCart(): void {
+    if (this.product) {
+      const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+      const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product!.id);
 
+      if (productInCart) {
+        productInCart.quantity += this.quantity;
+      } else {
+        cart.push({ ...this.product, quantity: this.quantity });
+      }
   // crear reseña 
   async publicReview() {
     try {
@@ -112,4 +126,8 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
+      localStorage.setItem('cartProducts', JSON.stringify(cart));
+      console.log('Producto añadido al carrito:', this.product);
+    }
+  }
 }
