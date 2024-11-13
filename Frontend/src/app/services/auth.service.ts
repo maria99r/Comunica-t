@@ -43,7 +43,8 @@ export class AuthService {
     return result;
   }
 
-  isAuthenticated(): boolean { // Comprobar si el usuario está logeado
+  // Comprobar si el usuario esta logeado
+  isAuthenticated(): boolean { 
     const token = localStorage.getItem(this.TOKEN_KEY) || sessionStorage.getItem(this.TOKEN_KEY);
     return !!token;
   }

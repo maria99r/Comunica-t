@@ -16,6 +16,13 @@ public class UserRepository : Repository<User, int>
             .FirstOrDefaultAsync(user => user.Email == email);
     }
 
+    public async Task<User> GetById(int id)
+    {
+        return await GetQueryable()
+            .FirstOrDefaultAsync(user => user.Id == id);
+    }
+
+
 
     // Crear un nuevo usuario
     public async Task<User> InsertUserAsync(User newUser)
