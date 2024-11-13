@@ -1,7 +1,7 @@
 export interface Review {
     reviewId : number,
     text : string,
-    category : number,
+    label : number,
     date : Date,
     userId: number,
     productId: number,

@@ -15,7 +15,7 @@ a{
 
 /* 2º block (with shop button) */
 .panel-down{
-    background:linear-gradient(to top, transparent, rgb(255, 255, 255)), url("https://img.freepik.com/vector-gratis/diseno-concepto-abstracto-tecnologia-malla-alambre_1017-14624.jpg?t=st=1729795122~exp=1729798722~hmac=dde2bf0b5f7121fdfddc12ee8506d660202912da1677bc675c2bb6fb9535d3c6&w=1280");
+    background:linear-gradient(to bottom, transparent, rgba(71, 115, 246, 0.5)), url("https://img.freepik.com/vector-gratis/diseno-concepto-abstracto-tecnologia-malla-alambre_1017-14624.jpg?t=st=1729795122~exp=1729798722~hmac=dde2bf0b5f7121fdfddc12ee8506d660202912da1677bc675c2bb6fb9535d3c6&w=1280");
     background-size: cover;
     background-position: top;
     text-align: center;

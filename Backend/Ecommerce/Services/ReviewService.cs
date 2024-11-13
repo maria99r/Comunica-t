@@ -3,6 +3,8 @@ using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
+using Ecommerce.Models.ReviewModels;
+using Microsoft.Extensions.ML;
 
 namespace Ecommerce.Services;
 
@@ -13,10 +15,13 @@ public class ReviewService
 
     private readonly ReviewRepository _reviewRepository;
 
-    public ReviewService(ReviewRepository reviewRepository, UnitOfWork unitOfWork)
+    private readonly PredictionEnginePool<ModelInput, ModelOutput> _model;
+
+    public ReviewService(ReviewRepository reviewRepository, UnitOfWork unitOfWork, PredictionEnginePool<ModelInput, ModelOutput> model)
     {
         _reviewRepository = reviewRepository;
         _unitOfWork = unitOfWork;
+        _model = model;
     }
 
     public async Task<List<Review>> GetAllReviewsAsync()
@@ -40,13 +45,21 @@ public class ReviewService
     public async Task<Review> CreateReviewAsync(ReviewDto model)
     {
         // hay que verificar que el usuario este logueado!!
-        
+
+        // entrada de texto a la ia que predice 
+        var input = new ModelInput
+        {
+            Text = model.Text
+        };
+
+        // prediccion de la categoria
+        ModelOutput prediction = _model.Predict(input);
 
         var newReview = new Review
         {
             Text = model.Text,
-            Label = model.Label, // aqui usar la IA para que la evalue sola
-            PublicationDate = model.Date,
+            Label = (int)prediction.PredictedLabel, // guardo la prediccion de la ia
+            PublicationDate = DateTime.UtcNow,  // lo creo a la fecha de ahora
             UserId = model.UserId,
             ProductId = model.ProductId
         };
