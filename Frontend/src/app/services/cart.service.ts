@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import { ProductWithQuantity } from '../models/product-with-quantity';
+import { CartProduct } from '../models/cart-product';
 
 @Injectable({
   providedIn: 'root'
@@ -9,20 +9,20 @@ export class CartService {
   private readonly CART_KEY = 'cartProducts';
 
   // Obtener productos del carrito desde localStorage
-  getCartProducts(): ProductWithQuantity[] {
+  getCartProducts(): CartProduct[] {
     const cart = localStorage.getItem(this.CART_KEY);
     return cart ? JSON.parse(cart) : [];
   }
 
   // Guardar productos del carrito en localStorage
-  private saveCart(cartProducts: ProductWithQuantity[]): void {
+  private saveCart(cartProducts: CartProduct[]): void {
     localStorage.setItem(this.CART_KEY, JSON.stringify(cartProducts));
   }
 
   // Agregar un producto al carrito
-  addToCart(product: ProductWithQuantity): void {
+  addToCart(product: CartProduct): void {
     const cart = this.getCartProducts();
-    const existingProduct = cart.find(p => p.id === product.id);
+    const existingProduct = cart.find(p => p.productId === product.productId);
     
     if (existingProduct) {
       existingProduct.quantity = (existingProduct.quantity || 0) + (product.quantity || 1);
@@ -34,9 +34,9 @@ export class CartService {
   }
 
   // Actualizar la cantidad de un producto específico en el carrito
-  updateCartProduct(product: ProductWithQuantity): void {
+  updateCartProduct(product: CartProduct): void {
     const cart = this.getCartProducts();
-    const index = cart.findIndex(p => p.id === product.id);
+    const index = cart.findIndex(p => p.productId === product.productId);
     
     if (index !== -1) {
       cart[index] = product;
@@ -46,7 +46,7 @@ export class CartService {
 
   // Eliminar un producto del carrito
   removeFromCart(id: number): void {
-    const cart = this.getCartProducts().filter(p => p.id !== id);
+    const cart = this.getCartProducts().filter(p => p.productId !== id);
     this.saveCart(cart);  
   }
 

@@ -7,7 +7,7 @@ import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { ProductWithQuantity } from '../../models/product-with-quantity';
+import { CartProduct } from '../../models/cart-product';
 
 @Component({
   selector: 'app-cart',
@@ -17,7 +17,7 @@ import { ProductWithQuantity } from '../../models/product-with-quantity';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartProducts: ProductWithQuantity[] = [];
+  cartProducts: CartProduct[] = [];
   public readonly IMG_URL = environment.apiImg;
 
   constructor(private cartService: CartService) {}
@@ -28,9 +28,9 @@ export class CartComponent implements OnInit {
   }
 
   // Método para actualizar la cantidad de un producto en el carrito
-  changeQuantity(product: ProductWithQuantity, quantity: number): void {
+  changeQuantity(product: CartProduct, quantity: number): void {
     if (quantity <= 0) {
-      this.removeProduct(product.id); 
+      this.removeProduct(product.productId); 
     } else {
       product.quantity = quantity;  
       this.cartService.updateCartProduct(product); 
@@ -40,7 +40,7 @@ export class CartComponent implements OnInit {
   // Método para eliminar un producto del carrito
   removeProduct(id: number): void {
     this.cartService.removeFromCart(id); 
-    this.cartProducts = this.cartProducts.filter(p => p.id !== id); 
+    this.cartProducts = this.cartProducts.filter(p => p.productId !== id); 
   }
 
   // Calcula el total del carrito
