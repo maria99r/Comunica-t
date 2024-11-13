@@ -31,6 +31,7 @@ export class CatalogComponent implements OnInit {
 
   allProducts: Product[] = [];
   filteredProducts: Product[] = [];
+  isLoading: boolean = true;
 
   query: string = '';
   currentPage = 1;
@@ -75,6 +76,7 @@ export class CatalogComponent implements OnInit {
 
   // metodo que carga los productos
   async loadProducts(): Promise<void> {
+    this.isLoading = true;
     const searchDto = {
       consulta: this.query,
       Criterio: this.sortCriterio,
@@ -85,6 +87,7 @@ export class CatalogComponent implements OnInit {
 
     this.saveUserConfig(); // Guardar la configuración actual en sessionStorage
     await this.resultProducts(searchDto);
+    this.isLoading = false;
   }
 
   // Ejecutar la búsqueda de productos

@@ -1,4 +1,5 @@
-﻿using Ecommerce.Models.Database.Repositories.Implementations;
+﻿using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -61,7 +62,7 @@ public class ProductController : ControllerBase
 
         if (result.Product == null || result.Product.Count == 0)
         {
-            return NotFound("No se encontraron productos.");
+            return Ok(new { products = new List<Product>(), totalPages = 0 });
         }
 
         return Ok(new { products = result.Product, totalPages = result.TotalPages });
