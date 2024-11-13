@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';  // Importa el servicio CartService
-import { ProductWithQuantity } from '../../models/product-with-quantity';
+import { CartProduct } from '../../models/cart-product';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 
@@ -27,7 +27,6 @@ import { ReviewDto } from '../../models/reviewDto';
 export class ProductDetailComponent implements OnInit {
 
   product: Product | null = null;
-
 
   reviews: Review[] = [];
 
@@ -76,6 +75,7 @@ export class ProductDetailComponent implements OnInit {
     this.calculeAvg();
   }
 
+
   // Método para añadir al carrito
   addToCart(): void {
     if (this.product) {
@@ -87,6 +87,14 @@ export class ProductDetailComponent implements OnInit {
       } else {
         cart.push({ ...this.product, quantity: this.quantity });
       }
+      localStorage.setItem('cartProducts', JSON.stringify(cart));
+      console.log('Producto añadido al carrito:', this.product);
+    }
+
+  }
+
+
+
   // crear reseña 
   async publicReview() {
     try {
@@ -104,17 +112,20 @@ export class ProductDetailComponent implements OnInit {
       const result = await this.api.publicReview(reviewData);
 
       if (result.success) {
-        alert('Reseña publicada correctamente');
-        window.location.reload() // recarga la pagina tras publicar la reseña
-
+        // se recarga la info de reseñas
+        this.reviews = await this.api.loadReviews(idProduct);
+        // obtiene info de los usuarios que han comentado
+        for (const review of this.reviews) {
+          this.users.push(await this.api.getUser(review.userId));
+        }
+        // revisa si el usuario ya ha comentado para que no pueda comentar
+        this.hasComment = this.users.some(u => u.id === user.userId);
       }
     } catch (error) {
       console.error('Error al publicar la reseña: ', error);
     }
 
   }
-
-
   // calculo media de reseñas
   calculeAvg(): void {
     if (this.reviews.length > 0) {
@@ -124,10 +135,7 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.avg = 0;
     }
-  }
 
-      localStorage.setItem('cartProducts', JSON.stringify(cart));
-      console.log('Producto añadido al carrito:', this.product);
-    }
   }
 }
+
