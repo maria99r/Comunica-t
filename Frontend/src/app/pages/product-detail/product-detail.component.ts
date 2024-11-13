@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Product } from '../../models/product';
 import { Review } from '../../models/review';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
+import { NavComponent } from '../../components/nav/nav.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -14,16 +14,22 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 
-
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule],
+  imports: [
+    NavComponent,
+    FooterComponent,
+    InputNumberModule,
+    FormsModule,
+    ButtonModule,
+    CommonModule,
+    DatePipe,
+  ],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.css'
+  styleUrl: './product-detail.component.css',
 })
 export class ProductDetailComponent implements OnInit {
-
   product: Product | null = null;
 
   reviews: Review[] = [];
@@ -45,11 +51,14 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private api: ApiService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   async ngOnInit(): Promise<void> {
     // id del producto
-    const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
+    const id = this.activatedRoute.snapshot.paramMap.get(
+      'id'
+    ) as unknown as number;
 
     // carga el producto
     this.product = await this.api.getProduct(id);
@@ -66,50 +75,46 @@ export class ProductDetailComponent implements OnInit {
     const user = this.authService.getUser();
 
     // revisa si el usuario ya ha comentado para que no pueda comentar
-    this.hasComment = this.users.some(u => u.id === user.userId);
+    this.hasComment = this.users.some((u) => u.id === user.userId);
 
     // calcula la media de las reseñas
     this.calculeAvg();
   }
 
-
-  // crear reseña 
+  // crear reseña
   async publicReview() {
     try {
-
       const user = this.authService.getUser();
 
-      const idProduct = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
+      const idProduct = this.activatedRoute.snapshot.paramMap.get(
+        'id'
+      ) as unknown as number;
 
       const reviewData: ReviewDto = {
         text: this.textReview,
         userId: user.userId,
-        productId: idProduct
+        productId: idProduct,
       };
 
       const result = await this.api.publicReview(reviewData);
 
       if (result.success) {
         alert('Reseña publicada correctamente');
-        window.location.reload() // recarga la pagina tras publicar la reseña
-
+        window.location.reload(); // recarga la pagina tras publicar la reseña
       }
     } catch (error) {
       console.error('Error al publicar la reseña: ', error);
     }
-
   }
-
 
   // calculo media de reseñas
   calculeAvg(): void {
     if (this.reviews.length > 0) {
       const sum = this.reviews.reduce((acc, review) => acc + review.label, 0);
       this.avg = sum / this.reviews.length;
-      this.avg = Math.round(this.avg)
+      this.avg = Math.round(this.avg);
     } else {
       this.avg = 0;
     }
   }
-
 }
