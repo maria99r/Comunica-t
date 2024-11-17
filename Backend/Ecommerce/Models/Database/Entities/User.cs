@@ -25,12 +25,12 @@ public class User
     public string Role { get; set; } = null!;
 
     // Reseñas del usuario
-    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     // Pedidos del usuario
-    public virtual ICollection<CustomerOrder> CustomerOrders { get; set; } = new List<CustomerOrder>();
+    public ICollection<CustomerOrder> CustomerOrders { get; set; } = new List<CustomerOrder>();
 
     // Carrito del usuario
-    public virtual Cart Cart { get; set; } = null!;
+    public Cart Cart { get; set; } = null!;
 
 }

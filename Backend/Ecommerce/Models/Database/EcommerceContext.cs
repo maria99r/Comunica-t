@@ -30,4 +30,5 @@ public class EcommerceContext : DbContext
         string basedir = AppDomain.CurrentDomain.BaseDirectory;
         optionsBuilder.UseSqlite($"DataSource={basedir}{DATABASE_PATH}");
     }
+
 }

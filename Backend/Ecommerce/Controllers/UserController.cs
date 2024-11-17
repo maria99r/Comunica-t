@@ -16,18 +16,18 @@ namespace Ecommerce.Controllers
             _userService = userService;
         }
 
-        // Devuelve un usuario buscado por email
+        // devuelve un usuario buscado por email
         [HttpGet("/email/{email}")]
         public async Task<IActionResult> GetByEmailAsync(string email)
         {
             var user = await _userService.GetByEmail(email);
 
-            if (user == null) // Si no se encuentra el correo
+            if (user == null) // si no se encuentra el correo
             {
-                return NotFound(new { message = $"El usuario con el correo: '{email}' no ha sido encontrado." }); // Da un mensaje de error
+                return NotFound(new { message = $"El usuario con el correo: '{email}' no ha sido encontrado." }); 
             }
 
-            return Ok(user); // Devuelve el usuario encontrado
+            return Ok(user); 
         }
 
         [HttpGet("{id}")]
