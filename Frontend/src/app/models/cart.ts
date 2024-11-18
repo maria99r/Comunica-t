@@ -1,7 +1,9 @@
-import { CartProduct } from "./cart-product";
+import { Product } from "./product";
+import { User } from "./user";
 
 export interface Cart {
-    id: number;
-    userId: string;
-    products: CartProduct[]; // Un carrito contiene una lista de productos
-}  
+    id: number,
+    userId: number,
+    user: User
+    products: Product[]
+}

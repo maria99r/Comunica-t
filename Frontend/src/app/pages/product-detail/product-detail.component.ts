@@ -11,7 +11,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
-import { CartService } from '../../services/cart.service';  // Importa el servicio CartService
+import { CartService } from '../../services/cart.service';
 import { CartProduct } from '../../models/cart-product';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
@@ -39,7 +39,7 @@ export class ProductDetailComponent implements OnInit {
   // para ver si el usuario ya ha comentado y que no pueda volver a hacerlo
   hasComment: boolean = false;
 
-  quantity = 1;
+  quantity;
 
   // media reseñas
   avg: number = 0;
@@ -56,6 +56,8 @@ export class ProductDetailComponent implements OnInit {
 
     // carga el producto
     this.product = await this.api.getProduct(id);
+
+    this.product.id = id;
 
     // carga sus reseñas
     this.reviews = await this.api.loadReviews(id);
@@ -76,19 +78,28 @@ export class ProductDetailComponent implements OnInit {
   }
 
 
-  // Método para añadir al carrito
+  // añadir al carrito
   addToCart(): void {
     if (this.product) {
       const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-      const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product!.id);
+      if (this.quantity > this.product.stock) {
 
-      if (productInCart) {
-        productInCart.quantity += this.quantity;
+        this.quantity = this.product.stock;
+        alert("No hay stock suficiente.")
+
       } else {
-        cart.push({ ...this.product, quantity: this.quantity });
+
+        const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product.id);
+
+        if (productInCart) {
+          productInCart.quantity += this.quantity;
+        } else {
+          cart.push({ ...this.product, quantity: this.quantity });
+        }
+        localStorage.setItem('cartProducts', JSON.stringify(cart));
+        console.log('Producto añadido al carrito:', this.product);
       }
-      localStorage.setItem('cartProducts', JSON.stringify(cart));
-      console.log('Producto añadido al carrito:', this.product);
+
     }
 
   }

@@ -1,9 +1,7 @@
 export interface CartProduct {
+    productId: number,
     name : number,
     quantity: number,
-    cartId: number,
-    productId: number,
-    price: number,
     image: string,
-    description: string
+    price : number
 }    

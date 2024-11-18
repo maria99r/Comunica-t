@@ -9,7 +9,6 @@
     text-shadow: #12182e 0 0 1em;
 }
 
-/* Fondo gris para la carta de productos */
 .cart-card-container {
     background-color: #f0f0f0; /* Fondo gris */
     border-radius: 8px;
@@ -17,43 +16,63 @@
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Tamaño más pequeño para la imagen de la papelera */
 .remove-icon {
-    width: 18px; /* Tamaño más pequeño */
+    width: 18px; 
     height: 18px;
     cursor: pointer;
 }
 
-/* Ajuste de estilo para la tarjeta de productos */
 .cart-card-advantage {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Contenido de la tarjeta */
 .cart-card-content {
-    background-color: #f0f0f0; /* Fondo gris para coherencia */
+    background-color: #f0f0f0; 
     padding: 10px;
     flex-grow: 1;
     text-align: left;
 }
 
-/* Ajuste de datos en la tarjeta */
 .cart-card-data {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* Ajuste de tamaño de la imagen del producto */
 .cart-card-advantage img {
-    width: 100px; /* Ajusta el ancho según tus preferencias */
+    width: 100px; 
     height: auto;
     border-radius: 8px;
 }
 
+.cart-product{
+    margin: 20px;
+    border: 1px gray solid;
+    padding: 10px;
+    border-radius: 5px;
+}
 
+button{
+    font-size: smaller;
+    background-color: rgb(225, 44, 44);
+    color: white;
+    border-radius: 20px;
+    border: 1px solid #a94311;
+    padding: 5px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.input-quantity{
+    width:50px;
+    font-size: medium;
+}
 
 
 
