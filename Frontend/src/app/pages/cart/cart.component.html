@@ -22,11 +22,11 @@
     <div>
       <div class="cart-product">
         @for (product of cartProducts; track $index) {
-          <!--<img [src]="IMG_URL + product.image" alt="{{ product.name }}" />-->
+          <img [src]="IMG_URL + product.image" alt="{{ product.name }}" />
 
           <div class="product-details">
             <h3>{{ product.name }}</h3>
-            <!--<p>{{ product.description }}</p>-->
+            <p>{{ product.description }}</p>
             <p>{{ product.price / 100 }} €</p>
   
             <label>Cantidad:</label>

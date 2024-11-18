@@ -6,6 +6,9 @@ namespace Ecommerce.Models.Database.Repositories.Implementations;
 
 public class CartRepository : Repository<Cart, int>
 {
+    public CartRepository(EcommerceContext context) : base(context)
+    {
+    }
 
     // devuelve el carrito del usuario
     public async Task<Cart> GetCartByUserId(int id)

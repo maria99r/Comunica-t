@@ -41,13 +41,16 @@ public class CartService
         // comprueba si el usuario ya tiene un carrito
         var existingCart = await _unitOfWork.CartRepository.GetCartByUserId(newCart.UserId);
 
+        // Si el carrito existe, lanza una excepción
         if (existingCart != null)
         {
             throw new InvalidOperationException("El usuario ya tiene un carrito asignado.");
         }
 
+        // Se inserta el nuevo carrito y se guardan los cambios
         await _unitOfWork.CartRepository.InsertCartAsync(newCart);
         await _unitOfWork.SaveAsync();
+
         return newCart;
     }
 

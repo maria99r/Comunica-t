@@ -7,6 +7,7 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CartProduct } from '../../models/cart-product';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -16,14 +17,29 @@ import { CartProduct } from '../../models/cart-product';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
+
   cartProducts: CartProduct[] = [];
+  userId: string;
   public readonly IMG_URL = environment.apiImg;
 
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     // Cargar los productos del carrito desde el servicio al inicializar el componente
     this.cartProducts = this.cartService.getCartProducts();
+
+    // Obtiene la ID del usuario desde la ruta
+    this.userId = this.route.snapshot.paramMap.get(this.userId) || null;
+    
+    // Si existe la ID, obtenemos su carrito correspondiente
+    if (this.userId) {
+      this.cartService.getCartByUserId(this.userId).subscribe((cart) => {
+          this.cartProducts = cart.products; // Almacena el carrito en la variable `cart`
+        },(error) => {
+          console.error('Error al obtener el carrito:', error);
+        }
+      );
+    }
   }
 
   // Método para actualizar la cantidad de un producto en el carrito
