@@ -5,10 +5,7 @@ namespace Ecommerce.Models.Database.Repositories.Implementations;
 
 public class ProductRepository : Repository<Product, int>
 {
-    public ProductRepository(EcommerceContext context) : base(context) 
-    {
-
-    }
+    public ProductRepository(EcommerceContext context) : base(context) {}
 
     public async Task<Product> GetProductById(int id)
     {

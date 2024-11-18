@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [NgClass, MenubarModule, ImageModule, RouterModule, CommonModule],
+  imports: [MenubarModule, ImageModule, RouterModule, CommonModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })

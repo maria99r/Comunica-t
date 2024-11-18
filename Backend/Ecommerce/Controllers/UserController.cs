@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Models;
 using Ecommerce.Models.Database.Repositories.Implementations;
+using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
@@ -8,25 +9,40 @@ namespace Ecommerce.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UserRepository _userRepository;
+        private readonly UserService _userService;
 
-        public UserController(UserRepository userRepository)
+        public UserController(UserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
-        // Devuelve un usuario buscado por email
-        [HttpGet("{email}")]
+        // devuelve un usuario buscado por email
+        [HttpGet("/email/{email}")]
         public async Task<IActionResult> GetByEmailAsync(string email)
         {
-            var user = await _userRepository.GetByEmail(email);
+            var user = await _userService.GetByEmail(email);
 
-            if (user == null) // Si no se encuentra el correo
+            if (user == null) // si no se encuentra el correo
             {
-                return NotFound(new { message = $"El usuario con el correo: '{email}' no ha sido encontrado." }); // Da un mensaje de error
+                return NotFound(new { message = $"El usuario con el correo: '{email}' no ha sido encontrado." }); 
             }
 
-            return Ok(user); // Devuelve el usuario encontrado
+            return Ok(user); 
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var user = await _userService.GetByIdAsync(id); 
+
+            if (user == null) 
+            {
+                return NotFound(new { message = $"El usuario con el id '{id}' no ha sido encontrado." });
+            }
+
+            return Ok(user); 
+        }
+
+
     }
 }
