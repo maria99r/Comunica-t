@@ -72,9 +72,14 @@ export class CartService {
 
   // Eliminar un producto del carrito
   removeFromCart(id: number): void {
-    const cart = this.getCartFromLocal().filter(p => p.productId !== id);
-    
-    this.saveCart(cart);
+
+    if (id === null || id === undefined) {
+      console.log('Id inválida: ', id); // Odio Angular
+    } else{
+      const cart = this.getCartFromLocal().filter(p => p.productId !== id);
+      console.log('2Removing product with id:', id); // Otro log :D
+      this.saveCart(cart);
+    }
   }
 
   // Limpiar el carrito completo

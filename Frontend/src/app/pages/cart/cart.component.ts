@@ -51,7 +51,7 @@
     // eliminar un producto del carrito
     removeProduct(id: number): void {
       this.cartService.removeFromCart(id); 
-      console.log('Removing product with id:', id);  // Add this log to debug
+      console.log('Removing product with id:', id); // Log :D
 
       this.cartProducts = this.cartProducts.filter(p => p.productId !== id); 
     }

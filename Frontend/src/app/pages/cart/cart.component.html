@@ -15,10 +15,10 @@
     </div>
     } 
     @if (cartProducts.length > 0) { 
-      @for (product of cartProducts; track $index) {
+      @for (product of cartProducts; track product.productId) {
       <div class="cart-product">
         <img src="{{ IMG_URL }}{{ product.image }}" />
-
+        <p>{{product.productId}}</p>
         <div class="product-details">
           <h3>{{ product.name }}</h3>
           <p>{{ product.price / 100 }} €</p>
@@ -39,6 +39,7 @@
           >
             Eliminar
           </button>
+          
         </div>
       </div>
     }
