@@ -32,30 +32,29 @@ public class CartController : ControllerBase
     }
 
 
-    // crearCarrito
-    [HttpPost("newCart")]
-    public async Task<ActionResult<Cart>> Post([FromBody] CartDto model)
+    // crearCarrito a partir de id de usuario
+    [HttpPost("newCart/{userId}")]
+    public async Task<ActionResult<Cart>> NewCart([FromRoute] int userId)
     {
-        if (!ModelState.IsValid)
+        if (userId <= 0)
         {
-            return BadRequest(ModelState);
+            return BadRequest("El id de usuario no es válido.");
         }
 
         try
         {
-            var newCart = new Cart
-            {
-                UserId = model.UserId
-            };
+            var newCart = await _cartService.CreateCartAsync(userId);
 
-            var createdCart = await _cartService.CreateCartAsync(newCart);
-
-            return (createdCart);
+            return Ok(newCart);
 
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException e)
         {
-            return Conflict("No pudo crearse el carrito");
+            return Conflict($"No pudo crearse el carrito: {e.Message}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error interno: {ex.Message}");
         }
     }
 

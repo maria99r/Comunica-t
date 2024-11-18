@@ -6,6 +6,7 @@ using Ecommerce.Services;
 using Microsoft.Extensions.ML;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<ProductCartRepository>();
 builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<UserMapper>();
+builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 
 // Inyecci�n de Servicios
@@ -55,6 +57,11 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 
 // Configuraci�n de autenticaci�n
 builder.Services.AddAuthentication()

@@ -9,16 +9,18 @@ public class ProductCartRepository : Repository<ProductCart, int>
     { }
 
     // devuelve un producto de un carrito
-    public async Task<ProductCart?> GetProductInCartAsync(int cartId, int productId)
+    public async Task<ProductCart> GetProductInCartAsync(int cartId, int productId)
     {
         return await GetQueryable()
+            .Include(pc => pc.Cart)
+            .Include(pc => pc.Product)
             .FirstOrDefaultAsync(pc => pc.CartId == cartId && pc.ProductId == productId);
     }
 
     // crea producto en carrito
     public async Task AddProductToCartAsync(ProductCart productCart)
     {
-    // comprueba si ese producto existe en el carrito
+        // comprueba si ese producto existe en el carrito
         var existingProduct = await GetProductInCartAsync(productCart.CartId, productCart.ProductId);
 
         if (existingProduct != null)
@@ -36,7 +38,7 @@ public class ProductCartRepository : Repository<ProductCart, int>
                 Quantity = productCart.Quantity
             };
 
-            await base.InsertAsync(newProductInCart);
+            await InsertAsync(newProductInCart);
         }
         await SaveAsync();
     }
@@ -44,15 +46,17 @@ public class ProductCartRepository : Repository<ProductCart, int>
     // eliminar producto
     public async Task DeleteProductFromCartAsync(ProductCart productCart)
     {
-        _context.Set<ProductCart>().Remove(productCart); 
-        await SaveAsync();  
+        _context.Set<ProductCart>().Remove(productCart);
+        await SaveAsync();
     }
 
     // obtener productos de un carrito
-    public async Task<List<ProductCart?>> GetProductsByCart(int id)
+    public async Task<List<ProductCart>> GetProductsByCart(int id)
     {
         return await GetQueryable()
-            .Where(ProductCart => ProductCart.CartId== id).ToListAsync();
+            .Include(pc => pc.Cart)
+            .Include(pc => pc.Product)
+            .Where(ProductCart => ProductCart.CartId == id).ToListAsync();
     }
 
 }

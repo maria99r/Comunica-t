@@ -40,9 +40,16 @@ public class ProductCartService
     {
         var productCart = await _unitOfWork.ProductCartRepository.GetProductInCartAsync(cartId, productId);
 
-        await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart); 
+        if (productCart == null)
+        {
+            throw new InvalidOperationException("El producto no se encuentra en el carrito.");
+        }
+
+        await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
         await _unitOfWork.SaveAsync();
     }
+
+
 
     // modificar la cantidad de un producto en el carrito
     public async Task UpdateProductQuantityAsync(int userId, int productId, int quantityChange)
@@ -66,15 +73,15 @@ public class ProductCartService
         // actualiza la cantidad
         productCart.Quantity += quantityChange;
 
-        // si al actializar la cantidad es menor o igual a 0, se elimina
+        // si al actualizar la cantidad es menor o igual a 0, se elimina
         if (productCart.Quantity <= 0)
         {
-            await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart); 
+            await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
+
         }
-        else
-        {
-            await _unitOfWork.SaveAsync();
-        }
+
+        await _unitOfWork.SaveAsync();
+
     }
 
 
