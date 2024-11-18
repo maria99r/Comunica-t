@@ -29,7 +29,7 @@ export class CartComponent implements OnInit {
     this.cartProducts = this.cartService.getCartProducts();
 
     // Obtiene la ID del usuario desde la ruta
-    this.userId = this.route.snapshot.paramMap.get(this.userId) || null;
+    this.userId = '1';
     
     // Si existe la ID, obtenemos su carrito correspondiente
     if (this.userId) {
