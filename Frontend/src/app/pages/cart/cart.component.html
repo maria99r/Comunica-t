@@ -13,33 +13,37 @@
     <h2>Carrito de Compras</h2>
 
     @if (cartProducts.length === 0) {
-    <div class="empty-cart">
-      <p>Tu carrito está vacío.</p>
-    </div>
-    } @if (cartProducts.length > 0) {
+      <div class="empty-cart">
+        <p>Tu carrito está vacío.</p>
+      </div>
+    }
+
+    @if (cartProducts.length > 0) {
     <div>
-      <div class="cart-product" *ngFor="let product of cartProducts">
-        <img [src]="IMG_URL + product.image" alt="{{ product.name }}" />
+      <div class="cart-product">
+        @for (product of cartProducts; track $index) {
+          <!--<img [src]="IMG_URL + product.image" alt="{{ product.name }}" />-->
 
-        <div class="product-details">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
-          <p>{{ product.price / 100 }} €</p>
-
-          <label>Cantidad:</label>
-          <input
-            type="number"
-            [(ngModel)]="product.stock"
-            (ngModelChange)="changeQuantity(product, product.stock)"
-            min="1"
-          />
-
-          <button
-            pButton
-            label="Eliminar"
-            (click)="removeProduct(product.id)"
-          ></button>
-        </div>
+          <div class="product-details">
+            <h3>{{ product.name }}</h3>
+            <!--<p>{{ product.description }}</p>-->
+            <p>{{ product.price / 100 }} €</p>
+  
+            <label>Cantidad:</label>
+            <input
+              type="number"
+              [(ngModel)]="product.quantity"
+              (ngModelChange)="changeQuantity(product, product.quantity)"
+              min="1"
+            />
+  
+            <button
+              pButton
+              label="Eliminar"
+              (click)="removeProduct(product.productId)"
+            ></button>
+          </div>
+        }
       </div>
 
       <div class="cart-summary">
