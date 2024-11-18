@@ -11,6 +11,10 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
+<<<<<<< Updated upstream
+=======
+import { CartService } from '../../services/cart.service'; // Importa el servicio CartService
+>>>>>>> Stashed changes
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 
@@ -24,7 +28,10 @@ import { ReviewDto } from '../../models/reviewDto';
     FormsModule,
     ButtonModule,
     CommonModule,
+<<<<<<< Updated upstream
     DatePipe,
+=======
+>>>>>>> Stashed changes
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css',
@@ -51,7 +58,12 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private api: ApiService,
+<<<<<<< Updated upstream
     private activatedRoute: ActivatedRoute
+=======
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService
+>>>>>>> Stashed changes
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -78,9 +90,28 @@ export class ProductDetailComponent implements OnInit {
     this.hasComment = this.users.some((u) => u.id === user.userId);
 
     // calcula la media de las reseñas
-    this.calculeAvg();
+    calculeAvg();
   }
 
+<<<<<<< Updated upstream
+=======
+  // Método para añadir al carrito
+  addToCart(): void {
+    if (this.product) {
+      const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+      const productInCart = cart.find(
+        (p: Product & { quantity: number }) => p.id === this.product!.id
+      );
+
+      if (productInCart) {
+        productInCart.quantity += this.quantity;
+      } else {
+        cart.push({ ...this.product, quantity: this.quantity });
+      }
+    }
+  }
+
+>>>>>>> Stashed changes
   // crear reseña
   async publicReview() {
     try {
@@ -99,13 +130,25 @@ export class ProductDetailComponent implements OnInit {
       const result = await this.api.publicReview(reviewData);
 
       if (result.success) {
+<<<<<<< Updated upstream
         alert('Reseña publicada correctamente');
         window.location.reload(); // recarga la pagina tras publicar la reseña
+=======
+        // se recarga la info de reseñas
+        this.reviews = await this.api.loadReviews(idProduct);
+        // obtiene info de los usuarios que han comentado
+        for (const review of this.reviews) {
+          this.users.push(await this.api.getUser(review.userId));
+        }
+        // revisa si el usuario ya ha comentado para que no pueda comentar
+        this.hasComment = this.users.some((u) => u.id === user.userId);
+>>>>>>> Stashed changes
       }
     } catch (error) {
       console.error('Error al publicar la reseña: ', error);
     }
   }
+<<<<<<< Updated upstream
 
   // calculo media de reseñas
   calculeAvg(): void {
@@ -116,5 +159,17 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.avg = 0;
     }
+=======
+}
+
+// calculo media de reseñas
+function calculeAvg(): void {
+  if (this.reviews.length > 0) {
+    const sum = this.reviews.reduce((acc, review) => acc + review.label, 0);
+    this.avg = sum / this.reviews.length;
+    this.avg = Math.round(this.avg);
+  } else {
+    this.avg = 0;
+>>>>>>> Stashed changes
   }
 }
