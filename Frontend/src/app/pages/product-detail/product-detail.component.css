@@ -45,3 +45,10 @@ h1{
 img{
     border-radius: 20px;
 }
+
+.review{
+    padding: 10px;
+    border: 1px solid #2A345D;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}

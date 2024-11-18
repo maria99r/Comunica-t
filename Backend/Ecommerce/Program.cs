@@ -24,9 +24,12 @@ builder.Services.AddScoped<ProductCartRepository>();
 builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<UserMapper>();
+builder.Services.AddScoped<ProductCartMapper>();
 
 // Inyecci�n de Servicios
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<ProductCartService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
