@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services;
@@ -14,7 +15,7 @@ public class CartService
     }
 
     // obtener carrito por id de usuario
-    public async Task<Cart> GetByUserIdAsync(int id)
+    public async Task<CartDto> GetByUserIdAsync(int id)
     {
         var cart = await _unitOfWork.CartRepository.GetCartByUserId(id);
 
@@ -26,12 +27,12 @@ public class CartService
     }
 
 
-    // crear un nuevo carrito
-    public async Task<Cart> CreateCartAsync(Cart newCart)
+    // crear un nuevo carrito a partir de id de usuario
+    public async Task<Cart> CreateCartAsync(int userId)
     {
         // comprueba si el usuario con ese id existe
         var userExists = await _unitOfWork.UserRepository.GetQueryable()
-            .AnyAsync(user => user.Id == newCart.UserId);
+            .AnyAsync(user => user.Id == userId);
 
         if (!userExists)
         {
@@ -39,16 +40,16 @@ public class CartService
         }
 
         // comprueba si el usuario ya tiene un carrito
-        var existingCart = await _unitOfWork.CartRepository.GetCartByUserId(newCart.UserId);
+        var cartExists = await _unitOfWork.CartRepository.GetQueryable()
+            .AnyAsync(cart => cart.UserId == userId);
 
-        if (existingCart != null)
+        if (cartExists) // Si el carrito existe, lanza una excepción
         {
             throw new InvalidOperationException("El usuario ya tiene un carrito asignado.");
         }
+        // Se inserta el nuevo carrito
+        return await _unitOfWork.CartRepository.InsertCartAsync(userId);
 
-        await _unitOfWork.CartRepository.InsertCartAsync(newCart);
-        await _unitOfWork.SaveAsync();
-        return newCart;
     }
 
 

@@ -1,11 +1,15 @@
+using Ecommerce;
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
 using Microsoft.Extensions.ML;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,15 +28,17 @@ builder.Services.AddScoped<ProductCartRepository>();
 builder.Services.AddScoped<CustomerOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<UserMapper>();
+builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 
 // Inyecci�n de Servicios
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<ProductCartService>();
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<Ecommerce.Services.ProductService>();
+builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
+
 
 // Inyeccion de la IA
 builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
@@ -55,6 +61,11 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 
 // Configuraci�n de autenticaci�n
 builder.Services.AddAuthentication()
@@ -109,4 +120,16 @@ static async Task SeedDataBaseAsync(IServiceProvider serviceProvider)
         Seeder seeder = new Seeder(dbContext);
         await seeder.SeedAsync();
     }
+}
+
+// Configuramos Stripe
+InitStripe(app.Services);
+
+static void InitStripe(IServiceProvider serviceProvider)
+{
+    using IServiceScope scope = serviceProvider.CreateScope();
+    IOptions<Settings> options = scope.ServiceProvider.GetService<IOptions<Settings>>();
+
+    // Ponemos nuestro secret key (se consulta en el dashboard => desarrolladores)
+    StripeConfiguration.ApiKey = "sk_test_51QJzjBGpuU9RUuIN7h9KkhFFkIbRuCHI5MTiTsnylBR63yecr8Qnmvdqi6TPH3BXkj5ClpS1KaTRDUOMlwpvLLGg00hmcoA2Sq";
 }

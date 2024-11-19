@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Models.Dtos;
+﻿using Ecommerce.Models.Database.Entities;
+
+namespace Ecommerce.Models.Dtos;
 
 public class ProductCartDto
 {

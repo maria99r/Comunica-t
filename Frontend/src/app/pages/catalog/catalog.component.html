@@ -31,28 +31,9 @@
     </select>
 </div>
 
-<!--
-<div class="w-10 h-auto card-container m-auto mt-4 grid">
-    <div class="m-auto h-20rem card-advantage">
-        <img src="https://img.freepik.com/foto-gratis/pedestal-podio-azul-exhibicion-minima-producto-fondo-abstracto-ilustracion-3d-presentacion-escena-exhibicion-vacia-colocacion-producto_56104-1879.jpg?t=st=1730312818~exp=1730316418~hmac=9c08c741b8640d0e929dd06550456ca157d15a61b30beddfa05f47ee6d591cb6&w=1000"
-            alt="Producto" />
-        <div class="card-content">
-            <h2>Producto</h2>
-            <div class="card-data">
-                <p>15€</p>
-                <p>Stock</p>
-                <p>Reseñas</p>
-            </div>
-        </div>
-    </div>
-</div>
--->
-
-
-
-<div class="product-flex">
+<div class="product-flex justify-content-center">
     @if (isLoading) {
-        <div>Cargando...</div>
+        <div style="padding: 5%;">Cargando...</div>
     } @else {
         @for (product of filteredProducts; track product.id) {
 
@@ -81,12 +62,10 @@
                 </a>
             </div>
         } @empty {
-            <div>No hay resultados</div>
+            <div style="padding: 5%;">No hay resultados</div>
         }
     }
 </div>
-
-
 
 <br>
 
