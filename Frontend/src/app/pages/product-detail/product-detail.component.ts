@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import { CartProduct } from '../../models/cart-product';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 

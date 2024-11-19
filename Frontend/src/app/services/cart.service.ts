@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import { CartProduct } from '../models/cart-product';
 import { Cart } from '../models/cart';
 import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -17,10 +16,10 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   // productos del carrito desde localStorage
-  getCartFromLocal(): CartProduct[] {
+  getCartFromLocal(): Product[] {
     const cart = localStorage.getItem(this.CART_KEY);
-    console.log(cart)
-    return cart ? JSON.parse(cart) : [];
+    const cartParsed = cart ? JSON.parse(cart) : [];
+    return cartParsed;
   }
 
   // obtener carrito de bbdd 
@@ -41,28 +40,29 @@ export class CartService {
 
 
   // Guardar productos del carrito en localStorage
-  private saveCart(cartProducts: CartProduct[]): void {
+  private saveCart(cartProducts: Product[]): void {
     localStorage.setItem(this.CART_KEY, JSON.stringify(cartProducts));
   }
 
   // Agregar un producto al carrito
-  addToCart(product: CartProduct): void {
+  /*
+  addToCart(product: Product): void {
     const cart = this.getCartFromLocal();
-    const existingProduct = cart.find(p => p.productId === product.productId);
+    const existingProduct = cart.find(p => p.id === product.id);
 
     if (existingProduct) {
-      existingProduct.quantity = (existingProduct.quantity || 0) + (product.quantity || 1);
+      existingProduct.stock = (existingProduct.stock || 0) + (product.stock || 1);
     } else {
       cart.push(product);
     }
 
     this.saveCart(cart);
-  }
+  }*/
 
   // Actualizar la cantidad de un producto específico en el carrito
-  updateCartProduct(product: CartProduct): void {
+  updateCartProduct(product: Product): void {
     const cart = this.getCartFromLocal();
-    const index = cart.findIndex(p => p.productId === product.productId);
+    const index = cart.findIndex(p => p.id === product.id);
 
     if (index !== -1) {
       cart[index] = product;
@@ -74,11 +74,18 @@ export class CartService {
   removeFromCart(id: number): void {
 
     if (id === null || id === undefined) {
+
       console.log('Id inválida: ', id); // Odio Angular
     } else{
-      const cart = this.getCartFromLocal().filter(p => p.productId !== id);
-      console.log('2Removing product with id:', id); // Otro log :D
-      this.saveCart(cart);
+
+      const cart = this.getCartFromLocal();
+      const index = cart.findIndex(p => p.id == id);
+      console.log("Índice: " + index)
+      
+      if (index !== -1) {
+        cart.splice(index, 1);
+        this.saveCart(cart);
+      }
     }
   }
 
