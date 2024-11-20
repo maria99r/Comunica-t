@@ -96,7 +96,7 @@ export class CartService {
   }
 
   addToCartBBDD(quantity: number, cartId: number, productId: number): Observable<any> {
-    const url = `${this.BASE_URL}/ProductCart/addProduct`;
+    const url = `${this.BASE_URL}ProductCart/addProduct`;
     const body = {
       quantity: quantity,
       cartId: cartId,
