@@ -53,8 +53,8 @@ export class ProductDetailComponent implements OnInit {
     public authService: AuthService,
     private api: ApiService,
     private cartApi: CartService,
-    private activatedRoute: ActivatedRoute,
-    private cartService: CartService) { }
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   async ngOnInit(): Promise<void> {
     // usuario actual
