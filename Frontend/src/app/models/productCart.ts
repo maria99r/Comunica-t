@@ -5,6 +5,5 @@ export interface ProductCart {
     cartId: number,
     productId: number,
     quantity: number,
-    cart: Cart,
     product:Product,
 }

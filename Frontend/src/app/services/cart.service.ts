@@ -56,6 +56,15 @@ export class CartService {
     }
   }
 
+  createCart(idUser: number): Observable<any> {
+    const url = `${this.BASE_URL}/Cart/newCart/`;
+    const body = {
+      userId: idUser,
+    };
+
+    return this.http.post(url, body);
+  }
+
   // Eliminar un producto del carrito
   removeFromCartLocal(id: number): void {
 
