@@ -25,6 +25,7 @@ import { ReviewDto } from '../../models/reviewDto';
 })
 export class ProductDetailComponent implements OnInit {
 
+
   product: Product | null = null;
 
   reviews: Review[] = [];
@@ -34,11 +35,13 @@ export class ProductDetailComponent implements OnInit {
   public readonly IMG_URL = environment.apiImg;
 
   users: User[] = [];
+  actualUser : User;
+  isLog : boolean = false;
 
   // para ver si el usuario ya ha comentado y que no pueda volver a hacerlo
   hasComment: boolean = false;
 
-  quantity;
+  quantity = 1;
 
   // media reseñas
   avg: number = 0;
@@ -46,6 +49,7 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private api: ApiService,
+    private cartApi: CartService,
     private activatedRoute: ActivatedRoute,
     private cartService: CartService) { }
 
@@ -67,7 +71,8 @@ export class ProductDetailComponent implements OnInit {
     }
 
     // usuario actual
-    const user = this.authService.getUser();
+    const user = await this.authService.getUser();
+    if(user != null){ this.isLog = true;}
 
     // revisa si el usuario ya ha comentado para que no pueda comentar
     this.hasComment = this.users.some(u => u.id === user.userId);
@@ -77,30 +82,46 @@ export class ProductDetailComponent implements OnInit {
   }
 
 
-  // añadir al carrito
-  addToCart(): void {
-    if (this.product) {
-      const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-      if (this.quantity > this.product.stock) {
+  // añadir al carrito 
+  async addToCart(): Promise<void> {
 
-        this.quantity = this.product.stock;
-        alert("No hay stock suficiente.")
-
-      } else {
-
-        const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product.id);
-
-        if (productInCart) {
-          productInCart.quantity += this.quantity;
-        } else {
-          cart.push({ ...this.product, quantity: this.quantity });
-        }
-        localStorage.setItem('cartProducts', JSON.stringify(cart));
-        console.log('Producto añadido al carrito:', this.product);
+    // si el usuario esta logueado, se trabaja con la bbdd
+    if (this.isLog) {
+      if (this.product) {
+        const cart = await this.cartApi.getCartByUser(this.actualUser.id);
+          try {
+            await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
+            alert("Producto añadido al carrito.");
+          } catch (error) {
+            console.error("Error al añadir al carrito:", error);
+            alert("Hubo un error al añadir el producto al carrito.");
+          }
+        
       }
+    } else {
+      if (this.product) {
+        const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+        if (this.quantity > this.product.stock) {
 
+          this.quantity = this.product.stock;
+          alert("No hay stock suficiente.")
+
+        } else {
+
+          const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product.id);
+
+          if (productInCart) {
+            productInCart.quantity += this.quantity;
+          } else {
+            cart.push({ ...this.product, quantity: this.quantity });
+          }
+          localStorage.setItem('cartProducts', JSON.stringify(cart));
+          console.log('Producto añadido al carrito:', this.product);
+          alert("El producto se ha añadido correctamente su carrito.");
+        }
+
+      }
     }
-
   }
 
 
