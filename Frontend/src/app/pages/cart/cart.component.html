@@ -39,25 +39,25 @@
 
     <!-- SI EL USUARIO NO ESTA LOGUEADO -->
     @if(!isLog) {
-    @if (cartProducts.length === 0) {
-    <div class="empty-cart">
-      <p>Tu carrito está vacío.</p>
-    </div>
-    }
-    @for (product of cartProducts; track product.id) {
-    <div class="cart-product">
-      <img src="{{ IMG_URL }}{{ product.image }}" />
-      <div class="product-details">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.price / 100 }} €</p>
+      @if (cartProducts.length === 0) {
+      <div class="empty-cart">
+        <p>Tu carrito está vacío.</p>
+      </div>
+      }
+      @for (product of cartProducts; track product.productId) {
+      <div class="cart-product">
+        <img src="{{ IMG_URL }}{{ product.product.image }}" />
+        <div class="product-details">
+          <h3>{{ product.product.name }}</h3>
+          <p>{{ product.product.price / 100 }} €</p>
 
-        <label>Cantidad: </label>
-        <input type="number" class="input-quantity" [(ngModel)]="product.stock"
-          (ngModelChange)="changeStock(product, product.stock)" min="1" />
+          <label>Cantidad: </label>
+          <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
+            (ngModelChange)="changeQuantityLocal(product, product.quantity)" min="1" />
 
-        <button class="p-button-danger" label="Eliminar" (click)="removeProduct(product)">
-          Eliminar
-        </button>
+          <button class="p-button-danger" label="Eliminar" (click)="removeProductLocal(product)">
+            Eliminar
+          </button>
 
       </div>
     </div>
