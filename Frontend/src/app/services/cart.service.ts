@@ -17,7 +17,7 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   // productos del carrito desde localStorage
-  getCartFromLocal(): Product[] {
+  getCartFromLocal(): ProductCart[] {
     const cart = localStorage.getItem(this.CART_KEY);
     const cartParsed = cart ? JSON.parse(cart) : [];
     return cartParsed;
@@ -41,29 +41,14 @@ export class CartService {
 
 
   // Guardar productos del carrito en localStorage
-  private saveCart(cartProducts: Product[]): void {
+  private saveCart(cartProducts: ProductCart[]): void {
     localStorage.setItem(this.CART_KEY, JSON.stringify(cartProducts));
   }
 
-  // Agregar un producto al carrito
-  /*
-  addToCart(product: Product): void {
-    const cart = this.getCartFromLocal();
-    const existingProduct = cart.find(p => p.id === product.id);
-
-    if (existingProduct) {
-      existingProduct.stock = (existingProduct.stock || 0) + (product.stock || 1);
-    } else {
-      cart.push(product);
-    }
-
-    this.saveCart(cart);
-  }*/
-
   // Actualizar la cantidad de un producto específico en el carrito
-  updateCartProduct(product: Product): void {
+  updateCartProduct(product: ProductCart): void {
     const cart = this.getCartFromLocal();
-    const index = cart.findIndex(p => p.id === product.id);
+    const index = cart.findIndex(p => p.productId === product.productId);
 
     if (index !== -1) {
       cart[index] = product;
@@ -71,8 +56,17 @@ export class CartService {
     }
   }
 
+  createCart(idUser: number): Observable<any> {
+    const url = `${this.BASE_URL}/Cart/newCart/`;
+    const body = {
+      userId: idUser,
+    };
+
+    return this.http.post(url, body);
+  }
+
   // Eliminar un producto del carrito
-  removeFromCart(id: number): void {
+  removeFromCartLocal(id: number): void {
 
     if (id === null || id === undefined) {
 
@@ -80,7 +74,7 @@ export class CartService {
     } else {
 
       const cart = this.getCartFromLocal();
-      const index = cart.findIndex(p => p.id == id);
+      const index = cart.findIndex(p => p.productId == id);
       console.log("Índice: " + index)
 
       if (index !== -1) {

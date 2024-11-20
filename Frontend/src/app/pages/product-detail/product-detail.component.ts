@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
+import { ProductCart } from '../../models/productCart';
+import { Cart } from '../../models/cart';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class ProductDetailComponent implements OnInit {
 
 
   product: Product | null = null;
+  productCart: ProductCart;
 
   reviews: Review[] = [];
 
@@ -32,8 +35,8 @@ export class ProductDetailComponent implements OnInit {
   public readonly IMG_URL = environment.apiImg;
 
   users: User[] = [];
-  actualUser : User;
-  isLog : boolean = false;
+  currentUser: any;
+  isLog: boolean = false;
 
   // para ver si el usuario ya ha comentado y que no pueda volver a hacerlo
   hasComment: boolean = false;
@@ -51,6 +54,13 @@ export class ProductDetailComponent implements OnInit {
     private cartService: CartService) { }
 
   async ngOnInit(): Promise<void> {
+    // usuario actual
+    const user = await this.authService.getUser();
+    if (user != null) { this.isLog = true; }
+    this.currentUser = user;
+
+    // id del producto
+    const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
 
     this.loadCart();
 
@@ -64,37 +74,55 @@ export class ProductDetailComponent implements OnInit {
       this.users.push(await this.api.getUser(review.userId));
     }
 
-    // usuario actual
-    const user = await this.authService.getUser();
-    if(user != null){ this.isLog = true;}
-
     // revisa si el usuario ya ha comentado para que no pueda comentar
     this.hasComment = this.users.some(u => u.id === user.userId);
 
     // calcula la media de las reseñas
     this.calculeAvg();
+
   }
 
 
   // añadir al carrito 
   async addToCart(): Promise<void> {
 
+    if (!this.productCart) {
+      this.productCart = {
+        cartId: 0,
+        productId: this.product.id,
+        quantity: this.quantity,
+        product: this.product
+      };
+    }
+
     // si el usuario esta logueado, se trabaja con la bbdd
     if (this.isLog) {
+      console.log("Sesión iniciada con la id: " + this.currentUser.userId)
       if (this.product) {
-        const cart = await this.cartApi.getCartByUser(this.actualUser.id);
-          try {
-            await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
-            alert("Producto añadido al carrito.");
-          } catch (error) {
-            console.error("Error al añadir al carrito:", error);
-            alert("Hubo un error al añadir el producto al carrito.");
-          }
-        
+        let cart: Cart | null = null;
+        try {
+          // creo carrito de usuario si no tiene
+          this.cartApi.createCart(this.currentUser.userId)
+          console.log("Carrito creado correctamente");
+
+        } catch (error) {
+          console.log("Error al crear el carrito del usuario:", error);
+        }
+        cart = await this.cartApi.getCartByUser(this.currentUser.userId);
+        try {
+          await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
+          alert("Producto añadido al carrito.");
+        } catch (error) {
+          console.error("Error al añadir al carrito:", error);
+          alert("Hubo un error al añadir el producto al carrito.");
+        }
+
       }
     } else {
       if (this.product) {
+        console.log("Sesión NO iniciada")
         const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+
         if (this.quantity > this.product.stock) {
 
           this.quantity = this.product.stock;
@@ -102,23 +130,21 @@ export class ProductDetailComponent implements OnInit {
 
         } else {
 
-          const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product.id);
+          const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
 
           if (productInCart) {
             productInCart.quantity += this.quantity;
           } else {
-            cart.push({ ...this.product, quantity: this.quantity });
+            cart.push({ ...this.productCart });
           }
           localStorage.setItem('cartProducts', JSON.stringify(cart));
-          console.log('Producto añadido al carrito:', this.product);
+          console.log('Producto añadido al carrito:', this.productCart);
           alert("El producto se ha añadido correctamente su carrito.");
         }
 
       }
     }
   }
-
-
 
   // crear reseña 
   async publicReview() {
