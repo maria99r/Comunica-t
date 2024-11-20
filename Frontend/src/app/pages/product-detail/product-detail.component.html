@@ -18,14 +18,15 @@
         <p class="text-sm text-indigo-500">{{product.stock}} en stock</p>
         <div class="inputQuantity">
             <p-inputNumber [(ngModel)]="quantity" class="w-full" [showButtons]="true" buttonLayout="horizontal"
-                inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1"
-                decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
+                inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1" [max]="product.stock"
+                allowEmpty=false decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
                 incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
         </div>
 
 
         <!-- boton añadir cesta -->
-        <button (click)="addToCart()" class="m-4 p-button font-bold ml-4 vertical-align-middle">Añadir a la cesta</button>
+        <button (click)="addToCart()" class="m-4 p-button font-bold ml-4 vertical-align-middle"
+            [disabled]="product.stock <= 0">Añadir a la cesta</button>
 
 
     </section>
@@ -76,9 +77,9 @@
         <div class="review">
             <!-- nombre usuario que ha comentado-->
             @for (user of users; track user.id) {
-                @if(user.id == review.userId){
-                <span class="font-bold">👤{{user.name}}</span>
-                }
+            @if(user.id == review.userId){
+            <span class="font-bold">👤{{user.name}}</span>
+            }
             }
 
             @switch (review.label) {

@@ -14,7 +14,7 @@
 
         <a routerLink="/cart">
             <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px">
-            <span>0</span> <!-- Recoger de BBDD nº de productos de cesta -->
+            <span>{{ cartProductCount }}</span> <!-- Recoger de BBDD nº de productos de cesta -->
         </a>
 
         <!-- <img *ngIf="authService.isAuthenticated()" src="icons/user-icon.png" alt="icono-user"
