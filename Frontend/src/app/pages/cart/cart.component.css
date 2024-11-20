@@ -1,5 +1,5 @@
 /* 1º block */
-.panel-top{
+.panel-top {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/fondo-tecnologico.jpg");
     background-size: cover;
     background-position: center;
@@ -10,14 +10,14 @@
 }
 
 .cart-card-container {
-    background-color: #f0f0f0; /* Fondo gris */
+    background-color: #f0f0f0;
     border-radius: 8px;
     padding: 10px;
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .remove-icon {
-    width: 18px; 
+    width: 18px;
     height: 18px;
     cursor: pointer;
 }
@@ -29,7 +29,7 @@
 }
 
 .cart-card-content {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
     padding: 10px;
     flex-grow: 1;
     text-align: left;
@@ -42,19 +42,19 @@
 }
 
 .cart-card-advantage img {
-    width: 100px; 
+    width: 100px;
     height: auto;
     border-radius: 8px;
 }
 
-.cart-product{
+.cart-product {
     margin: 20px;
     border: 1px gray solid;
     padding: 10px;
     border-radius: 5px;
 }
 
-button{
+.p-button-danger {
     font-size: smaller;
     background-color: rgb(225, 44, 44);
     color: white;
@@ -65,51 +65,69 @@ button{
     font-weight: bold;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
 }
 
-.input-quantity{
-    width:50px;
+.input-quantity {
+    width: 50px;
     font-size: medium;
 }
 
+.pay-button button {
+    padding: 8px;
+    border: 0px;
+    background-color: #6f42c1;
+    color: white;
+    border-radius: 30px;
+    margin: 10px;
+}
+
+.pay-button button:hover {
+    background-color: #6337b4;
+}
 
 
 
+.cart-total {
+    font-size: larger;
+    font-weight: bold;
+    margin-left: 20px;
+}
 
 
-
-img{
+img {
     height: 215px;
 }
 
-.p-button{
+.p-button {
     border: 0px;
     background-color: #6f42c1;
     color: white;
     border-radius: 30px;
 }
+
 .product-flex {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-    gap: 1rem; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
     margin: 0px 30px;
 }
 
 .card-container {
-    flex: 1 1 250px; 
-    margin: 1rem; 
+    flex: 1 1 250px;
+    margin: 1rem;
 }
 
 .remove-icon {
-    width: 18px; /* Tamaño más pequeño */
+    width: 18px;
+    /* Tamaño más pequeño */
     height: 18px;
     cursor: pointer;
 }
 
-select{
+select {
     border: 1px solid #6f42c1;
     border-radius: 5px;
     margin: 10px 20px;
@@ -117,48 +135,49 @@ select{
     padding: 5px;
     color: #12182e;
 }
+
 .cart-container {
     padding: 20px;
-  }
-  
-  .cart-content {
+}
+
+.cart-content {
     display: flex;
     flex-direction: column;
-  }
-  
-  .cart-product {
+}
+
+.cart-product {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-  }
-  
-  .cart-product img {
+}
+
+.cart-product img {
     width: 100px;
     height: 100px;
     object-fit: cover;
     margin-right: 15px;
-  }
-  
-  .product-details {
+}
+
+.product-details {
     flex-grow: 1;
-  }
-  
-  .cart-summary {
+}
+
+.cart-summary {
     margin-top: 20px;
     text-align: right;
-  }
-  
-  .empty-cart {
+}
+
+.empty-cart {
     text-align: center;
     margin-top: 50px;
     font-size: 18px;
     color: gray;
-  }
-  
+}
+
 
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
     .card-advantage {
-        flex: 1 1 100%;              
+        flex: 1 1 100%;
     }
-}   
+}

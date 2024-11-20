@@ -154,9 +154,7 @@ export class ApiService {
         userId: data.userId,
         productId: data.productId
       }
-
       reviews.push(review);
-
     }
     console.log(reviews)
     return reviews;

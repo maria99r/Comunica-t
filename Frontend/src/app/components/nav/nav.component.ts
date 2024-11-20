@@ -36,8 +36,6 @@ export class NavComponent implements OnInit {
     // actualizar número de productos
     this.updateCartProductCount();
 
-    console.log("Productos en el carrito: " + this.cartProductCount);
-
     // Nav items
     this.items = [
       {

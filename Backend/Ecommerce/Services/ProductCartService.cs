@@ -71,13 +71,12 @@ public class ProductCartService
         }
 
         // actualiza la cantidad
-        productCart.Quantity += quantityChange;
+        productCart.Quantity = quantityChange;
 
         // si al actualizar la cantidad es menor o igual a 0, se elimina
         if (productCart.Quantity <= 0)
         {
             await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
-
         }
 
         await _unitOfWork.SaveAsync();
