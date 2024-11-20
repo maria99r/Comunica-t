@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
-import { CartService } from '../../services/cart.service';
+import { Review } from '../../models/review';
+import { ApiService } from '../../services/api.service';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
-import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
@@ -15,11 +19,11 @@ import { Cart } from '../../models/cart';
 
 
 @Component({
-  selector: 'app-cart',
+  selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, ButtonModule, FormsModule, CommonModule],
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
+  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule],
+  templateUrl: './product-detail.component.html',
+  styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent implements OnInit {
 
@@ -31,7 +35,6 @@ export class ProductDetailComponent implements OnInit {
 
   textReview: string;
 
-  cart: Cart;
   public readonly IMG_URL = environment.apiImg;
 
   users: User[] = [];
@@ -62,7 +65,8 @@ export class ProductDetailComponent implements OnInit {
     // id del producto
     const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
 
-    this.loadCart();
+    // carga el producto
+    this.product = await this.api.getProduct(id);
 
     this.product.id = id;
 
@@ -175,16 +179,17 @@ export class ProductDetailComponent implements OnInit {
     } catch (error) {
       console.error('Error al publicar la reseña: ', error);
     }
+
   }
-
-
-  // Método para actualizar la cantidad de un producto en el carrito
-  changeStock(product: Product, stock: number): void {
-    if (stock <= 0) {
-      this.removeProduct(product);
+  // calculo media de reseñas
+  calculeAvg(): void {
+    if (this.reviews.length > 0) {
+      const sum = this.reviews.reduce((acc, review) => acc + review.label, 0);
+      this.avg = sum / this.reviews.length;
+      this.avg = Math.round(this.avg)
     } else {
-      product.stock = stock;
-      this.cartService.updateCartProduct(product);
+      this.avg = 0;
     }
+
   }
 }
