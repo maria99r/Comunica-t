@@ -27,7 +27,7 @@ public class ProductCartController : ControllerBase
         try
         {
             await _productCartService.AddProductToCartAsync(productCartDto);
-            return Ok("Producto añadido al carrito.");
+            return Ok(new { message = "Producto añadido al carrito." });
         }
         catch (InvalidOperationException ex)
         {

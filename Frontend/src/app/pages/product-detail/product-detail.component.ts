@@ -102,28 +102,13 @@ export class ProductDetailComponent implements OnInit {
     // si el usuario esta logueado, se trabaja con la bbdd
     if (this.isLog) {
       if (this.product) {
-        let cart: Cart | null = null;
-        cart = await this.cartApi.getCartByUser(this.currentUser.userId);
+        let cart = await this.cartApi.getCartByUser(this.currentUser.userId);
         console.log(cart)
-
-        if (cart === null || cart === undefined) {
-          try {
-            // creo carrito de usuario si no tiene
-            this.cartApi.createCart(this.currentUser.userId)
-            console.log("Carrito creado correctamente");
-          } catch (error) {
-            console.log("Error al crear el carrito del usuario:", error);
-          }
-        } else (console.log("ya tiene carrito"))
-        
         // añade producto
-        try {
-          await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
-          alert("Producto añadido al carrito.");
-        } catch (error) {
-          console.log("Error al añadir al carrito:", error);
-        }
+        await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
       }
+
+      // usuario no logueado, trabaja con localstorage
     } else {
       if (this.product) {
         console.log("Sesión NO iniciada")
