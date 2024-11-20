@@ -57,11 +57,10 @@ export class CartService {
   }
 
   createCart(idUser: number): Observable<any> {
-    const url = `${this.BASE_URL}/Cart/newCart/`;
+    const url = `${this.BASE_URL}Cart/newCart/`;
     const body = {
       userId: idUser,
     };
-
     return this.http.post(url, body);
   }
 

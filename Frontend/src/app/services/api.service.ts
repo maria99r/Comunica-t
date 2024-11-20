@@ -180,4 +180,8 @@ export class ApiService {
   async publicReview(reviewData: ReviewDto): Promise<Result<any>> { // Registro
     return this.post<any>('Review/newReview', reviewData);
   }
+
+  createCartTest(userId: number): Promise<Result<any>> {
+    return this.post<any>('Cart/newCart/', userId);
+  }
 }

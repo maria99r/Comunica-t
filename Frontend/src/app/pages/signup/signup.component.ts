@@ -4,6 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Cart } from '../../models/cart';
+import { CartService } from '../../services/cart.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,8 +18,9 @@ import { AuthService } from '../../services/auth.service';
 export class SignupComponent {
 
   myForm: FormGroup;
+  newCart: Cart;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private authService: AuthService, private router: Router, private api: ApiService) {
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -50,6 +54,7 @@ export class SignupComponent {
         alert('Registro exitoso');
         console.log('Registro exitoso', signupResult);
 
+        this.api.createCartTest(signupResult.data.id);
         const authData = { email: formData.email, password: formData.password };
         const loginResult = await this.authService.login(authData, false); // Login
 
@@ -59,11 +64,9 @@ export class SignupComponent {
         } else {
           alert('Error en el inicio de sesión');
         }
-
       } else {
         alert('Error en el registro');
       }
-
     } else {
       alert('Formulario no válido');
     }

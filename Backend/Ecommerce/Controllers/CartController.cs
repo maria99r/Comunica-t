@@ -33,8 +33,8 @@ public class CartController : ControllerBase
 
 
     // crearCarrito a partir de id de usuario
-    [HttpPost("newCart/{userId}")]
-    public async Task<ActionResult<Cart>> NewCart([FromRoute] int userId)
+    [HttpPost("newCart")]
+    public async Task<ActionResult<Cart>> NewCart([FromBody] int userId)
     {
         if (userId <= 0)
         {
