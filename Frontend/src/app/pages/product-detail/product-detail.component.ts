@@ -1,141 +1,109 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
-import { Review } from '../../models/review';
-import { ApiService } from '../../services/api.service';
-import { ActivatedRoute } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 import { environment } from '../../../environments/environment';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
-import { InputNumberModule } from 'primeng/inputnumber';
-import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { CartService } from '../../services/cart.service';  // Importa el servicio CartService
-import { CartProduct } from '../../models/cart-product';
-import { User } from '../../models/user';
-import { ReviewDto } from '../../models/reviewDto';
+import { Cart } from '../../models/cart';
+import { ProductCart } from '../../models/productCart';
 
 
 @Component({
-  selector: 'app-product-detail',
+  selector: 'app-cart',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule],
-  templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.css'
+  imports: [NavComponent, FooterComponent, ButtonModule, FormsModule, CommonModule],
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css'],
 })
-export class ProductDetailComponent implements OnInit {
+export class CartComponent implements OnInit {
+  cartProducts: Product[] = [];
 
-  product: Product | null = null;
-
-  reviews: Review[] = [];
-
-  textReview: string;
-
+  cart: Cart;
   public readonly IMG_URL = environment.apiImg;
 
-  users: User[] = [];
+  isLog: boolean; // para comprobar si esta o no logueado
 
-  // para ver si el usuario ya ha comentado y que no pueda volver a hacerlo
-  hasComment: boolean = false;
-
-  quantity = 1;
-
-  // media reseñas
-  avg: number = 0;
-
-  constructor(
-    public authService: AuthService,
-    private api: ApiService,
-    private activatedRoute: ActivatedRoute,
-    private cartService: CartService) { }
+  constructor(private cartService: CartService, private authService: AuthService) { }
 
   async ngOnInit(): Promise<void> {
-    // id del producto
-    const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
 
-    // carga el producto
-    this.product = await this.api.getProduct(id);
+    this.loadCart();
 
-    // carga sus reseñas
-    this.reviews = await this.api.loadReviews(id);
+  }
 
-    // obtiene info de los usuarios que han comentado
-    for (const review of this.reviews) {
-      this.users.push(await this.api.getUser(review.userId));
-    }
-
-    // usuario actual
+  async loadCart(){
     const user = this.authService.getUser();
+    const userId = user ? user.userId : null;
 
-    // revisa si el usuario ya ha comentado para que no pueda comentar
-    this.hasComment = this.users.some(u => u.id === user.userId);
-
-    // calcula la media de las reseñas
-    this.calculeAvg();
-  }
-
-
-  // Método para añadir al carrito
-  addToCart(): void {
-    if (this.product) {
-      const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-      const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product!.id);
-
-      if (productInCart) {
-        productInCart.quantity += this.quantity;
-      } else {
-        cart.push({ ...this.product, quantity: this.quantity });
-      }
-      localStorage.setItem('cartProducts', JSON.stringify(cart));
-      console.log('Producto añadido al carrito:', this.product);
+    // dependiendo de si el usuario esta o no logueado
+    if (user) {
+      this.cart = await this.cartService.getCartByUser(userId);
+      console.log(this.cart)
+      this.isLog = true;
     }
-
-  }
-
-
-
-  // crear reseña 
-  async publicReview() {
-    try {
-
-      const user = this.authService.getUser();
-
-      const idProduct = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
-
-      const reviewData: ReviewDto = {
-        text: this.textReview,
-        userId: user.userId,
-        productId: idProduct
-      };
-
-      const result = await this.api.publicReview(reviewData);
-
-      if (result.success) {
-        // se recarga la info de reseñas
-        this.reviews = await this.api.loadReviews(idProduct);
-        // obtiene info de los usuarios que han comentado
-        for (const review of this.reviews) {
-          this.users.push(await this.api.getUser(review.userId));
-        }
-        // revisa si el usuario ya ha comentado para que no pueda comentar
-        this.hasComment = this.users.some(u => u.id === user.userId);
-      }
-    } catch (error) {
-      console.error('Error al publicar la reseña: ', error);
+    else {
+      this.cartProducts = this.cartService.getCartFromLocal();
+      console.log(this.cartProducts)
+      this.isLog = false;
     }
-
   }
-  // calculo media de reseñas
-  calculeAvg(): void {
-    if (this.reviews.length > 0) {
-      const sum = this.reviews.reduce((acc, review) => acc + review.label, 0);
-      this.avg = sum / this.reviews.length;
-      this.avg = Math.round(this.avg)
+
+
+  // Método para actualizar la cantidad de un producto en el carrito
+  changeStock(product: Product, stock: number): void {
+    if (stock <= 0) {
+      this.removeProduct(product);
     } else {
-      this.avg = 0;
+      product.stock = stock;
+      this.cartService.updateCartProduct(product);
     }
+  }
 
+
+  // cambiar cantidad de un producto en el carrito de BBDD
+  changeQuantityBBDD(product: ProductCart, newQuantity: number): void {
+    product.quantity = newQuantity;
+    // this.cartService.updateCartProduct(product);
+  }
+
+
+  // eliminar un producto del carrito
+  removeProduct(product: Product): void {
+    const mondongo: any = product;
+    this.cartService.removeFromCart(parseInt(mondongo.id));
+    this.cartProducts = this.cartService.getCartFromLocal();
+    console.log('Removing product with id:', mondongo.id); // Log :D
+  }
+
+  // eliminar un producto del carrito de la bbdd 
+  async removeProductBBDD(productId: number): Promise<void> {
+    try {
+      const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
+      alert(response);  
+      this.loadCart();
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+      alert('Hubo un error al eliminar el producto.');
+    }
+  }
+
+
+  // Calcula el total del carrito
+  get total(): number {
+    let sum = 0;
+    if (this.isLog) {
+      for (let line of this.cart.products) {
+        sum += line.product.price / 100 * (line.quantity || 1);
+      }
+    } else {
+      for (let product of this.cartProducts) {
+        sum += product.price / 100 * (product.stock || 1);
+      }
+    }
+    return sum;
   }
 }
-
