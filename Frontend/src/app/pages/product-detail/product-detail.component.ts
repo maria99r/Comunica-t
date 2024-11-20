@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
+import { ProductCart } from '../../models/productCart';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class ProductDetailComponent implements OnInit {
 
 
   product: Product | null = null;
+  productCart: ProductCart | null = null;
 
   reviews: Review[] = [];
 
@@ -35,7 +37,7 @@ export class ProductDetailComponent implements OnInit {
   public readonly IMG_URL = environment.apiImg;
 
   users: User[] = [];
-  actualUser : User;
+  currentUser : User;
   isLog : boolean = false;
 
   // para ver si el usuario ya ha comentado y que no pueda volver a hacerlo
@@ -54,6 +56,11 @@ export class ProductDetailComponent implements OnInit {
     private cartService: CartService) { }
 
   async ngOnInit(): Promise<void> {
+    // usuario actual
+    const user = await this.authService.getUser();
+    if(user != null){ this.isLog = true;}
+    this.currentUser = user;
+    
     // id del producto
     const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
 
@@ -70,10 +77,6 @@ export class ProductDetailComponent implements OnInit {
       this.users.push(await this.api.getUser(review.userId));
     }
 
-    // usuario actual
-    const user = await this.authService.getUser();
-    if(user != null){ this.isLog = true;}
-
     // revisa si el usuario ya ha comentado para que no pueda comentar
     this.hasComment = this.users.some(u => u.id === user.userId);
 
@@ -85,10 +88,16 @@ export class ProductDetailComponent implements OnInit {
   // añadir al carrito 
   async addToCart(): Promise<void> {
 
+    this.productCart.cartId = 1;
+    this.productCart.productId = this.product.id;
+    this.productCart.quantity = this.quantity;
+    this.productCart.product = this.product;
+
     // si el usuario esta logueado, se trabaja con la bbdd
     if (this.isLog) {
+      console.log("Sesión iniciada con la id: " + this.currentUser)
       if (this.product) {
-        const cart = await this.cartApi.getCartByUser(this.actualUser.id);
+        const cart = await this.cartApi.getCartByUser(this.currentUser.id);
           try {
             await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
             alert("Producto añadido al carrito.");
@@ -100,7 +109,9 @@ export class ProductDetailComponent implements OnInit {
       }
     } else {
       if (this.product) {
+        console.log("Sesión NO iniciada")
         const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+        
         if (this.quantity > this.product.stock) {
 
           this.quantity = this.product.stock;
@@ -108,23 +119,21 @@ export class ProductDetailComponent implements OnInit {
 
         } else {
 
-          const productInCart = cart.find((p: Product & { quantity: number }) => p.id === this.product.id);
+          const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
 
           if (productInCart) {
             productInCart.quantity += this.quantity;
           } else {
-            cart.push({ ...this.product, quantity: this.quantity });
+            cart.push({ ...this.productCart});
           }
           localStorage.setItem('cartProducts', JSON.stringify(cart));
-          console.log('Producto añadido al carrito:', this.product);
+          console.log('Producto añadido al carrito:', this.productCart);
           alert("El producto se ha añadido correctamente su carrito.");
         }
 
       }
     }
   }
-
-
 
   // crear reseña 
   async publicReview() {

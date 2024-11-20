@@ -20,7 +20,7 @@ import { ProductCart } from '../../models/productCart';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartProducts: Product[] = [];
+  cartProducts: ProductCart[] = [];
 
   cart: Cart;
   public readonly IMG_URL = environment.apiImg;
@@ -41,11 +41,13 @@ export class CartComponent implements OnInit {
 
     // dependiendo de si el usuario esta o no logueado
     if (user) {
+      console.log("Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
       console.log(this.cart)
       this.isLog = true;
     }
     else {
+      console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
       console.log(this.cartProducts)
       this.isLog = false;
@@ -54,29 +56,30 @@ export class CartComponent implements OnInit {
 
 
   // Método para actualizar la cantidad de un producto en el carrito
-  changeStock(product: Product, stock: number): void {
-    if (stock <= 0) {
-      this.removeProduct(product);
+  changeQuantityLocal(product: ProductCart, quantity: number): void {
+    if (product.quantity <= 0) {
+      this.removeProductLocal(product);
     } else {
-      product.stock = stock;
+      product.quantity = quantity;
       this.cartService.updateCartProduct(product);
     }
   }
 
 
   // cambiar cantidad de un producto en el carrito de BBDD
-  changeQuantityBBDD(product: ProductCart, newQuantity: number): void {
+  changeQuantityBBDD(product: ProductCart, newQuantity: number): void { // NO FUNCIONA NI EN EL BACK :(
     product.quantity = newQuantity;
+    this.cartProducts = this.cartService.getCartFromLocal();
     // this.cartService.updateCartProduct(product);
   }
 
 
   // eliminar un producto del carrito
-  removeProduct(product: Product): void {
-    const mondongo: any = product;
-    this.cartService.removeFromCart(parseInt(mondongo.id));
+  removeProductLocal(product: ProductCart): void {
+    const productoAny: any = product;
+    this.cartService.removeFromCartLocal(parseInt(productoAny.id));
     this.cartProducts = this.cartService.getCartFromLocal();
-    console.log('Removing product with id:', mondongo.id); // Log :D
+    console.log('Eliminado producto con la id:', productoAny.id); // Log :D
   }
 
   // eliminar un producto del carrito de la bbdd 
@@ -101,7 +104,7 @@ export class CartComponent implements OnInit {
       }
     } else {
       for (let product of this.cartProducts) {
-        sum += product.price / 100 * (product.stock || 1);
+        sum += product.product.price / 100 * (product.quantity || 1);
       }
     }
     return sum;
