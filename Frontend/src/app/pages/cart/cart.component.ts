@@ -76,10 +76,9 @@ export class CartComponent implements OnInit {
 
   // eliminar un producto del carrito
   removeProductLocal(product: ProductCart): void {
-    const productoAny: any = product;
-    this.cartService.removeFromCartLocal(parseInt(productoAny.id));
+    this.cartService.removeFromCartLocal(product.productId);
     this.cartProducts = this.cartService.getCartFromLocal();
-    console.log('Eliminado producto con la id:', productoAny.id); // Log :D
+    console.log('Eliminado producto con la id:', product.productId); // Log :D
   }
 
   // eliminar un producto del carrito de la bbdd 
