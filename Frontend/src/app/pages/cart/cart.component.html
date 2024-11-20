@@ -9,32 +9,45 @@
 
 <div class="cart-container">
   <div class="cart-content">
-
-    <div *ngIf="cartProducts.length === 0" class="empty-cart">
+    @if (cartProducts.length === 0) {
+    <div class="empty-cart">
       <p>Tu carrito está vacío.</p>
     </div>
-
-    <div *ngIf="cartProducts.length > 0">
-      <div class="cart-product" *ngFor="let product of cartProducts">
-          <img src="{{IMG_URL}}{{product.image}}" >
-
+    } 
+    @if (cartProducts.length > 0) { 
+      @for (product of cartProducts; track product.id) {
+      <div class="cart-product">
+        <img src="{{ IMG_URL }}{{ product.image }}" />
+        <p>{{product.id}}</p>
         <div class="product-details">
           <h3>{{ product.name }}</h3>
           <p>{{ product.price / 100 }} €</p>
 
           <label>Cantidad: </label>
-          <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
-            (ngModelChange)="changeQuantity(product, product.quantity)" min="1" />
+          <input
+            type="number"
+            class="input-quantity"
+            [(ngModel)]="product.stock"
+            (ngModelChange)="changeStock(product, product.stock)"
+            min="1"
+          />
 
-          <button class="p-button-danger" label="Eliminar" (click)="removeProduct(product.productId)">Eliminar</button>
+          <button
+            class="p-button-danger"
+            label="Eliminar"
+            (click)="removeProduct(product)"
+          >
+            Eliminar
+          </button>
+          
         </div>
       </div>
+    }
 
-      <div class="cart-summary">
-        <p>Total: {{ total | currency:'EUR' }}</p>
-
-      </div>
+    <div class="cart-summary">
+      <p>Total: {{ total | currency : "EUR" }}</p>
     </div>
+    }
   </div>
 </div>
 <!-- FOOTER -->

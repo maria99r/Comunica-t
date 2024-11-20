@@ -43,11 +43,11 @@ public class CartService
         var cartExists = await _unitOfWork.CartRepository.GetQueryable()
             .AnyAsync(cart => cart.UserId == userId);
 
-        if (cartExists)
+        if (cartExists) // Si el carrito existe, lanza una excepción
         {
             throw new InvalidOperationException("El usuario ya tiene un carrito asignado.");
         }
-
+        // Se inserta el nuevo carrito
         return await _unitOfWork.CartRepository.InsertCartAsync(userId);
 
     }

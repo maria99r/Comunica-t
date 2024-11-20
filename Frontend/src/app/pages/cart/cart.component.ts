@@ -7,7 +7,6 @@
   import { FooterComponent } from "../../components/footer/footer.component";
   import { ButtonModule } from 'primeng/button';
   import { FormsModule } from '@angular/forms';
-  import { CartProduct } from '../../models/cart-product';
   import { AuthService } from '../../services/auth.service';
 
 
@@ -19,7 +18,7 @@
     styleUrls: ['./cart.component.css'],
   })
   export class CartComponent implements OnInit {
-    cartProducts: CartProduct[] = [];
+    cartProducts: Product[] = [];
 
     public readonly IMG_URL = environment.apiImg;
 
@@ -39,28 +38,28 @@
     }
 
     // Método para actualizar la cantidad de un producto en el carrito
-    changeQuantity(product: CartProduct, quantity: number): void {
-      if (quantity <= 0) {
-        this.removeProduct(product.productId); 
+    changeStock(product: Product, stock: number): void {
+      if (stock <= 0) {
+        this.removeProduct(product); 
       } else {
-        product.quantity = quantity;  
+        product.stock = stock;  
         this.cartService.updateCartProduct(product); 
       }
     }
 
     // eliminar un producto del carrito
-    removeProduct(id: number): void {
-      this.cartService.removeFromCart(id); 
-      console.log('Removing product with id:', id);  // Add this log to debug
-
-      this.cartProducts = this.cartProducts.filter(p => p.productId !== id); 
+    removeProduct(product: Product): void {
+      const mondongo: any = product;
+      this.cartService.removeFromCart(parseInt(mondongo.id));
+      this.cartProducts = this.cartService.getCartFromLocal();
+      console.log('Removing product with id:', mondongo.id); // Log :D
     }
 
     // Calcula el total del carrito
     get total(): number {
       let sum = 0;
       for (let product of this.cartProducts) {
-        sum += product.price/100 * (product.quantity || 1);
+        sum += product.price/100 * (product.stock || 1);
       }
       return sum;  
     }

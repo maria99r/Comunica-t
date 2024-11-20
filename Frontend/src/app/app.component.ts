@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
@@ -9,6 +9,14 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'Ecommerce';
+  ngOnInit(): void {
+    console.log(window.ethereum);
+  }
+}
+declare global {
+  interface Window {
+  ethereum: any;
+  }
 }
