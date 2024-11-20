@@ -12,31 +12,28 @@
 
     <!-- SI EL USUARIO ESTA LOGUEADO -->
     @if(this.isLog){
-      @if (cart.products.length === 0) {
-      <div class="empty-cart">
-        <p>Tu carrito está vacío.</p>
-      </div>
+    @if (cart.products.length === 0) {
+    <div class="empty-cart">
+      <p>Tu carrito está vacío.</p>
+    </div>
     }
     <div *ngFor="let productLine of cart.products">
       <div class="cart-product">
-      <img src="{{ IMG_URL }}{{ productLine.product.image }}" />
-      <div class="product-details">
-        <h3>{{ productLine.product.name }}</h3>
-        <p>{{ productLine.product.price / 100 }} €</p>
+        <img src="{{ IMG_URL }}{{ productLine.product.image }}" />
+        <div class="product-details">
+          <h3>{{ productLine.product.name }}</h3>
+          <p>{{ productLine.product.price / 100 }} €</p>
 
-        <label>Cantidad: </label>
-        <input type="number" class="input-quantity" [(ngModel)]="productLine.quantity"
-          (ngModelChange)="changeQuantityBBDD(productLine, productLine.quantity)" min="1" />
+          <label>Cantidad: </label>
+          <input type="number" class="input-quantity" [(ngModel)]="productLine.quantity"
+            (ngModelChange)="changeQuantityBBDD(productLine, productLine.quantity)" min="1" />
 
-        <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(productLine.productId)">
-          Eliminar
-        </button>
+          <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(productLine.productId)">
+            Eliminar
+          </button>
 
+        </div>
       </div>
-    </div>
-    </div>
-    <div class="cart-summary">
-      <p>Total: {{ total | currency : "EUR" }}</p>
     </div>
     }
 
@@ -62,13 +59,22 @@
             Eliminar
           </button>
 
-        </div>
       </div>
-      }
-      <div class="cart-summary">
-        <p>Total: {{ total | currency : "EUR" }}</p>
-      </div>
+    </div>
     }
+
+    }
+    <div class="cart-total">
+      <p>Total: {{ total | currency : "EUR" }}</p>
+    </div>
+    <div class="pay-button">
+      <button>
+        Pagar con ethereum
+      </button>
+      <button>
+        Pagar con tarjeta
+      </button>
+    </div>
 
   </div>
 </div>
