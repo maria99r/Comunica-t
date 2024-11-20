@@ -12,31 +12,28 @@
 
     <!-- SI EL USUARIO ESTA LOGUEADO -->
     @if(this.isLog){
-      @if (cart.products.length === 0) {
-      <div class="empty-cart">
-        <p>Tu carrito está vacío.</p>
-      </div>
+    @if (cart.products.length === 0) {
+    <div class="empty-cart">
+      <p>Tu carrito está vacío.</p>
+    </div>
     }
     <div *ngFor="let productLine of cart.products">
       <div class="cart-product">
-      <img src="{{ IMG_URL }}{{ productLine.product.image }}" />
-      <div class="product-details">
-        <h3>{{ productLine.product.name }}</h3>
-        <p>{{ productLine.product.price / 100 }} €</p>
+        <img src="{{ IMG_URL }}{{ productLine.product.image }}" />
+        <div class="product-details">
+          <h3>{{ productLine.product.name }}</h3>
+          <p>{{ productLine.product.price / 100 }} €</p>
 
-        <label>Cantidad: </label>
-        <input type="number" class="input-quantity" [(ngModel)]="productLine.quantity"
-          (ngModelChange)="changeQuantityBBDD(productLine, productLine.quantity)" min="1" />
+          <label>Cantidad: </label>
+          <input type="number" class="input-quantity" [(ngModel)]="productLine.quantity"
+            (ngModelChange)="changeQuantityBBDD(productLine, productLine.quantity)" min="1" />
 
-        <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(productLine.productId)">
-          Eliminar
-        </button>
+          <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(productLine.productId)">
+            Eliminar
+          </button>
 
+        </div>
       </div>
-    </div>
-    </div>
-    <div class="cart-summary">
-      <p>Total: {{ total | currency : "EUR" }}</p>
     </div>
     }
 
@@ -47,28 +44,37 @@
         <p>Tu carrito está vacío.</p>
       </div>
       }
-      @for (product of cartProducts; track product.id) {
+      @for (product of cartProducts; track product.productId) {
       <div class="cart-product">
-        <img src="{{ IMG_URL }}{{ product.image }}" />
+        <img src="{{ IMG_URL }}{{ product.product.image }}" />
         <div class="product-details">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.price / 100 }} €</p>
+          <h3>{{ product.product.name }}</h3>
+          <p>{{ product.product.price / 100 }} €</p>
 
           <label>Cantidad: </label>
-          <input type="number" class="input-quantity" [(ngModel)]="product.stock"
-            (ngModelChange)="changeStock(product, product.stock)" min="1" />
+          <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
+            (ngModelChange)="changeQuantityLocal(product, product.quantity)" min="1" />
 
-          <button class="p-button-danger" label="Eliminar" (click)="removeProduct(product)">
+          <button class="p-button-danger" label="Eliminar" (click)="removeProductLocal(product)">
             Eliminar
           </button>
 
-        </div>
       </div>
-      }
-      <div class="cart-summary">
-        <p>Total: {{ total | currency : "EUR" }}</p>
-      </div>
+    </div>
     }
+
+    }
+    <div class="cart-total">
+      <p>Total: {{ total | currency : "EUR" }}</p>
+    </div>
+    <div class="pay-button">
+      <button>
+        Pagar con ethereum
+      </button>
+      <button>
+        Pagar con tarjeta
+      </button>
+    </div>
 
   </div>
 </div>
