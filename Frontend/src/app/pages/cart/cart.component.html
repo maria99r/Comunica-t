@@ -1,42 +1,76 @@
-<!-- NAV BAR -->
 <app-nav></app-nav>
 
 <!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
-<div class="panel-top h-20rem d-flex w-full">
-    <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
-        - carrito -
-    </p>
+<div class="panel-top h-12rem d-flex w-full">
+  <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
+    - cesta -
+  </p>
 </div>
 
 <div class="cart-container">
-    <div class="cart-content">
-      <h2>Carrito de Compras</h2>
-  
-      <div *ngIf="cartProducts.length === 0" class="empty-cart">
+  <div class="cart-content">
+
+    <!-- SI EL USUARIO ESTA LOGUEADO -->
+    @if(this.isLog){
+      @if (cart.products.length === 0) {
+      <div class="empty-cart">
         <p>Tu carrito está vacío.</p>
       </div>
-    
-          <div *ngIf="cartProducts.length > 0">
-            <div class="cart-product" *ngFor="let product of cartProducts">
-<!--               <img [src]="IMG_URL + product.image" alt="{{ product.name }}" />
- -->              
-              <div class="product-details">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.price / 100 }} €</p>
-      
-                <label>Cantidad:</label>
-                <input type="number" [(ngModel)]="product.quantity" (ngModelChange)="changeQuantity(product, product.quantity)" min="1" />
-                
-                <button pButton label="Eliminar" (click)="removeProduct(product.productId)"></button>
-              </div>
-            </div>
-      
-            <div class="cart-summary">
-              <p>Total: {{ total | currency:'EUR' }}</p>
-              
-            </div>
-          </div>
+    }
+    <div *ngFor="let productLine of cart.products">
+      <div class="cart-product">
+      <img src="{{ IMG_URL }}{{ productLine.product.image }}" />
+      <div class="product-details">
+        <h3>{{ productLine.product.name }}</h3>
+        <p>{{ productLine.product.price / 100 }} €</p>
+
+        <label>Cantidad: </label>
+        <input type="number" class="input-quantity" [(ngModel)]="productLine.quantity"
+          (ngModelChange)="changeQuantityBBDD(productLine, productLine.quantity)" min="1" />
+
+        <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(productLine.productId)">
+          Eliminar
+        </button>
+
+      </div>
+    </div>
+    </div>
+    <div class="cart-summary">
+      <p>Total: {{ total | currency : "EUR" }}</p>
+    </div>
+    }
+
+    <!-- SI EL USUARIO NO ESTA LOGUEADO -->
+    @if(!isLog) {
+      @if (cartProducts.length === 0) {
+      <div class="empty-cart">
+        <p>Tu carrito está vacío.</p>
+      </div>
+      }
+      @for (product of cartProducts; track product.id) {
+      <div class="cart-product">
+        <img src="{{ IMG_URL }}{{ product.image }}" />
+        <div class="product-details">
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.price / 100 }} €</p>
+
+          <label>Cantidad: </label>
+          <input type="number" class="input-quantity" [(ngModel)]="product.stock"
+            (ngModelChange)="changeStock(product, product.stock)" min="1" />
+
+          <button class="p-button-danger" label="Eliminar" (click)="removeProduct(product)">
+            Eliminar
+          </button>
+
         </div>
       </div>
+      }
+      <div class="cart-summary">
+        <p>Total: {{ total | currency : "EUR" }}</p>
+      </div>
+    }
+
+  </div>
+</div>
 <!-- FOOTER -->
 <app-footer></app-footer>
