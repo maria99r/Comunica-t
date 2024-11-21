@@ -181,7 +181,5 @@ export class ApiService {
     return this.post<any>('Review/newReview', reviewData);
   }
 
-  createCartTest(userId: number): Promise<Result<any>> {
-    return this.post<any>('Cart/newCart/', userId);
-  }
+
 }

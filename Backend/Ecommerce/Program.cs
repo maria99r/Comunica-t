@@ -25,8 +25,11 @@ builder.Services.AddScoped<ReviewRepository>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<ProductOrderRepository>();
 builder.Services.AddScoped<ProductCartRepository>();
-builder.Services.AddScoped<CustomerOrderRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<TemporalOrderRepository>();
+builder.Services.AddScoped<TemporalProductOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
+
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();

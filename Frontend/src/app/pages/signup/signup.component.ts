@@ -4,9 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Cart } from '../../models/cart';
 import { CartService } from '../../services/cart.service';
-import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -18,9 +16,13 @@ import { ApiService } from '../../services/api.service';
 export class SignupComponent {
 
   myForm: FormGroup;
-  newCart: Cart;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private authService: AuthService, private router: Router, private api: ApiService) {
+  constructor(private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router,
+    private cartApi: CartService
+  ) {
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -54,7 +56,16 @@ export class SignupComponent {
         alert('Registro exitoso');
         console.log('Registro exitoso', signupResult);
 
-        this.api.createCartTest(signupResult.data.id);
+        // creo carrito para usuario
+        this.cartApi.createCart(signupResult.data.userId).subscribe({
+          next: (response) => {
+            console.log('Carrito creado exitosamente:', response);
+          },
+          error: (err) => {
+            console.error('Error al crear el carrito:', err);
+          },
+        });
+
         const authData = { email: formData.email, password: formData.password };
         const loginResult = await this.authService.login(authData, false); // Login
 
@@ -64,9 +75,11 @@ export class SignupComponent {
         } else {
           alert('Error en el inicio de sesión');
         }
+
       } else {
         alert('Error en el registro');
       }
+
     } else {
       alert('Formulario no válido');
     }

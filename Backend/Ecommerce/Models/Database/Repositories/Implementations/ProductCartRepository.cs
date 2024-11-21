@@ -21,6 +21,14 @@ public class ProductCartRepository : Repository<ProductCart, int>
     // crea producto en carrito
     public async Task AddProductToCartAsync(ProductCart productCart)
     {
+        // Verificar si el carrito existe
+        var cartExists = await _context.Cart.AnyAsync(c => c.Id == productCart.CartId);
+
+        if (!cartExists)
+        {
+            throw new InvalidOperationException("El carrito no existe.");
+        }
+
         // comprueba si ese producto existe en el carrito
         var existingProduct = await GetProductInCartAsync(productCart.CartId, productCart.ProductId);
 
