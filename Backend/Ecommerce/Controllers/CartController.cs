@@ -22,13 +22,16 @@ public class CartController : ControllerBase
     [HttpGet("byUser/{id}")]
     public async Task<IActionResult> GetCartByUser(int id)
     {
-        var cart = await _cartService.GetByUserIdAsync(id);
-
-        if (cart == null)
+        try
         {
-            return NotFound("No se encontró carrito para este usuario.");
+            var cart = await _cartService.GetByUserIdAsync(id);
+            return Ok(cart);
         }
-        return Ok(cart);
+        catch (Exception e)
+        {
+            return StatusCode(500, "Error al procesar la solicitud.");
+        }
+        
     }
 
 

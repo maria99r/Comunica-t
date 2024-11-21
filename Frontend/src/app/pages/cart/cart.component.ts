@@ -98,12 +98,21 @@ export class CartComponent implements OnInit {
   get total(): number {
     let sum = 0;
     if (this.isLog) {
-      for (let line of this.cart.products) {
-        sum += line.product.price / 100 * (line.quantity || 1);
+      if (this.cart.products === null) { // Controla si está vacío
+        sum = 0;
+      } else {
+        for (let line of this.cart.products) {
+          sum += line.product.price / 100 * (line.quantity || 1);
+        }
       }
+      
     } else {
-      for (let product of this.cartProducts) {
-        sum += product.product.price / 100 * (product.quantity || 1);
+      if (this.cart.products === null) { // Controla si está vacío
+        sum = 0;
+      } else {
+        for (let product of this.cartProducts) {
+          sum += product.product.price / 100 * (product.quantity || 1);
+        }
       }
     }
     return sum;

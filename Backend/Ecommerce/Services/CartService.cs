@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +22,14 @@ public class CartService
 
         if (cart == null)
         {
-            return null;
+            await _unitOfWork.CartRepository.InsertCartAsync(id);
+            await _unitOfWork.SaveAsync();
         }
-        return cart;
+        return new CartDto
+        {
+            Id = cart.Id,
+            UserId = cart.UserId,
+        };
     }
 
 
