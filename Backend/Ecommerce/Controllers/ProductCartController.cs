@@ -21,17 +21,21 @@ public class ProductCartController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            return BadRequest("Parámetros inválidos");
         }
 
         try
         {
             await _productCartService.AddProductToCartAsync(productCartDto);
-            return Ok("Producto añadido al carrito.");
+            return Ok(new { message = "Producto añadido al carrito." });
         }
         catch (InvalidOperationException ex)
         {
             return Conflict($"No pudo añadirse el producto: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
         }
     }
 

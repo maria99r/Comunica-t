@@ -12,11 +12,15 @@ public class EcommerceContext : DbContext
     // Tablas
     public DbSet<Cart> Cart { get; set; }
 
-    public DbSet<CustomerOrder> CustomerOrder { get; set; }
+    public DbSet<Order> Order { get; set; }
+
+    public DbSet<TemporalOrder> TemporalOrder { get; set; }
 
     public DbSet<Product> Product { get; set; }
 
     public DbSet<ProductCart> ProductCart { get; set; }
+
+    public DbSet<TemporalProductOrder> TemporalProductOrder { get; set; }
 
     public DbSet<ProductOrder> ProductOrder { get; set; }
 
