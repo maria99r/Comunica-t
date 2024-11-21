@@ -25,6 +25,12 @@ public class CartController : ControllerBase
         try
         {
             var cart = await _cartService.GetByUserIdAsync(id);
+            
+            if (cart == null)
+            {
+                return null;
+            }
+
             return Ok(cart);
         }
         catch (Exception e)

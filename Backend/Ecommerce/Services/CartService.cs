@@ -18,18 +18,14 @@ public class CartService
     // obtener carrito por id de usuario
     public async Task<CartDto> GetByUserIdAsync(int id)
     {
-        var cart = await _unitOfWork.CartRepository.GetCartByUserId(id);
+        CartDto cartDto = await _unitOfWork.CartRepository.GetCartByUserId(id);
 
-        if (cart == null)
+        if (cartDto == null)
         {
-            await _unitOfWork.CartRepository.InsertCartAsync(id);
-            await _unitOfWork.SaveAsync();
+            return null;
         }
-        return new CartDto
-        {
-            Id = cart.Id,
-            UserId = cart.UserId,
-        };
+
+        return cartDto;
     }
 
 
