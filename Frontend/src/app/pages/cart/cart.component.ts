@@ -97,8 +97,9 @@ export class CartComponent implements OnInit {
   // Calcula el total del carrito
   get total(): number {
     let sum = 0;
+    
     if (this.isLog) {
-      if (this.cart.products === null) { // Controla si está vacío
+      if (this.cartProducts === null) { // Controla si está vacío
         sum = 0;
       } else {
         for (let line of this.cart.products) {
@@ -107,13 +108,14 @@ export class CartComponent implements OnInit {
       }
       
     } else {
-      if (this.cart.products === null) { // Controla si está vacío
+      if (this.cartProducts === null) { // Controla si está vacío
         sum = 0;
       } else {
         for (let product of this.cartProducts) {
           sum += product.product.price / 100 * (product.quantity || 1);
         }
       }
+      
     }
     return sum;
   }
