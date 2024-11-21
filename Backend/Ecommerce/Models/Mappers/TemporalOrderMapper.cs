@@ -19,7 +19,8 @@ public class TemporalOrderMapper
     {
         if (temporalOrder == null)
         {
-            // throw new ArgumentNullException(nameof(cart), "El carrito es nulo");
+            throw new ArgumentNullException(nameof(temporalOrder), "La orden es nula");
+
         }
 
         return new TemporalOrderDto
