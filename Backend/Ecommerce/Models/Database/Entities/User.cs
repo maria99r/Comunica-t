@@ -28,7 +28,7 @@ public class User
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     // Pedidos del usuario
-    public ICollection<CustomerOrder> CustomerOrders { get; set; } = new List<CustomerOrder>();
+    public ICollection<Order> CustomerOrders { get; set; } = new List<Order>();
 
     // Carrito del usuario
     public Cart Cart { get; set; } = null!;

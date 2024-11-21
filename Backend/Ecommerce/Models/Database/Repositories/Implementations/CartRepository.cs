@@ -51,7 +51,7 @@ public class CartRepository : Repository<Cart, int>
 
         if (!await SaveAsync())
         {
-            throw new Exception("El carrito no se pudo guardar el la BBDD.");
+            throw new Exception("El carrito no se pudo guardar en la BBDD.");
 
         }
 

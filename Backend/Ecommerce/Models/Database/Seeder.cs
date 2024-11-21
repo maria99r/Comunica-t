@@ -43,8 +43,6 @@ public class Seeder
         await _context.User.AddRangeAsync(users);
     }
 
-
-
     private async Task SeedProductAsync()
     {
         Product[] products = [
