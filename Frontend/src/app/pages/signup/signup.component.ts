@@ -4,7 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Cart } from '../../models/cart';
 import { CartService } from '../../services/cart.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-signup',
@@ -16,6 +18,7 @@ import { CartService } from '../../services/cart.service';
 export class SignupComponent {
 
   myForm: FormGroup;
+  newCart: Cart;
 
   constructor(private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -75,11 +78,9 @@ export class SignupComponent {
         } else {
           alert('Error en el inicio de sesión');
         }
-
       } else {
         alert('Error en el registro');
       }
-
     } else {
       alert('Formulario no válido');
     }

@@ -54,8 +54,8 @@ export class ProductDetailComponent implements OnInit {
     public authService: AuthService,
     private api: ApiService,
     private cartApi: CartService,
-    private activatedRoute: ActivatedRoute,
-    private cartService: CartService) { }
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   async ngOnInit(): Promise<void> {
     // usuario actual
@@ -117,28 +117,34 @@ export class ProductDetailComponent implements OnInit {
       // usuario no logueado, trabaja con localstorage
     } else {
       if (this.product) {
-        console.log("Sesión NO iniciada")
-        const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-
-        if (this.quantity > this.product.stock) {
-
-          this.quantity = this.product.stock;
-          alert("No hay stock suficiente.")
-
-        } else {
-
-          const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
-
-          if (productInCart) {
-            productInCart.quantity += this.quantity;
+        try {
+          
+          console.log("Sesión NO iniciada")
+          const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+  
+          if (this.quantity > this.product.stock) {
+  
+            this.quantity = this.product.stock;
+            alert("No hay stock suficiente.")
+  
           } else {
-            cart.push({ ...this.productCart });
+  
+            const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
+  
+            if (productInCart) {
+              productInCart.quantity += this.quantity;
+            } else {
+              cart.push({ ...this.productCart });
+            }
+            localStorage.setItem('cartProducts', JSON.stringify(cart));
+            console.log('Producto añadido al carrito:', this.productCart);
+            alert("El producto se ha añadido correctamente su carrito.");
           }
-          localStorage.setItem('cartProducts', JSON.stringify(cart));
-          console.log('Producto añadido al carrito:', this.productCart);
-          alert("El producto se ha añadido correctamente su carrito.");
-        }
 
+        } catch (error) {
+          console.log("Error: " + error)
+        }
+        
       }
     }
   }

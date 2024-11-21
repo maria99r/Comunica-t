@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,13 +18,14 @@ public class CartService
     // obtener carrito por id de usuario
     public async Task<CartDto> GetByUserIdAsync(int id)
     {
-        var cart = await _unitOfWork.CartRepository.GetCartByUserId(id);
+        CartDto cartDto = await _unitOfWork.CartRepository.GetCartByUserId(id);
 
-        if (cart == null)
+        if (cartDto == null)
         {
             return null;
         }
-        return cart;
+
+        return cartDto;
     }
 
 

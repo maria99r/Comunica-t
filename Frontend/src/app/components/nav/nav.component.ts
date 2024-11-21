@@ -21,6 +21,7 @@ export class NavComponent implements OnInit {
   name: string | null = null; // nombre del usuario
   userId: number | null = null; // id del usuario
   cartProductCount: number = 0; // número de productos
+  productQuantity: number = 0; // Suma total de las cantidades de cada producto
 
   constructor(public authService: AuthService, public router: Router, public cartService: CartService) { }
 
@@ -63,7 +64,16 @@ export class NavComponent implements OnInit {
       try {
         const userId = this.userId;
         const cart = await this.cartService.getCartByUser(userId);
-        this.cartProductCount = cart.products.length;
+        //console.log(cart)
+        if (cart.products === null) {
+          this.cartProductCount === 0;
+        } else {
+          cart.products.forEach((product) => // Recorre el carrito y suma las cantidades
+          this.cartProductCount += product.quantity)
+          console.log("Cantidad de productos: " + this.productQuantity)
+        }
+        
+        //this.cartProductCount = cart.products.length;
       } catch (error) {
         console.error('Error al obtener el carrito de la base de datos:', error);
         this.cartProductCount = 0;
@@ -71,7 +81,9 @@ export class NavComponent implements OnInit {
     } else {
       // si no lo está, se obtiene del localStorage
       const cart = this.cartService.getCartFromLocal();
-      this.cartProductCount = cart.length;
+      cart.forEach((product) => // Recorre el carrito y suma las cantidades
+        this.cartProductCount += product.quantity)
+      console.log("Cantidad de productos: " + this.productQuantity)
     }
 
   }
