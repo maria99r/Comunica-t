@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database;
 using Ecommerce.Models.Mappers;
+using Ecommerce.Models.Dtos;
 
 namespace Ecommerce.Services;
 
@@ -13,7 +14,7 @@ public class TemporalOrderService
     }
 
     // crear order temporal (hay que mapear el user para que no se vean los datos)
-    public async Task<TemporalOrder> CreateTemporalOrderAsync(Cart cart, string paymentMethod)
+    public async Task<TemporalOrder> CreateTemporalOrderAsync(CartDto cart, string paymentMethod)
     {
         
         if (paymentMethod == null || paymentMethod == "")

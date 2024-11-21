@@ -7,14 +7,22 @@ namespace Ecommerce.Models.Database.Repositories.Implementations;
 
 public class TemporalOrderRepository : Repository<TemporalOrder, int>
 {
+    private readonly TemporalOrderMapper _temporalOrderMapper;
+
+
     public TemporalOrderRepository(EcommerceContext context) : base(context)
-    { }
+    {
+        _temporalOrderMapper = new TemporalOrderMapper();
+       
+    }
 
     // Crear una orden temporal
-    public async Task<TemporalOrder> InsertTemporalOrderAsync(Cart cart, String paymentMethod)
+    public async Task<TemporalOrder> InsertTemporalOrderAsync(CartDto cart, String paymentMethod)
     {
-        // precio total
-        var total = cart.ProductCarts.Sum(pc => pc.Quantity * pc.Product.Price);
+
+
+    // precio total
+    var total = cart.ProductCarts.Sum(pc => pc.Quantity * pc.Product.Price);
 
         var newTemporalOrder = new TemporalOrder
         {
@@ -27,7 +35,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id
             }).ToList(),
-            User = cart.User,
+            //User = cart.User, // es un userDto 
             ExpiresAt = DateTime.UtcNow.AddMinutes(15) // expira en 15 minutos
         };
 

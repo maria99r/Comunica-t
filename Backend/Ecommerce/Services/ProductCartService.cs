@@ -23,9 +23,10 @@ public class ProductCartService
     public async Task AddProductToCartAsync(ProductCartDto productCartDto)
     {
         // comprueba si existe el carrito
-        var cart = await _unitOfWork.CartRepository.GetCartByUserId(productCartDto.CartId);
+        var cartExists = await _unitOfWork.CartRepository.GetQueryable()
+        .AnyAsync(c => c.Id == productCartDto.CartId);
 
-        if (cart == null)
+        if (!cartExists)
         {
             throw new InvalidOperationException("El carrito no existe.");
         }

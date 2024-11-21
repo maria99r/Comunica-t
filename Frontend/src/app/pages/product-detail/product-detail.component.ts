@@ -16,6 +16,7 @@ import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
 import { Cart } from '../../models/cart';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -105,7 +106,12 @@ export class ProductDetailComponent implements OnInit {
         let cart = await this.cartApi.getCartByUser(this.currentUser.userId);
         console.log(cart)
         // añade producto
-        await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
+        try{
+          await firstValueFrom(this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id)));
+          alert("Producto añadido al carrito.")
+        } catch(e){
+          alert("Error al añadir el producto.")
+        }
       }
 
       // usuario no logueado, trabaja con localstorage

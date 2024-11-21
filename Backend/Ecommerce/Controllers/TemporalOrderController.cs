@@ -21,9 +21,9 @@ public class TemporalOrderController : ControllerBase
     {
         try
         {
-            var newTemporalOrder = await _temporalOrderService.CreateTemporalOrderAsync(cart, paymentMethod);
+            // var newTemporalOrder = await _temporalOrderService.CreateTemporalOrderAsync(cart, paymentMethod);
 
-            return Ok(newTemporalOrder);
+            return Ok();//(newTemporalOrder);
 
         }
         catch (InvalidOperationException e)

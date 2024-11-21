@@ -21,7 +21,7 @@ public class ProductCartController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            return BadRequest("Parámetros inválidos");
         }
 
         try
@@ -32,6 +32,10 @@ public class ProductCartController : ControllerBase
         catch (InvalidOperationException ex)
         {
             return Conflict($"No pudo añadirse el producto: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
         }
     }
 
