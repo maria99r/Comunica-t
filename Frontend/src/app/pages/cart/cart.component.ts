@@ -76,10 +76,9 @@ export class CartComponent implements OnInit {
 
   // eliminar un producto del carrito
   removeProductLocal(product: ProductCart): void {
-    const productoAny: any = product;
-    this.cartService.removeFromCartLocal(parseInt(productoAny.id));
+    this.cartService.removeFromCartLocal(product.productId);
     this.cartProducts = this.cartService.getCartFromLocal();
-    console.log('Eliminado producto con la id:', productoAny.id); // Log :D
+    console.log('Eliminado producto con la id:', product.productId); // Log :D
   }
 
   // eliminar un producto del carrito de la bbdd 
@@ -98,14 +97,25 @@ export class CartComponent implements OnInit {
   // Calcula el total del carrito
   get total(): number {
     let sum = 0;
+    
     if (this.isLog) {
-      for (let line of this.cart.products) {
-        sum += line.product.price / 100 * (line.quantity || 1);
+      if (this.cartProducts === null) { // Controla si está vacío
+        sum = 0;
+      } else {
+        for (let line of this.cart.products) {
+          sum += line.product.price / 100 * (line.quantity || 1);
+        }
       }
+      
     } else {
-      for (let product of this.cartProducts) {
-        sum += product.product.price / 100 * (product.quantity || 1);
+      if (this.cartProducts === null) { // Controla si está vacío
+        sum = 0;
+      } else {
+        for (let product of this.cartProducts) {
+          sum += product.product.price / 100 * (product.quantity || 1);
+        }
       }
+      
     }
     return sum;
   }

@@ -16,6 +16,7 @@ import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
 import { Cart } from '../../models/cart';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -53,8 +54,8 @@ export class ProductDetailComponent implements OnInit {
     public authService: AuthService,
     private api: ApiService,
     private cartApi: CartService,
-    private activatedRoute: ActivatedRoute,
-    private cartService: CartService) { }
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   async ngOnInit(): Promise<void> {
     // usuario actual
@@ -102,52 +103,48 @@ export class ProductDetailComponent implements OnInit {
     // si el usuario esta logueado, se trabaja con la bbdd
     if (this.isLog) {
       if (this.product) {
-        let cart: Cart | null = null;
-        cart = await this.cartApi.getCartByUser(this.currentUser.userId);
+        let cart = await this.cartApi.getCartByUser(this.currentUser.userId);
         console.log(cart)
-
-        if (cart === null || cart === undefined) {
-          try {
-            // creo carrito de usuario si no tiene
-            this.cartApi.createCart(this.currentUser.userId)
-            console.log("Carrito creado correctamente");
-          } catch (error) {
-            console.log("Error al crear el carrito del usuario:", error);
-          }
-        } else (console.log("ya tiene carrito"))
-        
         // añade producto
-        try {
-          await this.cartApi.addToCartBBDD(this.quantity, cart.id, this.product.id).toPromise();
-          alert("Producto añadido al carrito.");
-        } catch (error) {
-          console.log("Error al añadir al carrito:", error);
+        try{
+          await firstValueFrom(this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id)));
+          alert("Producto añadido al carrito.")
+        } catch(e){
+          alert("Error al añadir el producto.")
         }
       }
+
+      // usuario no logueado, trabaja con localstorage
     } else {
       if (this.product) {
-        console.log("Sesión NO iniciada")
-        const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-
-        if (this.quantity > this.product.stock) {
-
-          this.quantity = this.product.stock;
-          alert("No hay stock suficiente.")
-
-        } else {
-
-          const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
-
-          if (productInCart) {
-            productInCart.quantity += this.quantity;
+        try {
+          
+          console.log("Sesión NO iniciada")
+          const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
+  
+          if (this.quantity > this.product.stock) {
+  
+            this.quantity = this.product.stock;
+            alert("No hay stock suficiente.")
+  
           } else {
-            cart.push({ ...this.productCart });
+  
+            const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
+  
+            if (productInCart) {
+              productInCart.quantity += this.quantity;
+            } else {
+              cart.push({ ...this.productCart });
+            }
+            localStorage.setItem('cartProducts', JSON.stringify(cart));
+            console.log('Producto añadido al carrito:', this.productCart);
+            alert("El producto se ha añadido correctamente su carrito.");
           }
-          localStorage.setItem('cartProducts', JSON.stringify(cart));
-          console.log('Producto añadido al carrito:', this.productCart);
-          alert("El producto se ha añadido correctamente su carrito.");
-        }
 
+        } catch (error) {
+          console.log("Error: " + error)
+        }
+        
       }
     }
   }
