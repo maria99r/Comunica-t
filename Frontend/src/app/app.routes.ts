@@ -7,6 +7,7 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },  // Ruta pantalla inicio home
@@ -15,5 +16,6 @@ export const routes: Routes = [
     { path: 'catalog', component: CatalogComponent}, // Ruta catálogo
     { path: 'about-us', component: AboutUsComponent}, //Ruta sobre nosotros   
     { path: 'product/:id', component: ProductDetailComponent },  // Ruta detalles de producto
-    { path: 'cart', component: CartComponent}  //Ruta carrito
+    { path: 'cart', component: CartComponent},  //Ruta carrito
+    { path: 'checkout', component: CheckoutComponent}   //Ruta checkout
 ];

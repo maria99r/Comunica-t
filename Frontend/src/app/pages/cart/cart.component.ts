@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Cart } from '../../models/cart';
 import { ProductCart } from '../../models/productCart';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class CartComponent implements OnInit {
 
   isLog: boolean; // para comprobar si esta o no logueado
 
-  constructor(private cartService: CartService, private authService: AuthService) { }
+  constructor(private cartService: CartService, private authService: AuthService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -118,5 +119,9 @@ export class CartComponent implements OnInit {
       
     }
     return sum;
+  }
+
+  goToCheckout() {
+    this.router.navigate(['/checkout']);
   }
 }
