@@ -36,6 +36,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
                 ProductId = pc.Product.Id
             }).ToList(),
             // User = cart.User, // es un userDto 
+
             ExpiresAt = DateTime.UtcNow.AddMinutes(15) // expira en 15 minutos
         };
 

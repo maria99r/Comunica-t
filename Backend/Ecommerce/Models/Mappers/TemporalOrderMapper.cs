@@ -20,6 +20,7 @@ public class TemporalOrderMapper
         if (temporalOrder == null)
         {
             throw new ArgumentNullException(nameof(temporalOrder), "La orden es nula");
+
         }
 
         return new TemporalOrderDto

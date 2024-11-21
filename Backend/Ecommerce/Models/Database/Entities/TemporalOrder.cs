@@ -28,4 +28,5 @@ public class TemporalOrder
     public ICollection<TemporalProductOrder> TemporalProductOrder { get; set; } = new List<TemporalProductOrder>();
 
     public User User { get; set; } = null!; // guardamos su dto?
+
 }
