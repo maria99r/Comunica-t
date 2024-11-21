@@ -61,16 +61,21 @@ export class CartComponent implements OnInit {
       this.removeProductLocal(product);
     } else {
       product.quantity = quantity;
-      this.cartService.updateCartProduct(product);
+      this.cartService.updateCartProductLocal(product);
     }
   }
 
 
   // cambiar cantidad de un producto en el carrito de BBDD
-  changeQuantityBBDD(product: ProductCart, newQuantity: number): void { // NO FUNCIONA NI EN EL BACK :(
-    product.quantity = newQuantity;
-    this.cartProducts = this.cartService.getCartFromLocal();
-    // this.cartService.updateCartProduct(product);
+  async changeQuantityBBDD(product: ProductCart, newQuantity: number): Promise<void> { // NO FUNCIONA NI EN EL BACK :(
+    try {
+      const response = await this.cartService.updateCartProductBBDD(this.cart.id, product.productId, newQuantity).toPromise();
+      alert(response);  
+      this.loadCart();
+    } catch (error) {
+      console.error('Error al actualizar la cantidad del producto:', error);
+      alert('Hubo un error al actualizar la cantidad del producto.');
+    }
   }
 
 

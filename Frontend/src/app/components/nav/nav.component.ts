@@ -21,7 +21,6 @@ export class NavComponent implements OnInit {
   name: string | null = null; // nombre del usuario
   userId: number | null = null; // id del usuario
   cartProductCount: number = 0; // número de productos
-  productQuantity: number = 0; // Suma total de las cantidades de cada producto
 
   constructor(public authService: AuthService, public router: Router, public cartService: CartService) { }
 
@@ -70,7 +69,7 @@ export class NavComponent implements OnInit {
         } else {
           cart.products.forEach((product) => // Recorre el carrito y suma las cantidades
           this.cartProductCount += product.quantity)
-          console.log("Cantidad de productos: " + this.productQuantity)
+          console.log("Cantidad de productos: " + this.cartProductCount)
         }
         
         //this.cartProductCount = cart.products.length;
@@ -83,7 +82,7 @@ export class NavComponent implements OnInit {
       const cart = this.cartService.getCartFromLocal();
       cart.forEach((product) => // Recorre el carrito y suma las cantidades
         this.cartProductCount += product.quantity)
-      console.log("Cantidad de productos: " + this.productQuantity)
+      console.log("Cantidad de productos: " + this.cartProductCount)
     }
 
   }

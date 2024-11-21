@@ -65,15 +65,15 @@ public class ProductCartController : ControllerBase
             return BadRequest("La cantidad no puede ser 0.");
         }
 
-        try
-        {
+        //try
+        //{
             await _productCartService.UpdateProductQuantityAsync(cartId, productId, quantityChange);
             return Ok("Cantidad actualizada correctamente.");
-        }
-        catch (InvalidOperationException)
-        {
-            return BadRequest("No pudo modificarse la cantidad.");
-        }
+        //}
+        //catch (InvalidOperationException)
+        //{
+        //    return BadRequest("No pudo modificarse la cantidad.");
+        //}
     }
 
 
