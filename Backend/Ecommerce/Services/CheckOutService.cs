@@ -1,5 +1,8 @@
 ﻿using Ecommerce.Models.Database;
+using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services
 {

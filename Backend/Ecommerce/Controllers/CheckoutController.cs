@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class CheckoutController : ControllerBase
+    [Route("api/[controller]")]
+    public class CheckOutController : ControllerBase
     {
+
         private readonly CheckOutService _checkOutService;
-        public CheckoutController(CheckOutService checkOutService)
+        public CheckOutController(CheckOutService checkOutService)
         {
             _checkOutService = checkOutService;
         }
