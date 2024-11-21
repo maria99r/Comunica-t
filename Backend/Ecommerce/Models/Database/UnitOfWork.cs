@@ -11,7 +11,9 @@ namespace Ecommerce.Models.Database
         public ProductRepository ProductRepository { get; init; }
         public ProductOrderRepository ProductOrderRepository { get; init; }
         public ProductCartRepository ProductCartRepository { get; init; }
-        public CustomerOrderRepository CustomerOrderRepository { get; init; }
+        public OrderRepository OrderRepository { get; init; }
+        public TemporalOrderRepository TemporalOrderRepository { get; init; }
+        public TemporalProductOrderRepository TemporalProductOrderRepository { get; init; }
         public CartRepository CartRepository { get; init; }
 
         public UnitOfWork(
@@ -21,7 +23,9 @@ namespace Ecommerce.Models.Database
             ProductRepository productRepository,
             ProductOrderRepository productOrderRepository,
             ProductCartRepository productCartRepository,
-            CustomerOrderRepository customerOrderRepository,
+            OrderRepository orderRepository,
+            TemporalOrderRepository temporalOrderRepository,
+            TemporalProductOrderRepository temporalProductOrderRepository,
             CartRepository cartRepository
             )
         {
@@ -32,7 +36,9 @@ namespace Ecommerce.Models.Database
             ProductRepository = productRepository;
             ProductOrderRepository = productOrderRepository;
             ProductCartRepository = productCartRepository;
-            CustomerOrderRepository = customerOrderRepository;
+            OrderRepository = orderRepository;
+            TemporalOrderRepository = temporalOrderRepository;
+            TemporalProductOrderRepository = temporalProductOrderRepository;
             CartRepository = cartRepository;
         }
 
