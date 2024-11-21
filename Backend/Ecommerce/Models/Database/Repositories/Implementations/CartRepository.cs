@@ -29,7 +29,7 @@ public class CartRepository : Repository<Cart, int>
             throw new InvalidOperationException("El carrito no se encontró para este usuario.");
         }
 
-        return _cartMapper.CartToDto(cart); ;
+        return _cartMapper.CartToDto(cart); 
     }
 
 

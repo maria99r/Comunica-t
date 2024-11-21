@@ -17,7 +17,7 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   // productos del carrito desde localStorage
-  getCartFromLocal(): ProductCart[] {
+  getCartFromLocal(): Cart {
     const cart = localStorage.getItem(this.CART_KEY);
     const cartParsed = cart ? JSON.parse(cart) : [];
     return cartParsed;
@@ -41,14 +41,14 @@ export class CartService {
 
 
   // Guardar productos del carrito en localStorage
-  private saveCart(cartProducts: ProductCart[]): void {
+  private saveCart(cartProducts: Cart): void {
     localStorage.setItem(this.CART_KEY, JSON.stringify(cartProducts));
   }
 
   // Actualizar la cantidad de un producto específico en el carrito
   updateCartProduct(product: ProductCart): void {
     const cart = this.getCartFromLocal();
-    const index = cart.findIndex(p => p.productId === product.productId);
+    const index = cart.products.findIndex(p => p.productId === product.productId);
 
     if (index !== -1) {
       cart[index] = product;
@@ -56,6 +56,7 @@ export class CartService {
     }
   }
 
+  // de la bbdd 
   createCart(idUser: number): Observable<any> {
     const url = `${this.BASE_URL}Cart/newCart`;
     const body = {
@@ -65,13 +66,6 @@ export class CartService {
     return this.http.post(url, idUser);
   }
 
-  createCartTest(idUser: number): Observable<any> {
-    const url = `${this.BASE_URL}/Cart/newCart`;
-  
-    return this.http.post(url, idUser, {
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
 
 
 
@@ -84,11 +78,11 @@ export class CartService {
     } else {
 
       const cart = this.getCartFromLocal();
-      const index = cart.findIndex(p => p.productId == id);
+      const index = cart.products.findIndex(p => p.productId == id);
       console.log("Índice: " + index)
 
       if (index !== -1) {
-        cart.splice(index, 1);
+        cart.products.splice(index, 1);
         this.saveCart(cart);
       }
     }
