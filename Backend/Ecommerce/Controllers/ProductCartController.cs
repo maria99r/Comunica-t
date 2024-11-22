@@ -57,23 +57,23 @@ public class ProductCartController : ControllerBase
     }
 
     // modifica la cantidad 
-    [HttpPut("updateQuantity/{cartId}/{productId}")]
-    public async Task<IActionResult> UpdateProductQuantity(int cartId, int productId, [FromQuery] int quantityChange)
+    [HttpPut("updateQuantity/{userId}/{productId}")]
+    public async Task<IActionResult> UpdateProductQuantity(int userId, int productId, [FromQuery] int newQuantity)
     {
-        if (quantityChange == 0)
+        if (newQuantity == 0)
         {
             return BadRequest("La cantidad no puede ser 0.");
         }
 
-        //try
-        //{
-            await _productCartService.UpdateProductQuantityAsync(cartId, productId, quantityChange);
+        try
+        {
+            await _productCartService.UpdateProductQuantityAsync(userId, productId, newQuantity);
             return Ok("Cantidad actualizada correctamente.");
-        //}
-        //catch (InvalidOperationException)
-        //{
-        //    return BadRequest("No pudo modificarse la cantidad.");
-        //}
+        }
+        catch (InvalidOperationException)
+        {
+            return BadRequest("No pudo modificarse la cantidad.");
+        }
     }
 
 

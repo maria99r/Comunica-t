@@ -53,18 +53,22 @@ public class ProductCartService
 
 
     // modificar la cantidad de un producto en el carrito
-    public async Task UpdateProductQuantityAsync(int userId, int productId, int quantityChange)
+    public async Task UpdateProductQuantityAsync(int userId, int productId, int newQuantity)
     {
         // comprueba que exista el carrito
         var existingCart = await _unitOfWork.CartRepository.GetCartByUserId(userId)
             ?? throw new InvalidOperationException("El carrito no existe.");
+        Console.WriteLine("ID del carrito: " + existingCart.Id);
 
         // comprueba si existe el producto
         var productCart = await _unitOfWork.ProductCartRepository.GetProductInCartAsync(existingCart.Id, productId)
             ?? throw new InvalidOperationException("Producto no encontrado en el carrito.");
 
+        Console.WriteLine("Cantidad NO actualizada del producto: " + productCart.Quantity);
+
         // actualiza la cantidad
-        productCart.Quantity = quantityChange;
+        productCart.Quantity = newQuantity;
+        await UpdateProduct(productCart);
 
         // si al actualizar la cantidad es menor o igual a 0, se elimina
         if (productCart.Quantity <= 0)
@@ -73,7 +77,7 @@ public class ProductCartService
         }
 
         await _unitOfWork.SaveAsync();
-
+        Console.WriteLine("Cantidad actualizada del producto: " + productCart.Quantity);
     }
 
 
@@ -83,4 +87,9 @@ public class ProductCartService
         return await _unitOfWork.ProductCartRepository.GetProductsByCart(id);
     }
 
+    public async Task UpdateProduct(ProductCart productCart)
+    {
+        await _unitOfWork.ProductCartRepository.Update(productCart);
+        await _unitOfWork.SaveAsync();
+    }
 }

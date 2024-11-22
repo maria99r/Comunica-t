@@ -63,17 +63,18 @@ export class NavComponent implements OnInit {
       try {
         const userId = this.userId;
         const cart = await this.cartService.getCartByUser(userId);
-        //console.log(cart)
+
         if (cart.products === null) {
+
           this.cartProductCount === 0;
         } else {
+
           cart.products.forEach((product) => // Recorre el carrito y suma las cantidades
-          this.cartProductCount += product.quantity)
+            this.cartProductCount += product.quantity)
           console.log("Cantidad de productos: " + this.cartProductCount)
         }
-        
-        //this.cartProductCount = cart.products.length;
       } catch (error) {
+
         console.error('Error al obtener el carrito de la base de datos:', error);
         this.cartProductCount = 0;
       }

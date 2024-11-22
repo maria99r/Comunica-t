@@ -56,9 +56,9 @@ export class CartService {
     }
   }
 
-  updateCartProductBBDD(idCart: number, idProduct: number, newQuantity: number): Observable<any> {
-    const url = (`${this.BASE_URL}ProductCart/updateQuantity/${idCart}/${idProduct}?quantityChange=${newQuantity}`);
-    return this.http.put(url, { responseType: 'text' });
+  updateCartProductBBDD(userId: number, productId: number, newQuantity: number): Observable<any> {
+    const url = (`${this.BASE_URL}ProductCart/updateQuantity/${userId}/${productId}?newQuantity=${newQuantity}`);
+    return this.http.put(url, null, { responseType: 'text' });
   }
 
   createCart(idUser: number): Observable<any> {
