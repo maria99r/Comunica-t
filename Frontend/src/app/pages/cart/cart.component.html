@@ -17,24 +17,24 @@
         <p>Tu carrito está vacío.</p>
       </div>
       }
-      <div *ngFor="let productLine of cart.products">
+      @for (product of cart.products; track product.productId) {
         <div class="cart-product">
-          <img src="{{ IMG_URL }}{{ productLine.product.image }}" />
+          <img src="{{ IMG_URL }}{{ product.product.image }}" />
           <div class="product-details">
-            <h3>{{ productLine.product.name }}</h3>
-            <p>{{ productLine.product.price / 100 }} €</p>
+            <h3>{{ product.product.name }}</h3>
+            <p>{{ product.product.price / 100 }} €</p>
 
             <label>Cantidad: </label>
-            <input type="number" class="input-quantity" [(ngModel)]="productLine.quantity"
-              (ngModelChange)="changeQuantityBBDD(productLine, productLine.quantity)" min="1" />
+            <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
+              (ngModelChange)="changeQuantityBBDD(product, product.quantity)" min="1" />
 
-            <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(productLine.productId)">
+            <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(product.productId)">
               Eliminar
             </button>
 
           </div>
         </div>
-      </div>
+      }
     }
 
     <!-- SI EL USUARIO NO ESTA LOGUEADO -->
@@ -51,10 +51,9 @@
           <h3>{{ product.product.name }}</h3>
           <p>{{ product.product.price / 100 }} €</p>
 
-          <label>Cantidad: </label>
-          <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
-            (ngModelChange)="changeQuantityLocal(product, product.quantity)" min="1" />
-
+            <label>Cantidad: </label>
+            <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
+              (ngModelChange)="changeQuantityLocal(product, product.quantity)" min="1" />
           <button class="p-button-danger" label="Eliminar" (click)="removeProductLocal(product)">
             Eliminar
           </button>
