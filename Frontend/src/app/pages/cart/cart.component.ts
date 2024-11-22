@@ -82,7 +82,6 @@ export class CartComponent implements OnInit {
         alert("La cantidad no puede ser menor o igual a 0")
       }
       const response = await this.cartService.updateCartProductBBDD(userId, product.productId, newQuantity).toPromise();
-      alert(response);
       //console.log(response)
       await this.loadCart();
 
