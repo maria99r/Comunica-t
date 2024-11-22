@@ -5,7 +5,6 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.ReviewModels;
 using Microsoft.Extensions.ML;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Ecommerce.Services;
 
