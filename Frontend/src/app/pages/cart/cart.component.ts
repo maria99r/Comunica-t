@@ -21,7 +21,6 @@ import { ProductCart } from '../../models/productCart';
 })
 export class CartComponent implements OnInit {
   cartProducts: ProductCart[] = [];
-
   cart: Cart;
   public readonly IMG_URL = environment.apiImg;
 
@@ -41,15 +40,15 @@ export class CartComponent implements OnInit {
 
     // dependiendo de si el usuario esta o no logueado
     if (user) {
-      console.log("Sesión iniciada")
+      //console.log("Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
-      console.log(this.cart)
+      //console.log(this.cart)
       this.isLog = true;
     }
     else {
-      console.log("Sesión NO iniciada")
+      //console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
-      console.log(this.cartProducts)
+      //console.log(this.cartProducts)
       this.isLog = false;
     }
   }
@@ -61,16 +60,36 @@ export class CartComponent implements OnInit {
       this.removeProductLocal(product);
     } else {
       product.quantity = quantity;
-      this.cartService.updateCartProduct(product);
+      this.cartService.updateCartProductLocal(product);
     }
   }
 
 
   // cambiar cantidad de un producto en el carrito de BBDD
-  changeQuantityBBDD(product: ProductCart, newQuantity: number): void { // NO FUNCIONA NI EN EL BACK :(
-    product.quantity = newQuantity;
-    this.cartProducts = this.cartService.getCartFromLocal();
-    // this.cartService.updateCartProduct(product);
+  async changeQuantityBBDD(product: ProductCart, newQuantity: number): Promise<void> {
+    try {
+
+      const user = this.authService.getUser();
+      const userId = user ? user.userId : null;
+
+      if (!userId){
+        console.log("No hay usuario logueado")
+      }
+      
+      console.log("Nueva cantidad: " + newQuantity)
+
+      if (newQuantity <= 0) {
+        alert("La cantidad no puede ser menor o igual a 0")
+      }
+      const response = await this.cartService.updateCartProductBBDD(userId, product.productId, newQuantity).toPromise();
+      //console.log(response)
+      await this.loadCart();
+
+    } catch (error) {
+
+      console.error('Error al actualizar la cantidad del producto:', error);
+      alert('Hubo un error al actualizar la cantidad del producto.');
+    }
   }
 
 
@@ -84,10 +103,13 @@ export class CartComponent implements OnInit {
   // eliminar un producto del carrito de la bbdd 
   async removeProductBBDD(productId: number): Promise<void> {
     try {
+
       const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
       alert(response);  
       this.loadCart();
+
     } catch (error) {
+
       console.error('Error al eliminar el producto:', error);
       alert('Hubo un error al eliminar el producto.');
     }
