@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database.Repositories.Implementations
 {
-    public class CheckOutRepository
+    public class CheckOutRepository : Repository<Cart, int>
     {
         private readonly CartMapper _cartMapper;
         public CheckOutRepository(EcommerceContext context) : base(context)
