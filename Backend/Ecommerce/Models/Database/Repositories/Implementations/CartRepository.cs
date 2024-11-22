@@ -38,7 +38,7 @@ public class CartRepository : Repository<Cart, int>
             Console.WriteLine($"Error en GetCartByUserId: {ex.Message}"); // Log de error
             throw;
         }
-        
+
     }
 
 
