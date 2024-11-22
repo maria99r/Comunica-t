@@ -30,6 +30,14 @@ namespace Ecommerce.Controllers
             return cartDto;
         }
 
+        [HttpGet("TotalPrice/{cartId}")]
+        public async Task<int> GetTotalPrice(int cartId)
+        {
+            int totalPrice = await _checkOutService.GetSumaTotalAsync(cartId);
+
+            return totalPrice;
+        }
+
         //[HttpPost]
         //public ActionResult Create()
         //{
