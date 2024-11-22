@@ -165,4 +165,13 @@ export class CatalogComponent implements OnInit {
     }
   }
 
+  // media de reseñas de cada producto
+  calculateAvg(reviews: { label: number }[]): number {
+    if (reviews.length > 0) {
+      const sum = reviews.reduce((acc, review) => acc + review.label, 0);
+      return Math.round(sum / reviews.length);
+    }
+    return 0;
+  }
+
 }

@@ -5,6 +5,7 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.ReviewModels;
 using Microsoft.Extensions.ML;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Ecommerce.Services;
 
@@ -49,7 +50,7 @@ public class ReviewService
         // entrada de texto a la ia que predice 
         var input = new ModelInput
         {
-            Text = model.Text
+            Text = FormatText(model.Text)
         };
 
         // prediccion de la categoria
@@ -59,7 +60,7 @@ public class ReviewService
         {
             Text = model.Text,
             Label = (int)prediction.PredictedLabel, // guardo la prediccion de la ia
-            PublicationDate = DateTime.UtcNow,  // lo creo a la fecha de ahora
+            PublicationDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Europe/Madrid"), // se crea a fecha actual local de españa
             UserId = model.UserId,
             ProductId = model.ProductId
         };
@@ -68,5 +69,17 @@ public class ReviewService
         await _unitOfWork.SaveAsync();
 
         return newReview;
+    }
+
+    // Formatear texto
+    public string FormatText(string text)
+    {
+        return text.Trim()
+                   .ToLowerInvariant()
+                   .Replace("á", "a")
+                   .Replace("é", "e")
+                   .Replace("í", "i")
+                   .Replace("ó", "o")
+                   .Replace("ú", "u");
     }
 }
