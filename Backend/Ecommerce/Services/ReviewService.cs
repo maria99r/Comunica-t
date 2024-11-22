@@ -64,7 +64,9 @@ public class ReviewService
             ProductId = model.ProductId
         };
 
-        await _unitOfWork.ReviewRepository.InsertReviewAsync(newReview);
+        Review review = await _unitOfWork.ReviewRepository.InsertReviewAsync(newReview)
+         ?? throw new Exception("No se pudo crear la reseña.");
+
         await _unitOfWork.SaveAsync();
 
         return newReview;

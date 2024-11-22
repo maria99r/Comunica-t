@@ -107,10 +107,11 @@ export class ProductDetailComponent implements OnInit {
         console.log(cart)
         // añade producto
         try{
-          await firstValueFrom(this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id)));
+          await this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
           alert("Producto añadido al carrito.")
         } catch(e){
           alert("Error al añadir el producto.")
+          console.log(e)
         }
       }
 

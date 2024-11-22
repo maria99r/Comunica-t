@@ -22,7 +22,9 @@ public class TemporalOrderService
             throw new InvalidOperationException("El método de pago no es válido");
         }
 
-        return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderAsync(cart, paymentMethod);
+        TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderAsync(cart, paymentMethod);
+        await _unitOfWork.SaveAsync();
 
+        return temporalOrder;
     }
 }

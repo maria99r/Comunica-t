@@ -38,9 +38,8 @@ public class CartRepository : Repository<Cart, int>
             Console.WriteLine($"Error en GetCartByUserId: {ex.Message}"); // Log de error
             throw;
         }
-        
-    }
 
+    }
 
     // Crear un nuevo carrito
     public async Task<Cart> InsertCartAsync(int userId)
@@ -50,21 +49,13 @@ public class CartRepository : Repository<Cart, int>
             UserId = userId
         };
 
-        var insertedCart =  await InsertAsync(newCart);
+        var insertedCart = await InsertAsync(newCart);
 
         if (insertedCart == null)
         {
             throw new Exception("No se pudo insertar el carrito.");
         }
 
-
-        if (!await SaveAsync())
-        {
-            throw new Exception("El carrito no se pudo guardar en la BBDD.");
-
-        }
-
         return newCart;
     }
-
 }

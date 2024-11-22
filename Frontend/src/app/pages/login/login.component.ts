@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthRequest } from '../../models/auth-request';
 import { AuthService } from '../../services/auth.service';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ProductCart } from '../../models/productCart';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ import { CheckboxModule } from 'primeng/checkbox';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   readonly PARAM_KEY: string = 'redirectTo';
   private redirectTo: string = null;
 
@@ -21,10 +23,13 @@ export class LoginComponent {
   rememberMe: boolean = false;
   jwt: string = '';
 
+  cartProducts: ProductCart[] = [];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +56,19 @@ export class LoginComponent {
 
       if (this.rememberMe) {
         localStorage.setItem('jwtToken', this.jwt);
+      }
+
+      this.cartProducts = this.cartService.getCartFromLocal(); // Obtener el carrito local
+      const user = this.authService.getUser();
+      const userId = user ? user.userId : null;
+      
+      if (this.cartProducts.length > 0) { // Si hay al menos un producto, sí hay carrito local.
+        console.log("Hay carrito local")
+        await this.cartService.addLocalCartToUser(userId, this.cartProducts)
+        console.log("Productos carrito local 1: ", this.cartProducts)
+        localStorage.removeItem('cartProducts')
+      } else{
+        console.log("No hay carrito local")
       }
 
       // Si tenemos que redirigir al usuario, lo hacemos

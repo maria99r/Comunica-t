@@ -30,10 +30,7 @@ public class UserRepository : Repository<User, int>
 
         await base.InsertAsync(newUser);
 
-        if (await SaveAsync())
-        {
-            return newUser;
-        }
+        return newUser;
 
         throw new Exception("No se pudo crear el nuevo usuario.");
     }

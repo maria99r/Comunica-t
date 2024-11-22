@@ -42,13 +42,13 @@ export class CartComponent implements OnInit {
     if (user) {
       //console.log("Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
-      //console.log(this.cart)
+      console.log(this.cart)
       this.isLog = true;
     }
     else {
       //console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
-      //console.log(this.cartProducts)
+      console.log(this.cartProducts)
       this.isLog = false;
     }
   }
