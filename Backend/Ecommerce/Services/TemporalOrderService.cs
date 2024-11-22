@@ -29,15 +29,25 @@ public class TemporalOrderService
 
 
     // crear order temporal DESDE EL LOCAL
-    public async Task<TemporalOrder> CreateTemporalOrderLocalAsync(ProductCartDto[] cart)
+    public async Task<TemporalOrder> CreateTemporalOrderLocalAsync(ProductCartDto[] cart, string paymentMethod)
     {
         
-        /*if (paymentMethod == null || paymentMethod == "")
+        if (paymentMethod == null || paymentMethod == "")
         {
             throw new InvalidOperationException("El método de pago no es válido");
-        }*/
+        }
 
-        return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderLocalAsync(cart);
+        // reserva de stock 
+        foreach (var cartItem in cart) {
+
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(cartItem.ProductId);
+
+            // actualiza el stock del producto
+            product.Stock = product.Stock - cartItem.Quantity;
+            await UpdateProduct(product);
+        }
+
+        return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderLocalAsync(cart, paymentMethod);
 
     }
 
@@ -51,9 +61,25 @@ public class TemporalOrderService
             throw new InvalidOperationException("El método de pago no es válido");
         }
 
+        // reserva de stock 
+        foreach (var cartItem in cart.ProductCarts)
+        {
+
+            var product = await _unitOfWork.ProductRepository.GetByIdAsync(cartItem.ProductId);
+
+            // actualiza el stock del producto
+            product.Stock = product.Stock - cartItem.Quantity;
+            await UpdateProduct(product);
+        }
+
         return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
 
     }
 
-
+    // para actualizar el stock y guardarlo
+    public async Task UpdateProduct(Product product)
+    {
+        await _unitOfWork.ProductRepository.Update(product);
+        await _unitOfWork.SaveAsync();
+    }
 }

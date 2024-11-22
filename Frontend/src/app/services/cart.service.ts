@@ -17,7 +17,7 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   // productos del carrito desde localStorage
-  getCartFromLocal(): Cart {
+  getCartFromLocal(): ProductCart[] {
     const cart = localStorage.getItem(this.CART_KEY);
     const cartParsed = cart ? JSON.parse(cart) : [];
     return cartParsed;
@@ -41,14 +41,14 @@ export class CartService {
 
 
   // Guardar productos del carrito en localStorage
-  private saveCart(cartProducts: Cart): void {
+  private saveCart(cartProducts: ProductCart[]): void {
     localStorage.setItem(this.CART_KEY, JSON.stringify(cartProducts));
   }
 
   // Actualizar la cantidad de un producto específico en el carrito en localStorage
   updateCartProductLocal(product: ProductCart): void {
     const cart = this.getCartFromLocal();
-    const index = cart.products.findIndex(p => p.productId === product.productId);
+    const index = cart.findIndex(p => p.productId === product.productId);
 
     if (index !== -1) { // Si el índice es -1, es que no existe
       cart[index] = product;
@@ -92,11 +92,11 @@ export class CartService {
     } else {
 
       const cart = this.getCartFromLocal();
-      const index = cart.products.findIndex(p => p.productId == id);
+      const index = cart.findIndex(p => p.productId == id);
       console.log("Índice: " + index)
 
       if (index !== -1) {
-        cart.products.splice(index, 1);
+        cart.splice(index, 1);
         this.saveCart(cart);
       }
     }
@@ -112,5 +112,22 @@ export class CartService {
   clearCart(): void {
     localStorage.removeItem(this.CART_KEY);
   }
+
+
+
+
+  // CREAR ORDEN TEMPORAL:
+
+  // si el usuario esta logueado desde la BBDD le enviamos el carrito
+  newTemporalOrderBBDD(cart: Cart, paymentMethod : string): Observable<any> {
+    const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderBBDD?paymentMethod=${paymentMethod}`;
+    return this.http.post(url, cart);
+  }
+
+    // si el usuario esta logueado desde la BBDD le enviamos el carrito
+    newTemporalOrderLocal(cart: ProductCart[], paymentMethod : string): Observable<any> {
+      const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderLocal?paymentMethod=${paymentMethod}`;
+      return this.http.post(url, cart);
+    }
 
 }
