@@ -41,7 +41,7 @@ public class ReviewController : ControllerBase
 
         if (reviews == null || reviews.Count == 0)
         {
-            return NotFound("No se encontraron reseñas para este producto.");
+            return Ok(new List<Review>());
         }
         return Ok(reviews);
     }

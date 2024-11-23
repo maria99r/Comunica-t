@@ -37,9 +37,18 @@
     padding: 5%;
 }
 
-.card-data{
+.card-data {
     display: flex;
-    /*justify-content: center;*/
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.card-data p {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
 }
 
 .card-content h2{

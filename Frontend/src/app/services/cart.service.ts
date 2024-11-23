@@ -18,7 +18,7 @@ export class CartService {
   constructor(private http: HttpClient, private api: ApiService) { }
 
   // productos del carrito desde localStorage
-  getCartFromLocal(): ProductCart[] {
+  getCartFromLocal(): Cart {
     const cart = localStorage.getItem(this.CART_KEY);
     const cartParsed = cart ? JSON.parse(cart) : [];
     return cartParsed;
@@ -50,14 +50,14 @@ export class CartService {
   }
 
   // Guardar productos del carrito en localStorage
-  private saveCart(cartProducts: ProductCart[]): void {
+  private saveCart(cartProducts: Cart): void {
     localStorage.setItem(this.CART_KEY, JSON.stringify(cartProducts));
   }
 
   // Actualizar la cantidad de un producto específico en el carrito en localStorage
   updateCartProductLocal(product: ProductCart): void {
     const cart = this.getCartFromLocal();
-    const index = cart.findIndex(p => p.productId === product.productId);
+    const index = cart.products.findIndex(p => p.productId === product.productId);
 
     if (index !== -1) { // Si el índice es -1, es que no existe
       cart[index] = product;
@@ -70,15 +70,16 @@ export class CartService {
     return this.http.put(url, null, { responseType: 'text' });
   }
 
-  async addToCartBBDD(quantity: number, cartId: number, productId: number): Promise<any> {
-    console.log("me apetece jugar valo")
-    const url = `ProductCart/addProduct`;
+  addToCartBBDD(quantity: number, cartId: number, productId: number): Observable<any> {
+    const url = `${this.BASE_URL}ProductCart/addProduct`;
     const body = {
       quantity: quantity,
       cartId: cartId,
       productId: productId
     };
-    return await this.api.post(url, body);
+
+
+    return this.http.post(url, body);
   }
 
   // Eliminar un producto del carrito
@@ -90,11 +91,11 @@ export class CartService {
     } else {
 
       const cart = this.getCartFromLocal();
-      const index = cart.findIndex(p => p.productId == id);
+      const index = cart.products.findIndex(p => p.productId == id);
       console.log("Índice: " + index)
 
       if (index !== -1) {
-        cart.splice(index, 1);
+        cart.products.splice(index, 1);
         this.saveCart(cart);
       }
     }
