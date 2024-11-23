@@ -29,6 +29,7 @@ builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<TemporalOrderRepository>();
 builder.Services.AddScoped<TemporalProductOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
+builder.Services.AddScoped<CheckOutRepository>();
 
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
@@ -42,6 +43,7 @@ builder.Services.AddScoped<TemporalOrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
+builder.Services.AddScoped<CheckOutService>();
 
 
 // Inyeccion de la IA

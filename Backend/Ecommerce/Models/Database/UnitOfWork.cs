@@ -17,6 +17,7 @@ namespace Ecommerce.Models.Database
         public TemporalOrderRepository TemporalOrderRepository { get; init; }
         public TemporalProductOrderRepository TemporalProductOrderRepository { get; init; }
         public CartRepository CartRepository { get; init; }
+        public CheckOutRepository CheckOutRepository { get; init; }
 
         public UnitOfWork(
             EcommerceContext context, 
@@ -29,6 +30,8 @@ namespace Ecommerce.Models.Database
             TemporalOrderRepository temporalOrderRepository,
             TemporalProductOrderRepository temporalProductOrderRepository,
             CartRepository cartRepository
+            ,
+            CheckOutRepository checkOutRepository
             )
         {
             _context = context;
@@ -42,6 +45,7 @@ namespace Ecommerce.Models.Database
             TemporalOrderRepository = temporalOrderRepository;
             TemporalProductOrderRepository = temporalProductOrderRepository;
             CartRepository = cartRepository;
+            CheckOutRepository = checkOutRepository;
         }
 
         public async Task<bool> SaveAsync()

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ecommerce.Models.Dtos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,4 +19,5 @@ public class ProductCart
     public Cart Cart { get; set; } = null!;
 
     public Product Product { get; set; } = null!;
+
 }
