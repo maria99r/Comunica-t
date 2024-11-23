@@ -15,7 +15,7 @@ public class TemporalOrderDto
 	// tiempo de expiracion
 	public DateTime ExpiresAt { get; set; }
 
-	public int UserId { get; set; }
+	public int? UserId { get; set; }
 
 	public ICollection<TemporalProductOrder> TemporalProductOrder { get; set; } = new List<TemporalProductOrder>();
 
