@@ -15,8 +15,6 @@ import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
-import { Cart } from '../../models/cart';
-import { firstValueFrom } from 'rxjs';
 
 
 @Component({

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { AuthRequest } from '../../models/auth-request';
 import { AuthService } from '../../services/auth.service';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ProductCart } from '../../models/productCart';
@@ -65,8 +64,8 @@ export class LoginComponent implements OnInit {
       if (this.cartProducts.length > 0) { // Si hay al menos un producto, sí hay carrito local.
         console.log("Hay carrito local")
         await this.cartService.addLocalCartToUser(userId, this.cartProducts)
-        console.log("Productos carrito local 1: ", this.cartProducts)
         localStorage.removeItem('cartProducts')
+        console.log("Se ha eliminado el carrito local");        
       } else{
         console.log("No hay carrito local")
       }
