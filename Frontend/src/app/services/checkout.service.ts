@@ -12,18 +12,17 @@ export class CheckoutService {
 
   constructor(private api: ApiService) { }
 
+  // lista de productos que se van a comprar
   getAllProducts(): Promise<Result<Product[]>> {
     return this.api.get<Product[]>('checkout/products');
   }
 
-  getHostedCheckout(): Promise<Result<CheckoutSession>> {
-    return this.api.get<CheckoutSession>('checkout/hosted');
-  }
-
+  // inicialización del checkout embebido de Stripe
   getEmbededCheckout(): Promise<Result<CheckoutSession>> {
     return this.api.get<CheckoutSession>('checkout/embedded');
   }
 
+  // consulta el estado de una sesión
   getStatus(sessionId: string): Promise<Result<CheckoutSessionStatus>> {
     return this.api.get<CheckoutSessionStatus>(`checkout/status/${sessionId}`);
   }

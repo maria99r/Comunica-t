@@ -7,7 +7,6 @@
 @if (sessionId) {
   <section>
     <h2>Compra realizada con éxito</h2>
-    <button (click)="reload()">Volver a comprar</button>
   </section>
 }
 @else if (product) {
@@ -17,14 +16,13 @@
     <h3>{{product.name}} {{product.price}}€</h3>
     <p>{{product.description}}</p>
 
-    <button (click)="hostedCheckout()">Comprar en página externa</button>
-    <button (click)="embeddedCheckout()">Comprar embebido</button>
+    <button (click)="embeddedCheckout()">Comprar</button>
   </section>
 }
 
 <dialog #checkoutDialog>
   <div id="checkout"></div>
-  <button (click)="cancelCheckoutDialog()">x</button>
+  <button (click)="cancelCheckoutDialog()">Cancelar</button>
 </dialog>
 
 <app-footer></app-footer>
