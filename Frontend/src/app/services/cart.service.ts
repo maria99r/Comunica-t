@@ -70,8 +70,9 @@ export class CartService {
     return this.http.put(url, null, { responseType: 'text' });
   }
 
-  addToCartBBDD(quantity: number, cartId: number, productId: number): Observable<any> {
-    const url = `${this.BASE_URL}ProductCart/addProduct`;
+  async addToCartBBDD(quantity: number, cartId: number, productId: number): Promise<any> {
+    console.log("Carritos sincronizados")
+    const url = `ProductCart/addProduct`;
     const body = {
       quantity: quantity,
       cartId: cartId,
@@ -113,20 +114,11 @@ export class CartService {
 
   async addLocalCartToUser(userId: number, localCart: ProductCart[]){
     
-    console.log("Productos carrito local 2: ", localCart)
     const userCart = await this.getCartByUser(userId);
-    console.log("Productos carrito local 3: ", localCart)
-
-    const prueba = localCart[0]
-    console.log("PRUEBA: ", prueba)
 
     for (let product of localCart) {
-      console.log("mondongo")
       await this.addToCartBBDD(product.quantity, userCart.id, product.productId)
     }
-    // localCart.forEach(product =>
-    //   this.addToCartBBDD(product.quantity, userCart.id, product.productId)
-    // )
   }
 
 }

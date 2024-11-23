@@ -15,15 +15,12 @@ import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
-import { Cart } from '../../models/cart';
-import { firstValueFrom } from 'rxjs';
-import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule],
+  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
@@ -111,7 +108,7 @@ export class ProductDetailComponent implements OnInit {
         console.log(cart)
         // añade producto
         try {
-          await firstValueFrom(this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id)));
+          this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
           alert("Producto añadido al carrito.")
         } catch (e) {
           alert("Error al añadir el producto.")
