@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Models.Dtos;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
+using Stripe.Checkout;
 
 //https://docs.stripe.com/checkout/embedded/quickstart
 
@@ -31,34 +33,40 @@ namespace Ecommerce.Controllers
         }
 
         [HttpGet("TotalPrice/{cartId}")]
-        public async Task<int> GetTotalPrice(int cartId)
+        public async Task<double> GetTotalPrice(int cartId)
         {
-            int totalPrice = await _checkOutService.GetSumaTotalAsync(cartId);
+            double totalPrice = await _checkOutService.GetSumaTotalAsync(cartId);
 
             return totalPrice;
         }
 
-        //[HttpPost]
-        //public ActionResult Create()
-        //{
-        //    var domain = "http://localhost:4200";
-        //    var options = new SessionCreateOptions
-        //    {
-        //        UiMode = "embedded",
-        //        LineItems = new List<SessionLineItemOptions>
-        //        {
-        //          new SessionLineItemOptions
-        //          {
+        [HttpGet("embedded")]
+        public async Task<ActionResult> EmbededCheckout()
+        {
 
-        //          },
-        //        },
-        //        Mode = "payment",
-        //        ReturnUrl = domain + "/return.html?session_id={CHECKOUT_SESSION_ID}",
-        //    };
-        //    var service = new SessionService();
-        //    Session session = service.Create(options);
+            SessionCreateOptions options = new SessionCreateOptions
+            {
+                UiMode = "embedded",
+                Mode = "payment",
+                PaymentMethodTypes = ["card"],
+                LineItems = new List<SessionLineItemOptions>
+            {
+                new SessionLineItemOptions()
+                {
+                    PriceData = new SessionLineItemPriceDataOptions()
+                    {
+                        Currency = "eur"
 
-        //    return Json(new { clientSecret = session.ClientSecret });
-        //}
+                    },
+
+                },
+            },
+            };
+
+            SessionService service = new SessionService();
+            Session session = await service.CreateAsync(options);
+
+            return Ok(new { clientSecret = session.ClientSecret });
+        }
     }
 }

@@ -28,9 +28,9 @@ namespace Ecommerce.Services
             return cartDto;
         }
 
-        public async Task<int> GetSumaTotalAsync(int cartId)
+        public async Task<double> GetSumaTotalAsync(int cartId)
         {
-            int totalPrice = await _unitOfWork.CheckOutRepository.GetTotalPrice(cartId);
+            double totalPrice = await _unitOfWork.CheckOutRepository.GetTotalPrice(cartId);
             
             return totalPrice;
         }

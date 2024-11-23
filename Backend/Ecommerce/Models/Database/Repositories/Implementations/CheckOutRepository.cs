@@ -32,7 +32,7 @@ namespace Ecommerce.Models.Database.Repositories.Implementations
         }
 
         // devuelve el precio 
-        public async Task<int> GetTotalPrice(int cartId)
+        public async Task<double> GetTotalPrice(int cartId)
         {
             // Obtener el carrito con los productos relacionados.
             var cart = await GetQueryable()
@@ -48,9 +48,9 @@ namespace Ecommerce.Models.Database.Repositories.Implementations
             }
 
             // Sumar los precios de los productos en el carrito, con comprobación de precios válidos.
-            int totalPrice = cart.ProductCarts
-                .Where(pc => pc.Product?.Price > 0)  // Asegura que el precio sea válido (mayor que cero)
-                .Sum(pc => pc.Product?.Price ?? 0);  // Usa 0 si el precio es nulo
+            double totalPrice = cart.ProductCarts
+                .Where(pc => pc.Product?.Price > 0 && pc.Quantity > 0) // Asegura que el precio y la cantidad sean válidos
+                .Sum(pc => (pc.Product.Price  * pc.Quantity) / 100);
 
             return totalPrice;
         }
