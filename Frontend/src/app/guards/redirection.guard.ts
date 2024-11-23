@@ -12,6 +12,10 @@ export const redirectionGuard: CanActivateFn = (
 
     // Verificamos si el usuario está autenticado
     if (!authService.isAuthenticated()) {
+
+      // Guardamos que es una autenticación reciente
+      sessionStorage.setItem('authRedirection', 'true');
+
       // Navegamos al login indicando que después redireccione a donde queríamos ir en un principio
       router.navigate(['login'], { queryParams: { redirectTo: state.url }});
       return false;
