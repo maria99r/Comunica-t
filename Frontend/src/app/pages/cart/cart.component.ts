@@ -43,13 +43,13 @@ export class CartComponent implements OnInit {
     if (user) {
       //console.log("Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
-      //console.log(this.cart)
+      console.log(this.cart)
       this.isLog = true;
     }
     else {
       //console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
-      //console.log(this.cartProducts)
+      console.log(this.cartProducts)
       this.isLog = false;
     }
   }
@@ -144,6 +144,18 @@ export class CartComponent implements OnInit {
   }
 
   goToCheckout() {
+    
+    if (this.isLog) {
+
+      this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
+      console.log("Carrito usuario: ", this.cart)
+    }else{
+      
+      this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe")
+      console.log("Carrito local: ", this.cartProducts)
+    }
+
+    this.cartService.actionSource = 'checkout';
     this.router.navigate(['/checkout']);
   }
 }

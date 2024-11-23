@@ -50,8 +50,10 @@ public class CartService
             throw new InvalidOperationException("El usuario ya tiene un carrito asignado.");
         }
         // Se inserta el nuevo carrito
-        return await _unitOfWork.CartRepository.InsertCartAsync(userId);
+        Cart cart = await _unitOfWork.CartRepository.InsertCartAsync(userId);
+        await _unitOfWork.SaveAsync();
 
+        return cart;
     }
 
 

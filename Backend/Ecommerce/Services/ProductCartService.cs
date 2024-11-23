@@ -25,7 +25,7 @@ public class ProductCartService
         // comprueba si existe el carrito
         var cartExists = await _unitOfWork.CartRepository.GetQueryable()
         .AnyAsync(c => c.Id == productCartDto.CartId);
-
+        
         if (!cartExists)
         {
             throw new InvalidOperationException("El carrito no existe.");
@@ -34,6 +34,7 @@ public class ProductCartService
         var productCart = _productCartMapper.ProductCartDtoToEntity(productCartDto);
 
         await _unitOfWork.ProductCartRepository.AddProductToCartAsync(productCart);
+        await _unitOfWork.SaveAsync();
     }
 
     // Eliminar producto del carrito
@@ -46,7 +47,7 @@ public class ProductCartService
             throw new InvalidOperationException("El producto no se encuentra en el carrito.");
         }
 
-        await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
+        _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
         await _unitOfWork.SaveAsync();
     }
 
@@ -58,6 +59,7 @@ public class ProductCartService
         // comprueba que exista el carrito
         var existingCart = await _unitOfWork.CartRepository.GetCartByUserId(userId)
             ?? throw new InvalidOperationException("El carrito no existe.");
+
         Console.WriteLine("ID del carrito: " + existingCart.Id);
 
         // comprueba si existe el producto
@@ -73,7 +75,7 @@ public class ProductCartService
         // si al actualizar la cantidad es menor o igual a 0, se elimina
         if (productCart.Quantity <= 0)
         {
-            await _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
+            _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
         }
 
         await _unitOfWork.SaveAsync();
@@ -89,7 +91,7 @@ public class ProductCartService
 
     public async Task UpdateProduct(ProductCart productCart)
     {
-        await _unitOfWork.ProductCartRepository.Update(productCart);
+        _unitOfWork.ProductCartRepository.Update(productCart);
         await _unitOfWork.SaveAsync();
     }
 }

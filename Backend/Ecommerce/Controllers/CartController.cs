@@ -33,7 +33,7 @@ public class CartController : ControllerBase
 
             return Ok(cart);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return StatusCode(500, "Error al procesar la solicitud.");
         }

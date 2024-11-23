@@ -39,25 +39,18 @@ public class TemporalOrderController : ControllerBase
 
     }
 
-
-
-
-
-
     // hay que hacer dos metodos , uno si esta loguqeado (q recibe el jwt) y otro si no lo esta que recibe el carrito del localstorage
-
-
 
     // si lo recibe del front: recibe un array de productCart y el metodo de pago
 
     // DESDE EL LOCAL
 
     [HttpPost("newTemporalOrderLocal")]
-    public async Task<ActionResult<TemporalOrder>> NewTemporalOrderLocal([FromBody] ProductCartDto[] cart)
+    public async Task<ActionResult<TemporalOrder>> NewTemporalOrderLocal([FromBody] ProductCartDto[] cart, string paymentMethod)
     {
         try
         {
-            var newTemporalOrder = await _temporalOrderService.CreateTemporalOrderLocalAsync(cart);
+            var newTemporalOrder = await _temporalOrderService.CreateTemporalOrderLocalAsync(cart, paymentMethod);
 
             return Ok(newTemporalOrder);
 
