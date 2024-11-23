@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
 import { Review } from '../../models/review';
 import { ApiService } from '../../services/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
@@ -20,7 +20,7 @@ import { ProductCart } from '../../models/productCart';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule],
+  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
@@ -74,7 +74,7 @@ export class ProductDetailComponent implements OnInit {
     this.reviews = await this.api.loadReviews(id);
 
     // ordena las reseñas por fecha de publicación a las más recientes primero
-    this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); 
 
     // obtiene info de los usuarios que han comentado
     for (const review of this.reviews) {
@@ -86,6 +86,7 @@ export class ProductDetailComponent implements OnInit {
 
     // calcula la media de las reseñas
     this.calculeAvg();
+
   }
 
 
@@ -107,10 +108,10 @@ export class ProductDetailComponent implements OnInit {
         let cart = await this.cartApi.getCartByUser(this.currentUser.userId);
         console.log(cart)
         // añade producto
-        try {
-          this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
+        try{
+          await this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
           alert("Producto añadido al carrito.")
-        } catch (e) {
+        } catch(e){
           alert("Error al añadir el producto.")
           console.log(e)
         }
@@ -120,19 +121,19 @@ export class ProductDetailComponent implements OnInit {
     } else {
       if (this.product) {
         try {
-
+          
           console.log("Sesión NO iniciada")
           const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
-
+  
           if (this.quantity > this.product.stock) {
-
+  
             this.quantity = this.product.stock;
             alert("No hay stock suficiente.")
-
+  
           } else {
-
+  
             const productInCart = cart.find((p: ProductCart) => p.productId === this.product.id);
-
+  
             if (productInCart) {
               productInCart.quantity += this.quantity;
             } else {
@@ -146,7 +147,7 @@ export class ProductDetailComponent implements OnInit {
         } catch (error) {
           console.log("Error: " + error)
         }
-
+        
       }
     }
   }
@@ -182,7 +183,6 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
-
   // calculo media de reseñas
   calculeAvg(): void {
     if (this.reviews.length > 0) {
@@ -192,6 +192,6 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.avg = 0;
     }
+
   }
-  
 }
