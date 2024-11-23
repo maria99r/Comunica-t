@@ -14,6 +14,8 @@ export class CartService {
   private readonly CART_KEY = 'cartProducts';
   private readonly BASE_URL = environment.apiUrl;
   localCart: ProductCart[] = [];
+  // Para controlar en el login si se viene desde el inicio de sesión o desde el pago
+  public actionSource: string | null = null; 
 
   constructor(private http: HttpClient, private api: ApiService) { }
 

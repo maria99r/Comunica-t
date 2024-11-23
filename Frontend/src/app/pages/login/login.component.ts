@@ -57,18 +57,30 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('jwtToken', this.jwt);
       }
 
+      // INICIO SINCRONIZACIÓN CARRITO LOCAL -> CARRITO BBDD
       this.cartProducts = this.cartService.getCartFromLocal(); // Obtener el carrito local
       const user = this.authService.getUser();
       const userId = user ? user.userId : null;
       
-      if (this.cartProducts.length > 0) { // Si hay al menos un producto, sí hay carrito local.
+      if (this.cartProducts.length > 0) { // Si hay al menos un producto, el carrito local existe.
+        
         console.log("Hay carrito local")
-        await this.cartService.addLocalCartToUser(userId, this.cartProducts)
-        localStorage.removeItem('cartProducts')
-        console.log("Se ha eliminado el carrito local");        
+        if (this.cartService.actionSource == 'login') {
+
+          // Si se viene desde el login, se sincronizan los carritos
+          await this.cartService.addLocalCartToUser(userId, this.cartProducts)
+          localStorage.removeItem('cartProducts') // Una vez sincronizados, se borra el local
+          console.log("Se ha eliminado el carrito local"); 
+        } else if (this.cartService.actionSource == 'checkout'){
+
+          // Si se viene desde el botón de pagar, es un pago exprés y no se sincronizan
+          console.log("Has accedido desde pagar, no se sincroniza nada.");
+        }
       } else{
+
         console.log("No hay carrito local")
       }
+      // FIN SINCRONIZACIÓN CARRITOS
 
       // Si tenemos que redirigir al usuario, lo hacemos
       if (this.redirectTo != null) {

@@ -79,6 +79,7 @@ export class NavComponent implements OnInit {
         this.cartProductCount = 0;
       }
     } else {
+      
       // si no lo está, se obtiene del localStorage
       const cart = this.cartService.getCartFromLocal();
       cart.forEach((product) => // Recorre el carrito y suma las cantidades
@@ -93,6 +94,7 @@ export class NavComponent implements OnInit {
       this.authService.logout();
       this.router.navigate(['/']);
     } else {
+      this.cartService.actionSource = 'login';
       this.router.navigate(['/login']);
     }
   }

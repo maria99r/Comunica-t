@@ -144,6 +144,18 @@ export class CartComponent implements OnInit {
   }
 
   goToCheckout() {
+    
+    if (this.isLog) {
+
+      this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
+      console.log("Carrito usuario: ", this.cart)
+    }else{
+      
+      this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe")
+      console.log("Carrito local: ", this.cartProducts)
+    }
+
+    this.cartService.actionSource = 'checkout';
     this.router.navigate(['/checkout']);
   }
 }
