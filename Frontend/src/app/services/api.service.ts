@@ -156,7 +156,6 @@ export class ApiService {
       }
       reviews.push(review);
     }
-    console.log(reviews)
     return reviews;
   }
 
