@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
+
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
@@ -11,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CriterioOrden, SearchDto } from '../../models/searchDto';
 import { SelectButtonModule } from 'primeng/selectbutton';
+
 
 @Component({
   selector: 'app-catalog',
@@ -38,13 +41,12 @@ export class CatalogComponent implements OnInit {
   sortOrder: boolean = true; // asc por defecto
   sortCriterio: CriterioOrden = CriterioOrden.Name; // nombre por defecto
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   // al cargar la pagina se cargan todos lo productos
   async ngOnInit(): Promise<void> {
     this.loadUserConfig(); // Cargar la configuración de sessionStorage si existe
     await this.loadProducts();
-    await this.updateReviews();
   }
 
   // Cargar configuración desde sessionStorage
@@ -152,26 +154,6 @@ export class CatalogComponent implements OnInit {
     this.currentPage = 1;
     this.pageSize = size;
     this.loadProducts();
-  }
-
-  // nº de reviews de los productos
-  async updateReviews() {
-    for (const product of this.filteredProducts) {
-      try {
-        product.reviews = await this.apiService.loadReviews(product.id);
-      } catch (error) {
-        product.reviews = [];
-      }
-    }
-  }
-
-  // media de reseñas de cada producto
-  calculateAvg(reviews: { label: number }[]): number {
-    if (reviews.length > 0) {
-      const sum = reviews.reduce((acc, review) => acc + review.label, 0);
-      return Math.round(sum / reviews.length);
-    }
-    return 0;
   }
 
 }

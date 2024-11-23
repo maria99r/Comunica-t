@@ -51,9 +51,8 @@
         </p>
 
         <p *ngIf="!authService.isAuthenticated()">
-            Para poder escribir una reseña debe 
-            <a [routerLink]="'/login'" [queryParams]="{ redirectTo: router.url }">iniciar sesión.</a>
-          </p>
+            Para poder escribir una reseña debe <a href="/login">iniciar sesión.</a>
+        </p>
 
         <!-- FORMULARIO PARA HACER RESEÑA -->
         <div *ngIf="authService.isAuthenticated() && !hasComment">
@@ -94,6 +93,7 @@
             <span>⭐✩✩ </span>
             }
             }
+            <!-- hay que pasarlo a hora local -->
             <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
 
             <p class="text-sm">{{review.text}}</p>

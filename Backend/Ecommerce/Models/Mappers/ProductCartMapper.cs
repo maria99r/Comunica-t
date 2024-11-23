@@ -12,8 +12,7 @@ public class ProductCartMapper
         {
             CartId = productCartDto.CartId,
             ProductId = productCartDto.ProductId,
-            Quantity = productCartDto.Quantity,
-            Product = productCartDto.Product
+            Quantity = productCartDto.Quantity
         };
     }
 
@@ -24,8 +23,7 @@ public class ProductCartMapper
         {
             CartId = productCart.CartId,
             ProductId = productCart.ProductId,
-            Quantity = productCart.Quantity,
-            Product = productCart.Product
+            Quantity = productCart.Quantity
         };
     }
 

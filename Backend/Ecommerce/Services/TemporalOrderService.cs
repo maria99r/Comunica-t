@@ -13,48 +13,18 @@ public class TemporalOrderService
         _unitOfWork = unitOfWork;
     }
 
-    // obtener por id
-    public async Task<TemporalOrderDto> GetByIdAsync(int id)
-    {
-        TemporalOrderDto temporalOrderDto = await _unitOfWork.TemporalOrderRepository.GetTemporalCartById(id);
-
-        if (temporalOrderDto == null)
-        {
-            return null;
-        }
-
-        return temporalOrderDto;
-    }
-
-
-
-    // crear order temporal DESDE EL LOCAL
-    public async Task<TemporalOrder> CreateTemporalOrderLocalAsync(ProductCartDto[] cart)
+    // crear order temporal (hay que mapear el user para que no se vean los datos)
+    public async Task<TemporalOrder> CreateTemporalOrderAsync(CartDto cart, string paymentMethod)
     {
         
-        /*if (paymentMethod == null || paymentMethod == "")
-        {
-            throw new InvalidOperationException("El método de pago no es válido");
-        }*/
-
-        return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderLocalAsync(cart);
-
-    }
-
-
-    // crear order temporal DESDE LA BBDD
-    public async Task<TemporalOrder> CreateTemporalOrderBBDDAsync(CartDto cart, string paymentMethod)
-    {
-
         if (paymentMethod == null || paymentMethod == "")
         {
             throw new InvalidOperationException("El método de pago no es válido");
         }
 
-        return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
+        TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderAsync(cart, paymentMethod);
+        await _unitOfWork.SaveAsync();
 
         return temporalOrder;
     }
-
-
 }

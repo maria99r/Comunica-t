@@ -23,10 +23,10 @@ public class TemporalOrder
     // tiempo de expiracion
     public DateTime ExpiresAt { get; set; }
 
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     public ICollection<TemporalProductOrder> TemporalProductOrder { get; set; } = new List<TemporalProductOrder>();
 
-    public User User { get; set; } // habria que hacer dto para q no salga info del usuario
+    public User User { get; set; } = null!; // guardamos su dto?
 
 }

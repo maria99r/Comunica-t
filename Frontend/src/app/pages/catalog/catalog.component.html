@@ -54,19 +54,7 @@
                                 } @else {
                                     <p style="color:darkred">No stock</p>
                                 }
-                                <p><span>
-                                    @switch (calculateAvg(product.reviews)) {
-                                    @case (1) {
-                                      😀
-                                     }
-                                    @case (0) {
-                                      😐
-                                     }
-                                    @case (-1) {
-                                      🤮
-                                     }
-                                    }
-                                </span>({{product.reviews.length}})</p>
+                                <p>😀({{product.reviews.length}})</p>
                                 
                             </div>
                         </div>

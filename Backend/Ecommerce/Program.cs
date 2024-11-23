@@ -38,7 +38,6 @@ builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<ProductCartService>();
-builder.Services.AddScoped<TemporalOrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
