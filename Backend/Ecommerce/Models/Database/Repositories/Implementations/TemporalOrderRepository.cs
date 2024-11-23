@@ -37,7 +37,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
 
 
     // Crear una orden temporal DESDE EL LOCAL
-    public async Task<TemporalOrder> InsertTemporalOrderLocalAsync(ProductCartDto[] cart)
+    public async Task<TemporalOrder> InsertTemporalOrderLocalAsync(ProductCartDto[] cart, string paymentMethod)
     {
 
     // precio total
@@ -47,7 +47,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         var newTemporalOrder = new TemporalOrder
         {
             UserId = null,
-            PaymentMethod = "",
+            PaymentMethod = paymentMethod,
             TotalPrice = total,
             // pasamos los productos del carrito a la orden
             TemporalProductOrder = cart.Select(pc => new TemporalProductOrder

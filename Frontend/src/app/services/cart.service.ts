@@ -119,4 +119,18 @@ export class CartService {
     }
   }
 
+  // CREAR ORDEN TEMPORAL:
+
+  // si el usuario esta logueado desde la BBDD le enviamos el carrito
+  newTemporalOrderBBDD(cart: Cart, paymentMethod : string): Observable<any> {
+    const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderBBDD?paymentMethod=${paymentMethod}`;
+    return this.http.post(url, cart);
+  }
+
+    // si el usuario esta logueado desde la BBDD le enviamos el carrito
+    newTemporalOrderLocal(cart: ProductCart[], paymentMethod : string): Observable<any> {
+      const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderLocal?paymentMethod=${paymentMethod}`;
+      return this.http.post(url, cart);
+    }
+
 }
