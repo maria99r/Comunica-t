@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 import { Cart } from '../../models/cart';
 import { ProductCart } from '../../models/productCart';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 
 
 @Component({
@@ -21,13 +22,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartProducts: ProductCart[] = [];
-  cart: Cart;
+  cartProducts: ProductCart[] = [];  // local
+  cart: Cart;  // bbdd
   public readonly IMG_URL = environment.apiImg;
 
   isLog: boolean; // para comprobar si esta o no logueado
 
-  constructor(private cartService: CartService, private authService: AuthService, private router: Router) { }
+  constructor(private cartService: CartService, private authService: AuthService, private router: Router, private api: ApiService) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -45,15 +46,36 @@ export class CartComponent implements OnInit {
       this.cart = await this.cartService.getCartByUser(userId);
       console.log(this.cart)
       this.isLog = true;
+      this.checkStock(this.cart.products)
     }
     else {
       //console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
       console.log(this.cartProducts)
       this.isLog = false;
+      this.checkStock(this.cartProducts)
     }
+
+   
   }
 
+  // comprueba el stock del carrito
+  checkStock(carrito: ProductCart[] ){
+    carrito.forEach(async producto => {
+      const user = this.authService.getUser();
+
+      let productBack : Product;
+      productBack = await this.api.getProduct(producto.productId);
+
+      if(productBack.stock < producto.quantity){
+        alert(`El producto ${productBack.name} dispone de menor stock del que había añadido.`)
+        producto.quantity = productBack.stock;
+        if(user){
+          this.cartService.updateCartProductBBDD(user.id, producto.productId, producto.quantity).toPromise();
+        } else this.cartService.updateCartProductLocal(producto);
+      }
+    });
+  }
 
   // Método para actualizar la cantidad de un producto en el carrito
   changeQuantityLocal(product: ProductCart, quantity: number): void {
@@ -63,6 +85,7 @@ export class CartComponent implements OnInit {
       product.quantity = quantity;
       this.cartService.updateCartProductLocal(product);
     }
+    this.loadCart();
   }
 
 
@@ -145,6 +168,7 @@ export class CartComponent implements OnInit {
 
   goToCheckout() {
     
+    console.log(this.isLog)
     if (this.isLog) {
 
       this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
