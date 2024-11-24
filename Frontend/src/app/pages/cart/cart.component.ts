@@ -36,7 +36,7 @@ export class CartComponent implements OnInit {
 
   }
 
-  async loadCart(){
+  async loadCart() {
     const user = this.authService.getUser();
     const userId = user ? user.userId : null;
 
@@ -56,23 +56,26 @@ export class CartComponent implements OnInit {
       this.checkStock(this.cartProducts)
     }
 
-   
+
   }
 
   // comprueba el stock del carrito
-  checkStock(carrito: ProductCart[] ){
+  // falta eliminarlo si es 0 !!!!
+  checkStock(carrito: ProductCart[]) {
     carrito.forEach(async producto => {
       const user = this.authService.getUser();
 
-      let productBack : Product;
+      let productBack: Product;
       productBack = await this.api.getProduct(producto.productId);
 
-      if(productBack.stock < producto.quantity){
+      if (productBack.stock < producto.quantity) {
         alert(`El producto ${productBack.name} dispone de menor stock del que había añadido.`)
         producto.quantity = productBack.stock;
-        if(user){
+        if (user) {
           this.cartService.updateCartProductBBDD(user.id, producto.productId, producto.quantity).toPromise();
-        } else this.cartService.updateCartProductLocal(producto);
+        } else { 
+          this.cartService.updateCartProductLocal(producto); 
+        }
       }
     });
   }
@@ -96,10 +99,10 @@ export class CartComponent implements OnInit {
       const user = this.authService.getUser();
       const userId = user ? user.userId : null;
 
-      if (!userId){
+      if (!userId) {
         console.log("No hay usuario logueado")
       }
-      
+
       console.log("Nueva cantidad: " + newQuantity)
 
       if (newQuantity <= 0) {
@@ -129,7 +132,7 @@ export class CartComponent implements OnInit {
     try {
 
       const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
-      alert(response);  
+      alert(response);
       this.loadCart();
 
     } catch (error) {
@@ -143,7 +146,7 @@ export class CartComponent implements OnInit {
   // Calcula el total del carrito
   get total(): number {
     let sum = 0;
-    
+
     if (this.isLog) {
       if (this.cartProducts === null) { // Controla si está vacío
         sum = 0;
@@ -152,7 +155,7 @@ export class CartComponent implements OnInit {
           sum += line.product.price / 100 * (line.quantity || 1);
         }
       }
-      
+
     } else {
       if (this.cartProducts === null) { // Controla si está vacío
         sum = 0;
@@ -161,20 +164,19 @@ export class CartComponent implements OnInit {
           sum += product.product.price / 100 * (product.quantity || 1);
         }
       }
-      
+
     }
     return sum;
   }
 
   goToCheckout() {
-    
     console.log(this.isLog)
     if (this.isLog) {
 
       this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
       console.log("Carrito usuario: ", this.cart)
-    }else{
-      
+    } else {
+
       this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe")
       console.log("Carrito local: ", this.cartProducts)
     }
