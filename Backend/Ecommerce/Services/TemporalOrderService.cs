@@ -47,6 +47,8 @@ public class TemporalOrderService
             await UpdateProduct(product);
         }
 
+        await _unitOfWork.SaveAsync();
+
         return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderLocalAsync(cart, paymentMethod);
 
     }
@@ -73,6 +75,8 @@ public class TemporalOrderService
         }
 
         TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
+
+        await _unitOfWork.SaveAsync();
 
         return temporalOrder;
     }

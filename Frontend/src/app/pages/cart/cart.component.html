@@ -26,9 +26,9 @@
 
             <label>Cantidad: </label>
             <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
-              (ngModelChange)="changeQuantityBBDD(product, product.quantity)" min="1" />
-
-            <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(product.productId)">
+              (ngModelChange)="changeQuantityBBDD(product, product.quantity)" min="1"  max="{{product.product.stock}}" />
+            
+              <button class="p-button-danger" label="Eliminar" (click)="removeProductBBDD(product.productId)">
               Eliminar
             </button>
 
@@ -50,10 +50,9 @@
         <div class="product-details">
           <h3>{{ product.product.name }}</h3>
           <p>{{ product.product.price / 100 }} €</p>
-
             <label>Cantidad: </label>
             <input type="number" class="input-quantity" [(ngModel)]="product.quantity"
-              (ngModelChange)="changeQuantityLocal(product, product.quantity)" min="1" />
+              (ngModelChange)="changeQuantityLocal(product, product.quantity)" min="1" max="{{product.product.stock}}"/>
           <button class="p-button-danger" label="Eliminar" (click)="removeProductLocal(product)">
             Eliminar
           </button>
@@ -66,7 +65,7 @@
     <div class="cart-total">
       <p>Total: {{ total | currency : "EUR" }}</p>
     </div>
-    <div class="pay-button">
+    <div class="pay-button" >
       <button>
         Pagar con ethereum
       </button>

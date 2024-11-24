@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
 import { Cart } from '../../models/cart';
 import { ProductCart } from '../../models/productCart';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 
 
 @Component({
@@ -21,13 +22,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartProducts: ProductCart[] = [];
-  cart: Cart;
+  cartProducts: ProductCart[] = [];  // local
+  cart: Cart;  // bbdd
   public readonly IMG_URL = environment.apiImg;
 
   isLog: boolean; // para comprobar si esta o no logueado
 
-  constructor(private cartService: CartService, private authService: AuthService, private router: Router) { }
+  constructor(private cartService: CartService, private authService: AuthService, private router: Router, private api: ApiService) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -35,7 +36,7 @@ export class CartComponent implements OnInit {
 
   }
 
-  async loadCart(){
+  async loadCart() {
     const user = this.authService.getUser();
     const userId = user ? user.userId : null;
 
@@ -45,15 +46,39 @@ export class CartComponent implements OnInit {
       this.cart = await this.cartService.getCartByUser(userId);
       console.log(this.cart)
       this.isLog = true;
+      this.checkStock(this.cart.products)
     }
     else {
       //console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
       console.log(this.cartProducts)
       this.isLog = false;
+      this.checkStock(this.cartProducts)
     }
+
+
   }
 
+  // comprueba el stock del carrito
+  // falta eliminarlo si es 0 !!!!
+  checkStock(carrito: ProductCart[]) {
+    carrito.forEach(async producto => {
+      const user = this.authService.getUser();
+
+      let productBack: Product;
+      productBack = await this.api.getProduct(producto.productId);
+
+      if (productBack.stock < producto.quantity) {
+        alert(`El producto ${productBack.name} dispone de menor stock del que había añadido.`)
+        producto.quantity = productBack.stock;
+        if (user) {
+          this.cartService.updateCartProductBBDD(user.id, producto.productId, producto.quantity).toPromise();
+        } else { 
+          this.cartService.updateCartProductLocal(producto); 
+        }
+      }
+    });
+  }
 
   // Método para actualizar la cantidad de un producto en el carrito
   changeQuantityLocal(product: ProductCart, quantity: number): void {
@@ -63,6 +88,7 @@ export class CartComponent implements OnInit {
       product.quantity = quantity;
       this.cartService.updateCartProductLocal(product);
     }
+    this.loadCart();
   }
 
 
@@ -73,10 +99,10 @@ export class CartComponent implements OnInit {
       const user = this.authService.getUser();
       const userId = user ? user.userId : null;
 
-      if (!userId){
+      if (!userId) {
         console.log("No hay usuario logueado")
       }
-      
+
       console.log("Nueva cantidad: " + newQuantity)
 
       if (newQuantity <= 0) {
@@ -106,7 +132,7 @@ export class CartComponent implements OnInit {
     try {
 
       const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
-      alert(response);  
+      alert(response);
       this.loadCart();
 
     } catch (error) {
@@ -120,7 +146,7 @@ export class CartComponent implements OnInit {
   // Calcula el total del carrito
   get total(): number {
     let sum = 0;
-    
+
     if (this.isLog) {
       if (this.cartProducts === null) { // Controla si está vacío
         sum = 0;
@@ -129,7 +155,7 @@ export class CartComponent implements OnInit {
           sum += line.product.price / 100 * (line.quantity || 1);
         }
       }
-      
+
     } else {
       if (this.cartProducts === null) { // Controla si está vacío
         sum = 0;
@@ -138,19 +164,19 @@ export class CartComponent implements OnInit {
           sum += product.product.price / 100 * (product.quantity || 1);
         }
       }
-      
+
     }
     return sum;
   }
 
   goToCheckout() {
-    
+    console.log(this.isLog)
     if (this.isLog) {
 
       this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
       console.log("Carrito usuario: ", this.cart)
-    }else{
-      
+    } else {
+
       this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe")
       console.log("Carrito local: ", this.cartProducts)
     }
