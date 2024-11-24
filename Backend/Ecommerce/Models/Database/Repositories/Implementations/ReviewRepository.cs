@@ -32,13 +32,9 @@ public class ReviewRepository : Repository<Review, int>
     public async Task<Review> InsertReviewAsync(Review newReview)
     {
 
-        await base.InsertAsync(newReview);
+        Review review = await base.InsertAsync(newReview);
 
-        if (await SaveAsync())
-        {
-            return newReview;
-        }
+        return review;
 
-        throw new Exception("No se pudo crear la reseña.");
     }
 }

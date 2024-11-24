@@ -67,13 +67,6 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             throw new Exception("No se pudo crear la orden temporal.");
         }
 
-
-        if (!await SaveAsync())
-        {
-            throw new Exception("La orden temporal no se pudo guardar el la BBDD.");
-
-        }
-
         return newTemporalOrder;
     }
 
@@ -106,13 +99,6 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         if (insertedTemporalOrder == null)
         {
             throw new Exception("No se pudo crear la orden temporal.");
-        }
-
-
-        if (!await SaveAsync())
-        {
-            throw new Exception("La orden temporal no se pudo guardar el la BBDD.");
-
         }
 
         return newTemporalOrder;

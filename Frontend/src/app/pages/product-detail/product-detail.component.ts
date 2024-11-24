@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
 import { Review } from '../../models/review';
 import { ApiService } from '../../services/api.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
@@ -15,14 +15,12 @@ import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
-import { Cart } from '../../models/cart';
-import { firstValueFrom } from 'rxjs';
 
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule],
+  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
@@ -54,7 +52,8 @@ export class ProductDetailComponent implements OnInit {
     public authService: AuthService,
     private api: ApiService,
     private cartApi: CartService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -73,6 +72,9 @@ export class ProductDetailComponent implements OnInit {
 
     // carga sus reseñas
     this.reviews = await this.api.loadReviews(id);
+
+    // ordena las reseñas por fecha de publicación a las más recientes primero
+    this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); 
 
     // obtiene info de los usuarios que han comentado
     for (const review of this.reviews) {
@@ -107,10 +109,11 @@ export class ProductDetailComponent implements OnInit {
         console.log(cart)
         // añade producto
         try{
-          await firstValueFrom(this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id)));
+          await this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
           alert("Producto añadido al carrito.")
         } catch(e){
           alert("Error al añadir el producto.")
+          console.log(e)
         }
       }
 

@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Cart } from '../../models/cart';
 import { ProductCart } from '../../models/productCart';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class CartComponent implements OnInit {
 
   isLog: boolean; // para comprobar si esta o no logueado
 
-  constructor(private cartService: CartService, private authService: AuthService) { }
+  constructor(private cartService: CartService, private authService: AuthService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -42,13 +43,13 @@ export class CartComponent implements OnInit {
     if (user) {
       //console.log("Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
-      //console.log(this.cart)
+      console.log(this.cart)
       this.isLog = true;
     }
     else {
       //console.log("Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
-      //console.log(this.cartProducts)
+      console.log(this.cartProducts)
       this.isLog = false;
     }
   }
@@ -140,5 +141,21 @@ export class CartComponent implements OnInit {
       
     }
     return sum;
+  }
+
+  goToCheckout() {
+    
+    if (this.isLog) {
+
+      this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
+      console.log("Carrito usuario: ", this.cart)
+    }else{
+      
+      this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe")
+      console.log("Carrito local: ", this.cartProducts)
+    }
+
+    this.cartService.actionSource = 'checkout';
+    this.router.navigate(['/checkout']);
   }
 }

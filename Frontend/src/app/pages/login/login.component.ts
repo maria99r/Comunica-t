@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { AuthRequest } from '../../models/auth-request';
 import { AuthService } from '../../services/auth.service';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ProductCart } from '../../models/productCart';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { CheckboxModule } from 'primeng/checkbox';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   readonly PARAM_KEY: string = 'redirectTo';
   private redirectTo: string = null;
 
@@ -21,10 +22,13 @@ export class LoginComponent {
   rememberMe: boolean = false;
   jwt: string = '';
 
+  cartProducts: ProductCart[] = [];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +56,31 @@ export class LoginComponent {
       if (this.rememberMe) {
         localStorage.setItem('jwtToken', this.jwt);
       }
+
+      // INICIO SINCRONIZACIÓN CARRITO LOCAL -> CARRITO BBDD
+      this.cartProducts = this.cartService.getCartFromLocal(); // Obtener el carrito local
+      const user = this.authService.getUser();
+      const userId = user ? user.userId : null;
+      
+      if (this.cartProducts.length > 0) { // Si hay al menos un producto, el carrito local existe.
+        
+        console.log("Hay carrito local")
+        if (this.cartService.actionSource == 'login') {
+
+          // Si se viene desde el login, se sincronizan los carritos
+          await this.cartService.addLocalCartToUser(userId, this.cartProducts)
+          localStorage.removeItem('cartProducts') // Una vez sincronizados, se borra el local
+          console.log("Se ha eliminado el carrito local"); 
+        } else if (this.cartService.actionSource == 'checkout'){
+
+          // Si se viene desde el botón de pagar, es un pago exprés y no se sincronizan
+          console.log("Has accedido desde pagar, no se sincroniza nada.");
+        }
+      } else{
+
+        console.log("No hay carrito local")
+      }
+      // FIN SINCRONIZACIÓN CARRITOS
 
       // Si tenemos que redirigir al usuario, lo hacemos
       if (this.redirectTo != null) {

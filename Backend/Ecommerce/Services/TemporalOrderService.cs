@@ -72,14 +72,15 @@ public class TemporalOrderService
             await UpdateProduct(product);
         }
 
-        return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
+        TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
 
+        return temporalOrder;
     }
 
     // para actualizar el stock y guardarlo
     public async Task UpdateProduct(Product product)
     {
-        await _unitOfWork.ProductRepository.Update(product);
+        _unitOfWork.ProductRepository.Update(product);
         await _unitOfWork.SaveAsync();
     }
 }

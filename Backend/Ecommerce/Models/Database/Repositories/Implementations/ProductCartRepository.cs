@@ -36,6 +36,7 @@ public class ProductCartRepository : Repository<ProductCart, int>
         {
             // si ya existe, se suma la cantidad
             existingProduct.Quantity += productCart.Quantity;
+            Update(existingProduct);
         }
         else
         {
@@ -49,14 +50,12 @@ public class ProductCartRepository : Repository<ProductCart, int>
 
             await InsertAsync(newProductInCart);
         }
-        await SaveAsync();
     }
 
     // eliminar producto
-    public async Task DeleteProductFromCartAsync(ProductCart productCart)
+    public void DeleteProductFromCartAsync(ProductCart productCart)
     {
-        _context.Set<ProductCart>().Remove(productCart);
-        await SaveAsync();
+        _context.Set<ProductCart>().Remove(productCart);;
     }
 
     // obtener productos de un carrito

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product';
 import { Cart } from '../models/cart';
 import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ProductCart } from '../models/productCart';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,11 @@ export class CartService {
 
   private readonly CART_KEY = 'cartProducts';
   private readonly BASE_URL = environment.apiUrl;
+  localCart: ProductCart[] = [];
+  // Para controlar en el login si se viene desde el inicio de sesión o desde el pago
+  public actionSource: string | null = null; 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private api: ApiService) { }
 
   // productos del carrito desde localStorage
   getCartFromLocal(): ProductCart[] {
@@ -39,6 +42,14 @@ export class CartService {
     return cart;
   }
 
+  createCart(idUser: number): Observable<any> {
+    const url = `${this.BASE_URL}Cart/newCart`;
+    const body = {
+      userId: idUser,
+    };
+
+    return this.http.post(url, idUser);
+  }
 
   // Guardar productos del carrito en localStorage
   private saveCart(cartProducts: ProductCart[]): void {
@@ -61,26 +72,15 @@ export class CartService {
     return this.http.put(url, null, { responseType: 'text' });
   }
 
-
-  createCart(idUser: number): Observable<any> {
-    const url = `${this.BASE_URL}Cart/newCart`;
-    const body = {
-      userId: idUser,
-    };
-
-    return this.http.post(url, idUser);
-  }
-
-  addToCartBBDD(quantity: number, cartId: number, productId: number): Observable<any> {
-    const url = `${this.BASE_URL}ProductCart/addProduct`;
+  async addToCartBBDD(quantity: number, cartId: number, productId: number): Promise<any> {
+    console.log("Carritos sincronizados")
+    const url = `ProductCart/addProduct`;
     const body = {
       quantity: quantity,
       cartId: cartId,
       productId: productId
     };
-
-
-    return this.http.post(url, body);
+    return await this.api.post(url, body);
   }
 
   // Eliminar un producto del carrito
@@ -102,7 +102,6 @@ export class CartService {
     }
   }
 
-
   removeFromCartBBDD(idCart: number, idProduct: number): Observable<any> {
     const url = (`${this.BASE_URL}ProductCart/removeProduct/${idCart}/${idProduct}`);
     return this.http.delete(url, { responseType: 'text' });
@@ -113,8 +112,14 @@ export class CartService {
     localStorage.removeItem(this.CART_KEY);
   }
 
+  async addLocalCartToUser(userId: number, localCart: ProductCart[]){
+    
+    const userCart = await this.getCartByUser(userId);
 
-
+    for (let product of localCart) {
+      await this.addToCartBBDD(product.quantity, userCart.id, product.productId)
+    }
+  }
 
   // CREAR ORDEN TEMPORAL:
 

@@ -36,22 +36,21 @@ public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where
         return entry.Entity;
     }
 
-    public async Task<bool> SaveAsync()
-    {
-        return await _context.SaveChangesAsync() > 0;
-    }
+    //public async Task<bool> SaveAsync()
+    //{
+    //    return await _context.SaveChangesAsync() > 0;
+    //}
 
-    public async Task<TEntity> Update(TEntity entity)
+    public TEntity Update(TEntity entity)
     {
         _context.Set<TEntity>().Update(entity);
-        await SaveAsync();
         return entity;
     }
 
-    public async Task Delete(TEntity entity)
+    public Task Delete(TEntity entity)
     {
         _context.Set<TEntity>().Remove(entity);
-        await SaveAsync();
+        return Task.CompletedTask;
     }
 
     public async Task<bool> ExistAsync(TId id)
