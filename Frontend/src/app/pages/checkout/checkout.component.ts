@@ -22,9 +22,9 @@ import { CommonModule } from '@angular/common';
 export class CheckoutComponent implements OnInit, OnDestroy {
 
   @ViewChild('checkoutDialog')
-  checkoutDialogRef: ElementRef<HTMLDialogElement>;
 
   product: Product = null;
+  checkoutDialogRef: ElementRef<HTMLDialogElement>;
   orderDetails: TemporalOrder = null; // Orden temporal
   sessionId: string = ''; // ID de la Orden temporal
   paymentMethod: string = ''; // Método de pago escogido
@@ -49,53 +49,62 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   async init(queryMap: ParamMap) {
     console.log('Iniciando la página de checkout...');
-  
+  console.log('Query Params:', queryMap.keys); // Verifica los parámetros disponibles en la URL
+
+  this.sessionId = queryMap.get('session_id');
+  console.log('Session ID recuperado:', this.sessionId); // Log del session_id recuperado
+
+  if (!this.sessionId) {
+    console.error('No se proporcionó un ID de orden temporal, no se puede continuar.');
+    return; // Detén la ejecución si no hay session_id
+  }
+    console.log('Iniciando la página de checkout...');
+
     // Detectar si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
     sessionStorage.removeItem('authRedirection');
-  
+
     this.sessionId = queryMap.get('session_id');
     this.paymentMethod = queryMap.get('payment_method');
-  
-    console.log('ID de la orden temporal:', this.sessionId);
+
+    console.log('ID:', this.sessionId);
     console.log('Método de pago:', this.paymentMethod);
     console.log('Acaba de iniciar sesión:', justLoggedIn);
-  
+
     if (!this.sessionId) {
       console.error('No se proporcionó un ID de orden temporal, no se puede continuar.');
     } else {
-  
+
       if (justLoggedIn) {
         console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
         const linkResponse = await this.service.linkUserToOrder(this.sessionId);
-  
+
         if (!linkResponse.success) {
           console.error('Error al vincular la orden temporal:', linkResponse.error);
         }
       }
-  
+
       console.log('Recuperando los detalles de la orden temporal...');
       const orderResponse = await this.service.getOrderDetails(this.sessionId);
-  
+
       if (orderResponse.success) {
         this.orderDetails = orderResponse.data;
         console.log('Detalles de la orden cargados:', this.orderDetails);
         console.log('Productos:', this.orderDetails.temporalProductOrder);
         this.startOrderRefresh(); // Iniciar refresco periódico de la orden
-  
+
         // Iniciar el pago
         if (this.paymentMethod === 'stripe') {
           await this.embeddedCheckout();
         } else {
           console.log('Método de pago:', this.paymentMethod);
         }
-  
+
       } else {
         console.error('Error al cargar los detalles de la orden:', orderResponse.error);
       }
     }
   }
-  
 
   // Refrescar la orden orden temporal
   startOrderRefresh() {
@@ -111,27 +120,30 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   // Checkout embebido de Stripe
-  // Checkout embebido de Stripe
-async embeddedCheckout() {
-  console.log('Iniciando el checkout embebido de Stripe...');
-  const request = await this.service.getEmbededCheckout();
-
-  if (request.success) {
-    const options: StripeEmbeddedCheckoutOptions = {
-      clientSecret: request.data.clientSecret
-    };
-
-    this.stripe.initEmbeddedCheckout(options)
-      .subscribe((checkout) => {
-        this.stripeEmbedCheckout = checkout;
-        checkout.mount('#checkout');
-        this.checkoutDialogRef.nativeElement.showModal();
-      });
-
-  } else {
-    console.error('Error al iniciar el checkout embebido:', request.error);
+  async embeddedCheckout() {
+    console.log('Iniciando el checkout embebido de Stripe...');
+    
+    const request = await this.service.getEmbededCheckout();
+    console.log('Respuesta del servidor:', request); // Verifica qué devuelve el servidor
+  
+    if (request.success) {
+      const options: StripeEmbeddedCheckoutOptions = {
+        clientSecret: request.data.clientSecret // Asegúrate de que `data.clientSecret` exista
+      };
+  
+      this.stripe.initEmbeddedCheckout(options)
+        .subscribe((checkout) => {
+          this.stripeEmbedCheckout = checkout;
+          checkout.mount('#checkout');
+          this.checkoutDialogRef.nativeElement.showModal();
+        });
+  
+    } else {
+      console.error('Error al obtener el Client Secret:', request.error || 'Sin detalles de error');
+    }
   }
-}
+  
+  
 
   cancelCheckoutDialog() {
     this.stripeEmbedCheckout.destroy();
