@@ -62,9 +62,15 @@ public class TemporalOrderService
 
         var user = await _unitOfWork.UserRepository.GetById(cart.UserId);
 
+
         if (paymentMethod == null || paymentMethod == "")
         {
             throw new InvalidOperationException("El método de pago no es válido");
+        }
+
+        if (cart == null || cart.ProductCarts == null)
+        {
+            throw new ArgumentNullException(nameof(cart), "El carrito o los productos en el carrito son nulos.");
         }
 
         // reserva de stock 
@@ -76,6 +82,9 @@ public class TemporalOrderService
             // actualiza el stock del producto
             product.Stock = product.Stock - cartItem.Quantity;
             await UpdateProduct(product);
+
+            // asigna el producto a la orden 
+            cartItem.Product = product;
         }
 
         TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
