@@ -75,7 +75,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
     public async Task<TemporalOrder> InsertTemporalOrderBBDDAsync(CartDto cart, String paymentMethod)
     {
         // precio total
-        var total = cart.products.Sum(pc => pc.Quantity * pc.Product.Price);
+        var total = cart.Products.Sum(pc => pc.Quantity * pc.Product.Price);
 
         var newTemporalOrder = new TemporalOrder
         {
@@ -83,7 +83,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             PaymentMethod = paymentMethod,
             TotalPrice = total,
             // pasamos los productos del carrito a la orden
-            TemporalProductOrder = cart.products.Select(pc => new TemporalProductOrder
+            TemporalProductOrder = cart.Products.Select(pc => new TemporalProductOrder
             {
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id,

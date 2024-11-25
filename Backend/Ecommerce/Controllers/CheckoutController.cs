@@ -17,13 +17,11 @@ namespace Ecommerce.Controllers
     {
         private readonly IOptions<Settings> _settings;
         private readonly Services.CheckoutService _checkOutService;
-        private readonly ProductCartService _productCartService;
         private readonly CartService _cartService;
-        public CheckoutController(IOptions<Settings> settings, Services.CheckoutService checkOutService, ProductCartService productCartService, CartService cartService)
+        public CheckoutController(IOptions<Settings> settings, Services.CheckoutService checkOutService, CartService cartService)
         {
             _settings = settings;
             _checkOutService = checkOutService;
-            _productCartService = productCartService;
             _cartService = cartService;
         }
 
@@ -49,13 +47,15 @@ namespace Ecommerce.Controllers
         }
 
         [HttpGet("embedded")]
-        public async Task<ActionResult> EmbededCheckout()
+        public async Task<ActionResult> EmbededCheckout(int userId)
         {
+            // Obtener id de usuario desde el Token
+            //int userId = 
 
             // Hay que importar los productos
-            CartDto cart = await _cartService.GetByUserIdAsync(5); // Está mal, puse como ejemplo una ID random para comprobar que funcione
+            CartDto cart = await _cartService.GetByUserIdAsync(userId); // Está mal, puse como ejemplo una ID random para comprobar que funcione
 
-            foreach (ProductCart productCart in cart.ProductCarts)
+            foreach (ProductCart productCart in cart.Products)
             {
                 // Configuración de la sesión
                 SessionCreateOptions options = new SessionCreateOptions

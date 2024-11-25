@@ -14,8 +14,8 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Leer la configuración de Stripe y mapearla a Settings
-builder.Services.Configure<Settings>(builder.Configuration.GetSection("Stripe"));
+// Leer la configuración
+builder.Services.Configure<Settings>(builder.Configuration.GetSection(Settings.SECTION_NAME));
 
 // Inyectamos el DbContext
 builder.Services.AddScoped<EcommerceContext>();
@@ -82,7 +82,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {
-        string key = "A8$wX#pQ3dZ7v&kB1nY!rT@9mL%j6sHf4^g2Uc5*o";
+        Settings settings = builder.Configuration.GetSection(Settings.SECTION_NAME).Get<Settings>();
+        string key = settings.JwtKey;
 
         options.TokenValidationParameters = new TokenValidationParameters()
         {
@@ -121,19 +122,6 @@ await SeedDataBaseAsync(app.Services);
 // Configuramos Stripe
 InitStripe(app.Services);
 
-static void InitStripe(IServiceProvider serviceProvider)
-{
-    using IServiceScope scope = serviceProvider.CreateScope();
-    IOptions<Settings> options = scope.ServiceProvider.GetService<IOptions<Settings>>();
-
-    // Accedemos a nuestra clave secreta desde la configuración.
-    string stripeSecretKey = options.Value.StripeSecret;
-
-    // Configuramos Stripe con la clave secreta
-    StripeConfiguration.ApiKey = stripeSecretKey;
-}
-
-
 app.Run();
 
 // metodo para el seeder
@@ -148,4 +136,13 @@ static async Task SeedDataBaseAsync(IServiceProvider serviceProvider)
         Seeder seeder = new Seeder(dbContext);
         await seeder.SeedAsync();
     }
+}
+
+static void InitStripe(IServiceProvider serviceProvider)
+{
+    using IServiceScope scope = serviceProvider.CreateScope();
+    IOptions<Settings> options = scope.ServiceProvider.GetService<IOptions<Settings>>();
+
+    // Ponemos nuestro secret key
+    StripeConfiguration.ApiKey = options.Value.StripeSecret;
 }
