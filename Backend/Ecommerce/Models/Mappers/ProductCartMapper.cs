@@ -42,5 +42,4 @@ public class ProductCartMapper
     {
         return productCarts.Select(ProductCartToDto);
     }
-
 }
