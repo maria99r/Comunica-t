@@ -19,5 +19,4 @@ public class ProductCart
     public Cart Cart { get; set; } = null!;
 
     public Product Product { get; set; } = null!;
-
 }
