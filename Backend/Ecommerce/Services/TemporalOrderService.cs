@@ -16,14 +16,16 @@ public class TemporalOrderService
     // obtener por id
     public async Task<TemporalOrderDto> GetByIdAsync(int id)
     {
-        TemporalOrderDto temporalOrderDto = await _unitOfWork.TemporalOrderRepository.GetTemporalCartById(id);
+        if (id <= 0 ) throw new ArgumentException("El ID no es válido.");
 
-        if (temporalOrderDto == null)
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderById(id);
+
+        if (temporalOrder == null)
         {
             return null;
         }
 
-        return temporalOrderDto;
+        return temporalOrder;
     }
 
 
@@ -58,13 +60,21 @@ public class TemporalOrderService
     public async Task<TemporalOrder> CreateTemporalOrderBBDDAsync(CartDto cart, string paymentMethod)
     {
 
+        var user = await _unitOfWork.UserRepository.GetById(cart.UserId);
+
+
         if (paymentMethod == null || paymentMethod == "")
         {
             throw new InvalidOperationException("El método de pago no es válido");
         }
 
+        if (cart == null || cart.products == null)
+        {
+            throw new ArgumentNullException("El carrito o los productos en el carrito son nulos.");
+        }
+
         // reserva de stock 
-        foreach (var cartItem in cart.ProductCarts)
+        foreach (var cartItem in cart.products)
         {
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(cartItem.ProductId);
@@ -72,13 +82,17 @@ public class TemporalOrderService
             // actualiza el stock del producto
             product.Stock = product.Stock - cartItem.Quantity;
             await UpdateProduct(product);
+
+            // asigna el producto a la orden 
+            cartItem.Product = product;
         }
 
         TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
 
+        temporalOrder.User = user;
         await _unitOfWork.SaveAsync();
 
-        return temporalOrder;
+        return temporalOrder;   
     }
 
     // para actualizar el stock y guardarlo
@@ -87,4 +101,6 @@ public class TemporalOrderService
         _unitOfWork.ProductRepository.Update(product);
         await _unitOfWork.SaveAsync();
     }
+
+
 }

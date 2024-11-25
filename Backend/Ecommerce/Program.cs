@@ -4,6 +4,7 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.ML;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -46,6 +47,8 @@ builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
 builder.Services.AddScoped<Ecommerce.Services.CheckoutService>();
+
+builder.Services.AddHostedService<OrderExpiresService>();
 
 
 // Inyeccion de la IA

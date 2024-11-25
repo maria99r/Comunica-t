@@ -10,6 +10,6 @@ public class CartDto
 
     public UserDto User { get; set; }
 
-    public List<ProductCart> ProductCarts { get; set; }
+    public List<ProductCart> products { get; set; }
 
 }
