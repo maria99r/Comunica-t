@@ -8,12 +8,12 @@ import { StripeService } from 'ngx-stripe';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { TemporalOrder } from '../../models/temporal-order';
-import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, NavComponent, FooterComponent],
+  imports: [NavComponent, FooterComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -22,9 +22,8 @@ import { CommonModule } from '@angular/common';
 export class CheckoutComponent implements OnInit, OnDestroy {
 
   @ViewChild('checkoutDialog')
-
-  product: Product = null;
   checkoutDialogRef: ElementRef<HTMLDialogElement>;
+
   orderDetails: TemporalOrder = null; // Orden temporal
   sessionId: string = ''; // ID de la Orden temporal
   paymentMethod: string = ''; // Método de pago escogido
@@ -32,13 +31,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   stripeEmbedCheckout: StripeEmbeddedCheckout;
   refreshInterval: any; // Intervalo para refrescar la orden
 
+  public readonly IMG_URL = environment.apiImg;
+
   constructor(
     private service: CheckoutService,
     private route: ActivatedRoute,
     private stripe: StripeService) { }
 
   ngOnInit() {
-    // Suscribirse a los parámetros de la URL
+
     this.routeQueryMap$ = this.route.queryParamMap.subscribe(queryMap => this.init(queryMap));
   }
 
@@ -49,18 +50,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   async init(queryMap: ParamMap) {
     console.log('Iniciando la página de checkout...');
-  console.log('Query Params:', queryMap.keys); // Verifica los parámetros disponibles en la URL
 
-  this.sessionId = queryMap.get('session_id');
-  console.log('Session ID recuperado:', this.sessionId); // Log del session_id recuperado
-
-  if (!this.sessionId) {
-    console.error('No se proporcionó un ID de orden temporal, no se puede continuar.');
-    return; // Detén la ejecución si no hay session_id
-  }
-    console.log('Iniciando la página de checkout...');
-
-    // Detectar si el usuario acaba de iniciar sesión desde el redireccionamiento
+    //  si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
     sessionStorage.removeItem('authRedirection');
 
@@ -91,9 +82,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.orderDetails = orderResponse.data;
         console.log('Detalles de la orden cargados:', this.orderDetails);
         console.log('Productos:', this.orderDetails.temporalProductOrder);
-        this.startOrderRefresh(); // Iniciar refresco periódico de la orden
+        this.startOrderRefresh(); //  refresco de la orden
 
-        // Iniciar el pago
+        //  pago
         if (this.paymentMethod === 'stripe') {
           await this.embeddedCheckout();
         } else {
@@ -116,34 +107,30 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
       }
-    }, 60000); //minuto
+    }, 60000); // Se refresca cada minuto
   }
 
   // Checkout embebido de Stripe
   async embeddedCheckout() {
     console.log('Iniciando el checkout embebido de Stripe...');
-    
     const request = await this.service.getEmbededCheckout();
-    console.log('Respuesta del servidor:', request);
-  
+
     if (request.success) {
       const options: StripeEmbeddedCheckoutOptions = {
-        clientSecret: request.data.clientSecret // Asegúrate de que `data.clientSecret` exista
+        clientSecret: request.data.clientSecret
       };
-  
+
       this.stripe.initEmbeddedCheckout(options)
         .subscribe((checkout) => {
           this.stripeEmbedCheckout = checkout;
           checkout.mount('#checkout');
           this.checkoutDialogRef.nativeElement.showModal();
         });
-  
+
     } else {
-      console.error('Error al obtener el Client Secret:', request.error || 'Sin detalles de error');
+      console.error('Error al iniciar el checkout embebido:', request.error);
     }
   }
-  
-  
 
   cancelCheckoutDialog() {
     this.stripeEmbedCheckout.destroy();

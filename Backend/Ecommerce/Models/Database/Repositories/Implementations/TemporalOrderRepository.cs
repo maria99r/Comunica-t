@@ -17,33 +17,34 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
 
 
     // obtener orden temporal segun id
-    public async Task<TemporalOrderDto> GetTemporalCartById(int id)
+    public async Task<TemporalOrderDto> GetTemporalOrderById(int id)
     {
         var temporalOrder = await GetQueryable()
+            .Include(t => t.User)
             .Include(t => t.TemporalProductOrder)
             .ThenInclude(p => p.Product)
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (temporalOrder == null)
         {
-            Console.WriteLine($"No se encontró orden temporal con esta id: {id}."); 
             throw new InvalidOperationException("La orden temporal no se encontró para esta id.");
         }
 
+        // mapeo para los datos del usuario
         return _temporalOrderMapper.TemporalOrderToDto(temporalOrder);
     }
 
-    
+
 
 
     // Crear una orden temporal DESDE EL LOCAL
     public async Task<TemporalOrder> InsertTemporalOrderLocalAsync(ProductCartDto[] cart, string paymentMethod)
     {
 
-    // precio total
-    var total = cart.Sum(pc => pc.Quantity * pc.Product.Price);
+        // precio total
+        var total = cart.Sum(pc => pc.Quantity * pc.Product.Price);
 
-        
+
         var newTemporalOrder = new TemporalOrder
         {
             UserId = null,
@@ -56,7 +57,6 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
                 ProductId = pc.Product.Id,
                 Product = null // lo tendre que definir despues
             }).ToList(),
-            User = null, 
             ExpiresAt = DateTime.UtcNow.AddMinutes(15) // expira en 15 minutos
         };
 
@@ -75,7 +75,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
     public async Task<TemporalOrder> InsertTemporalOrderBBDDAsync(CartDto cart, String paymentMethod)
     {
         // precio total
-        var total = cart.ProductCarts.Sum(pc => pc.Quantity * pc.Product.Price);
+        var total = cart.Products.Sum(pc => pc.Quantity * pc.Product.Price);
 
         var newTemporalOrder = new TemporalOrder
         {
@@ -83,11 +83,11 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             PaymentMethod = paymentMethod,
             TotalPrice = total,
             // pasamos los productos del carrito a la orden
-            TemporalProductOrder = cart.ProductCarts.Select(pc => new TemporalProductOrder
+            TemporalProductOrder = cart.Products.Select(pc => new TemporalProductOrder
             {
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id,
-                Product = null
+                Product = null // se asigna luego
             }).ToList(),
             User = null, //  recibo un dto, habria que asignarlo dsede el token !!
 

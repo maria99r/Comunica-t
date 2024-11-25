@@ -17,7 +17,7 @@ namespace Ecommerce.Models.Database
         public TemporalOrderRepository TemporalOrderRepository { get; init; }
         public TemporalProductOrderRepository TemporalProductOrderRepository { get; init; }
         public CartRepository CartRepository { get; init; }
-        public CheckOutRepository CheckOutRepository { get; init; }
+        public CheckoutRepository CheckOutRepository { get; init; }
 
         public UnitOfWork(
             EcommerceContext context, 
@@ -31,7 +31,7 @@ namespace Ecommerce.Models.Database
             TemporalProductOrderRepository temporalProductOrderRepository,
             CartRepository cartRepository
             ,
-            CheckOutRepository checkOutRepository
+            CheckoutRepository checkOutRepository
             )
         {
             _context = context;

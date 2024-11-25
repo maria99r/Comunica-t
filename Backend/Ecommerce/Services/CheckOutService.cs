@@ -6,27 +6,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services
 {
-    public class CheckOutService
+    public class CheckoutService
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public CheckOutService(UnitOfWork unitOfWork)
+        public CheckoutService(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         // obtener carrito por id de usuario
-        public async Task<CartDto> GetCartByUserIdAsync(int id)
-        {
-            CartDto cartDto = await _unitOfWork.CartRepository.GetCartByUserId(id);
+        //public async Task<CartDto> GetCartByUserIdAsync(int id)
+        //{
+        //    CartDto cartDto = await _unitOfWork.CartRepository.GetCartByUserId(id);
 
-            if (cartDto == null)
-            {
-                return null;
-            }
+        //    if (cartDto == null)
+        //    {
+        //        return null;
+        //    }
 
-            return cartDto;
-        }
+        //    return cartDto;
+        //}
 
         public async Task<double> GetSumaTotalAsync(int cartId)
         {

@@ -15,7 +15,7 @@ export class CartService {
   private readonly BASE_URL = environment.apiUrl;
   localCart: ProductCart[] = [];
   // Para controlar en el login si se viene desde el inicio de sesión o desde el pago
-  public actionSource: string | null = null; 
+  public actionSource: string | null = null;
 
   constructor(private http: HttpClient, private api: ApiService) { }
 
@@ -36,7 +36,7 @@ export class CartService {
     const cart: Cart = {
       id: dataRaw.id,
       userId: dataRaw.userId,
-      products: dataRaw.productCarts,
+      products: dataRaw.products,
       user: dataRaw.user
     };
     return cart;
@@ -112,8 +112,8 @@ export class CartService {
     localStorage.removeItem(this.CART_KEY);
   }
 
-  async addLocalCartToUser(userId: number, localCart: ProductCart[]){
-    
+  async addLocalCartToUser(userId: number, localCart: ProductCart[]) {
+
     const userCart = await this.getCartByUser(userId);
 
     for (let product of localCart) {
@@ -124,16 +124,18 @@ export class CartService {
   // CREAR ORDEN TEMPORAL:
 
   // si el usuario esta logueado desde la BBDD le enviamos el carrito
-  newTemporalOrderBBDD(cart: Cart, paymentMethod : string): Observable<any> {
-    const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderBBDD?paymentMethod=${paymentMethod}`;
-    console.log("orden creada")
+  newTemporalOrderBBDD(cart: Cart, paymentMethod: string): Observable<any> {
+    console.log("Carrito enviado: ", cart)
+
+    const url = (`${this.BASE_URL}TemporalOrder/newTemporalOrderBBDD?paymentMethod=${paymentMethod}`);
+
     return this.http.post(url, cart);
   }
 
-    // si el usuario esta logueado desde la BBDD le enviamos el carrito
-    newTemporalOrderLocal(cart: ProductCart[], paymentMethod : string): Observable<any> {
-      const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderLocal?paymentMethod=${paymentMethod}`;
-      return this.http.post(url, cart);
-    }
+  // si el usuario esta logueado desde el local Storage le enviamos el carrito
+  newTemporalOrderLocal(cart: ProductCart[], paymentMethod: string): Observable<any> {
+    const url = `${this.BASE_URL}TemporalOrder/newTemporalOrderLocal?paymentMethod=${paymentMethod}`;
+    return this.http.post(url, cart);
+  }
 
 }

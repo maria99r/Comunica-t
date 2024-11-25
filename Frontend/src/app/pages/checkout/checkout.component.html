@@ -3,26 +3,32 @@
 <h1>Pasarela de pago</h1>
 
 
+<!--
 @if (sessionId) {
-  <section>
-    <h2>Compra realizada con éxito</h2>
-  </section>
+<section>
+  <h2>Compra realizada con éxito</h2>
+</section>
+}-->
+@if ( this.orderDetails.temporalProductOrder) {
+<section class="m-4">
+  <h2>Vas a comprar:</h2>
+  @for (product of this.orderDetails.temporalProductOrder; track $index) {
+    <img src="{{ IMG_URL }}{{ product.product.image }}" width="80px">
+  <span class="font-bold">{{product.product.name}}</span>
+  <br><br>
+  <span >Cantidad: {{product.quantity}}   </span>
+  <span class="m-4">   Precio total {{product.product.price/100 *product.quantity}}€ </span>
+  <br><br>
+  }
+  <button (click)="embeddedCheckout()">Comprar</button>
+</section>
 }
-@else if (product) {
-  <section>
-    <h2>Vas a comprar esto:</h2>
-    <img [src]="product.image">
-    <h3>{{product.name}} {{product.price}}€</h3>
-    <p>{{product.description}}</p>
 
-    <button (click)="embeddedCheckout()">Comprar</button>
-  </section>
-}
-  
 <dialog #checkoutDialog>
   <div id="checkout"></div>
   <button (click)="cancelCheckoutDialog()">Cancelar</button>
 </dialog>
+
 
 
 <app-footer></app-footer>
