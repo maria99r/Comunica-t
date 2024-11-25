@@ -4,6 +4,7 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.ML;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
