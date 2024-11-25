@@ -31,6 +31,17 @@ public class OrderExpiresService : BackgroundService
                     if (order.ExpiresAt < DateTime.UtcNow)
                     {
                         await unitOfWork.TemporalOrderRepository.Delete(order);
+                        
+                        // restaura stock
+                        foreach(var lineProduct in order.TemporalProductOrder){
+
+                            var producto = await unitOfWork.ProductRepository.GetByIdAsync(lineProduct.ProductId);
+
+                            // restaura el stock del producto
+                            producto.Stock = producto.Stock + lineProduct.Quantity;
+
+                            unitOfWork.ProductRepository.Update(producto);
+                        }
                     }
                 }
 
