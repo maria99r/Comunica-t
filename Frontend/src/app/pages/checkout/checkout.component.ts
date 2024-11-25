@@ -116,7 +116,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
       }
-    }, 60000); // Se refresca cada minuto
+    }, 60000); //minuto
   }
 
   // Checkout embebido de Stripe
@@ -124,7 +124,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     console.log('Iniciando el checkout embebido de Stripe...');
     
     const request = await this.service.getEmbededCheckout();
-    console.log('Respuesta del servidor:', request); // Verifica qué devuelve el servidor
+    console.log('Respuesta del servidor:', request);
   
     if (request.success) {
       const options: StripeEmbeddedCheckoutOptions = {
