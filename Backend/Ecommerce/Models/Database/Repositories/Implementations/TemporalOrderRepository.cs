@@ -87,7 +87,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             {
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id,
-                Product = null,
+                Product = null // se asigna luego
             }).ToList(),
             User = null, //  recibo un dto, habria que asignarlo dsede el token !!
 

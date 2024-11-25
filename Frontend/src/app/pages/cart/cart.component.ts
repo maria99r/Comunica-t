@@ -44,7 +44,7 @@ export class CartComponent implements OnInit {
     if (user) {
       //console.log("Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
-      console.log(this.cart)
+      console.log("Carrito bbdd: ", this.cart)
       this.isLog = true;
       this.checkStock(this.cart.products)
     }
@@ -73,8 +73,8 @@ export class CartComponent implements OnInit {
         producto.quantity = productBack.stock;
         if (user) {
           this.cartService.updateCartProductBBDD(user.id, producto.productId, producto.quantity).toPromise();
-        } else { 
-          this.cartService.updateCartProductLocal(producto); 
+        } else {
+          this.cartService.updateCartProductLocal(producto);
         }
       }
     });
@@ -115,7 +115,6 @@ export class CartComponent implements OnInit {
     } catch (error) {
 
       console.error('Error al actualizar la cantidad del producto:', error);
-      alert('Hubo un error al actualizar la cantidad del producto.');
     }
   }
 
@@ -148,7 +147,7 @@ export class CartComponent implements OnInit {
     let sum = 0;
 
     if (this.isLog) {
-      if (this.cartProducts === null) { // Controla si está vacío
+      if (this.cartProducts === null) {
         sum = 0;
       } else {
         for (let line of this.cart.products) {
@@ -157,7 +156,7 @@ export class CartComponent implements OnInit {
       }
 
     } else {
-      if (this.cartProducts === null) { // Controla si está vacío
+      if (this.cartProducts === null) {
         sum = 0;
       } else {
         for (let product of this.cartProducts) {
@@ -170,13 +169,11 @@ export class CartComponent implements OnInit {
   }
 
   goToCheckout() {
-    console.log(this.isLog)
+    console.log(this.cart)
     if (this.isLog) {
+      this.cartService.newTemporalOrderBBDD(this.cart, "stripe").subscribe();
 
-      this.cartService.newTemporalOrderBBDD(this.cart, "stripe")
-      console.log("Carrito usuario: ", this.cart)
     } else {
-
       this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe")
       console.log("Carrito local: ", this.cartProducts)
     }
