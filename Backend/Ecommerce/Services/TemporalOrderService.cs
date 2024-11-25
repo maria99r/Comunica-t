@@ -16,14 +16,16 @@ public class TemporalOrderService
     // obtener por id
     public async Task<TemporalOrderDto> GetByIdAsync(int id)
     {
-        TemporalOrderDto temporalOrderDto = await _unitOfWork.TemporalOrderRepository.GetTemporalCartById(id);
+        if (id <= 0 ) throw new ArgumentException("El ID no es válido.");
 
-        if (temporalOrderDto == null)
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderById(id);
+
+        if (temporalOrder == null)
         {
             return null;
         }
 
-        return temporalOrderDto;
+        return temporalOrder;
     }
 
 
@@ -47,6 +49,8 @@ public class TemporalOrderService
             await UpdateProduct(product);
         }
 
+        await _unitOfWork.SaveAsync();
+
         return await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderLocalAsync(cart, paymentMethod);
 
     }
@@ -55,6 +59,8 @@ public class TemporalOrderService
     // crear order temporal DESDE LA BBDD
     public async Task<TemporalOrder> CreateTemporalOrderBBDDAsync(CartDto cart, string paymentMethod)
     {
+
+        var user = await _unitOfWork.UserRepository.GetById(cart.UserId);
 
         if (paymentMethod == null || paymentMethod == "")
         {
@@ -74,7 +80,10 @@ public class TemporalOrderService
 
         TemporalOrder temporalOrder = await _unitOfWork.TemporalOrderRepository.InsertTemporalOrderBBDDAsync(cart, paymentMethod);
 
-        return temporalOrder;
+        temporalOrder.User = user;
+        await _unitOfWork.SaveAsync();
+
+        return temporalOrder;   
     }
 
     // para actualizar el stock y guardarlo
@@ -83,4 +92,6 @@ public class TemporalOrderService
         _unitOfWork.ProductRepository.Update(product);
         await _unitOfWork.SaveAsync();
     }
+
+
 }

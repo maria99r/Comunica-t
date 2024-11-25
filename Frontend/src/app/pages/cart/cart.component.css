@@ -69,6 +69,14 @@ button:hover {
     cursor: pointer;
 }
 
+.pay-button button:disabled{
+    background-color: gray;
+}
+.pay-button button:disabled button:hover{
+    background-color: gray;
+    cursor:not-allowed;
+}
+
 .input-quantity {
     width: 50px;
     font-size: medium;
@@ -83,7 +91,7 @@ button:hover {
     margin: 10px;
 }
 
-.pay-button button:hover {
+.pay-button button:hover button:active{
     background-color: #6337b4;
 }
 

@@ -2,6 +2,9 @@
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Models.Dtos;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Ecommerce.Controllers;
 
@@ -10,6 +13,7 @@ namespace Ecommerce.Controllers;
 public class TemporalOrderController : ControllerBase
 {
     private readonly TemporalOrderService _temporalOrderService;
+
     public TemporalOrderController(TemporalOrderService temporalOrderService)
     {
         _temporalOrderService = temporalOrderService;
@@ -17,7 +21,6 @@ public class TemporalOrderController : ControllerBase
 
 
     // obtener por id del order
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTemporalOrderById(int id)
     {
@@ -32,9 +35,9 @@ public class TemporalOrderController : ControllerBase
 
             return Ok(temporalOrder);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return StatusCode(500, "Error al procesar la solicitud.");
+            return StatusCode(500, "Error al buscar la orden temporal.");
         }
 
     }
@@ -84,6 +87,7 @@ public class TemporalOrderController : ControllerBase
         }
     }
 
-
-
 }
+
+
+
