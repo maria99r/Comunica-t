@@ -46,6 +46,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeQueryMap$.unsubscribe();
     clearInterval(this.refreshInterval); // Detener el refresco de la orden
+    this.cancelCheckoutDialog(); // destruyo la sesion
   }
 
   async init(queryMap: ParamMap) {

@@ -53,9 +53,9 @@ namespace Ecommerce.Controllers
         {
 
             // Hay que importar los productos
-            CartDto cart = await _cartService.GetByUserIdAsync(5); // Está mal, puse como ejemplo una ID random para comprobar que funcione
+            CartDto cart = await _cartService.GetByUserIdAsync(3); // Está mal, puse como ejemplo una ID random para comprobar que funcione
 
-            foreach (ProductCart productCart in cart.ProductCarts)
+            foreach (ProductCart productCart in cart.products)
             {
                 // Configuración de la sesión
                 SessionCreateOptions options = new SessionCreateOptions
