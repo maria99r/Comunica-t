@@ -44,6 +44,8 @@ builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
 
+builder.Services.AddHostedService<OrderExpiresService>();
+
 
 // Inyeccion de la IA
 builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
@@ -138,3 +140,6 @@ static void InitStripe(IServiceProvider serviceProvider)
     // Ponemos nuestro secret key (se consulta en el dashboard => desarrolladores)
     StripeConfiguration.ApiKey = "sk_test_51QJzjBGpuU9RUuIN7h9KkhFFkIbRuCHI5MTiTsnylBR63yecr8Qnmvdqi6TPH3BXkj5ClpS1KaTRDUOMlwpvLLGg00hmcoA2Sq";
 }
+
+
+

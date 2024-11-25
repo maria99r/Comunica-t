@@ -68,13 +68,13 @@ public class TemporalOrderService
             throw new InvalidOperationException("El método de pago no es válido");
         }
 
-        if (cart == null || cart.ProductCarts == null)
+        if (cart == null || cart.products == null)
         {
-            throw new ArgumentNullException(nameof(cart), "El carrito o los productos en el carrito son nulos.");
+            throw new ArgumentNullException("El carrito o los productos en el carrito son nulos.");
         }
 
         // reserva de stock 
-        foreach (var cartItem in cart.ProductCarts)
+        foreach (var cartItem in cart.products)
         {
 
             var product = await _unitOfWork.ProductRepository.GetByIdAsync(cartItem.ProductId);

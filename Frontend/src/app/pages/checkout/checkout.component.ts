@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private stripe: StripeService) { }
 
   ngOnInit() {
-    // Suscribirse a los parámetros de la URL
+
     this.routeQueryMap$ = this.route.queryParamMap.subscribe(queryMap => this.init(queryMap));
   }
 
@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async init(queryMap: ParamMap) {
     console.log('Iniciando la página de checkout...');
 
-    // Detectar si el usuario acaba de iniciar sesión desde el redireccionamiento
+    //  si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
     sessionStorage.removeItem('authRedirection');
 
@@ -79,9 +79,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.orderDetails = orderResponse.data;
         console.log('Detalles de la orden cargados:', this.orderDetails);
         console.log('Productos:', this.orderDetails.temporalProductOrder);
-        this.startOrderRefresh(); // Iniciar refresco periódico de la orden
+        this.startOrderRefresh(); //  refresco de la orden
 
-        // Iniciar el pago
+        //  pago
         if (this.paymentMethod === 'stripe') {
           await this.embeddedCheckout();
         } else {

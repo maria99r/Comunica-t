@@ -26,7 +26,7 @@ public class CartMapper
             Id = cart.Id,
             UserId = cart.UserId,
             User = _userMapper.UserToDto(cart.User), // Usa el UserMapper para el usuario
-            ProductCarts = cart.ProductCarts.Select(pc => new ProductCart
+            products = cart.ProductCarts.Select(pc => new ProductCart
             {
                 CartId = pc.CartId,
                 ProductId = pc.ProductId,
