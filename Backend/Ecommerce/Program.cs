@@ -14,13 +14,14 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Leer la configuración de Stripe y mapearla a Settings
+builder.Services.Configure<Settings>(builder.Configuration.GetSection("Stripe"));
 
 // Inyectamos el DbContext
 builder.Services.AddScoped<EcommerceContext>();
 builder.Services.AddScoped<UnitOfWork>();
 
-// Inyecci�n de todos los repositorios
+// Inyección de todos los repositorios
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<ReviewRepository>();
 builder.Services.AddScoped<ProductRepository>();
@@ -30,12 +31,14 @@ builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<TemporalOrderRepository>();
 builder.Services.AddScoped<TemporalProductOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
+builder.Services.AddScoped<CheckoutRepository>();
 
+// Inyección de Mappers
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 
-// Inyecci�n de Servicios
+// Inyección de Servicios
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<ProductCartService>();
@@ -43,6 +46,7 @@ builder.Services.AddScoped<TemporalOrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
+builder.Services.AddScoped<Ecommerce.Services.CheckoutService>();
 
 builder.Services.AddHostedService<OrderExpiresService>();
 
@@ -56,7 +60,7 @@ builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuraci�n de CORS
+// Configuración de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", builder =>
@@ -74,7 +78,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 
-// Configuraci�n de autenticaci�n
+// Configuración de autenticaci�n
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {
@@ -113,6 +117,23 @@ app.MapControllers();
 
 await SeedDataBaseAsync(app.Services);
 
+
+// Configuramos Stripe
+InitStripe(app.Services);
+
+static void InitStripe(IServiceProvider serviceProvider)
+{
+    using IServiceScope scope = serviceProvider.CreateScope();
+    IOptions<Settings> options = scope.ServiceProvider.GetService<IOptions<Settings>>();
+
+    // Accedemos a nuestra clave secreta desde la configuración.
+    string stripeSecretKey = options.Value.StripeSecret;
+
+    // Configuramos Stripe con la clave secreta
+    StripeConfiguration.ApiKey = stripeSecretKey;
+}
+
+
 app.Run();
 
 // metodo para el seeder
@@ -128,18 +149,3 @@ static async Task SeedDataBaseAsync(IServiceProvider serviceProvider)
         await seeder.SeedAsync();
     }
 }
-
-// Configuramos Stripe
-InitStripe(app.Services);
-
-static void InitStripe(IServiceProvider serviceProvider)
-{
-    using IServiceScope scope = serviceProvider.CreateScope();
-    IOptions<Settings> options = scope.ServiceProvider.GetService<IOptions<Settings>>();
-
-    // Ponemos nuestro secret key (se consulta en el dashboard => desarrolladores)
-    StripeConfiguration.ApiKey = "sk_test_51QJzjBGpuU9RUuIN7h9KkhFFkIbRuCHI5MTiTsnylBR63yecr8Qnmvdqi6TPH3BXkj5ClpS1KaTRDUOMlwpvLLGg00hmcoA2Sq";
-}
-
-
-

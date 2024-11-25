@@ -13,23 +13,23 @@ export class CheckoutService {
 
   constructor(private api: ApiService) { }
 
-  // obtener orden temporal por id
-  getOrderDetails(id: string): Promise<Result<TemporalOrder>> {
-    return this.api.get<TemporalOrder>(`TemporalOrder/${id}`);
+  // Consulta los datos de la orden temporal por ID
+  getOrderDetails(sessionId: string): Promise<Result<TemporalOrder>> {
+    return this.api.get<TemporalOrder>(`Checkout/status/${sessionId}`);
   }
 
   // Vincula al usuario con la orden temporal
   linkUserToOrder(sessionId: string): Promise<Result<any>> {
-    return this.api.post<any>(`checkout/link-order`, { sessionId });
+    return this.api.post<any>(`Checkout/link-order`, { sessionId });
   }
 
   // Inicializa el checkout embebido de Stripe
   getEmbededCheckout(): Promise<Result<CheckoutSession>> {
-    return this.api.get<CheckoutSession>('checkout/embedded');
+    return this.api.get<CheckoutSession>('Checkout/embedded');
   }
 
   // Refresca la expiración de la orden temporal
   refreshOrder(sessionId: string): Promise<Result<any>> {
-    return this.api.post<any>(`checkout/refresh-order`, { sessionId });
+    return this.api.post<any>(`Checkout/refresh-order`, { sessionId });
   }
 }
