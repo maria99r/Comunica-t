@@ -32,7 +32,7 @@ public class TemporalOrderController : ControllerBase
 
             return Ok(temporalOrder);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return StatusCode(500, "Error al procesar la solicitud.");
         }
