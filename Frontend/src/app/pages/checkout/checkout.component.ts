@@ -8,6 +8,7 @@ import { StripeService } from 'ngx-stripe';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { TemporalOrder } from '../../models/temporal-order';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-checkout',
@@ -30,6 +31,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   stripeEmbedCheckout: StripeEmbeddedCheckout;
   refreshInterval: any; // Intervalo para refrescar la orden
 
+  public readonly IMG_URL = environment.apiImg;
+
   constructor(
     private service: CheckoutService,
     private route: ActivatedRoute,
@@ -43,6 +46,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeQueryMap$.unsubscribe();
     clearInterval(this.refreshInterval); // Detener el refresco de la orden
+    this.cancelCheckoutDialog(); // destruyo la sesion
   }
 
   async init(queryMap: ParamMap) {
