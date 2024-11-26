@@ -25,7 +25,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   checkoutDialogRef: ElementRef<HTMLDialogElement>;
 
   orderDetails: TemporalOrder = null; // Orden temporal
-  sessionId: string = ''; // ID de la Orden temporal
+  temporalOrderId: number = 0; // ID de la Orden temporal
   paymentMethod: string = ''; // Método de pago escogido
   routeQueryMap$: Subscription;
   stripeEmbedCheckout: StripeEmbeddedCheckout;
@@ -56,20 +56,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
     sessionStorage.removeItem('authRedirection');
 
-    this.sessionId = queryMap.get('session_id');
+    this.temporalOrderId = parseInt(queryMap.get('session_id'));
     this.paymentMethod = queryMap.get('payment_method');
 
-    console.log('ID:', this.sessionId);
+    console.log('ID:', this.temporalOrderId);
     console.log('Método de pago:', this.paymentMethod);
     console.log('Acaba de iniciar sesión:', justLoggedIn);
 
-    if (!this.sessionId) {
+    if (!this.temporalOrderId) {
       console.error('No se proporcionó un ID de orden temporal, no se puede continuar.');
     } else {
 
       if (justLoggedIn) {
         console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
-        const linkResponse = await this.service.linkUserToOrder(this.sessionId);
+        const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
         if (!linkResponse.success) {
           console.error('Error al vincular la orden temporal:', linkResponse.error);
@@ -77,7 +77,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       }
 
       console.log('Recuperando los detalles de la orden temporal...');
-      const orderResponse = await this.service.getOrderDetails(this.sessionId);
+      const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
 
       if (orderResponse.success) {
         this.orderDetails = orderResponse.data;
@@ -102,13 +102,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   startOrderRefresh() {
     console.log('Iniciando el refresco de la orden temporal...');
     this.refreshInterval = setInterval(async () => {
-      const refreshResponse = await this.service.refreshOrder(this.sessionId);
+      const refreshResponse = await this.service.refreshOrder(this.temporalOrderId);
+      console.log("Sí: ", refreshResponse)
       if (refreshResponse.success) {
         console.log('Orden temporal refrescada correctamente.');
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
       }
-    }, 60000); // Se refresca cada minuto
+    }, 30000); // Se refresca cada minuto
   }
 
   // Checkout embebido de Stripe
@@ -118,7 +119,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     if (request.success) {
       const options: StripeEmbeddedCheckoutOptions = {
-        clientSecret: request.data.clientSecret
+        clientSecret: request.data.clientSecret,
+        //onComplete: orderOnComplete()
       };
 
       this.stripe.initEmbeddedCheckout(options)

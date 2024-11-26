@@ -111,14 +111,5 @@ public class AuthController : ControllerBase
         var userDto = _userMapper.UserToDto(newUser);
 
         return CreatedAtAction(nameof(Login), new { email = userDto.Email }, userDto);
-    }
-
-    [Authorize]
-    [HttpGet("read")]
-    public void ReadToken() // Leer datos del token
-    {
-        string id = User.FindFirst("id").Value;
-        string role = User.FindFirst(ClaimTypes.Role).Value;
-    }
-
+    }   
 }

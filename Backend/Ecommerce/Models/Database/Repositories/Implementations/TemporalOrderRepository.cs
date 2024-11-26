@@ -17,7 +17,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
 
 
     // obtener orden temporal segun id
-    public async Task<TemporalOrderDto> GetTemporalOrderById(int id)
+    public async Task<TemporalOrder> GetTemporalOrderById(int id)
     {
         var temporalOrder = await GetQueryable()
             .Include(t => t.User)
@@ -31,7 +31,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         }
 
         // mapeo para los datos del usuario
-        return _temporalOrderMapper.TemporalOrderToDto(temporalOrder);
+        return temporalOrder;
     }
 
 
