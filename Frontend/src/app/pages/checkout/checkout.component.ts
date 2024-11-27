@@ -39,7 +39,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private stripe: StripeService) { }
 
   ngOnInit() {
-
     this.routeQueryMap$ = this.route.queryParamMap.subscribe(queryMap => this.init(queryMap));
   }
 
@@ -116,10 +115,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     console.log('Iniciando el checkout embebido de Stripe...');
     const request = await this.service.getEmbededCheckout();
 
+
     if (request.success) {
       const options: StripeEmbeddedCheckoutOptions = {
         clientSecret: request.data.clientSecret,
-        //onComplete: orderOnComplete()
+        //onComplete: orderOnComplete() 
       };
 
       this.stripe.initEmbeddedCheckout(options)
