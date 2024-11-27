@@ -15,8 +15,8 @@ public class TemporalOrderService
         _temporalOrderMapper = temporalOrderMapper;
     }
 
-    // obtener por id
-    public async Task<TemporalOrderDto> GetByIdAsync(int id)
+    // obtener por id dto
+    public async Task<TemporalOrderDto> GetDtoByIdAsync(int id)
     {
         if (id <= 0 ) throw new ArgumentException("El ID no es válido.");
 
@@ -30,12 +30,27 @@ public class TemporalOrderService
         return _temporalOrderMapper.TemporalOrderToDto(temporalOrder);
     }
 
+    // obtener por id NO DTO
+    public async Task<TemporalOrder> GetByIdAsync(int id)
+    {
+        if (id <= 0) throw new ArgumentException("El ID no es válido.");
+
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderById(id);
+
+        if (temporalOrder == null)
+        {
+            return null;
+        }
+        return temporalOrder;
+
+    }
+
     // obtener por id SIN DTO
     public async Task<TemporalOrder> GetOrderByIdAsync(int id)
     {
         if (id <= 0) throw new ArgumentException("El ID no es válido.");
 
-        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderById(id);
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetByIdAsync(id);
 
         if (temporalOrder == null)
         {
