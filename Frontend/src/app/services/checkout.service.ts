@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Result } from '../models/result';
 import { Product } from '../models/product';
-import { CheckoutSession } from '../models/checkout-session';
-import { CheckoutSessionStatus } from '../models/checkout-session-status';
+import { CheckoutSession } from '../models/checkoutSession';
+import { CheckoutSessionStatus } from '../models/checkoutSessionStatus';
 import { TemporalOrder } from '../models/temporal-order';
 
 @Injectable({
