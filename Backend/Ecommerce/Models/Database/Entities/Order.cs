@@ -22,7 +22,7 @@ public class Order
 
     public int UserId { get; set; }
 
-    public ICollection<ProductOrder> ProductOrder { get; set; } = new List<ProductOrder>();
-
+    public ICollection<ProductOrder> ProductsOrder { get; set; } = new List<ProductOrder>();
+    
     public virtual User User { get; set; } = null!;
 }

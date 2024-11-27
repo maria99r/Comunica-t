@@ -41,6 +41,7 @@ namespace Ecommerce.Controllers
             // Hay que importar los productos
             CartDto cart = await _cartService.GetByUserIdAsync(user.UserId);
 
+
             foreach (ProductCart productCart in cart.Products)
             {
                 lineItems.Add( new SessionLineItemOptions()
