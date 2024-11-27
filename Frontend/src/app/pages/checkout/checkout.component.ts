@@ -103,13 +103,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     console.log('Iniciando el refresco de la orden temporal...');
     this.refreshInterval = setInterval(async () => {
       const refreshResponse = await this.service.refreshOrder(this.temporalOrderId);
-      console.log("Sí: ", refreshResponse)
       if (refreshResponse.success) {
         console.log('Orden temporal refrescada correctamente.');
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
       }
-    }, 30000); // Se refresca cada minuto
+    }, 60000); // Se refresca cada minuto
   }
 
   // Checkout embebido de Stripe

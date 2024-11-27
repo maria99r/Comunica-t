@@ -42,14 +42,14 @@ export class CartComponent implements OnInit {
 
     // dependiendo de si el usuario esta o no logueado
     if (user) {
-      //console.log("Sesión iniciada")
+      console.log("Carrito: Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
       console.log("Carrito bbdd: ", this.cart)
       this.isLog = true;
       this.checkStock(this.cart.products)
     }
     else {
-      //console.log("Sesión NO iniciada")
+      console.log("Carrito: Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
       console.log(this.cartProducts)
       this.isLog = false;
