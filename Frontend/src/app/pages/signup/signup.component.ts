@@ -66,16 +66,31 @@ export class SignupComponent {
           },
         });
 
-        const authData = { email: formData.email, password: formData.password };
-        const loginResult = await this.authService.login(authData, false); // Login
-
-        if (loginResult.success) {
-          console.log('Inicio de sesión exitoso', loginResult);
-          this.router.navigate(['/']);
-        } else {
-          alert('Error en el inicio de sesión');
+        // Si se accede desde el pago, te manda al login en vez de iniciar sesión
+        switch (this.cartApi.actionSource) {
+          case 'checkout':
+            console.log("Acceso desde el pago; te envío al login");
+            this.router.navigate(['/login']);
+            break;
+            
+          case 'login':
+            console.log("Acceso desde el login");
+            const authData = { email: formData.email, password: formData.password };
+            const loginResult = await this.authService.login(authData, false);
+    
+            if (loginResult.success) {
+              console.log('Inicio de sesión exitoso', loginResult);
+              this.router.navigate(['/']);
+            } else {
+              alert('Error en el inicio de sesión');
+            }
+            break;
+    
+          default:
+            console.log("Acción desconocida, redirigiendo a la página principal");
+            this.router.navigate(['/']);
+            break;
         }
-
       } else {
         alert('Error en el registro');
       }

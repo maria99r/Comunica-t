@@ -87,6 +87,21 @@ public class TemporalOrderController : ControllerBase
         }
     }
 
+    [HttpGet("refresh-order")]
+    public async Task<ActionResult> RefreshOrder([FromQuery]int temporalOrderId)
+    {
+        TemporalOrder temporalOrder = await _temporalOrderService.GetOrderByIdAsync(temporalOrderId);
+        if (temporalOrder == null)
+        {
+            Console.WriteLine("La orden temporal es nula");
+            return null;
+        }
+
+        temporalOrder.ExpiresAt = DateTime.UtcNow.AddMinutes(5); // La orden temporal expira en 5 minutos (la borra el servicio en segundo plano)
+        TemporalOrder newTemporalOrder = await _temporalOrderService.UpdateOrder(temporalOrder);
+
+        return Ok(newTemporalOrder);
+    }
 }
 
 
