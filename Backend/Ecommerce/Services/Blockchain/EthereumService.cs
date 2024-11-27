@@ -41,7 +41,7 @@ public class EthereumService
         return await _web3.Eth.GasPrice.SendRequestAsync();
     }
 
-    public async Task<bool> CheckTransactionAsync(string txHash, string from, string to, string value)
+    public async Task<bool> CheckTransactionAsync(string txHash, string from, string value)
     {
         bool result;
 
@@ -52,7 +52,7 @@ public class EthereumService
 
             result = txReceipt.Status.Value == TRANSACTION_SUCCESS_STATUS
                 && Equals(transaction.From, from)
-                && Equals(transaction.To, to)
+                && Equals(transaction.To, "0x8964FD1CAB4B9323F55cAC1a56648F8253CD0577")
                 && Equals(transaction.Value.HexValue, value);
         }
         catch (Exception ex)

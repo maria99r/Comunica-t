@@ -17,7 +17,7 @@ export class BlockchainComponent {
   contractAddress: string;
 
   eurosToSend: number;
-  addressToSend: string;
+  addressToSend: string = "0x8964FD1CAB4B9323F55cAC1a56648F8253CD0577";
 
   contractInfo: Erc20Contract;
 

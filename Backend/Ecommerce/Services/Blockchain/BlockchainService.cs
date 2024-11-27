@@ -51,7 +51,7 @@ public class BlockchainService
     {
         EthereumService ethereumService = new EthereumService(data.NetworkUrl);
 
-        return ethereumService.CheckTransactionAsync(data.Hash, data.From, data.To, data.Value);
+        return ethereumService.CheckTransactionAsync(data.Hash, data.From, data.Value);
     }
 
 
