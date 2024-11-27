@@ -38,12 +38,14 @@ builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<TemporalOrderMapper>();
+builder.Services.AddScoped<OrderMapper>();
 
 // Inyección de Servicios
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<ProductCartService>();
 builder.Services.AddScoped<TemporalOrderService>();
+builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();

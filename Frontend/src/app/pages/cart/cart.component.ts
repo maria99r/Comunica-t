@@ -168,6 +168,8 @@ export class CartComponent implements OnInit {
     return sum;
   }
 
+
+  // STRIPE
   goToCheckout() {
     console.log(this.cart);
     if (this.isLog) {
@@ -198,6 +200,55 @@ export class CartComponent implements OnInit {
           console.log("Orden creada localmente: ", response);
           const sessionId = response.id;
           const paymentMethod = "stripe";
+
+          // Redirigir al checkout con los parámetros en la URL
+          this.router.navigate(['/checkout'], {
+            queryParams: {
+              session_id: sessionId,
+              payment_method: paymentMethod,
+            },
+          });
+        },
+        error: (err: any) => {
+          console.error("Error al crear la orden local: ", err);
+        },
+      });
+      console.log("Carrito local: ", this.cartProducts);
+    }
+    this.cartService.actionSource = 'checkout';
+  }
+
+
+
+  // PAGO CON BLOCKCHAIN
+  goToBlockchain() {
+    if (this.isLog) {
+      this.cartService.newTemporalOrderBBDD(this.cart, "blockchain").subscribe({
+        next: (response: any) => {
+          console.log("Orden creada en BBDD: ", response);
+          const sessionId = response.id;
+          const paymentMethod = "blockchain";
+
+          // Redirigir al checkout con los parámetros en la URL
+          this.router.navigate(['/checkout'], {
+            queryParams: {
+              session_id: sessionId,
+              payment_method: paymentMethod,
+            },
+          });
+        },
+        error: (err: any) => {
+          console.error("Error al crear la orden en BBDD: ", err);
+        },
+      });
+
+    } else {
+
+      this.cartService.newTemporalOrderLocal(this.cartProducts, "blockchain").subscribe({
+        next: (response: any) => {
+          console.log("Orden creada localmente: ", response);
+          const sessionId = response.id;
+          const paymentMethod = "blockchain";
 
           // Redirigir al checkout con los parámetros en la URL
           this.router.navigate(['/checkout'], {
