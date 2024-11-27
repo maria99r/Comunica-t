@@ -51,7 +51,6 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
-builder.Services.AddScoped<Ecommerce.Services.CheckoutService>();
 
 builder.Services.AddHostedService<OrderExpiresService>();
 
