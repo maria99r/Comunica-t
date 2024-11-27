@@ -1,0 +1,11 @@
+h2{
+    text-align: center;
+}
+#boton-home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+}

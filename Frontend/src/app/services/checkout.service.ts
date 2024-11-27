@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Result } from '../models/result';
 import { Product } from '../models/product';
-import { CheckoutSession } from '../models/checkout-session';
-import { CheckoutSessionStatus } from '../models/checkout-session-status';
+import { CheckoutSession } from '../models/checkoutSession';
+import { CheckoutSessionStatus } from '../models/checkoutSessionStatus';
 import { TemporalOrder } from '../models/temporal-order';
 
 @Injectable({
@@ -14,12 +14,12 @@ export class CheckoutService {
   constructor(private api: ApiService) { }
 
   // Consulta los datos de la orden temporal por ID
-  getOrderDetails(sessionId: string): Promise<Result<TemporalOrder>> {
-    return this.api.get<TemporalOrder>(`TemporalOrder/${sessionId}`);
+  getOrderDetails(temporalOrderId: number): Promise<Result<TemporalOrder>> {
+    return this.api.get<TemporalOrder>(`TemporalOrder/${temporalOrderId}`);
   }
 
   // Vincula al usuario con la orden temporal
-  linkUserToOrder(sessionId: string): Promise<Result<any>> {
+  linkUserToOrder(sessionId: number): Promise<Result<any>> {
     return this.api.post<any>(`Checkout/link-order`, { sessionId });
   }
 
@@ -29,7 +29,11 @@ export class CheckoutService {
   }
 
   // Refresca la expiración de la orden temporal
-  refreshOrder(sessionId: string): Promise<Result<any>> {
-    return this.api.post<any>(`Checkout/refresh-order`, { sessionId });
+  refreshOrder(temporalOrderId: number): Promise<Result<any>> {
+    return this.api.get<any>(`TemporalOrder/refresh-order`, { temporalOrderId });
+  }
+
+  orderOnComplete(sessionId: number): Promise<Result<TemporalOrder>> {
+    return this.api.get<TemporalOrder>(`Checkout/status/${sessionId}`);
   }
 }

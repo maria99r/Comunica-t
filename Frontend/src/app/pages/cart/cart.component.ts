@@ -42,14 +42,14 @@ export class CartComponent implements OnInit {
 
     // dependiendo de si el usuario esta o no logueado
     if (user) {
-      //console.log("Sesión iniciada")
+      console.log("Carrito: Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
       console.log("Carrito bbdd: ", this.cart)
       this.isLog = true;
       this.checkStock(this.cart.products)
     }
     else {
-      //console.log("Sesión NO iniciada")
+      console.log("Carrito: Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
       console.log(this.cartProducts)
       this.isLog = false;
@@ -168,6 +168,8 @@ export class CartComponent implements OnInit {
     return sum;
   }
 
+
+  // STRIPE
   goToCheckout() {
     console.log(this.cart);
     if (this.isLog) {
@@ -201,6 +203,53 @@ export class CartComponent implements OnInit {
 
           // Redirigir al checkout con los parámetros en la URL
           this.router.navigate(['/checkout'], {
+            queryParams: {
+              session_id: sessionId,
+              payment_method: paymentMethod,
+            },
+          });
+        },
+        error: (err: any) => {
+          console.error("Error al crear la orden local: ", err);
+        },
+      });
+      console.log("Carrito local: ", this.cartProducts);
+    }
+    this.cartService.actionSource = 'checkout';
+  }
+
+  // PAGO CON BLOCKCHAIN
+  goToBlockchain() {
+    if (this.isLog) {
+      this.cartService.newTemporalOrderBBDD(this.cart, "blockchain").subscribe({
+        next: (response: any) => {
+          console.log("Orden creada en BBDD: ", response);
+          const sessionId = response.id;
+          const paymentMethod = "blockchain";
+
+          // Redirigir al checkout con los parámetros en la URL
+          this.router.navigate(['/blockchain'], {
+            queryParams: {
+              session_id: sessionId,
+              payment_method: paymentMethod,
+            },
+          });
+        },
+        error: (err: any) => {
+          console.error("Error al crear la orden en BBDD: ", err);
+        },
+      });
+
+    } else {
+
+      this.cartService.newTemporalOrderLocal(this.cartProducts, "blockchain").subscribe({
+        next: (response: any) => {
+          console.log("Orden creada localmente: ", response);
+          const sessionId = response.id;
+          const paymentMethod = "blockchain";
+
+          // Redirigir al checkout con los parámetros en la URL
+          this.router.navigate(['/blockchain'], {
             queryParams: {
               session_id: sessionId,
               payment_method: paymentMethod,

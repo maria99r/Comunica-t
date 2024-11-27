@@ -1,0 +1,56 @@
+<h1>Blockchain</h1>
+
+<label>
+    Node url:
+    <input type="text" [(ngModel)]="networkUrl" />
+</label>
+
+<section>
+    <h3>Obtener información de un contrato</h3>
+    <label>
+    Dirección contrato:
+    <input type="text" [(ngModel)]="contractAddress" />
+    </label>
+    <button (click)="getContractInfo()">Obtener información</button>
+
+    @if (contractInfo) {
+    <p>
+    Nombre: {{ contractInfo.name }}
+    <br />
+    Símbolo: {{ contractInfo.symbol }}
+    <br />
+    Decimales: {{ contractInfo.decimals }}
+    <br />
+    Suministro total: {{ contractInfo.totalSupply }}
+    <br />
+    </p>
+    }
+</section>
+
+<section>
+    <h3>Enviar cantidad</h3>
+    <label>
+    Cantidad a enviar en euros:
+    <input type="number" [(ngModel)]="eurosToSend" />
+    </label>
+    <br />
+    <label>
+    Dirección contrato que va a recibir:
+    <input type="text" disabled [(ngModel)]="addressToSend" />
+    </label>
+    <br />
+    <button (click)="createTransaction()">Crear transacción</button>
+
+    @if (contractInfo) {
+    <p>
+    Nombre: {{ contractInfo.name }}
+    <br />
+    Símbolo: {{ contractInfo.symbol }}
+    <br />
+    Decimales: {{ contractInfo.decimals }}
+    <br />
+    Suministro total: {{ contractInfo.totalSupply }}
+    <br />
+    </p>
+    }
+</section>

@@ -20,9 +20,32 @@ public class TemporalOrderController : ControllerBase
     }
 
 
-    // obtener por id del order
+    // obtener por id la orden temporal DTO
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTemporalOrderById(int id)
+    {
+        try
+        {
+            var temporalOrder = await _temporalOrderService.GetDtoByIdAsync(id);
+
+            if (temporalOrder == null)
+            {
+                return null;
+            }
+
+            return Ok(temporalOrder);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Error al buscar la orden temporal.");
+        }
+    }
+
+
+
+    // obtener por id la orden temporal SIN DTO
+    [HttpGet("temporal/{id}")]
+    public async Task<IActionResult> GetTemporalOrderByIdNoDto(int id)
     {
         try
         {
@@ -39,8 +62,8 @@ public class TemporalOrderController : ControllerBase
         {
             return StatusCode(500, "Error al buscar la orden temporal.");
         }
-
     }
+
 
     // hay que hacer dos metodos , uno si esta loguqeado (q recibe el jwt) y otro si no lo esta que recibe el carrito del localstorage
 
@@ -87,6 +110,23 @@ public class TemporalOrderController : ControllerBase
         }
     }
 
+
+
+    [HttpGet("refresh-order")]
+    public async Task<ActionResult> RefreshOrder([FromQuery]int temporalOrderId)
+    {
+        TemporalOrder temporalOrder = await _temporalOrderService.GetOrderByIdAsync(temporalOrderId);
+        if (temporalOrder == null)
+        {
+            Console.WriteLine("La orden temporal es nula");
+            return null;
+        }
+
+        temporalOrder.ExpiresAt = DateTime.UtcNow.AddMinutes(5); // La orden temporal expira en 5 minutos (la borra el servicio en segundo plano)
+        TemporalOrder newTemporalOrder = await _temporalOrderService.UpdateOrder(temporalOrder);
+
+        return Ok(newTemporalOrder);
+    }
 }
 
 
