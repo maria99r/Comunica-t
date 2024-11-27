@@ -65,8 +65,9 @@
     <div class="cart-total">
       <p>Total: {{ total | currency : "EUR" }}</p>
     </div>
-    <div class="pay-button" (click)="goToBlockchain()" >
-      <button>
+
+    <div class="pay-button">
+      <button (click)="goToBlockchain()">
         Pagar con ethereum
       </button>
       <button (click)="goToCheckout()">

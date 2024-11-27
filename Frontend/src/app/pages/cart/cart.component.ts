@@ -218,8 +218,6 @@ export class CartComponent implements OnInit {
     this.cartService.actionSource = 'checkout';
   }
 
-
-
   // PAGO CON BLOCKCHAIN
   goToBlockchain() {
     if (this.isLog) {
@@ -230,7 +228,7 @@ export class CartComponent implements OnInit {
           const paymentMethod = "blockchain";
 
           // Redirigir al checkout con los parámetros en la URL
-          this.router.navigate(['/checkout'], {
+          this.router.navigate(['/blockchain'], {
             queryParams: {
               session_id: sessionId,
               payment_method: paymentMethod,
@@ -251,7 +249,7 @@ export class CartComponent implements OnInit {
           const paymentMethod = "blockchain";
 
           // Redirigir al checkout con los parámetros en la URL
-          this.router.navigate(['/checkout'], {
+          this.router.navigate(['/blockchain'], {
             queryParams: {
               session_id: sessionId,
               payment_method: paymentMethod,
