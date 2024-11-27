@@ -15,7 +15,7 @@ export class CheckoutService {
 
   // Consulta los datos de la orden temporal por ID
   getOrderDetails(sessionId: string): Promise<Result<TemporalOrder>> {
-    return this.api.get<TemporalOrder>(`Checkout/status/${sessionId}`);
+    return this.api.get<TemporalOrder>(`TemporalOrder/${sessionId}`);
   }
 
   // Vincula al usuario con la orden temporal
