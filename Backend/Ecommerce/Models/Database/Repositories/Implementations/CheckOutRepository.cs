@@ -31,25 +31,23 @@ namespace Ecommerce.Models.Database.Repositories.Implementations
         //    return _cartMapper.CartToDto(cart);
         //}
 
-        // devuelve el precio 
+        // devuelve el precio total
         public async Task<double> GetTotalPrice(int cartId)
         {
-            // Obtener el carrito con los productos relacionados.
             var cart = await GetQueryable()
                 .Include(cart => cart.ProductCarts)
                     .ThenInclude(pc => pc.Product)
                 .FirstOrDefaultAsync(cart => cart.Id == cartId);
 
-            // Verificar si el carrito existe.
             if (cart == null)
             {
                 Console.WriteLine($"No se encontró carrito con ID {cartId}.");
                 throw new InvalidOperationException("El carrito no se encontró.");
             }
 
-            // Sumar los precios de los productos en el carrito, con comprobación de precios válidos.
+            // suma precios de los productos en el carrito
             double totalPrice = cart.ProductCarts
-                .Where(pc => pc.Product?.Price > 0 && pc.Quantity > 0) // Asegura que el precio y la cantidad sean válidos
+                .Where(pc => pc.Product?.Price > 0 && pc.Quantity > 0) 
                 .Sum(pc => (pc.Product.Price  * pc.Quantity) / 100);
 
             return totalPrice;

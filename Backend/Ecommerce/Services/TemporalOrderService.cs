@@ -8,9 +8,11 @@ namespace Ecommerce.Services;
 public class TemporalOrderService
 {
     private readonly UnitOfWork _unitOfWork;
-    public TemporalOrderService(UnitOfWork unitOfWork)
+    private readonly TemporalOrderMapper _temporalOrderMapper;
+    public TemporalOrderService(UnitOfWork unitOfWork, TemporalOrderMapper temporalOrderMapper)
     {
         _unitOfWork = unitOfWork;
+        _temporalOrderMapper = temporalOrderMapper;
     }
 
     // obtener por id
@@ -25,10 +27,23 @@ public class TemporalOrderService
             return null;
         }
 
-        return temporalOrder;
+        return _temporalOrderMapper.TemporalOrderToDto(temporalOrder);
     }
 
+    // obtener por id SIN DTO
+    public async Task<TemporalOrder> GetOrderByIdAsync(int id)
+    {
+        if (id <= 0) throw new ArgumentException("El ID no es válido.");
 
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderById(id);
+
+        if (temporalOrder == null)
+        {
+            return null;
+        }
+
+        return temporalOrder;
+    }
 
     // crear order temporal DESDE EL LOCAL
     public async Task<TemporalOrder> CreateTemporalOrderLocalAsync(ProductCartDto[] cart, string paymentMethod)
@@ -102,5 +117,11 @@ public class TemporalOrderService
         await _unitOfWork.SaveAsync();
     }
 
-
+    // Actualiza la orden temporal
+    public async Task<TemporalOrder> UpdateOrder(TemporalOrder temporalOrder)
+    {
+        TemporalOrder newTemporalOrder = _unitOfWork.TemporalOrderRepository.Update(temporalOrder);
+        await _unitOfWork.SaveAsync();
+        return newTemporalOrder;
+    }
 }

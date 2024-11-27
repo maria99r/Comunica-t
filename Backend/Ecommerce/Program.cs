@@ -37,6 +37,7 @@ builder.Services.AddScoped<CheckoutRepository>();
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
+builder.Services.AddScoped<TemporalOrderMapper>();
 
 // Inyección de Servicios
 builder.Services.AddScoped<UserService>();
