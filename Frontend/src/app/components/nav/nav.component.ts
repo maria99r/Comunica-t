@@ -71,7 +71,7 @@ export class NavComponent implements OnInit {
 
           cart.products.forEach((product) =>
             this.cartProductCount += product.quantity)
-          console.log("Cantidad de productos: " + this.cartProductCount)
+          //console.log("(NAV) Cantidad de productos: " + this.cartProductCount)
         }
       } catch (error) {
 
