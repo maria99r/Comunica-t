@@ -1,18 +1,23 @@
-<h1>Blockchain</h1>
+<app-nav></app-nav>
 
+<h1>Pago con blockchain</h1>
+
+<!--
 <label>
     Node url:
     <input type="text" [(ngModel)]="networkUrl" />
-</label>
+</label>-->
 
 <section>
-    <h3>Obtener información de un contrato</h3>
-    <label>
+    <h3>Usted va a comprar: </h3>
+    <!--<label>
     Dirección contrato:
     <input type="text" [(ngModel)]="contractAddress" />
     </label>
     <button (click)="getContractInfo()">Obtener información</button>
+-->
 
+    <!--
     @if (contractInfo) {
     <p>
     Nombre: {{ contractInfo.name }}
@@ -26,11 +31,24 @@
     </p>
     }
 </section>
+-->
 
-<section>
-    <h3>Enviar cantidad</h3>
-    <label>
-    Cantidad a enviar en euros:
+    <section class="product-info">
+        <ul>
+            @for(product of this.orderDetails.temporalProductOrder; track product.productId) {
+                <img src="{{ IMG_URL }}{{ product.product.image }}" width="40px"/>
+            <li>
+                <b>{{product.product.name}}</b>
+            </li>
+            <p>Cantidad: {{product.quantity}} | Precio: {{product.product.price/100 * product.quantity}}€</p>
+            }
+        </ul>
+
+    </section>
+    <section>
+        <h3>Precio total: {{eurosToSend}}€</h3>
+        <!-- <label>
+    Cantidad a enviar en euros: {{eurosToSend}}
     <input type="number" [(ngModel)]="eurosToSend" />
     </label>
     <br />
@@ -39,18 +57,21 @@
     <input type="text" disabled [(ngModel)]="addressToSend" />
     </label>
     <br />
-    <button (click)="createTransaction()">Crear transacción</button>
+-->
+        <button (click)="createTransaction()">Crear transacción</button>
 
-    @if (contractInfo) {
-    <p>
-    Nombre: {{ contractInfo.name }}
-    <br />
-    Símbolo: {{ contractInfo.symbol }}
-    <br />
-    Decimales: {{ contractInfo.decimals }}
-    <br />
-    Suministro total: {{ contractInfo.totalSupply }}
-    <br />
-    </p>
-    }
-</section>
+        @if (contractInfo) {
+        <p>
+            Nombre: {{ contractInfo.name }}
+            <br />
+            Símbolo: {{ contractInfo.symbol }}
+            <br />
+            Decimales: {{ contractInfo.decimals }}
+            <br />
+            Suministro total: {{ contractInfo.totalSupply }}
+            <br />
+        </p>
+        }
+    </section>
+
+    <app-footer></app-footer>
