@@ -2,9 +2,9 @@
 <app-nav></app-nav>
 
 <!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
-<div class="panel-top h-24rem d-flex w-full">
+<div class="panel-top h-12rem d-flex w-full">
     <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
-    - MI PERFIL -
+        - MI PERFIL -
     </p>
 </div>
 
@@ -12,10 +12,37 @@
 <div class="profile-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
     <!-- User Info -->
     <div class="profile-info grid grid-nogutter align-items-center">
-      <div class="col-3 text-right font-bold">Nombre:</div>
-      <div class="col-7">{{ user?.name }}</div>
+        <div class="col-3 text-left font-bold">Nombre:</div>
+        <div class="col-7">{{ user?.name }}</div>
+
+        <div class="col-3 text-left font-bold">Correo:</div>
+        <div class="col-7">{{ user?.email }}</div>
+
+        <div class="col-3 text-left font-bold">Rol:</div>
+        <div class="col-7">{{ user?.role }}</div>
+
+        <div class="col-3 text-left font-bold">Dirección:</div>
+        <div class="col-7">{{ user?.address }}</div>
+
+        <div class="col-3 text-left font-bold">Contraseña:</div>
+        
+
+    </div>
+
+
+    <hr class="line-separator">
+
+    <!-- ORDERS -->
+    <div class="orders-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
+        <h2 class="text-2xl font-bold mb-4">Mis Pedidos</h2>
+        <div class="orders-list">
+             
+        </div>
     </div>
 </div>
+
+
+
 
 
 <app-footer></app-footer>

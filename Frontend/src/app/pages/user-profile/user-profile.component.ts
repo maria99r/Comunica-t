@@ -18,13 +18,13 @@ export class UserProfileComponent  implements OnInit{
 
   constructor(private authService: AuthService) {}
 
+  // Obtiene los datos del usuario autenticado
   ngOnInit() {
-    this.user = this.authService.getUser(); // Obtiene los datos del usuario autenticado
-    
+    this.user = this.authService.getUser(); 
   }
 
+  // Lógica para habilitar la edición solo en el campo necesario
   toggleEdit(field: string) {
     this.isEditing = !this.isEditing;
-    // Lógica adicional para habilitar la edición solo en el campo necesario
   }
 }

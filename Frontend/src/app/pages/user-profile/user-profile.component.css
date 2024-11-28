@@ -8,3 +8,11 @@
     text-shadow: #12182e 0 0 1em;
     background-attachment: fixed;
 }
+
+.line-separator {
+    border: 0;
+    border-top: 1px solid #ccc; /* Línea gris */
+    margin: 20px 0; /* Espacio arriba y abajo de la línea */
+  }
+
+  
