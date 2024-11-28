@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Backend",
+    "\\Frontend"
   ],
-  "SelectedNode": "\\Ecommerce.sln",
+  "SelectedNode": "\\Backend\\Ecommerce.sln",
   "PreviewInSolutionExplorer": false
 }

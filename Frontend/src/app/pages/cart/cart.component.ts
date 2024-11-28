@@ -12,6 +12,7 @@ import { Cart } from '../../models/cart';
 import { ProductCart } from '../../models/productCart';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -168,51 +169,45 @@ export class CartComponent implements OnInit {
     return sum;
   }
 
+  // STRIPE
   goToCheckout() {
-    console.log(this.cart);
+    this.goToPayment('stripe', '/checkout');
+  }
+
+  // BLOCKCHAIN
+  goToBlockchain() {
+    this.goToPayment('blockchain', '/blockchain');
+  }
+
+  goToPayment(paymentMethod: string, redirectRoute: string) {
+    let createOrder: Observable<any>;
+
     if (this.isLog) {
-
-      this.cartService.newTemporalOrderBBDD(this.cart, "stripe").subscribe({
-        next: (response: any) => {
-          console.log("Orden creada en BBDD: ", response);
-          const sessionId = response.id;
-          const paymentMethod = "stripe";
-
-          // Redirigir al checkout con los parámetros en la URL
-          this.router.navigate(['/checkout'], {
-            queryParams: {
-              session_id: sessionId,
-              payment_method: paymentMethod,
-            },
-          });
-        },
-        error: (err: any) => {
-          console.error("Error al crear la orden en BBDD: ", err);
-        },
-      });
-
+      console.log("Creando orden en BBDD...");
+      createOrder = this.cartService.newTemporalOrderBBDD(this.cart, paymentMethod);
     } else {
-
-      this.cartService.newTemporalOrderLocal(this.cartProducts, "stripe").subscribe({
-        next: (response: any) => {
-          console.log("Orden creada localmente: ", response);
-          const sessionId = response.id;
-          const paymentMethod = "stripe";
-
-          // Redirigir al checkout con los parámetros en la URL
-          this.router.navigate(['/checkout'], {
-            queryParams: {
-              session_id: sessionId,
-              payment_method: paymentMethod,
-            },
-          });
-        },
-        error: (err: any) => {
-          console.error("Error al crear la orden local: ", err);
-        },
-      });
-      console.log("Carrito local: ", this.cartProducts);
+      console.log("Creando orden localmente...");
+      createOrder = this.cartService.newTemporalOrderLocal(this.cartProducts, paymentMethod);
     }
+
+    createOrder.subscribe({
+      next: (response: any) => {
+        console.log("Orden creada exitosamente: ", response);
+        const temporalOrderId = response.id;
+
+        this.router.navigate([redirectRoute], {
+          queryParams: {
+            temporalOrderId: temporalOrderId,
+            paymentMethod: paymentMethod,
+          },
+        });
+      },
+      error: (err: any) => {
+        console.error("Error al crear la orden: ", err);
+      },
+    });
+    
     this.cartService.actionSource = 'checkout';
   }
+
 }

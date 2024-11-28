@@ -2,16 +2,21 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Result } from '../models/result';
 import { Product } from '../models/product';
-import { CheckoutSession } from '../models/checkout-session';
-import { CheckoutSessionStatus } from '../models/checkout-session-status';
+import { CheckoutSession } from '../models/checkoutSession';
+import { CheckoutSessionStatus } from '../models/checkoutSessionStatus';
 import { TemporalOrder } from '../models/temporal-order';
-
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Order } from '../models/order';
 @Injectable({
   providedIn: 'root'
 })
 export class CheckoutService {
 
-  constructor(private api: ApiService) { }
+  private readonly BASE_URL = environment.apiUrl;
+
+  constructor(private http: HttpClient, private api: ApiService) { }
 
   // Consulta los datos de la orden temporal por ID
   getOrderDetails(temporalOrderId: number): Promise<Result<TemporalOrder>> {
@@ -19,8 +24,8 @@ export class CheckoutService {
   }
 
   // Vincula al usuario con la orden temporal
-  linkUserToOrder(sessionId: number): Promise<Result<any>> {
-    return this.api.post<any>(`Checkout/link-order`, { sessionId });
+  linkUserToOrder(temporalOrderId: number): Promise<Result<any>> {
+    return this.api.post<any>(`Checkout/link-order`, { temporalOrderId });
   }
 
   // Inicializa el checkout embebido de Stripe
@@ -35,5 +40,11 @@ export class CheckoutService {
 
   orderOnComplete(sessionId: number): Promise<Result<TemporalOrder>> {
     return this.api.get<TemporalOrder>(`Checkout/status/${sessionId}`);
+  }
+
+  // crea pedido desde una orden temporal
+  newOrder(temporal: TemporalOrder): Observable<Order> {
+    const url = `${this.BASE_URL}Order/newOrder`;
+    return this.http.post<Order>(url, temporal);
   }
 }

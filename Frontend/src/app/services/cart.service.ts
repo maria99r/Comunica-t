@@ -125,10 +125,7 @@ export class CartService {
 
   // si el usuario esta logueado desde la BBDD le enviamos el carrito
   newTemporalOrderBBDD(cart: Cart, paymentMethod: string): Observable<any> {
-    console.log("Carrito enviado: ", cart)
-
     const url = (`${this.BASE_URL}TemporalOrder/newTemporalOrderBBDD?paymentMethod=${paymentMethod}`);
-
     return this.http.post(url, cart);
   }
 

@@ -13,13 +13,11 @@ namespace Ecommerce.Controllers
     public class CheckoutController : ControllerBase
     {
         private readonly IOptions<Settings> _settings;
-        private readonly Services.CheckoutService _checkOutService;
         private readonly CartService _cartService;
         private readonly UserService _userService;
-        public CheckoutController(IOptions<Settings> settings, Services.CheckoutService checkOutService, CartService cartService, UserService userService)
+        public CheckoutController(IOptions<Settings> settings, CartService cartService, UserService userService)
         {
             _settings = settings;
-            _checkOutService = checkOutService;
             _cartService = cartService;
             _userService = userService;
         }

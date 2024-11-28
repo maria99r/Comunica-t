@@ -4,6 +4,7 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
+using Ecommerce.Services.Blockchain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.ML;
 using Microsoft.Extensions.Options;
@@ -32,22 +33,24 @@ builder.Services.AddScoped<TemporalOrderRepository>();
 builder.Services.AddScoped<TemporalProductOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<CheckoutRepository>();
+builder.Services.AddTransient<BlockchainService>();
 
 // Inyección de Mappers
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<TemporalOrderMapper>();
+builder.Services.AddScoped<OrderMapper>();
 
 // Inyección de Servicios
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<ProductCartService>();
 builder.Services.AddScoped<TemporalOrderService>();
+builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
-builder.Services.AddScoped<Ecommerce.Services.CheckoutService>();
 
 builder.Services.AddHostedService<OrderExpiresService>();
 
