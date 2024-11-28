@@ -57,4 +57,24 @@ public class CartService
     }
 
 
+    // borra los productos del carrito
+    public async Task<CartDto> DeleteAllProductCart(int id)
+    {
+        CartDto cartDto = await _unitOfWork.CartRepository.GetCartByUserId(id);
+
+        if (cartDto == null)
+        {
+            return null;
+        }
+        cartDto.Products.Clear();
+        await UpdateCart(cartDto);
+        await _unitOfWork.SaveAsync();
+        return cartDto;
+    }
+
+    public async Task UpdateCart(CartDto cart)
+    {
+        _unitOfWork.CartRepository.Update(cart);
+        await _unitOfWork.SaveAsync();
+    }
 }
