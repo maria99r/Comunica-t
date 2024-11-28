@@ -67,7 +67,7 @@ public class CartController : ControllerBase
         }
     }
 
-    [HttpPost("deleteAll{id}")]
+    [HttpPost("deleteAll/{id}")]
     public async Task<ActionResult<CartDto>> DeleteAllProduct(int id)
     {
         var cart = await _cartService.DeleteAllProductCart(id);
