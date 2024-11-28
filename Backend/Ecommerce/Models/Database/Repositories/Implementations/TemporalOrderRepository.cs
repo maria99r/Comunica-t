@@ -89,9 +89,9 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
                 ProductId = pc.Product.Id,
                 Product = null // se asigna luego
             }).ToList(),
-            User = null, //  recibo un dto, habria que asignarlo dsede el token !!
+            User = null, //  recibo un dto, habria que asignarlo desde el token !!
 
-            ExpiresAt = DateTime.UtcNow.AddMinutes(15) // expira en 15 minutos
+            ExpiresAt = DateTime.UtcNow.AddMinutes(2) // expira en 2 minutos
         };
 
         var insertedTemporalOrder = await InsertAsync(newTemporalOrder);
