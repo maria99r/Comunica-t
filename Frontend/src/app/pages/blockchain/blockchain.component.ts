@@ -20,19 +20,19 @@ import { Order } from '../../models/order';
   templateUrl: './blockchain.component.html',
   styleUrl: './blockchain.component.css'
 })
-export class BlockchainComponent implements OnInit, OnDestroy  {
+export class BlockchainComponent implements OnInit, OnDestroy {
 
   @ViewChild('blockchainDialog')
   checkoutDialogRef: ElementRef<HTMLDialogElement>;
 
   orderDetails: TemporalOrder = null; // Orden temporal
-  temporalOrderId: number = 0; // ID de la Orden temporal
+  temporalOrderId: number = null; // ID de la Orden temporal
   paymentMethod: string = ''; // Método de pago escogido
   routeQueryMap$: Subscription;
   stripeEmbedCheckout: StripeEmbeddedCheckout;
   refreshInterval: any; // Intervalo para refrescar la orden
 
-  createdOrder : Order; // el pedido cuando se cree
+  createdOrder: Order; // el pedido cuando se cree
 
   public readonly IMG_URL = environment.apiImg;
 
@@ -64,51 +64,47 @@ export class BlockchainComponent implements OnInit, OnDestroy  {
 
   async init(queryMap: ParamMap) {
 
-    //  si el usuario acaba de iniciar sesión desde el redireccionamiento
+    // si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
     sessionStorage.removeItem('authRedirection');
 
-    this.temporalOrderId = parseInt(queryMap.get('session_id'));
-    this.paymentMethod = queryMap.get('payment_method');
+    this.temporalOrderId = parseInt(queryMap.get('temporalOrderId'));
+    this.paymentMethod = queryMap.get('paymentMethod');
 
-    console.log('ID:', this.temporalOrderId);
+    console.log('ID de la Orden temporal:', this.temporalOrderId);
     console.log('Método de pago:', this.paymentMethod);
     console.log('Acaba de iniciar sesión:', justLoggedIn);
 
-    if (!this.temporalOrderId) {
-      console.error('No se proporcionó un ID de orden temporal, no se puede continuar.');
-    } else {
+    if (justLoggedIn) {
+      console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
+      const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
-      if (justLoggedIn) {
-        console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
-        const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
-
-        if (!linkResponse.success) {
-          console.error('Error al vincular la orden temporal:', linkResponse.error);
-        }
-      }
-
-      console.log('Recuperando los detalles de la orden temporal...');
-      const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
-
-      if (orderResponse.success) {
-        this.orderDetails = orderResponse.data;
-        this.eurosToSend = this.orderDetails.totalPrice/100;  // recordar que esta en centimos
-        console.log('Detalles de la orden cargados:', this.orderDetails);
-        console.log('Productos:', this.orderDetails.temporalProductOrder);
-        this.startOrderRefresh(); //  refresco de la orden
-
-        //  pago
-        if (this.paymentMethod === 'blockchain') {
-          // await this.embeddedCheckout();
-        } else {
-          console.log('Método de pago:', this.paymentMethod);
-        }
-
-      } else {
-        console.error('Error al cargar los detalles de la orden:', orderResponse.error);
+      if (!linkResponse.success) {
+        console.error('Error al vincular la orden temporal:', linkResponse.error);
       }
     }
+
+    console.log('Recuperando los detalles de la orden temporal...');
+    const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
+
+    if (orderResponse.success) {
+      this.orderDetails = orderResponse.data;
+      this.eurosToSend = this.orderDetails.totalPrice / 100;  // recordar que esta en centimos
+      console.log('Detalles de la orden cargados:', this.orderDetails);
+      console.log('Productos:', this.orderDetails.temporalProductOrder);
+      this.startOrderRefresh(); //  refresco de la orden
+
+      // pago
+      if (this.paymentMethod === 'blockchain') {
+        // await this.embeddedCheckout();
+      } else {
+        console.error('El método de pago no es en blockchain');
+      }
+
+    } else {
+      console.error('Error al cargar los detalles de la orden:', orderResponse.error);
+    }
+
   }
 
 
@@ -177,7 +173,7 @@ export class BlockchainComponent implements OnInit, OnDestroy  {
     // CREAMOS PEDIDO, PASAMOS A PAGINA DE CONFIRMACION Y MOSTRAMOS DATOS
     if (checkTransactionResult.success && checkTransactionResult.data) {
       alert('Transacción realizada con éxito');
-      
+
       // creo pedido 
       this.service.newOrder(this.orderDetails).subscribe({
         next: (order: Order) => {
@@ -220,5 +216,3 @@ declare global {
     ethereum: any;
   }
 }
-
-
