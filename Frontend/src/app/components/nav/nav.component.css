@@ -2,7 +2,6 @@
     background-color: white;
 }
 
-
 span {
     color: #75308a;
     font-weight: 400;
@@ -22,7 +21,6 @@ img:hover {
 .session-link {
     cursor: pointer;
 }
-
 
 button{
     border: 0px;

@@ -5,13 +5,14 @@ import { BlockchainService } from '../../services/blockchain.service';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from '../../components/footer/footer.component';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TemporalOrder } from '../../models/temporal-order';
 import { StripeEmbeddedCheckout } from '@stripe/stripe-js';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CheckoutService } from '../../services/checkout.service';
 import { Order } from '../../models/order';
+import { eth } from 'web3';
 
 @Component({
   selector: 'app-blockchain',
@@ -39,6 +40,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   networkUrl: string = 'https://rpc.bordel.wtf/test'; // Red de pruebas;
   contractAddress: string;
 
+  priceInEth: number; // precio total en Ethereum
   eurosToSend: number;  // precio total
   addressToSend: string = "0x8964FD1CAB4B9323F55cAC1a56648F8253CD0577";  // cuenta donde se ingresaran los pagos
 
@@ -48,6 +50,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     private blockchainService: BlockchainService,
     private service: CheckoutService,
     private route: ActivatedRoute,
+    private router: Router 
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +62,10 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     // throw new Error('Method not implemented.');
     this.routeQueryMap$.unsubscribe();
     clearInterval(this.refreshInterval); // Detener el refresco de la orden
-    this.cancelCheckoutDialog(); // destruyo la sesion
+    if (this.stripeEmbedCheckout) { // verifica que la sesión esté inicializada y la destruye
+      this.cancelCheckoutDialog(); 
+      console.log("Sesión eliminada");
+    }
   }
 
   async init(queryMap: ParamMap) {
@@ -90,6 +96,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     if (orderResponse.success) {
       this.orderDetails = orderResponse.data;
       this.eurosToSend = this.orderDetails.totalPrice / 100;  // recordar que esta en centimos
+      this.priceInEth = this.eurosToSend * 0.00029;
       console.log('Detalles de la orden cargados:', this.orderDetails);
       console.log('Productos:', this.orderDetails.temporalProductOrder);
       this.startOrderRefresh(); //  refresco de la orden
@@ -106,7 +113,6 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     }
 
   }
-
 
   async getContractInfo() {
     const result = await this.blockchainService.getContractInfo(this.networkUrl, this.contractAddress);
@@ -179,6 +185,10 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         next: (order: Order) => {
           this.createdOrder = order; // Guarda la respuesta en la variable
           console.log('Pedido creado:', this.createdOrder);
+          
+          setTimeout(() => {
+            this.orderOnComplete();
+          }, 500); // Espera 500 milisegundos por si acaso
         },
         error: (err) => {
           console.error('Error al crear el pedido:', err);
@@ -204,10 +214,19 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   }
 
   cancelCheckoutDialog() {
-    this.stripeEmbedCheckout.destroy();
-    this.checkoutDialogRef.nativeElement.close();
+    if (this.stripeEmbedCheckout) {
+      this.stripeEmbedCheckout.destroy();
+    }
+    if (this.checkoutDialogRef?.nativeElement) {
+      this.checkoutDialogRef.nativeElement.close();
+    }
   }
 
+  orderOnComplete(){
+    console.log("Orden completada");
+    this.cancelCheckoutDialog(); // Desmontar/destruir el checkout embebido
+    this.router.navigate(['/order-success']);
+  }
 
 }
 
