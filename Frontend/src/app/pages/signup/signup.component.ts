@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 
@@ -13,13 +13,16 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
 
   myForm: FormGroup;
+  readonly PARAM_KEY: string = 'redirectTo';
+  private redirectTo: string = null;
 
   constructor(private formBuilder: FormBuilder,
     private http: HttpClient,
     private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private cartApi: CartService
   ) {
@@ -31,6 +34,19 @@ export class SignupComponent {
       confirmPassword: ['', Validators.required]
     },
       { validators: this.passwordMatchValidator });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/']);
+    }
+
+    // Obtiene la URL a la que el usuario quería acceder
+    const queryParams = this.activatedRoute.snapshot.queryParamMap;
+
+    if (queryParams.has(this.PARAM_KEY)) {
+      this.redirectTo = queryParams.get(this.PARAM_KEY);
+    }
   }
 
   // Validator personalizado
@@ -45,7 +61,6 @@ export class SignupComponent {
       confirmPasswordControl.setErrors(null);
     }
   }
-
 
   async submit() {
     if (this.myForm.valid) {
@@ -66,31 +81,23 @@ export class SignupComponent {
           },
         });
 
-        // Si se accede desde el pago, te manda al login en vez de iniciar sesión
-        switch (this.cartApi.actionSource) {
-          case 'checkout':
-            console.log("Acceso desde el pago; te envío al login");
-            this.router.navigate(['/login']);
-            break;
-            
-          case 'login':
-            console.log("Acceso desde el login");
-            const authData = { email: formData.email, password: formData.password };
-            const loginResult = await this.authService.login(authData, false);
-    
-            if (loginResult.success) {
-              console.log('Inicio de sesión exitoso', loginResult);
-              this.router.navigate(['/']);
-            } else {
-              alert('Error en el inicio de sesión');
-            }
-            break;
-    
-          default:
-            console.log("Acción desconocida, redirigiendo a la página principal");
+        const authData = { email: formData.email, password: formData.password };
+        const loginResult = await this.authService.login(authData, false);
+
+        if (loginResult.success) {
+          console.log('Inicio de sesión exitoso', loginResult);
+
+          // Si tenemos que redirigir al usuario, lo hacemos
+          if (this.redirectTo != null) {
+            this.router.navigateByUrl(this.redirectTo);
+          } else {
             this.router.navigate(['/']);
-            break;
+          }
+
+        } else {
+          alert('Error en el inicio de sesión');
         }
+
       } else {
         alert('Error en el registro');
       }
@@ -98,5 +105,6 @@ export class SignupComponent {
     } else {
       alert('Formulario no válido');
     }
+
   }
 }

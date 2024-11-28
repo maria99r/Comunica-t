@@ -25,7 +25,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   checkoutDialogRef: ElementRef<HTMLDialogElement>;
 
   orderDetails: TemporalOrder = null; // Orden temporal
-  temporalOrderId: number = 0; // ID de la Orden temporal
+  temporalOrderId: number = null; // ID de la Orden temporal
   paymentMethod: string = ''; // Método de pago escogido
   routeQueryMap$: Subscription;
   stripeEmbedCheckout: StripeEmbeddedCheckout;
@@ -51,49 +51,44 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async init(queryMap: ParamMap) {
     console.log('Iniciando la página de checkout...');
 
-    //  si el usuario acaba de iniciar sesión desde el redireccionamiento
+    // si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
     sessionStorage.removeItem('authRedirection');
 
-    this.temporalOrderId = parseInt(queryMap.get('session_id'));
-    this.paymentMethod = queryMap.get('payment_method');
+    this.temporalOrderId = parseInt(queryMap.get('temporalOrderId'));
+    this.paymentMethod = queryMap.get('paymentMethod');
 
-    console.log('ID:', this.temporalOrderId);
+    console.log('ID de la Orden temporal:', this.temporalOrderId);
     console.log('Método de pago:', this.paymentMethod);
     console.log('Acaba de iniciar sesión:', justLoggedIn);
 
-    if (!this.temporalOrderId) {
-      console.error('No se proporcionó un ID de orden temporal, no se puede continuar.');
-    } else {
+    if (justLoggedIn) {
+      console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
+      const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
-      if (justLoggedIn) {
-        console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
-        const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
-
-        if (!linkResponse.success) {
-          console.error('Error al vincular la orden temporal:', linkResponse.error);
-        }
+      if (!linkResponse.success) {
+        console.error('Error al vincular la orden temporal:', linkResponse.error);
       }
+    }
 
-      console.log('Recuperando los detalles de la orden temporal...');
-      const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
+    console.log('Recuperando los detalles de la orden temporal...');
+    const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
 
-      if (orderResponse.success) {
-        this.orderDetails = orderResponse.data;
-        console.log('Detalles de la orden cargados:', this.orderDetails);
-        console.log('Productos:', this.orderDetails.temporalProductOrder);
-        this.startOrderRefresh(); //  refresco de la orden
+    if (orderResponse.success) {
+      this.orderDetails = orderResponse.data;
+      console.log('Detalles de la orden cargados:', this.orderDetails);
+      console.log('Productos:', this.orderDetails.temporalProductOrder);
+      this.startOrderRefresh(); // refresco de la orden
 
-        //  pago
-        if (this.paymentMethod === 'stripe') {
-          await this.embeddedCheckout();
-        } else {
-          console.log('Método de pago:', this.paymentMethod);
-        }
-
+      // pago
+      if (this.paymentMethod === 'stripe') {
+        await this.embeddedCheckout();
       } else {
-        console.error('Error al cargar los detalles de la orden:', orderResponse.error);
+        console.error('El método de pago no es en stripe');
       }
+
+    } else {
+      console.error('Error al cargar los detalles de la orden:', orderResponse.error);
     }
   }
 
