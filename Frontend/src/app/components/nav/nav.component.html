@@ -7,8 +7,8 @@
     </ng-template>
 
     <!-- Cart and User icons -->
-    <ng-template pTemplate="end">                                                           <!--Funcion para navegar entre vistas admin y user-->
-        <span class="vertical-align-middle lg:m-4 clickable" *ngIf="authService.isAuthenticated()" (click)="navigateToProfile()">  
+    <ng-template pTemplate="end">                                                           
+        <span class="vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()" >  
             ¡Hola, {{ name }}!
         </span>
 
@@ -17,15 +17,17 @@
             <span>{{ cartProductCount }}</span> <!-- Recoger de BBDD nº de productos de cesta -->
         </a>
 
-        <!-- <img *ngIf="authService.isAuthenticated()" src="icons/user-icon.png" alt="icono-user"
-            class="vertical-align-middle" width="40px" class="mr-2 ml-4"> -->
+         <a>
+            <img *ngIf="authService.isAuthenticated()" src="icons/user-icon.png" alt="icono-user"
+            class="vertical-align-middle" width="40px" class="mr-2 ml-4 vertical-align-middle clickable" (click)="navigateToProfile()"> 
+         </a>
 
         <a id="inicio-sesion" *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
                 <button class="p-button font-bold ml-4 vertical-align-middle">Iniciar sesión</button>
                 <!--<img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">-->
         </a>
         <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
-            <img src="icons/logout.png" alt="icono-logout" width="40px" class="mr-2 ml-4 vertical-align-middle">
+            <img src="icons/logout.png" alt="icono-logout" width="40px" class="mr-2 ml-4 vertical-align-middle ">
         </a>
 
     </ng-template>
