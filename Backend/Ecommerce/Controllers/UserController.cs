@@ -43,6 +43,15 @@ namespace Ecommerce.Controllers
             return Ok(user); 
         }
 
+        //obtener todos los usuarios
+        [HttpGet("allUsers")]
+        public async Task<IActionResult> GetAllUsersAsync()
+        {
+            var user = await _userService.GetAllUsersAsync();
+
+            return Ok(user);
+        }
+
 
     }
 }
