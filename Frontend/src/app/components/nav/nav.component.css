@@ -37,6 +37,12 @@ button:hover{
     background-color: #4d20a1;
 }
 
+.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+
 @media (max-width: 600px) {
     ng-template{
         display: flex;

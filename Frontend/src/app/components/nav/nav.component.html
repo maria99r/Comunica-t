@@ -7,8 +7,8 @@
     </ng-template>
 
     <!-- Cart and User icons -->
-    <ng-template pTemplate="end">
-        <span class="vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">  
+    <ng-template pTemplate="end">                                                           <!--Funcion para navegar entre vistas admin y user-->
+        <span class="vertical-align-middle lg:m-4 clickable" *ngIf="authService.isAuthenticated()" (click)="navigateToProfile()">  
             ¡Hola, {{ name }}!
         </span>
 

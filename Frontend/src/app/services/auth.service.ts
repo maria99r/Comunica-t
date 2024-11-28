@@ -61,5 +61,10 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
-
+  //Comprobacion de permisos de administrado 
+  isAdmin(): boolean {
+    const user = this.getUser();
+    return user?.role === 'admin'; 
+  }
+  
 }
