@@ -92,4 +92,9 @@ export class LoginComponent implements OnInit {
       alert('Datos de inicio de sesión incorrectos.');
     }
   }
+
+  // redirigir al usuario desde el registro
+  redirectToSignup() {
+    this.router.navigate(['/signup'], { queryParams: { redirectTo: this.redirectTo } });
+  }
 }
