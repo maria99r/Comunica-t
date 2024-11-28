@@ -27,6 +27,8 @@ public class TemporalOrderMapper
         {
             Id = temporalOrder.Id,
             UserId = temporalOrder.UserId,
+            TotalPrice = temporalOrder.TotalPrice,
+            PaymentMethod = temporalOrder.PaymentMethod,
             User = _userMapper.UserToDto(temporalOrder.User), // Usa el UserMapper para el usuario
             TemporalProductOrder = temporalOrder.TemporalProductOrder.Select(pc => new TemporalProductOrder
             {

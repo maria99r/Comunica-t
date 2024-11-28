@@ -30,7 +30,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             throw new InvalidOperationException("La orden temporal no se encontró para esta id.");
         }
 
-        // mapeo para los datos del usuario
+        
         return temporalOrder;
     }
 
