@@ -10,6 +10,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { redirectionGuard } from './guards/redirection.guard';
 import { BlockchainComponent } from './pages/blockchain/blockchain.component';
+import { OrderSuccessComponent } from './pages/order-success/order-success.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Ruta pantalla inicio home
@@ -20,5 +21,6 @@ export const routes: Routes = [
     { path: 'product/:id', component: ProductDetailComponent }, // Ruta detalles de producto
     { path: 'cart', component: CartComponent}, // Ruta carrito
     { path: 'checkout', component: CheckoutComponent, canActivate: [redirectionGuard] }, // Ruta checkout tarjeta
-    { path: 'blockchain', component: BlockchainComponent, canActivate: [redirectionGuard] } // Ruta checkout blockchain
+    { path: 'blockchain', component: BlockchainComponent, canActivate: [redirectionGuard] }, // Ruta checkout blockchain
+    { path: 'order-success', component: OrderSuccessComponent}
 ];
