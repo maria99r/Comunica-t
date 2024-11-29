@@ -13,6 +13,7 @@ public class UserService
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly UserMapper _userMapper;
+    private readonly UserRepository _userRepository;
 
 
     public UserService(UnitOfWork unitOfWork, UserMapper userMapper)
@@ -83,5 +84,10 @@ public class UserService
         await _unitOfWork.SaveAsync();
 
         return newUser;
+    }
+    //obtener todos los usuarios
+    public async Task<List<User>> GetAllUserAsync()
+    {
+        return await _userRepository.GetAllUsersAsync();
     }
 }

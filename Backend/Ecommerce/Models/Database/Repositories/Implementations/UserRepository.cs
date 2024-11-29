@@ -34,4 +34,10 @@ public class UserRepository : Repository<User, int>
 
         throw new Exception("No se pudo crear el nuevo usuario.");
     }
+
+    //obtener todos los usuarios
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        return await GetQueryable().ToListAsync();
+    }
 }

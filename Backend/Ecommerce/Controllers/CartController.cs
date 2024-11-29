@@ -25,7 +25,7 @@ public class CartController : ControllerBase
         try
         {
             var cart = await _cartService.GetByUserIdAsync(id);
-            
+
             if (cart == null)
             {
                 return null;
@@ -37,9 +37,9 @@ public class CartController : ControllerBase
         {
             return StatusCode(500, "Error al procesar la solicitud.");
         }
-        
+
     }
-    
+
 
     // crearCarrito a partir de id de usuario
     [HttpPost("newCart")]
@@ -67,4 +67,10 @@ public class CartController : ControllerBase
         }
     }
 
+    [HttpPost("deleteAll/{id}")]
+    public async Task<ActionResult<CartDto>> DeleteAllProduct(int id)
+    {
+        var cart = await _cartService.DeleteAllProductCart(id);
+        return Ok(cart);
+    }
 }

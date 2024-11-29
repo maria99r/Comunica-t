@@ -128,7 +128,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       if (request.success) {
         const options: StripeEmbeddedCheckoutOptions = {
           clientSecret: request.data.clientSecret,
-          onComplete: this.orderOnComplete
+          onComplete: () => this.orderOnComplete()
         };
     
         this.stripe.initEmbeddedCheckout(options).subscribe({ 
@@ -150,8 +150,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   orderOnComplete(){
     console.log("Orden completada");
-    this.cancelCheckoutDialog(); // Desmontar/destruir el checkout embebido
-    this.router.navigate(['/order-success']);
+
+    setTimeout(() => {
+      this.router.navigate(['/order-success']);
+    }, 3000); // Espera 3 segundos antes de redirigir por si acaso
   }
 
   cancelCheckoutDialog() {

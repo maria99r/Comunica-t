@@ -1,4 +1,4 @@
-﻿using Ecommerce.Models.Database.Entities;
+using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Microsoft.EntityFrameworkCore;
@@ -41,8 +41,10 @@ public class CartRepository : Repository<Cart, int>
 
     }
 
-    // devuelve el carrito del usuario NO DTO
-    public async Task<Cart> GetCartByUserId(int id)
+
+    // devuelve el carrito del usuario SIN DTO
+    public async Task<Cart> GetCartByUserNoDto(int id)
+
     {
         try
         {
@@ -85,4 +87,5 @@ public class CartRepository : Repository<Cart, int>
 
         return newCart;
     }
+
 }
