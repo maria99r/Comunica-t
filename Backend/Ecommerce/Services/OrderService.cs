@@ -18,9 +18,7 @@ public class OrderService
     // obtener por id
     public async Task<OrderDto> GetByIdAsync(int id)
     {
-        if (id <= 0) throw new ArgumentException("El ID no es válido.");
-
-        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+        var order = await _unitOfWork.OrderRepository.GetOrderById(id);
 
         if (order == null)
         {
@@ -41,7 +39,7 @@ public class OrderService
         {
             return null;
         }
-        
+
         var ordersDto = _orderMapper.OrdersToDto(orders).ToList();
 
         return ordersDto;
@@ -49,16 +47,58 @@ public class OrderService
 
 
 
-    // crear un pedido
+    // crear un pedido, elimina el temporal y elimina del carrito
     public async Task<Order> CreateOrderAsync(TemporalOrder temporal)
     {
-        // agrego al usuario
-        var user = await _unitOfWork.UserRepository.GetByIdAsync((int)temporal.UserId);
+        var t = await _unitOfWork.TemporalOrderRepository.GetByIdAsync(temporal.Id);
 
-        var order = await _unitOfWork.OrderRepository.InsertOrderAsync(temporal);
+        // creo pedido
+        var newOrder = new Order
+        {
+            UserId = (int)temporal.UserId,
+            PaymentDate = DateTime.Now,
+            PaymentMethod = temporal.PaymentMethod,
+            TotalPrice = temporal.TotalPrice,
+            // agregar productos
+            ProductsOrder = temporal.TemporalProductOrder.Select(pc => new ProductOrder
+            {
+                Quantity = pc.Quantity,
+                ProductId = pc.Product.Id
+            }).ToList(),
+        };
 
-        order.User = user;
+        // guardo pedido
+        var order = await _unitOfWork.OrderRepository.InsertAsync(newOrder);
 
+
+
+        // Quitas del carrito
+        var cart = await _unitOfWork.CartRepository.GetCartByUserId((int)t.UserId); // carrito del usuario
+
+        foreach (var p in temporal.TemporalProductOrder)
+        {
+            var quantity = p.Quantity; // cantidad a restar
+            
+            foreach (var pc in cart.ProductCarts)
+            {
+                // busca el producto en el carrito y resta la cantidad
+                if (pc.ProductId == p.ProductId)
+                {
+                    pc.Quantity -= quantity;
+                }
+
+                // si la cantidad es 0, se elimina del carrito
+                if (pc.Quantity <= 0)
+                {
+                    await _unitOfWork.ProductCartRepository.Delete(pc);
+                }
+                else _unitOfWork.ProductCartRepository.Update(pc);
+            }
+        };
+
+        // Elimino la orden temporal para que no restaure el stock con el servicio
+        await _unitOfWork.TemporalOrderRepository.Delete(t);
+            
         await _unitOfWork.SaveAsync();
 
         return order;

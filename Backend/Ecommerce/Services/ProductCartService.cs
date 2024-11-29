@@ -57,7 +57,7 @@ public class ProductCartService
     public async Task UpdateProductQuantityAsync(int userId, int productId, int newQuantity)
     {
         // comprueba que exista el carrito
-        var existingCart = await _unitOfWork.CartRepository.GetCartByUserId(userId)
+        var existingCart = await _unitOfWork.CartRepository.GetCartDtoByUserId(userId)
             ?? throw new InvalidOperationException("El carrito no existe.");
 
         Console.WriteLine("ID del carrito: " + existingCart.Id);

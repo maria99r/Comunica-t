@@ -38,7 +38,7 @@ export class CartService {
       userId: dataRaw.userId,
       products: dataRaw.products,
       user: dataRaw.user
-    };
+    };  
     return cart;
   }
 

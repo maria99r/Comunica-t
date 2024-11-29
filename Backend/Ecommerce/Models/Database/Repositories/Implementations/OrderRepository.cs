@@ -9,23 +9,10 @@ public class OrderRepository : Repository<Order, int>
 
 
     // crear pedido desde orden temporal
+    /*
     public async Task<Order> InsertOrderAsync(TemporalOrder temporalOrder)
     {
-        var newOrder = new Order
-        {
-            UserId = (int)temporalOrder.UserId,
-            PaymentDate = DateTime.Now,
-            PaymentMethod = temporalOrder.PaymentMethod,
-            TotalPrice = temporalOrder.TotalPrice,
-            User = null,
-            // agregar productos
-            ProductsOrder = temporalOrder.TemporalProductOrder.Select(pc => new ProductOrder
-            {
-                Quantity = pc.Quantity,
-                ProductId = pc.Product.Id,
-                Product = null 
-            }).ToList(),
-        };
+       
 
         var insertedOrder = await InsertAsync(newOrder);
 
@@ -36,7 +23,7 @@ public class OrderRepository : Repository<Order, int>
         }
 
         return newOrder;
-    }
+    }*/
 
 
     // pedidos por usuario
@@ -48,6 +35,25 @@ public class OrderRepository : Repository<Order, int>
                 .ThenInclude(pc => pc.Product)
             .Where(order => order.UserId == id)
             .ToListAsync();
+    }
+
+
+    // obtener pedido segun id
+    public async Task<Order> GetOrderById(int id)
+    {
+        var order = await GetQueryable()
+            .Include(o => o.User)
+            .Include(o => o.ProductsOrder)
+            .ThenInclude(p => p.Product)
+            .FirstOrDefaultAsync(o => o.Id == id);
+
+        if (order == null)
+        {
+            throw new InvalidOperationException("El pedido no se encontró para esta id.");
+        }
+
+
+        return order;
     }
 
 }

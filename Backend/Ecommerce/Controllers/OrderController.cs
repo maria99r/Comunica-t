@@ -29,7 +29,19 @@ public class OrderController : ControllerBase
         }
         return Ok(orders);
     }
-     
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(int id)
+    {
+        var order = await _orderService.GetByIdAsync(id);
+
+        if (id == 0)
+        {
+            return NotFound(new { message = $"El pedido con id '{id}' no ha sido encontrado." });
+        }
+        return Ok(order);
+    }
+
 
 
     [HttpPost("newOrder")]

@@ -225,7 +225,8 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   orderOnComplete(){
     console.log("Orden completada");
     this.cancelCheckoutDialog(); // Desmontar/destruir el checkout embebido
-    this.router.navigate(['/order-success']);
+    // this.router.navigate(['/order-success']);  
+    this.router.navigate(['/order-success/',this.createdOrder.id]);
   }
 
 }

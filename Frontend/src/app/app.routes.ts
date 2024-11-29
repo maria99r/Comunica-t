@@ -22,5 +22,5 @@ export const routes: Routes = [
     { path: 'cart', component: CartComponent}, // Ruta carrito
     { path: 'checkout', component: CheckoutComponent, canActivate: [redirectionGuard] }, // Ruta checkout tarjeta
     { path: 'blockchain', component: BlockchainComponent, canActivate: [redirectionGuard] }, // Ruta checkout blockchain
-    { path: 'order-success', component: OrderSuccessComponent}
+    { path: 'order-success/:id', component: OrderSuccessComponent}
 ];
