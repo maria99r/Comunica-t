@@ -2,6 +2,7 @@
 using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
+using Ecommerce.Services.Email;
 
 namespace Ecommerce.Services;
 
@@ -9,10 +10,12 @@ public class OrderService
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly OrderMapper _orderMapper;
-    public OrderService(UnitOfWork unitOfWork, OrderMapper orderMapper)
+    private readonly IEmailService _emailService;
+    public OrderService(UnitOfWork unitOfWork, OrderMapper orderMapper, IEmailService emailService)
     {
         _unitOfWork = unitOfWork;
         _orderMapper = orderMapper;
+        _emailService = emailService;
     }
 
     // obtener por id
@@ -47,20 +50,20 @@ public class OrderService
 
 
 
-    // crear un pedido, elimina el temporal y elimina del carrito
-    public async Task<Order> CreateOrderAsync(TemporalOrder temporal)
+    // crear un pedido, elimina orden temporal, ENVIA CORREO A USER
+    public async Task<Order> CreateOrderAsync(int idtemporal)
     {
-        var t = await _unitOfWork.TemporalOrderRepository.GetByIdAsync(temporal.Id);
+        var t = await _unitOfWork.TemporalOrderRepository.GetByIdAsync(idtemporal);
 
         // creo pedido
         var newOrder = new Order
         {
-            UserId = (int)temporal.UserId,
+            UserId = (int)t.UserId,
             PaymentDate = DateTime.Now,
-            PaymentMethod = temporal.PaymentMethod,
-            TotalPrice = temporal.TotalPrice,
+            PaymentMethod = t.PaymentMethod,
+            TotalPrice = t.TotalPrice,
             // agregar productos
-            ProductsOrder = temporal.TemporalProductOrder.Select(pc => new ProductOrder
+            ProductsOrder = t.TemporalProductOrder.Select(pc => new ProductOrder
             {
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id
@@ -72,6 +75,7 @@ public class OrderService
 
 
 
+        /*  NO FUNCIONA
         // Quitas del carrito
         var cart = await _unitOfWork.CartRepository.GetCartByUserId((int)t.UserId); // carrito del usuario
 
@@ -95,15 +99,42 @@ public class OrderService
                 else _unitOfWork.ProductCartRepository.Update(pc);
             }
         };
-
+*/
         // Elimino la orden temporal para que no restaure el stock con el servicio
         await _unitOfWork.TemporalOrderRepository.Delete(t);
-            
+             
         await _unitOfWork.SaveAsync();
 
+        // envia correo a user
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(newOrder.UserId);
+        if (user != null)
+        {
+            var email = new EmailDto
+            {
+                To = user.Email,
+                Subject = "Confirmación de pedido",
+                Body = $@"
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Confirmación de Pedido</title>
+                </head>
+                <body>
+                    <h1>Gracias por tu compra, {user.Name}</h1>
+                    <p>Tu pedido de ha procesado con éxito. Aquí tienes los detalles:</p>
+                    <p><strong>ID del pedido:</strong> {order.Id}</p>
+                    <p><strong>Método de Pago:</strong> {order.PaymentMethod}</p>
+                    <p><strong>Fecha de Pago:</strong> {order.PaymentDate.ToString("f", new System.Globalization.CultureInfo("es-ES"))}</p>
+                    <p><strong>Precio total:</strong> {order.TotalPrice / 100}€</p>
+                    <p>¡Gracias por confiar en Innovacom!</p>
+                </body>
+                </html>"
+            };
+            _emailService.SendEmail(email);
+        }
+
         return order;
+     
 
     }
-
-
 }

@@ -15,7 +15,7 @@ export class OrderService {
 
   constructor(private http: HttpClient, private api: ApiService) { }
 
-  // obtener pedido por id
+  // obtener pedido orden por id
   async getOrderById(id: number): Promise<Order> {
     const request: Observable<Object> =
       this.http.get(`${this.BASE_URL}Order/${id}`);
@@ -36,4 +36,6 @@ export class OrderService {
 
     return order;
   }
+
+
 }

@@ -44,12 +44,12 @@ public class OrderController : ControllerBase
 
 
 
-    [HttpPost("newOrder")]
-    public async Task<ActionResult<Order>> newOrder([FromBody] TemporalOrder temporal)
+    [HttpPost("newOrder/{idTemporal}")]
+    public async Task<ActionResult<Order>> newOrder([FromRoute] int idTemporal)
     {
         try
         {
-            var newOrder = await _orderService.CreateOrderAsync(temporal);
+            var newOrder = await _orderService.CreateOrderAsync(idTemporal);
 
             return Ok(newOrder);
 
