@@ -180,10 +180,11 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     if (checkTransactionResult.success && checkTransactionResult.data) {
       alert('Transacción realizada con éxito');
 
+
       // creo pedido 
-      this.service.newOrder(this.orderDetails).subscribe({
+      this.service.newOrder(this.temporalOrderId).subscribe({
         next: (order: Order) => {
-          this.createdOrder = order; // Guarda la respuesta en la variable
+          this.createdOrder = order; 
           console.log('Pedido creado:', this.createdOrder);
           
           setTimeout(() => {
