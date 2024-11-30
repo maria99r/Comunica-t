@@ -5,6 +5,7 @@ using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace Ecommerce.Services;
@@ -13,8 +14,6 @@ public class UserService
 {
     private readonly UnitOfWork _unitOfWork;
     private readonly UserMapper _userMapper;
-    private readonly UserRepository _userRepository;
-
 
     public UserService(UnitOfWork unitOfWork, UserMapper userMapper)
     {
@@ -28,9 +27,9 @@ public class UserService
         return _userMapper.UsersToDto(users).ToList();
     }
 
-    public async Task<UserDto> GetByEmail(string email)
+    public async Task<UserDto> GetUserByEmailAsync(string email)
     {
-        var user = await _unitOfWork.UserRepository.GetByEmail(email);
+        var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
         if (user == null)
         {
             return null;
@@ -38,20 +37,33 @@ public class UserService
         return _userMapper.UserToDto(user);
     }
 
-    public async Task<UserDto> GetByIdAsync(int id)
+    public async Task<UserDto> GetUserByIdAsync(int id)
     {
-        var user = await _unitOfWork.UserRepository.GetById(id);
+        var user = await _unitOfWork.UserRepository.GetUserById(id);
+
         if (user == null)
         {
             return null;
         }
+
         return _userMapper.UserToDto(user);
     }
 
+    public async Task<User> GetUserByIdAsyncNoDto(int id)
+    {
+        var user = await _unitOfWork.UserRepository.GetUserById(id);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        return user;
+    }
 
     public async Task<User> LoginAsync(string email, string password)
     {
-        var user = await _unitOfWork.UserRepository.GetByEmail(email);
+        var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
 
         if (user == null || user.Password != PasswordHelper.Hash(password))
         {
@@ -61,11 +73,10 @@ public class UserService
         return user;
     }
 
-
     public async Task<User> RegisterAsync(RegisterDto model)
     {
         // Verifica si el usuario ya existe
-        var existingUser = await GetByEmail(model.Email);
+        var existingUser = await GetUserByEmailAsync(model.Email);
         if (existingUser != null)
         {
             throw new Exception("El usuario ya existe.");
@@ -85,9 +96,70 @@ public class UserService
 
         return newUser;
     }
-    //obtener todos los usuarios
-    public async Task<List<User>> GetAllUserAsync()
+    
+    // Modificar los datos del usuario
+    public async Task ModifyUserAsync(int userId, string newName, string newEmail, string newPassword, string newAddress, string newRole)
     {
-        return await _userRepository.GetAllUsersAsync();
+        var existingUser = await _unitOfWork.UserRepository.GetUserById(userId);
+
+        if (existingUser != null)
+        {
+            Console.WriteLine("El usuario con ID ", userId, " no existe.");
+        }
+
+        Console.WriteLine("ID del usuario: " + existingUser.Id);
+
+        // Evitar que usuarios no administradores cambien su propio rol
+        if (existingUser.Role != "Admin" && existingUser.Id == userId && newRole != existingUser.Role)
+        {
+            throw new UnauthorizedAccessException("No tienes permiso para cambiar tu propio rol.");
+        }
+
+        if (!string.IsNullOrEmpty(newName))
+        {
+            existingUser.Name = newName;
+        }
+
+        if (!string.IsNullOrEmpty(newEmail))
+        {
+            existingUser.Email = newEmail;
+        }
+
+        if (!string.IsNullOrEmpty(newPassword))
+        {
+            existingUser.Password = newPassword;
+        }
+
+        if (!string.IsNullOrEmpty(newRole))
+        {
+            existingUser.Address = newAddress;
+        }
+
+        if (!string.IsNullOrEmpty(newRole) && existingUser.Role == "Admin")
+        {
+            existingUser.Role = newRole;
+        }
+
+        await UpdateUser(existingUser);
+        await _unitOfWork.SaveAsync();
+    }
+
+    // Eliminar usuario
+    public async Task DeleteUserAsync(int userId)
+    {
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new InvalidOperationException("El usuario no existe.");
+        }
+
+        _unitOfWork.UserRepository.DeleteUser(user);
+        await _unitOfWork.SaveAsync();
+    }
+    public async Task UpdateUser(User user)
+    {
+        _unitOfWork.UserRepository.Update(user);
+        await _unitOfWork.SaveAsync();
     }
 }

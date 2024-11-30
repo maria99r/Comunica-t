@@ -90,7 +90,7 @@ public class TemporalOrderService
     public async Task<TemporalOrder> CreateTemporalOrderBBDDAsync(CartDto cart, string paymentMethod)
     {
 
-        var user = await _unitOfWork.UserRepository.GetById(cart.UserId);
+        var user = await _unitOfWork.UserRepository.GetUserById(cart.UserId);
 
 
         if (paymentMethod == null || paymentMethod == "")
