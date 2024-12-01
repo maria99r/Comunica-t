@@ -5,6 +5,7 @@ using Ecommerce.Models.Mappers;
 using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
 using Ecommerce.Services.Blockchain;
+using Ecommerce.Services.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.ML;
 using Microsoft.Extensions.Options;
@@ -38,6 +39,7 @@ builder.Services.AddTransient<BlockchainService>();
 // Inyección de Mappers
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
+builder.Services.AddScoped<ProductMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<TemporalOrderMapper>();
 builder.Services.AddScoped<OrderMapper>();
@@ -53,7 +55,7 @@ builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
 
 builder.Services.AddHostedService<OrderExpiresService>();
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Inyeccion de la IA
 builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()

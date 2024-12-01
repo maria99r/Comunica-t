@@ -43,8 +43,8 @@ export class CheckoutService {
   }
 
   // crea pedido desde una orden temporal
-  newOrder(temporal: TemporalOrder): Observable<Order> {
-    const url = `${this.BASE_URL}Order/newOrder`;
-    return this.http.post<Order>(url, temporal);
+  newOrder(idTemporal: number): Observable<Order> {
+    const url = `${this.BASE_URL}Order/newOrder/${idTemporal}`;
+    return this.http.post<Order>(url, {});
   }
 }
