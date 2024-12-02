@@ -12,18 +12,18 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent  implements OnInit{
-  user: User | null = null; // Datos del usuario
-  isEditing = false; // Modo edición
-  orders: any[] = []; // Lista de pedidos
+  user: User | null = null; //datos del usuario
+  isEditing = false; //modo edición
+  orders: any[] = []; //lista de pedidos
 
   constructor(private authService: AuthService) {}
 
-  // Obtiene los datos del usuario autenticado
+  //obtiene los datos del usuario autenticado
   ngOnInit() {
     this.user = this.authService.getUser(); 
   }
 
-  // Lógica para habilitar la edición solo en el campo necesario
+  //logica para habilitar la edición solo en el campo necesario
   toggleEdit(field: string) {
     this.isEditing = !this.isEditing;
   }

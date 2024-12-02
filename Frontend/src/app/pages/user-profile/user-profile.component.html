@@ -13,18 +13,29 @@
     <!-- User Info -->
     <div class="profile-info grid grid-nogutter align-items-center">
         <div class="col-3 text-left font-bold">Nombre:</div>
-        <div class="col-7">{{ user?.name }}</div>
+        <div class="col-7">
+            <input type="text" [value]="user?.name" class="w-full" [readonly]="!isEditing">
+        </div>
 
         <div class="col-3 text-left font-bold">Correo:</div>
-        <div class="col-7">{{ user?.email }}</div>
+        <div class="col-7">
+            <input type="text" [value]="user?.email" class="w-full" [readonly]="!isEditing">
+        </div>
 
         <div class="col-3 text-left font-bold">Rol:</div>
-        <div class="col-7">{{ user?.role }}</div>
+        <div class="col-7">
+            <input type="text" [value]="user?.role" class="w-full" [readonly]="!isEditing">
+        </div>
 
         <div class="col-3 text-left font-bold">Dirección:</div>
-        <div class="col-7">{{ user?.address }}</div>
+        <div class="col-7">
+            <input type="text" [value]="user?.address" class="w-full" [readonly]="!isEditing">
+        </div>
 
         <div class="col-3 text-left font-bold">Contraseña:</div>
+        <div class="col-7">
+            <input type="text" [value]="" class="w-full" [readonly]="!isEditing">
+        </div>
         
 
     </div>
