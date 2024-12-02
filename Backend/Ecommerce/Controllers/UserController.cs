@@ -56,7 +56,7 @@ namespace Ecommerce.Controllers
 
         // Se pasa la id por si un admin modifica a otro usuario
         [HttpPut("modifyUser/{userId}")]
-        public async Task<IActionResult> ModifyUser(/*[FromBody] User user*/ int userId, [FromForm] string newName, [FromForm] string newEmail, [FromForm] string newPassword, [FromForm] string newAddress, [FromForm] string newRole)
+        public async Task<IActionResult> ModifyUser(/*[FromBody] User user*/ int userId, string newName, string newEmail, string newPassword, string newAddress, string newRole)
         {
 
             // ESTO DE DEBAJO ESTÁ COMENTADO XQ ME DABA ERROR //

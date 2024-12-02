@@ -28,7 +28,7 @@ public class Seeder
                     Email = "manolo@gmail.com",
                     Password = PasswordHelper.Hash("123456"),
                     Address = "Su casa",
-                    Role = "admin"
+                    Role = "Admin"
                 }
                 ,
                 new User {
@@ -36,7 +36,7 @@ public class Seeder
                     Email = "pepa@gmail.com",
                     Password = PasswordHelper.Hash("123456"),
                     Address = "Su casa",
-                    Role = "client"
+                    Role = "User"
                 }
             ];
 

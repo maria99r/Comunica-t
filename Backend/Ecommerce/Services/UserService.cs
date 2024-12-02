@@ -87,7 +87,7 @@ public class UserService
             Email = model.Email,
             Name = model.Name,
             Address = model.Address,
-            Role = "Client", // Rol por defecto
+            Role = "User", // Rol por defecto
             Password = PasswordHelper.Hash(model.Password)
         };
 
@@ -109,12 +109,6 @@ public class UserService
 
         Console.WriteLine("ID del usuario: " + existingUser.Id);
 
-        // Evitar que usuarios no administradores cambien su propio rol
-        if (existingUser.Role != "Admin" && existingUser.Id == userId && newRole != existingUser.Role)
-        {
-            throw new UnauthorizedAccessException("No tienes permiso para cambiar tu propio rol.");
-        }
-
         if (!string.IsNullOrEmpty(newName))
         {
             existingUser.Name = newName;
@@ -130,12 +124,17 @@ public class UserService
             existingUser.Password = newPassword;
         }
 
-        if (!string.IsNullOrEmpty(newRole))
+        if (!string.IsNullOrEmpty(newAddress))
         {
             existingUser.Address = newAddress;
         }
 
-        if (!string.IsNullOrEmpty(newRole) && existingUser.Role == "Admin")
+        // Evitar que usuarios no administradores cambien su propio rol
+        if (existingUser.Role != "Admin" && newRole != existingUser.Role && !string.IsNullOrEmpty(newRole))
+        {
+            throw new UnauthorizedAccessException("No tienes permiso para cambiar tu propio rol.");
+
+        }else if (!string.IsNullOrEmpty(newRole) && existingUser.Role == "Admin")
         {
             existingUser.Role = newRole;
         }
