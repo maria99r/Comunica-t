@@ -15,4 +15,53 @@
     margin: 20px 0; /* Espacio arriba y abajo de la línea */
   }
 
-  
+  .profile-info {
+    max-width: 600px;
+    margin: 0 auto; /* Centrar el contenedor */
+    padding: 20px;
+    border: 1px solid #007acc;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.profile-label {
+    flex: 1;
+    font-weight: bold;
+    color: #004a8d;
+    text-align: right;
+    padding-right: 10px;
+    position: relative;
+}
+
+.profile-label::after {
+    position: absolute;
+    right: 5px;
+    color: #004a8d;
+}
+
+.profile-input {
+    flex: 2;
+}
+
+.profile-input input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #004a8d;
+    border: 1px solid #007acc;
+    border-radius: 4px;
+    background-color: #f0f8ff;
+    transition: border-color 0.3s ease;
+}
+
+.profile-input input:focus {
+    border-color: #004a8d;
+    outline: none;
+}

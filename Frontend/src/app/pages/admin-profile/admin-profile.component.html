@@ -4,8 +4,83 @@
 <!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
 <div class="panel-top h-24rem d-flex w-full">
     <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
-    - MI PERFIL (ADMINISTRADOR) -
+        - MI PERFIL (ADMINISTRADOR) -
     </p>
 </div>
 
+<!-- User Admin Info -->
+<div class="profile-info">
+    <div class="profile-row">
+        <div class="profile-label">Nombre:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.name" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Correo:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.email" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Rol:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.role" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Dirección:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.address" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Contraseña:</div>
+        <div class="profile-input">
+            <input type="text" [value]="" [readonly]="!isEditing">
+        </div>
+    </div>
+</div>
+
+<hr class="line-separator">
+
+<!-- User and Product Lists 
+<div class="lists-container d-flex justify-content-between">
+    
+    <div class="user-list">
+        <h3 class="list-title">Lista de usuarios</h3>
+        <ul class="list">
+            @for (let user of users) {
+            <li class="list-item">
+                <div class="user-icon"></div>
+                <div class="user-info">
+                    <span class="user-name">{{ user.name }}</span>
+                    <span class="user-email">{{ user.email }}</span>
+                </div>
+                <span class="user-role">{{ user.role }}</span>
+                <button class="edit-btn">✎</button>
+            </li>
+            }
+        </ul>
+    </div>
+
+    
+    <div class="product-list">
+        <h3 class="list-title">Lista de productos</h3>
+        <ul class="list">
+            @for (let product of products) {
+            <li class="list-item">
+                <div class="product-icon">P</div>
+                <div class="product-info">
+                    <span class="product-name">{{ product.name }}</span>
+                    <span class="product-stock">{{ product.stock }} uds</span>
+                </div>
+                <span class="product-price">{{ product.price }}€/ud</span>
+            </li>
+            }
+        </ul>
+    </div>
+</div>
+-->
 <app-footer></app-footer>
+

@@ -10,35 +10,40 @@
 
 <!-- PROFILE CONTAINER -->
 <div class="profile-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
-    <!-- User Info -->
-    <div class="profile-info grid grid-nogutter align-items-center">
-        <div class="col-3 text-left font-bold">Nombre:</div>
-        <div class="col-7">
-            <input type="text" [value]="user?.name" class="w-full" [readonly]="!isEditing">
+<!-- User Info -->
+<div class="profile-info">
+    <div class="profile-row">
+        <div class="profile-label">Nombre:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.name" [readonly]="!isEditing">
         </div>
-
-        <div class="col-3 text-left font-bold">Correo:</div>
-        <div class="col-7">
-            <input type="text" [value]="user?.email" class="w-full" [readonly]="!isEditing">
-        </div>
-
-        <div class="col-3 text-left font-bold">Rol:</div>
-        <div class="col-7">
-            <input type="text" [value]="user?.role" class="w-full" [readonly]="!isEditing">
-        </div>
-
-        <div class="col-3 text-left font-bold">Dirección:</div>
-        <div class="col-7">
-            <input type="text" [value]="user?.address" class="w-full" [readonly]="!isEditing">
-        </div>
-
-        <div class="col-3 text-left font-bold">Contraseña:</div>
-        <div class="col-7">
-            <input type="text" [value]="" class="w-full" [readonly]="!isEditing">
-        </div>
-        
-
     </div>
+    <div class="profile-row">
+        <div class="profile-label">Correo:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.email" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Rol:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.role" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Dirección:</div>
+        <div class="profile-input">
+            <input type="text" [value]="user?.address" [readonly]="!isEditing">
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-label">Contraseña:</div>
+        <div class="profile-input">
+            <input type="text" [value]="" [readonly]="!isEditing">
+        </div>
+    </div>
+</div>
+
 
 
     <hr class="line-separator">
