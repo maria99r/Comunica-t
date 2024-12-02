@@ -4,6 +4,7 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
@@ -57,12 +58,10 @@ namespace Ecommerce.Controllers
             return Ok(user);
         }
 
-        // Se pasa la id por si un admin modifica a otro usuario
-        [HttpPut("modifyUser/{userId}")]
-        public async Task<IActionResult> ModifyUser([FromBody] UserProfileDto userDto, int userId/*, string newName, string newEmail, string newPassword, string newAddress, string newRole*/)
+        [Authorize]
+        [HttpPut("modifyUser")]
+        public async Task<IActionResult> ModifyUser([FromBody] UserProfileDto userDto, int userId)
         {
-
-            // ESTO DE DEBAJO ESTÁ COMENTADO XQ ME DABA ERROR //
 
             // Obtener datos del usuario para modificarse a si mismo
             UserProfileDto userData = await ReadToken();
@@ -72,11 +71,7 @@ namespace Ecommerce.Controllers
                 return BadRequest("El usuario es null");
             }
 
-            //var user = await _userService.GetUserByIdAsyncNoDto(userId);
-
             if (userData.Role != "Admin" && userData.UserId != userId)
-
-            //if (user.Role != "Admin" && user.Id != userId)
             {
                 return BadRequest("No tienes permisos para modificar este usuario.");
             }
