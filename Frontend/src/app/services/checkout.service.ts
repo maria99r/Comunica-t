@@ -25,8 +25,8 @@ export class CheckoutService {
 
   // Vincula al usuario con la orden temporal
   linkUserToOrder(temporalOrderId: number): Promise<Result<any>> {
-    return this.api.post<any>(`Checkout/link-order`, { temporalOrderId });
-  }
+    return this.api.post<any>('TemporalOrder/linkTemporalOrder', temporalOrderId);
+}
 
   // Inicializa el checkout embebido de Stripe
   getEmbededCheckout(): Promise<Result<CheckoutSession>> {

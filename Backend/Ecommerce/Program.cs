@@ -39,6 +39,7 @@ builder.Services.AddTransient<BlockchainService>();
 // Inyección de Mappers
 builder.Services.AddScoped<UserMapper>();
 builder.Services.AddScoped<CartMapper>();
+builder.Services.AddScoped<ProductMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<TemporalOrderMapper>();
 builder.Services.AddScoped<OrderMapper>();

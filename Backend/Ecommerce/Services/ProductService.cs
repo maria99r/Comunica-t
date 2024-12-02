@@ -1,4 +1,6 @@
-﻿using Ecommerce.Models.Database.Entities;
+﻿using Ecommerce.Helpers;
+using Ecommerce.Models.Database;
+using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using System.Reflection;
@@ -7,30 +9,30 @@ namespace Ecommerce.Services;
 
 public class ProductService
 {
-    private readonly ProductRepository _productRepository;
+    private readonly UnitOfWork _unitOfWork;
     private readonly SmartSearchService _smartSearchService;
 
-    public ProductService(ProductRepository productRepository, SmartSearchService smartSearchService)
+    public ProductService(UnitOfWork unitOfWork, SmartSearchService smartSearchService)
     {
-        _productRepository = productRepository;
+        _unitOfWork = unitOfWork;
         _smartSearchService = smartSearchService;
 
     }
     public async Task<List<Product>> GetAllProductsAsync()
     {
-        return await _productRepository.GetAllProductsAsync();
+        return await _unitOfWork.ProductRepository.GetAllProductsAsync();
     }
 
 
     public async Task<Product> GetProductByIdAsync(int id)
     {
-        return await _productRepository.GetProductById(id);
+        return await _unitOfWork.ProductRepository.GetProductById(id);
     }
 
     public async Task<(List<Product> Product, int TotalPages)> SearchProductsAsync(SearchDto searchDto)
     {
 
-        var products = await _productRepository.GetAllProductsAsync();
+        var products = await _unitOfWork.ProductRepository.GetAllProductsAsync();
 
         // filtra si hay consulta
         if (!string.IsNullOrEmpty(searchDto.consulta))
@@ -83,4 +85,40 @@ public class ProductService
         };
     }
 
+    // Crear un nuevo producto
+    public async Task<Product> InsertProductAsync(Product product)
+    {
+        var maxIdProduct = await _unitOfWork.ProductRepository.GetMaxIdProductAsync();
+        
+        if (maxIdProduct != null) // Asigna el nuevo ID como el mayor ID + 1
+        {
+            product.Id = maxIdProduct.Id + 1;
+        }
+        else // Si no hay productos, comienza con 1
+        {
+            product.Id = 1;
+        }
+
+        // Verifica si el producto ya existe
+        var existingProduct = await GetProductByIdAsync(product.Id);
+        if (existingProduct != null)
+        {
+            throw new Exception("El producto ya existe.");
+        }
+
+        var newProduct = new Product
+        {
+            Id = product.Id, // Se le asigna la ID de arriba (la máxima + 1)
+            Name = product.Name,
+            Price = product.Price,
+            Stock = product.Stock,
+            Description = product.Description,
+            Image = product.Image
+        };
+
+        await _unitOfWork.ProductRepository.InsertProductAsync(newProduct);
+        await _unitOfWork.SaveAsync();
+
+        return newProduct;
+    }
 }

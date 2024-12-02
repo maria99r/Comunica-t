@@ -90,7 +90,7 @@ public class TemporalOrderService
     public async Task<TemporalOrder> CreateTemporalOrderBBDDAsync(CartDto cart, string paymentMethod)
     {
 
-        var user = await _unitOfWork.UserRepository.GetById(cart.UserId);
+        var user = await _unitOfWork.UserRepository.GetUserById(cart.UserId);
 
 
         if (paymentMethod == null || paymentMethod == "")
@@ -139,4 +139,29 @@ public class TemporalOrderService
         await _unitOfWork.SaveAsync();
         return newTemporalOrder;
     }
+
+    // Vincular orden temporal con usuario
+    public async Task<TemporalOrder> LinkUserToOrderAsync(int temporalOrderId, int userId)
+    {
+        if (temporalOrderId <= 0)
+        {
+            throw new ArgumentException("El ID de la orden temporal no es válido.");
+        }
+
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetByIdAsync(temporalOrderId);
+
+        if (temporalOrder == null)
+        {
+            throw new InvalidOperationException("La orden temporal no existe.");
+        }
+
+        // Asignar el usuario a la orden
+        temporalOrder.UserId = userId;
+
+        var updatedOrder = _unitOfWork.TemporalOrderRepository.Update(temporalOrder);
+        await _unitOfWork.SaveAsync();
+
+        return updatedOrder;
+    }
+
 }

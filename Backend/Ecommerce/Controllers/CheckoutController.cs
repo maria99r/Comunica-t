@@ -101,7 +101,7 @@ namespace Ecommerce.Controllers
             try
             {
                 string id = User.Claims.FirstOrDefault().Value;
-                UserDto user = await _userService.GetByIdAsync(Int32.Parse(id));
+                UserDto user = await _userService.GetUserByIdAsync(Int32.Parse(id));
                 return user;
             }
             catch (Exception)

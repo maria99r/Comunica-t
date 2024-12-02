@@ -30,8 +30,8 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   temporalOrderId: number = null; // ID de la Orden temporal
   paymentMethod: string = ''; // Método de pago escogido
   routeQueryMap$: Subscription;
-  stripeEmbedCheckout: StripeEmbeddedCheckout;
   refreshInterval: any; // Intervalo para refrescar la orden
+  isLoading: boolean = true;
 
   createdOrder: Order; // el pedido cuando se cree
 
@@ -50,68 +50,77 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     private blockchainService: BlockchainService,
     private service: CheckoutService,
     private route: ActivatedRoute,
-    private router: Router 
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.routeQueryMap$ = this.route.queryParamMap.subscribe(queryMap => this.init(queryMap));
-    // throw new Error('Method not implemented.');
   }
 
-  ngOnDestroy(): void {
-    // throw new Error('Method not implemented.');
-    this.routeQueryMap$.unsubscribe();
-    clearInterval(this.refreshInterval); // Detener el refresco de la orden
-    if (this.stripeEmbedCheckout) { // verifica que la sesión esté inicializada y la destruye
-      this.cancelCheckoutDialog(); 
-      console.log("Sesión eliminada");
+  ngOnDestroy(): void { // Verifica que la suscripción y el refresco existen antes de destruirlos
+    if (this.routeQueryMap$) {
+      this.routeQueryMap$.unsubscribe();
+      console.log("Suscripción eliminada");
+    }
+
+    if (this.refreshInterval) {
+      clearInterval(this.refreshInterval);
+      console.log("Intervalo eliminado");
     }
   }
 
   async init(queryMap: ParamMap) {
+    console.log("Iniciando la página de checkout (blockchain)...");
 
     // si el usuario acaba de iniciar sesión desde el redireccionamiento
-    const justLoggedIn = sessionStorage.getItem('authRedirection') === 'true';
-    sessionStorage.removeItem('authRedirection');
+    const justLoggedIn = sessionStorage.getItem("authRedirection") === 'true';
+    sessionStorage.removeItem("authRedirection");
 
-    this.temporalOrderId = parseInt(queryMap.get('temporalOrderId'));
-    this.paymentMethod = queryMap.get('paymentMethod');
+    this.temporalOrderId = parseInt(queryMap.get("temporalOrderId"));
 
-    console.log('ID de la Orden temporal:', this.temporalOrderId);
-    console.log('Método de pago:', this.paymentMethod);
-    console.log('Acaba de iniciar sesión:', justLoggedIn);
+    if (isNaN(this.temporalOrderId)) { // Comprueba que la ID no está vacía
+      console.error("El ID de la Orden temporal no es válido: ", this.temporalOrderId);
+    }
+
+    this.paymentMethod = queryMap.get("paymentMethod");
+
+    console.log("ID de la Orden temporal:", this.temporalOrderId);
+    console.log("Método de pago:", this.paymentMethod);
+    console.log("Acaba de iniciar sesión:", justLoggedIn);
 
     if (justLoggedIn) {
-      console.log('El usuario acaba de iniciar sesión. Vinculando la orden temporal...');
+      console.log("El usuario acaba de iniciar sesión. Vinculando la orden temporal...");
       const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
-      if (!linkResponse.success) {
-        console.error('Error al vincular la orden temporal:', linkResponse.error);
+      if (linkResponse.success) {
+        console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
+      } else {
+        console.error("Error al vincular la orden temporal:", linkResponse.error);
       }
     }
 
-    console.log('Recuperando los detalles de la orden temporal...');
+    console.log("Recuperando los detalles de la orden temporal...");
     const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
 
     if (orderResponse.success) {
       this.orderDetails = orderResponse.data;
       this.eurosToSend = this.orderDetails.totalPrice / 100;  // recordar que esta en centimos
       this.priceInEth = this.eurosToSend * 0.00029;
-      console.log('Detalles de la orden cargados:', this.orderDetails);
-      console.log('Productos:', this.orderDetails.temporalProductOrder);
-      this.startOrderRefresh(); //  refresco de la orden
+      console.log("Detalles de la orden cargados:", this.orderDetails);
+      console.log("Productos:", this.orderDetails.temporalProductOrder);
+      this.startOrderRefresh(); // refresco de la orden
 
       // pago
-      if (this.paymentMethod === 'blockchain') {
-        // await this.embeddedCheckout();
+      if (this.paymentMethod === "blockchain") {
+        this.isLoading = false;
+        await this.createTransaction();
       } else {
-        console.error('El método de pago no es en blockchain');
+        console.error("El método de pago no es en blockchain");
       }
 
     } else {
-      console.error('Error al cargar los detalles de la orden:', orderResponse.error);
+      console.error("Error al cargar los detalles de la orden:", orderResponse.error);
     }
-
   }
 
   async getContractInfo() {
@@ -180,13 +189,12 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     if (checkTransactionResult.success && checkTransactionResult.data) {
       alert('Transacción realizada con éxito');
 
-
       // creo pedido 
       this.service.newOrder(this.temporalOrderId).subscribe({
         next: (order: Order) => {
-          this.createdOrder = order; 
+          this.createdOrder = order;
           console.log('Pedido creado:', this.createdOrder);
-          
+
           setTimeout(() => {
             this.orderOnComplete();
           }, 500); // Espera 500 milisegundos por si acaso
@@ -215,19 +223,17 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   }
 
   cancelCheckoutDialog() {
-    if (this.stripeEmbedCheckout) {
-      this.stripeEmbedCheckout.destroy();
-    }
     if (this.checkoutDialogRef?.nativeElement) {
       this.checkoutDialogRef.nativeElement.close();
     }
   }
 
-  orderOnComplete(){
+  orderOnComplete() {
     console.log("Orden completada");
+
     this.cancelCheckoutDialog(); // Desmontar/destruir el checkout embebido
     // this.router.navigate(['/order-success']);  
-    this.router.navigate(['/order-success/',this.createdOrder.id]);
+    this.router.navigate(['/order-success/', this.createdOrder.id]);
   }
 
 }

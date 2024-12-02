@@ -1,8 +1,10 @@
 ﻿using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
+using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
+using Nethereum.Model;
 
 
 
@@ -14,11 +16,12 @@ public class ProductController : ControllerBase
 {
     private readonly ProductRepository _productRepository;
     private readonly ProductService _productService;
-
-    public ProductController(ProductRepository productRepository, ProductService productService)
+    private readonly ProductMapper _productMapper;
+    public ProductController(ProductRepository productRepository, ProductService productService, ProductMapper productMapper)
     {
         _productRepository = productRepository;
         _productService = productService;
+        _productMapper = productMapper;
     }
 
     [HttpGet("all")]
@@ -69,4 +72,23 @@ public class ProductController : ControllerBase
 
     }
 
+    //public async Task<IActionResult> ModifyProduct()
+    //{
+    //}
+
+    // Crear nuevo producto
+    [HttpPost("insertProduct")]
+    public async Task<ActionResult<ProductDto>> InsertNewProduct([FromBody] ProductDto productDto)
+    {
+
+        // No necesita verificar si ya existe un producto con la misma id ya que se genera automáticamente
+
+        var product = _productMapper.ProductDtoToProduct(productDto);           // Convierte de ProductDto a Product
+
+        var newProduct = await _productService.InsertProductAsync(product);     // Usa la lógica del servicio
+
+        var newProductDto = _productMapper.ProductToDto(newProduct);            // Vuelve a convertir de Product a ProductDto
+
+        return Ok(newProductDto); // Quizá deberíamos usar un CreatedAtAction() en lugar de Ok()
+    }
 }

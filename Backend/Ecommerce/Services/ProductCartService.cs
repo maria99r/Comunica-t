@@ -51,8 +51,6 @@ public class ProductCartService
         await _unitOfWork.SaveAsync();
     }
 
-
-
     // modificar la cantidad de un producto en el carrito
     public async Task UpdateProductQuantityAsync(int userId, int productId, int newQuantity)
     {
@@ -70,7 +68,7 @@ public class ProductCartService
 
         // actualiza la cantidad
         productCart.Quantity = newQuantity;
-        await UpdateProduct(productCart);
+        await UpdateProductCart(productCart);
 
         // si al actualizar la cantidad es menor o igual a 0, se elimina
         if (productCart.Quantity <= 0)
@@ -89,7 +87,7 @@ public class ProductCartService
         return await _unitOfWork.ProductCartRepository.GetProductsByCart(id);
     }
 
-    public async Task UpdateProduct(ProductCart productCart)
+    public async Task UpdateProductCart(ProductCart productCart)
     {
         _unitOfWork.ProductCartRepository.Update(productCart);
         await _unitOfWork.SaveAsync();
