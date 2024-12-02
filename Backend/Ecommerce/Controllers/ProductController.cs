@@ -72,6 +72,7 @@ public class ProductController : ControllerBase
 
     }
 
+    // Modificar producto existente
     [HttpPut("modifyProduct/{productId}")]
     public async Task<IActionResult> ModifyProduct(int productId, string newName, int newPrice, int newStock, string newDescription, [FromForm] string newImage)
     {
