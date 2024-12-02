@@ -1,0 +1,92 @@
+<!-- NAV BAR -->
+<app-nav></app-nav>
+
+<!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
+<div class="panel-top h-12rem d-flex w-full">
+    <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
+        - MI PERFIL -
+    </p>
+</div>
+
+<!-- PROFILE CONTAINER -->
+<div class="profile-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
+    <!-- User Info -->
+    <div class="profile-info">
+        <div class="profile-row">
+            <div class="profile-label">Nombre:</div>
+            <div class="profile-input">
+                <input type="text" [value]="user?.name" [readonly]="!isEditing">
+            </div>
+        </div>
+        <div class="profile-row">
+            <div class="profile-label">Correo:</div>
+            <div class="profile-input">
+                <input type="text" [value]="user?.email" [readonly]="!isEditing">
+            </div>
+        </div>
+        <div class="profile-row">
+            <div class="profile-label">Rol:</div>
+            <div class="profile-input">
+                <input type="text" [value]="user?.role" [readonly]="!isEditing">
+            </div>
+        </div>
+        <div class="profile-row">
+            <div class="profile-label">Dirección:</div>
+            <div class="profile-input">
+                <input type="text" [value]="user?.address" [readonly]="!isEditing">
+            </div>
+        </div>
+        <div class="profile-row">
+            <div class="profile-label">Contraseña:</div>
+            <div class="profile-input">
+                <input type="text" [value]="" [readonly]="!isEditing">
+            </div>
+        </div>
+    </div>
+
+
+
+    <hr class="line-separator">
+
+    <!-- PEDIDOS -->
+    <div class="orders-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
+        <h2 class="text-2xl font-bold mb-4">Mis Pedidos</h2>
+        <div class="orders-list">
+            <!--LISTA DE PEDIDOS 
+            <div class="orders-container">
+                <h3 class="list-title">Listado de pedidos</h3>
+                @for (let order of orders) {
+                <div class="order">
+                    <div class="order-header">
+                        <span>Fecha del pedido:</span>
+                        <span class="order-date">{{ order.orderDate }}</span>
+                    </div>
+                    <ul class="order-items">
+                        @for (let item of order.items) {
+                        <li class="order-item">
+                            <div class="product-icon">P</div>
+                            <div class="item-info">
+                                <span class="product-name">{{ item.productName }}</span>
+                                <span class="product-quantity">{{ item.quantity }} uds</span>
+                            </div>
+                            <span class="item-price">{{ item.price }}€</span>
+                        </li>
+                        }
+                    </ul>
+                    <div class="order-summary">
+                        <span class="payment-method">Pagado con: {{ order.paymentMethod }}</span>
+                        <span class="total-price">Precio total: {{ order.totalPrice }}€</span>
+                    </div>
+                </div>
+                }
+            </div>
+            -->
+
+        </div>
+    </div>
+
+
+
+
+
+    <app-footer></app-footer>

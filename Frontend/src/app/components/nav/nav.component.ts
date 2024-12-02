@@ -99,4 +99,14 @@ export class NavComponent implements OnInit {
     }
   }
 
+  //Funcion para navegar a vista admin o usuario
+  navigateToProfile(): void {
+    if (this.authService.isAdmin()) { // Verifica si es administrador
+      this.router.navigate(['/admin-profile']);
+    } else { 
+      this.router.navigate(['/user-profile']);
+    }
+  }
+  
+
 }
