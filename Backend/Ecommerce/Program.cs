@@ -6,7 +6,7 @@ using Ecommerce.Models.ReviewModels;
 using Ecommerce.Services;
 using Ecommerce.Services.Blockchain;
 using Ecommerce.Services.Email;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ML;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +15,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// configuracion directorio
+Directory.SetCurrentDirectory(AppContext.BaseDirectory);
 
 // Leer la configuración
 builder.Services.Configure<Settings>(builder.Configuration.GetSection(Settings.SECTION_NAME));
@@ -66,6 +69,8 @@ builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 // Configuración de CORS
 builder.Services.AddCors(options =>
 {
@@ -102,22 +107,32 @@ builder.Services.AddAuthentication()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
 
-// wwwroot
-app.UseStaticFiles();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 
 // Permite CORS
 app.UseCors("AllowAllOrigins");
 
-app.UseHttpsRedirection();
+// wwwroot
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+            Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
+});
+
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
