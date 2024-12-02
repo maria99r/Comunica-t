@@ -8,6 +8,7 @@ import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { TemporalOrder } from '../../models/temporal-order';
 import { environment } from '../../../environments/environment';
+import { Order } from '../../models/order';
 
 @Component({
   selector: 'app-checkout',
@@ -27,13 +28,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   refreshInterval: any; // Intervalo para refrescar la orden
   isLoading: boolean = true;
 
+  createdOrder: Order; // el pedido cuando se cree
+
   public readonly IMG_URL = environment.apiImg;
 
   constructor(
     private service: CheckoutService,
     private stripe: StripeService,
     private route: ActivatedRoute,
-    private router: Router    
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -45,20 +48,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.routeQueryMap$.unsubscribe();
       console.log("Suscripción eliminada");
     }
-    
+
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
       console.log("Intervalo eliminado");
     }
-    
+
     if (this.stripeEmbedCheckout) {
-      this.cancelCheckoutDialog(); 
+      this.cancelCheckoutDialog();
       console.log("Sesión eliminada");
     }
   }
 
   async init(queryMap: ParamMap) {
-    console.log("Iniciando la página de checkout...");
+    console.log("Iniciando la página de checkout (tarjeta)...");
 
     // si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem("authRedirection") === 'true';
@@ -69,7 +72,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (isNaN(this.temporalOrderId)) { // Comprueba que la ID no está vacía
       console.error("El ID de la Orden temporal no es válido: ", this.temporalOrderId);
     }
-    
+
     this.paymentMethod = queryMap.get("paymentMethod");
 
     console.log("ID de la Orden temporal:", this.temporalOrderId);
@@ -80,7 +83,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       console.log("El usuario acaba de iniciar sesión. Vinculando la orden temporal...");
       const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
-      if (!linkResponse.success) {
+      if (linkResponse.success) {
+        console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
+      } else {
         console.error("Error al vincular la orden temporal:", linkResponse.error);
       }
     }
@@ -130,8 +135,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           clientSecret: request.data.clientSecret,
           onComplete: () => this.orderOnComplete()
         };
-    
-        this.stripe.initEmbeddedCheckout(options).subscribe({ 
+
+        this.stripe.initEmbeddedCheckout(options).subscribe({
           next: (checkout) => { // next-error son similares a un try-catch en el subscribe
             this.stripeEmbedCheckout = checkout;
             checkout.mount("#checkout");
@@ -148,12 +153,24 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  orderOnComplete(){
+  orderOnComplete() {
     console.log("Orden completada");
+    alert('Transacción realizada con éxito');
 
-    setTimeout(() => {
-      this.router.navigate(['/order-success']);
-    }, 3000); // Espera 3 segundos antes de redirigir por si acaso
+    // creo pedido 
+    this.service.newOrder(this.temporalOrderId).subscribe({
+      next: (order: Order) => {
+        this.createdOrder = order;
+        console.log('Pedido creado:', this.createdOrder);
+
+        setTimeout(() => {
+          this.router.navigate(['/order-success/', this.createdOrder.id]);
+        }, 500); // Espera 500 milisegundos por si acaso
+      },
+      error: (err) => {
+        console.error('Error al crear el pedido:', err);
+      },
+    });
   }
 
   cancelCheckoutDialog() {

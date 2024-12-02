@@ -13,10 +13,12 @@ namespace Ecommerce.Controllers;
 public class TemporalOrderController : ControllerBase
 {
     private readonly TemporalOrderService _temporalOrderService;
+    private readonly UserService _userService;
 
-    public TemporalOrderController(TemporalOrderService temporalOrderService)
+    public TemporalOrderController(TemporalOrderService temporalOrderService, UserService userService)
     {
         _temporalOrderService = temporalOrderService;
+        _userService = userService;
     }
 
 
@@ -111,7 +113,7 @@ public class TemporalOrderController : ControllerBase
     }
 
 
-
+    // Refrescar orden temporal
     [HttpGet("refresh-order")]
     public async Task<ActionResult> RefreshOrder([FromQuery]int temporalOrderId)
     {
@@ -127,6 +129,53 @@ public class TemporalOrderController : ControllerBase
 
         return Ok(newTemporalOrder);
     }
+
+
+    // Vincular orden temporal con un usuario
+    [HttpPost("linkTemporalOrder")]
+    public async Task<IActionResult> LinkTemporalOrder([FromBody] int temporalOrderId)
+    {
+        try
+        {
+            // Obtener id de usuario desde el Token
+            UserDto user = await ReadToken();
+
+            if (user == null)
+            {
+                return BadRequest("El usuario es null");
+            }
+
+            var updatedOrder = await _temporalOrderService.LinkUserToOrderAsync(temporalOrderId, user.UserId);
+
+            if (updatedOrder == null)
+            {
+                return NotFound("No se encontró la orden temporal.");
+            }
+
+            return Ok(updatedOrder);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error interno: {ex.Message}");
+        }
+    }
+
+    // Leer datos del token
+    private async Task<UserDto> ReadToken()
+    {
+        try
+        {
+            string id = User.Claims.FirstOrDefault().Value;
+            UserDto user = await _userService.GetUserByIdAsync(Int32.Parse(id));
+            return user;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("La ID del usuario es null");
+            return null;
+        }
+    }
+
 }
 
 

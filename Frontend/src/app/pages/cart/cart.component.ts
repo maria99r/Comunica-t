@@ -73,7 +73,7 @@ export class CartComponent implements OnInit {
         alert(`El producto ${productBack.name} dispone de menor stock del que había añadido.`)
         producto.quantity = productBack.stock;
         if (user) {
-          this.cartService.updateCartProductBBDD(user.id, producto.productId, producto.quantity).toPromise();
+          this.cartService.updateCartProductBBDD(user.userId, producto.productId, producto.quantity).toPromise();
         } else {
           this.cartService.updateCartProductLocal(producto);
         }
@@ -206,7 +206,7 @@ export class CartComponent implements OnInit {
         console.error("Error al crear la orden: ", err);
       },
     });
-    
+
     this.cartService.actionSource = 'checkout';
   }
 
