@@ -25,8 +25,8 @@ export class CheckoutService {
 
   // Vincula al usuario con la orden temporal
   linkUserToOrder(temporalOrderId: number): Promise<Result<any>> {
-    return this.api.post<any>(`Checkout/link-order`, { temporalOrderId });
-  }
+    return this.api.post<any>('TemporalOrder/linkTemporalOrder', temporalOrderId);
+}
 
   // Inicializa el checkout embebido de Stripe
   getEmbededCheckout(): Promise<Result<CheckoutSession>> {
@@ -43,8 +43,8 @@ export class CheckoutService {
   }
 
   // crea pedido desde una orden temporal
-  newOrder(temporal: TemporalOrder): Observable<Order> {
-    const url = `${this.BASE_URL}Order/newOrder`;
-    return this.http.post<Order>(url, temporal);
+  newOrder(idTemporal: number): Observable<Order> {
+    const url = `${this.BASE_URL}Order/newOrder/${idTemporal}`;
+    return this.http.post<Order>(url, {});
   }
 }

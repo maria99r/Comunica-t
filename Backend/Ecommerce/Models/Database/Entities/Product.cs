@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 
 namespace Ecommerce.Models.Database.Entities;
@@ -20,5 +21,5 @@ public class Product
 
     public string Image { get; set; } = null!;
 
-    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

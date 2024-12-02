@@ -28,6 +28,7 @@ public class OrderMapper
             Id = order.Id,
             UserId = order.UserId,
             PaymentDate = order.PaymentDate,
+            TotalPrice = order.TotalPrice,
             PaymentMethod = order.PaymentMethod,
             User = _userMapper.UserToDto(order.User), // Usa el UserMapper para el usuario
             ProductsOrder = order.ProductsOrder.Select(pc => new ProductOrder

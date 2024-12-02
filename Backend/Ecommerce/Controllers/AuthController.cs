@@ -100,7 +100,7 @@ public class AuthController : ControllerBase
         }
 
         // Verifica si ya existe un usuario con el mismo correo
-        var existingUser = await _userService.GetByEmail(model.Email);
+        var existingUser = await _userService.GetUserByEmailAsync(model.Email);
         if (existingUser != null)
         {
             return Conflict("El correo electrónico ya está en uso.");

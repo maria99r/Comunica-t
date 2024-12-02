@@ -3,4 +3,25 @@
 <h2>¡Pago realizado con éxito!</h2>
 <p>Gracias por tu compra. Tu pago ha sido procesado correctamente.</p>
 
+
+<div class="order-info">
+    <p>Identificador del pedido: {{id}}</p>
+    <p>
+        Detalles:
+    </p>
+    <ul>
+        <li>Método de pago: {{order.PaymentMethod}}</li>
+        <li>Fecha:  {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</li>
+        <li>Total pagado: {{order.TotalPrice/100}}€</li>
+    </ul>
+    <p>Productos:
+        <!--@for (product of products; track product.ProductId) {
+            <ul>
+                <li>{{product.Product.name}}</li>
+                <li>Cantidad: {{product.Quantity}}</li>
+                <li>Precio: {{product.Product.price/100}}</li>
+            </ul>
+        }-->
+    </p>
+</div>
 <app-footer></app-footer>

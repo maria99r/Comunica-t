@@ -2,6 +2,7 @@
 using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
+using Ecommerce.Models.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services;
@@ -9,16 +10,18 @@ namespace Ecommerce.Services;
 public class CartService
 {
     private readonly UnitOfWork _unitOfWork;
+    private readonly CartMapper _cartMapper;
 
-    public CartService(UnitOfWork unitOfWork)
+    public CartService(UnitOfWork unitOfWork, CartMapper cartMapper)
     {
         _unitOfWork = unitOfWork;
+        _cartMapper = cartMapper;
     }
 
     // obtener carrito por id de usuario
     public async Task<CartDto> GetByUserIdAsync(int id)
     {
-        CartDto cartDto = await _unitOfWork.CartRepository.GetCartByUserId(id);
+        CartDto cartDto = await _unitOfWork.CartRepository.GetCartDtoByUserId(id);
 
         if (cartDto == null)
         {
@@ -57,4 +60,27 @@ public class CartService
     }
 
 
+    // borra los productos del carrito
+    public async Task<CartDto> DeleteAllProductCart(int id)
+    {
+        Cart cart = await _unitOfWork.CartRepository.GetCartByUserNoDto(id);
+
+        if (cart == null)
+        {
+            return null;
+        }
+
+        foreach (var item in cart.ProductCarts)
+        {
+            await _unitOfWork.ProductCartRepository.Delete(item);
+        }
+        await _unitOfWork.SaveAsync();
+        return _cartMapper.CartToDto(cart);
+    }
+
+    public async Task UpdateCart(Cart cart)
+    {
+        _unitOfWork.CartRepository.Update(cart);
+        await _unitOfWork.SaveAsync();
+    }
 }

@@ -10,19 +10,17 @@ public class UserRepository : Repository<User, int>
 
     public UserRepository(EcommerceContext context) : base(context) { }
 
-    public async Task<User> GetByEmail(string email)
+    public async Task<User> GetUserByEmail(string email)
     {
         return await GetQueryable()
             .FirstOrDefaultAsync(user => user.Email == email);
     }
 
-    public async Task<User> GetById(int id)
+    public async Task<User> GetUserById(int id)
     {
         return await GetQueryable()
             .FirstOrDefaultAsync(user => user.Id == id);
     }
-
-
 
     // Crear un nuevo usuario
     public async Task<User> InsertUserAsync(User newUser)
@@ -39,5 +37,11 @@ public class UserRepository : Repository<User, int>
     public async Task<List<User>> GetAllUsersAsync()
     {
         return await GetQueryable().ToListAsync();
+    }
+
+    // Eliminar usuario
+    public void DeleteUser(User user)
+    {
+        _context.Set<User>().Remove(user);
     }
 }

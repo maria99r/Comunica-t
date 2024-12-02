@@ -117,6 +117,7 @@ p {
 /* Estilo del enlace al pasar el cursor */
 .register-link a:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 /* Estilo para el botón de envío */
