@@ -30,10 +30,9 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             throw new InvalidOperationException("La orden temporal no se encontró para esta id.");
         }
 
-        
+
         return temporalOrder;
     }
-
 
 
 
@@ -50,25 +49,33 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             UserId = null,
             PaymentMethod = paymentMethod,
             TotalPrice = total,
-            // pasamos los productos del carrito a la orden
-            TemporalProductOrder = cart.Select(pc => new TemporalProductOrder
-            {
-                Quantity = pc.Quantity,
-                ProductId = pc.Product.Id,
-                Product = null // lo tendre que definir despues
-            }).ToList(),
+            TemporalProductOrder = new List<TemporalProductOrder>(),
             ExpiresAt = DateTime.UtcNow.AddMinutes(15) // expira en 15 minutos
         };
 
-        var insertedTemporalOrder = await InsertAsync(newTemporalOrder);
+        // generar el id de la orden temporal
+        _context.TemporalOrder.Add(newTemporalOrder);
+        await _context.SaveChangesAsync();
 
-        if (insertedTemporalOrder == null)
+        // se asignan los productos
+        foreach (var cartItem in cart)
         {
-            throw new Exception("No se pudo crear la orden temporal.");
+            var temporalProductOrder = new TemporalProductOrder
+            {
+                Quantity = cartItem.Quantity,
+                ProductId = cartItem.Product.Id,
+                TemporalOrderId = newTemporalOrder.Id // id generado
+            };
+            newTemporalOrder.TemporalProductOrder.Add(temporalProductOrder);
         }
+
+        // actualizar la orden con los productos
+        _context.TemporalOrder.Update(newTemporalOrder);
+        await _context.SaveChangesAsync();
 
         return newTemporalOrder;
     }
+
 
 
     // Crear una orden temporal DESDE LA BASE DE DATOS

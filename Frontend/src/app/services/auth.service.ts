@@ -13,7 +13,7 @@ export class AuthService {
   private readonly TOKEN_KEY = 'jwtToken';
 
   constructor(private api: ApiService) {
-    const token = localStorage.getItem(this.TOKEN_KEY);
+    const token = localStorage.getItem(this.TOKEN_KEY) || sessionStorage.getItem(this.TOKEN_KEY);
     if (token) {
       this.api.jwt = token;
     }
