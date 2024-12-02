@@ -3,6 +3,8 @@ using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
 namespace Ecommerce.Services;
@@ -120,5 +122,50 @@ public class ProductService
         await _unitOfWork.SaveAsync();
 
         return newProduct;
+    }
+
+    public async Task ModifyProductAsync(int productId, string newName, int newPrice, int newStock, string newDescription, string newImage)
+    {
+        var existingProduct = await _unitOfWork.ProductRepository.GetByIdAsync(productId);
+
+        if (existingProduct == null)
+        {
+            Console.WriteLine("El producto con ID ", productId, " no existe.");
+        }
+        Console.WriteLine("ID del producto: " + existingProduct.Id);
+
+        if (!string.IsNullOrEmpty(newName))
+        {
+            existingProduct.Name = newName;
+        }
+
+        if (newPrice > 0)
+        {
+            existingProduct.Price = newPrice;
+        }
+
+        if (newStock > 0)
+        {
+            existingProduct.Stock = newStock;
+        }
+
+        if (!string.IsNullOrEmpty(newDescription))
+        {
+            existingProduct.Description = newDescription;
+        }
+
+        if (!string.IsNullOrEmpty(newImage))
+        {
+            existingProduct.Image = newImage;
+        }
+
+        await UpdateProduct(existingProduct);
+        await _unitOfWork.SaveAsync();
+    }
+
+    public async Task UpdateProduct(Product product)
+    {
+        _unitOfWork.ProductRepository.Update(product);
+        await _unitOfWork.SaveAsync();
     }
 }
