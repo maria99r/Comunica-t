@@ -36,6 +36,7 @@ public class OrderMapper
                 OrderId = pc.OrderId,
                 ProductId = pc.ProductId,
                 Quantity = pc.Quantity,
+                // añadir pricePay PricePay = pc.Product.Price
                 Product = new Product
                 {
                     Id = pc.Product.Id,
