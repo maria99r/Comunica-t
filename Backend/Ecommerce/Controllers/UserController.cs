@@ -1,6 +1,4 @@
-﻿using Ecommerce.Models;
-using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
+﻿using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
