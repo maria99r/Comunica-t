@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErr
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -68,7 +69,6 @@ export class SignupComponent implements OnInit {
       const signupResult = await this.authService.signup(formData); // Registro
 
       if (signupResult.success) {
-        alert('Registro exitoso');
         console.log('Registro exitoso', signupResult);
 
         // creo carrito para usuario
@@ -87,24 +87,48 @@ export class SignupComponent implements OnInit {
         if (loginResult.success) {
           console.log('Inicio de sesión exitoso', loginResult);
 
-          // Si tenemos que redirigir al usuario, lo hacemos
-          if (this.redirectTo != null) {
-            this.router.navigateByUrl(this.redirectTo);
-          } else {
-            this.router.navigate(['/']);
-          }
+          const user = this.authService.getUser();
+          const name = user ? user.name : null;
+
+          Swal.fire({ // Cuadro de diálogo
+            title: "Te has registrado con éxito",
+            text: `¡Hola, ${name}!`,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didClose: () => this.redirect()
+          });
 
         } else {
-          alert('Error en el inicio de sesión');
+          this.throwError("Error en el inicio de sesión");
         }
 
       } else {
-        alert('Error en el registro');
+        this.throwError("Error en el registro");
       }
 
     } else {
-      alert('Formulario no válido');
+      this.throwError("Formulario no válido");
     }
 
+  }
+
+  // redirigir al usuario
+  redirect() {
+    if (this.redirectTo != null) {
+      this.router.navigateByUrl(this.redirectTo);
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  throwError(error: string) {
+    Swal.fire({ // Cuadro de diálogo
+      title: "Se ha producido un error",
+      text: error,
+      icon: "error",
+      confirmButtonText: "Vale"
+    });
   }
 }

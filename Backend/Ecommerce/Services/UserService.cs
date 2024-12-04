@@ -6,6 +6,7 @@ using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace Ecommerce.Services;
@@ -87,7 +88,7 @@ public class UserService
             Email = model.Email,
             Name = model.Name,
             Address = model.Address,
-            Role = "Client", // Rol por defecto
+            Role = "User", // Rol por defecto
             Password = PasswordHelper.Hash(model.Password)
         };
 
@@ -98,46 +99,47 @@ public class UserService
     }
     
     // Modificar los datos del usuario
-    public async Task ModifyUserAsync(int userId, string newName, string newEmail, string newPassword, string newAddress, string newRole)
+    public async Task ModifyUserAsync(UserProfileDto userDto/*int userId, string newName, string newEmail, string newPassword, string newAddress, string newRole*/)
     {
-        var existingUser = await _unitOfWork.UserRepository.GetUserById(userId);
+        var existingUser = await _unitOfWork.UserRepository.GetUserById(userDto.UserId);
 
         if (existingUser != null)
         {
-            Console.WriteLine("El usuario con ID ", userId, " no existe.");
+            Console.WriteLine("El usuario con ID ", userDto.UserId, " no existe.");
         }
 
         Console.WriteLine("ID del usuario: " + existingUser.Id);
 
+        existingUser.Id = userDto.UserId;
+
+        if (!string.IsNullOrEmpty(userDto.Name))
+        {
+            existingUser.Name = userDto.Name;
+        }
+
+        if (!string.IsNullOrEmpty(userDto.Email))
+        {
+            existingUser.Email = userDto.Email;
+        }
+
+        if (!string.IsNullOrEmpty(userDto.Password))
+        {
+            existingUser.Password = userDto.Password;
+        }
+
+        if (!string.IsNullOrEmpty(userDto.Address))
+        {
+            existingUser.Address = userDto.Address;
+        }
+
         // Evitar que usuarios no administradores cambien su propio rol
-        if (existingUser.Role != "Admin" && existingUser.Id == userId && newRole != existingUser.Role)
+        if (existingUser.Role != "Admin" && userDto.Role != existingUser.Role && !string.IsNullOrEmpty(userDto.Role))
         {
             throw new UnauthorizedAccessException("No tienes permiso para cambiar tu propio rol.");
-        }
 
-        if (!string.IsNullOrEmpty(newName))
+        }else if (!string.IsNullOrEmpty(userDto.Role) && existingUser.Role == "Admin")
         {
-            existingUser.Name = newName;
-        }
-
-        if (!string.IsNullOrEmpty(newEmail))
-        {
-            existingUser.Email = newEmail;
-        }
-
-        if (!string.IsNullOrEmpty(newPassword))
-        {
-            existingUser.Password = newPassword;
-        }
-
-        if (!string.IsNullOrEmpty(newRole))
-        {
-            existingUser.Address = newAddress;
-        }
-
-        if (!string.IsNullOrEmpty(newRole) && existingUser.Role == "Admin")
-        {
-            existingUser.Role = newRole;
+            existingUser.Role = userDto.Role;
         }
 
         await UpdateUser(existingUser);

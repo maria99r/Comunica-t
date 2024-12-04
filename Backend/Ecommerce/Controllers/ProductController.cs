@@ -72,9 +72,22 @@ public class ProductController : ControllerBase
 
     }
 
-    //public async Task<IActionResult> ModifyProduct()
-    //{
-    //}
+    // Modificar producto existente
+    [HttpPut("modifyProduct/{productId}")]
+    public async Task<IActionResult> ModifyProduct(int productId, string newName, int newPrice, int newStock, string newDescription, [FromForm] string newImage)
+    {
+        var product = await _productService.GetProductByIdAsync(productId);
+
+        try
+        {
+            await _productService.ModifyProductAsync(productId, newName, newPrice, newStock, newDescription, newImage);
+            return Ok("Producto actualizado correctamente.");
+        }
+        catch (InvalidOperationException)
+        {
+            return BadRequest("No pudo modificarse el producto.");
+        }
+    }
 
     // Crear nuevo producto
     [HttpPost("insertProduct")]

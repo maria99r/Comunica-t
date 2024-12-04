@@ -1,19 +1,24 @@
 <app-nav></app-nav>
 
-<h2>¡Pago realizado con éxito!</h2>
-<p>Gracias por tu compra. Tu pago ha sido procesado correctamente.</p>
-
+<div>
+    <h2>¡Pago realizado con éxito!</h2>
+    <p>Gracias por tu compra. Tu pago ha sido procesado correctamente.</p>
+</div>
 
 <div class="order-info">
     <p>Identificador del pedido: {{id}}</p>
-    <p>
+    <b>
         Detalles:
-    </p>
-    <ul>
-        <li>Método de pago: {{order.PaymentMethod}}</li>
-        <li>Fecha:  {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</li>
-        <li>Total pagado: {{order.TotalPrice/100}}€</li>
-    </ul>
+    </b>
+
+    <p>Método de pago: {{order.PaymentMethod}}</p>
+    <p>Fecha:  {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</p>
+    @if (order.PaymentMethod == "blockchain") {
+        <p>Total pagado: {{(order.TotalPrice/100)* 0.00029}}ETH</p>
+    } @else {
+        <p>Total pagado: {{order.TotalPrice/100}}€</p>
+    }
+
     <p>Productos:
         <!--@for (product of products; track product.ProductId) {
             <ul>
