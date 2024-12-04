@@ -98,8 +98,16 @@ namespace Ecommerce.Controllers
 
             try
             {
-                await _userService.ModifyUserRoleAsync(userId, newRole);
-                return Ok("Rol de usuario actualizado correctamente.");
+                if (newRole == "User" || newRole == "Admin")
+                {
+                    await _userService.ModifyUserRoleAsync(userId, newRole);
+                    return Ok("Rol de usuario actualizado correctamente.");
+                }
+                else
+                {
+                    return BadRequest("El nuevo rol debe ser User o Admin");
+                }
+                
             }
             catch (InvalidOperationException)
             {
