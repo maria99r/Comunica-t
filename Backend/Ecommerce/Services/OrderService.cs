@@ -66,7 +66,8 @@ public class OrderService
             ProductsOrder = t.TemporalProductOrder.Select(pc => new ProductOrder
             {
                 Quantity = pc.Quantity,
-                ProductId = pc.Product.Id
+                ProductId = pc.Product.Id,
+                // añadir pricePay
             }).ToList(),
         };
 
