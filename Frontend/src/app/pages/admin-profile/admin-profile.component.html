@@ -67,9 +67,21 @@
         </table>
     </div>
 
+    <div id="nuevoProducto" style="text-align: center;">
+        <form (ngSubmit)="insertProduct()">
+          <input type="text" name="productName" [(ngModel)]="insertProductName"/> <br>
+          <input type="number" name="productPrice" [(ngModel)]="insertProductPrice"/> <br>
+          <input type="number" name="productStock" [(ngModel)]="insertProductStock"/> <br>
+          <input type="text" name="productDescription" [(ngModel)]="insertProductDescription"/> <br>
+          <input type="file" name="productImage" [(ngModel)]="insertProductImage"/> <br>
+        </form>
+    </div>
 
     <div class="product-list">
-        <h3 class="list-title">Lista de productos <button>Nuevo producto</button></h3>
+        <h3 class="list-title">
+            Lista de productos 
+            <button (click)="toggleInsertProduct()">Nuevo producto</button>
+        </h3>
         <table>
             <tr>
                 <th>ID</th>

@@ -107,8 +107,6 @@ export class ApiService {
     return new HttpHeaders(header);
   }
 
-
-
   // busqueda de productos (con la paginacion) (devuelve los productos y el nº de paginas)
   async searchProducts(searchDto: SearchDto): Promise<{ products: Product[], totalPages: number }> {
     const url = `${this.BASE_URL}Product/search`;
@@ -140,8 +138,6 @@ export class ApiService {
     }
     return products;
   }
-
-
 
   // devuelve producto con esa id (Para vista detalle de productos)
   async getProduct(id: number): Promise<Product> {
@@ -201,29 +197,28 @@ export class ApiService {
     return user;
   }
 
+  // devuelve todos los usuarios
+  async allUser(): Promise<User[]> {
+    const request: Observable<Object> = this.http.get(`${this.BASE_URL}User/allUsers`);
+    const dataRaw: any = await lastValueFrom(request);
 
-    // devuelve todos los usuarios
-    async allUser(): Promise<User[]> {
-      const request: Observable<Object> = this.http.get(`${this.BASE_URL}User/allUsers`);
-      const dataRaw: any = await lastValueFrom(request);
-  
-      const users: User[] = [];
-  
-      for (const u of dataRaw) {
-        const user: User = {
-          id: u.userId,
-          name: u.name,
-          email: u.email,
-          address: u.address,
-          role: u.role
-        }
-        users.push(user);
+    const users: User[] = [];
+
+    for (const u of dataRaw) {
+      const user: User = {
+        id: u.userId,
+        name: u.name,
+        email: u.email,
+        address: u.address,
+        role: u.role
       }
-      return users;
+      users.push(user);
     }
+    return users;
+  }
 
-
-  async publicReview(reviewData: ReviewDto): Promise<Result<any>> { // Registro
+  // Crear review
+  async publicReview(reviewData: ReviewDto): Promise<Result<any>> {
     return this.post<any>('Review/newReview', reviewData);
   }
 
@@ -233,5 +228,9 @@ export class ApiService {
     return this.http.delete(url, { responseType: 'text' });
   }
 
+  // Crear producto
+  async insertProduct(formData: any): Promise<Result<any>> {
+    return this.post<any>('Product/insertProduct', formData);
+  }
 }
 

@@ -53,7 +53,7 @@
         <p *ngIf="!authService.isAuthenticated()">
             Para poder escribir una reseña debe 
             <a [routerLink]="'/login'" [queryParams]="{ redirectTo: router.url }">iniciar sesión.</a>
-          </p>
+        </p>
 
         <!-- FORMULARIO PARA HACER RESEÑA -->
         <div *ngIf="authService.isAuthenticated() && !hasComment">
