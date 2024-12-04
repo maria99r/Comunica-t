@@ -30,8 +30,7 @@ namespace Ecommerce.Models.Database
             OrderRepository orderRepository,
             TemporalOrderRepository temporalOrderRepository,
             TemporalProductOrderRepository temporalProductOrderRepository,
-            CartRepository cartRepository
-            ,
+            CartRepository cartRepository,
             CheckoutRepository checkOutRepository,
              ImageRepository imageRepository
             )
