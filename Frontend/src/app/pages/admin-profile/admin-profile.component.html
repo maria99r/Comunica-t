@@ -57,11 +57,11 @@
             </tr>
             @for (user of users; track $index) {
             <tr>
-                <td>{{user.id}}</td>
+                <td>{{user.userId}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.role}}</td>
-                <td><button class="edit-btn">✎Edit</button> | <button class="edit-btn"(click)="deleteUser(user.id)">Eliminar</button></td>
+                <td><button class="edit-btn">✎Edit</button> | <button class="edit-btn"(click)="deleteUser(user.userId)">Eliminar</button></td>
             </tr>
             }
         </table>

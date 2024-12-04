@@ -1,5 +1,5 @@
 /* 1º block */
-.panel-top{
+.panel-top {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-placa-base_23-2151733789.jpg?t=st=1729794199~exp=1729797799~hmac=b66faa72f5783a4ba35b83db8f2e033939890d227b5e901bfd1d319ab6580538&w=740");
     background-size: cover;
     background-position: center;
@@ -11,13 +11,16 @@
 
 .line-separator {
     border: 0;
-    border-top: 1px solid #ccc; /* Línea gris */
-    margin: 20px 0; /* Espacio arriba y abajo de la línea */
-  }
+    border-top: 1px solid #ccc;
+    /* Línea gris */
+    margin: 20px 0;
+    /* Espacio arriba y abajo de la línea */
+}
 
-  .profile-info {
+.profile-info {
     max-width: 600px;
-    margin: 0 auto; /* Centrar el contenedor */
+    margin: 0 auto;
+    /* Centrar el contenedor */
     padding: 20px;
     border: 1px solid #007acc;
     border-radius: 8px;
@@ -64,4 +67,72 @@
 .profile-input input:focus {
     border-color: #004a8d;
     outline: none;
+}
+
+
+
+button:hover {
+    cursor: pointer;
+    background-color: #6f4caf;
+}
+
+button {
+    padding: 8px;
+    border: 0px;
+    background-color: #875fd1;
+    color: white;
+    border-radius: 30px;
+    margin: 10px;
+}
+
+
+h3 {
+    color: #004a8d;
+    margin: 2% 5%;
+}
+
+.container {
+    margin: 5%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    text-align: left;
+}
+
+tr,
+td {
+    padding: 10px;
+}
+
+th {
+    background-color: #004a8d;
+    color: white;
+    padding: 10px;
+}
+
+table tr:nth-child(odd) {
+    background: #e8fcff;
+}
+
+table tr:nth-child(even) {
+    background: #f7f9ff;
+}
+
+table img {
+    width: 50px;
+}
+
+
+.container div {
+    margin: 5% 0%;
+}
+
+.order {
+    margin: auto;
+    padding: 2%;
+    border: 1px solid gray;
+    border-radius: 20px;
 }

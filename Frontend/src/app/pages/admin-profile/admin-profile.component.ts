@@ -3,6 +3,7 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { NavComponent } from "../../components/nav/nav.component";
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';

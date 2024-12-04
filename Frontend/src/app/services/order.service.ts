@@ -38,4 +38,27 @@ export class OrderService {
   }
 
 
+  // obtener pedidos de un usuario por su id
+  async getOrdersByUser(id : number) : Promise<Order[]> {
+    const request: Observable<Object> =
+      this.http.get(`${this.BASE_URL}Order/byUser/${id}`);
+
+      const dataRaw: any = await lastValueFrom(request);
+  
+      const orders: Order[] = [];
+  
+      for (const or of dataRaw) {
+        const order: Order = {
+          id: or.id,
+          PaymentDate: or.paymentDate,
+          PaymentMethod: or.paymentMethod,
+          TotalPrice: or.totalPrice,
+          UserId: or.userId,
+          ProductsOrder: or.productsOrder,
+          User: or.user
+        }
+        orders.push(order);
+      }
+      return orders;
+  }
 }

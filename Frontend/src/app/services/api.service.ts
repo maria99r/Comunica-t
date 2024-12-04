@@ -191,7 +191,7 @@ export class ApiService {
     const dataRaw: any = await lastValueFrom(request);
 
     const user: User = {
-      id: id,
+      userId: id,
       name: dataRaw.name,
       email: dataRaw.email,
       address: dataRaw.address,
@@ -211,7 +211,7 @@ export class ApiService {
   
       for (const u of dataRaw) {
         const user: User = {
-          id: u.userId,
+          userId: u.userId,
           name: u.name,
           email: u.email,
           address: u.address,
@@ -233,5 +233,7 @@ export class ApiService {
     return this.http.delete(url, { responseType: 'text' });
   }
 
+
+  
 }
 

@@ -5,5 +5,6 @@ export interface ProductOrder {
     ProductId: number,
     Quantity: number,
     Product: Product,
+    PricePay : number
 }
 

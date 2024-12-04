@@ -53,7 +53,7 @@ public class OrderService
     // crear un pedido, elimina orden temporal, ENVIA CORREO A USER
     public async Task<Order> CreateOrderAsync(int idtemporal)
     {
-        var t = await _unitOfWork.TemporalOrderRepository.GetByIdAsync(idtemporal);
+        var t = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderById(idtemporal);
 
         // creo pedido
         var newOrder = new Order
@@ -67,8 +67,8 @@ public class OrderService
             {
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id,
-                // añadir pricePay
-            }).ToList(),
+                PricePay = pc.Product.Price    
+            }).ToList(),    
         };
 
         // guardo pedido
