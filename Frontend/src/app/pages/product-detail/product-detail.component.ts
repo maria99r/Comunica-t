@@ -82,7 +82,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
     // revisa si el usuario ya ha comentado para que no pueda comentar
-    this.hasComment = this.users.some(u => u.id === user.userId);
+    this.hasComment = this.users.some(u => u.userId === user.userId);
 
     // calcula la media de las reseñas
     this.calculeAvg();
@@ -178,7 +178,7 @@ export class ProductDetailComponent implements OnInit {
             this.users.push(await this.api.getUser(review.userId));
           }
           // revisa si el usuario ya ha comentado para que no pueda comentar
-          this.hasComment = this.users.some(u => u.id === user.userId);
+          this.hasComment = this.users.some(u => u.userId === user.userId);
         }
 
       }

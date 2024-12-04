@@ -59,3 +59,60 @@
     border-color: #004a8d;
     outline: none;
 }
+
+.container div{
+    margin: 5% 0%;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #6f4caf;
+}
+
+button {
+    padding: 8px;
+    border: 0px;
+    background-color: #875fd1;
+    color: white;
+    border-radius: 30px;
+    margin: 10px;
+}
+
+
+h3{
+    color: #004a8d;
+    margin: 2% 5%;
+}
+
+.container{
+    margin: 5%;
+}
+
+table{
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    text-align: left;
+}
+
+tr, td {
+    padding: 10px;
+}
+
+th {
+    background-color: #004a8d;
+    color: white;
+    padding: 10px;
+}
+
+table tr:nth-child(odd) {
+	background: #e8fcff;
+}
+table tr:nth-child(even) {
+	background: #f7f9ff;
+}
+
+table img {
+    width: 50px;
+}
+

@@ -119,6 +119,29 @@ export class ApiService {
     return response;
   }
 
+  // devuelve todos los productos
+  async allProducts(): Promise<Product[]> {
+    const request: Observable<Object> = this.http.get(`${this.BASE_URL}Product/all`);
+    const dataRaw: any = await lastValueFrom(request);
+
+    const products: Product[] = [];
+
+    for (const p of dataRaw) {
+      const product: Product = {
+        id: p.id,
+        image: p.image,
+        description: p.description,
+        price: p.price,
+        stock: p.stock,
+        name: p.name,
+        reviews: p.reviews
+      }
+      products.push(product);
+    }
+    return products;
+  }
+
+
 
   // devuelve producto con esa id (Para vista detalle de productos)
   async getProduct(id: number): Promise<Product> {
@@ -168,7 +191,7 @@ export class ApiService {
     const dataRaw: any = await lastValueFrom(request);
 
     const user: User = {
-      id: id,
+      userId: id,
       name: dataRaw.name,
       email: dataRaw.email,
       address: dataRaw.address,
@@ -178,11 +201,39 @@ export class ApiService {
     return user;
   }
 
+
+    // devuelve todos los usuarios
+    async allUser(): Promise<User[]> {
+      const request: Observable<Object> = this.http.get(`${this.BASE_URL}User/allUsers`);
+      const dataRaw: any = await lastValueFrom(request);
+  
+      const users: User[] = [];
+  
+      for (const u of dataRaw) {
+        const user: User = {
+          userId: u.userId,
+          name: u.name,
+          email: u.email,
+          address: u.address,
+          role: u.role
+        }
+        users.push(user);
+      }
+      return users;
+    }
+
+
   async publicReview(reviewData: ReviewDto): Promise<Result<any>> { // Registro
     return this.post<any>('Review/newReview', reviewData);
   }
 
+   // Elimina usuario
+  deleteUser(idUser: number): Observable<any> {
+    const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
+    return this.http.delete(url, { responseType: 'text' });
+  }
 
 
+  
 }
 

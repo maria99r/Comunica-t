@@ -60,7 +60,7 @@ namespace Ecommerce.Controllers
 
         [Authorize]
         [HttpPut("modifyUser")]
-        public async Task<IActionResult> ModifyUser([FromBody] UserProfileDto userDto, int userId)
+        public async Task<IActionResult> ModifyUser([FromBody] UserProfileDto userDto)
         {
 
             // Obtener datos del usuario para modificarse a si mismo
@@ -71,11 +71,6 @@ namespace Ecommerce.Controllers
                 return BadRequest("El usuario es null");
             }
 
-            if (userData.Role != "Admin" && userData.UserId != userId)
-            {
-                return BadRequest("No tienes permisos para modificar este usuario.");
-            }
-
             try
             {
                 await _userService.ModifyUserAsync(userData);
@@ -84,6 +79,39 @@ namespace Ecommerce.Controllers
             catch (InvalidOperationException)
             {
                 return BadRequest("No pudo modificarse el usuario.");
+            }
+        }
+
+        // Solo pueden usar este método los usuarios cuyo rol sea admin
+        //[Authorize(Roles = "Admin")] Descomentar esto cuando esté implementado en front (en swagger no se puede probar)
+        [HttpPut("modifyUserRole/{userId}")]
+        public async Task<IActionResult> ModifyUserRole(int userId, string newRole)
+        {
+
+            // Obtener datos del usuario
+            UserDto userData = await _userService.GetUserByIdAsync(userId);
+
+            if (userData == null)
+            {
+                return BadRequest("El usuario es null");
+            }
+
+            try
+            {
+                if (newRole == "User" || newRole == "Admin")
+                {
+                    await _userService.ModifyUserRoleAsync(userId, newRole);
+                    return Ok("Rol de usuario actualizado correctamente.");
+                }
+                else
+                {
+                    return BadRequest("El nuevo rol debe ser User o Admin");
+                }
+                
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("No pudo modificarse el rol del usuario.");
             }
         }
 

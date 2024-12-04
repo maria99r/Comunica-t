@@ -4,6 +4,8 @@ using Ecommerce.Models.Database.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Ecommerce.Models.Dtos;
+using Ecommerce.Models.Mappers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.Controllers;
 
@@ -12,15 +14,28 @@ namespace Ecommerce.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly OrderService _orderService;
+    private readonly UserService _userService;
 
-    public OrderController(OrderService orderService)
+
+
+    public OrderController(UserService userService, OrderService orderService)
     {
         _orderService = orderService;
+        _userService = userService;
     }
 
+   //  [Authorize] no funciona leyendo token
     [HttpGet("byUser/{id}")]
     public async Task<IActionResult> GetOrdersByUser(int id)
     {
+        // Obtener datos del usuario para modificarse a si mismo
+       //  User userData = await ReadToken();
+
+        /*if (userData == null)
+        {
+            return BadRequest("El usuario es null");
+        }*/
+
         var orders = await _orderService.GetOrderByUser(id);
 
         if (orders == null || orders.Count == 0)
@@ -61,4 +76,21 @@ public class OrderController : ControllerBase
 
     }
 
+
+
+    // Leer datos del token
+    private async Task<User> ReadToken()
+    {
+        try
+        {
+            string id = User.Claims.FirstOrDefault().Value;
+            User user = await _userService.GetUserByIdAsyncNoDto(Int32.Parse(id));
+            return user;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("La ID del usuario es null");
+            return null;
+        }
+    }
 }
