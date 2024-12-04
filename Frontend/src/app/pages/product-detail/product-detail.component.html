@@ -77,8 +77,8 @@
         @for (review of reviews; track review.reviewId) {
         <div class="review">
             <!-- nombre usuario que ha comentado-->
-            @for (user of users; track user.id) {
-            @if(user.id == review.userId){
+            @for (user of users; track user.userId) {
+            @if(user.userId == review.userId){
             <span class="font-bold">👤{{user.name}}</span>
             }
             }

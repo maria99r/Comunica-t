@@ -52,35 +52,37 @@
     <div class="orders-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
         <h2 class="text-2xl font-bold mb-4">Mis Pedidos</h2>
         <div class="orders-list">
-            <!--LISTA DE PEDIDOS 
+
             <div class="orders-container">
-                <h3 class="list-title">Listado de pedidos</h3>
-                @for (let order of orders) {
+                @for (order of orders ; track order.id) {
                 <div class="order">
                     <div class="order-header">
-                        <span>Fecha del pedido:</span>
-                        <span class="order-date">{{ order.orderDate }}</span>
+                        <span>Fecha del pedido: {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}} </span>
                     </div>
-                    <ul class="order-items">
-                        @for (let item of order.items) {
-                        <li class="order-item">
-                            <div class="product-icon">P</div>
-                            <div class="item-info">
-                                <span class="product-name">{{ item.productName }}</span>
-                                <span class="product-quantity">{{ item.quantity }} uds</span>
-                            </div>
-                            <span class="item-price">{{ item.price }}€</span>
-                        </li>
+                    <table>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio unidad</th>
+                        </tr>
+                        @for (line of order.ProductsOrder; track $index) {
+                        <tr>
+                            <td> <img [src]="IMG_URL + line.Product.image"></td>
+                            <td>{{line.Product.name}}</td>
+                            <td>{{line.Quantity}}</td>
+                            <td>{{line.PricePay/100}}</td>
+                        </tr>
                         }
-                    </ul>
+                    </table>
                     <div class="order-summary">
-                        <span class="payment-method">Pagado con: {{ order.paymentMethod }}</span>
-                        <span class="total-price">Precio total: {{ order.totalPrice }}€</span>
+                        <span class="payment-method">Pagado con: {{ order.PaymentMethod }}</span>
+                        <span class="total-price">Precio total: {{ order.TotalPrice/100}}€</span>
                     </div>
                 </div>
                 }
             </div>
-            -->
+
 
         </div>
     </div>
