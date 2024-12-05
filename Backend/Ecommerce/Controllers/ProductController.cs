@@ -102,6 +102,6 @@ public class ProductController : ControllerBase
 
         var newProductDto = _productMapper.ProductToDto(newProduct);            // Vuelve a convertir de Product a ProductDto
 
-        return Ok(newProductDto); // Quizá deberíamos usar un CreatedAtAction() en lugar de Ok()
+        return Ok(newProductDto);
     }
 }

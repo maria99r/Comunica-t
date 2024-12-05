@@ -130,16 +130,6 @@ public class ProductService
     // Crear un nuevo producto
     public async Task<Product> InsertProductAsync(Product product)
     {
-        var maxIdProduct = await _unitOfWork.ProductRepository.GetMaxIdProductAsync();
-
-        if (maxIdProduct != null) // Asigna el nuevo ID como el mayor ID + 1
-        {
-            product.Id = maxIdProduct.Id + 1;
-        }
-        else // Si no hay productos, comienza con 1
-        {
-            product.Id = 1;
-        }
 
         // Verifica si el producto ya existe
         var existingProduct = await GetProductByIdAsync(product.Id);
@@ -150,7 +140,6 @@ public class ProductService
 
         var newProduct = new Product
         {
-            Id = product.Id, // Se le asigna la ID de arriba (la máxima + 1)
             Name = product.Name,
             Price = product.Price,
             Stock = product.Stock,

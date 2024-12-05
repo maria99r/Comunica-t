@@ -37,7 +37,7 @@
     <div class="profile-row">
         <div class="profile-label">Contraseña:</div>
         <div class="profile-input">
-            <input type="text" [value]="" [readonly]="!isEditing">
+            <input type="password" [value]="123456" [readonly]="!isEditing">
         </div>
     </div>
 </div>
@@ -60,25 +60,32 @@
                 <td>{{user.userId}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.role}}</td>
-                <td><button class="edit-btn">✎Edit</button> | <button class="edit-btn"(click)="deleteUser(user.userId)">Eliminar</button></td>
+                <td>
+                    <select name="Rol" id={{user.role}} [(ngModel)]="user.role">
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </td>
+                <td><button class="edit-btn" (click)="modifyUserRole(user.userId)">✎Actualizar</button> | <button class="edit-btn" (click)="deleteUser(user.userId)">Eliminar</button></td>
             </tr>
             }
         </table>
     </div>
 
     <div id="newProduct">
-      <div id="formularioNuevoProducto">
-        <h3 class="new-product-title">Crear nuevo producto</h3>
-          <form (ngSubmit)="insertProduct()"> <br>
-            <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName"/> <br><br>
-            <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice"/> <br><br>
-            <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock"/> <br><br>
-            <input type="text" name="productDescription" placeholder="Descripción" [(ngModel)]="insertProductDescription"/> <br><br>
-            <input type="text" name="productImage" placeholder="Ruta de la imagen" [(ngModel)]="insertProductImage"/> <br><br>
-            <button (click)="insertProduct()">Crear producto</button>
-          </form>
-      </div>
+        <div id="formularioNuevoProducto">
+            <h3 class="new-product-title">Crear nuevo producto</h3>
+            <form (ngSubmit)="insertProduct()"> <br>
+                <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName"/> <br><br>
+                <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice"/> <br><br>
+                <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock"/> <br><br>
+                <input type="text" name="productDescription" placeholder="Descripción" [(ngModel)]="insertProductDescription"/> <br><br>
+                
+                <label for="productImage">Imagen: </label>
+                <input type="file" name="productImage" placeholder="Ruta de la imagen" [(ngModel)]="insertProductImage"/> <br><br>
+                <button (click)="insertProduct()">Crear producto</button>
+            </form>
+        </div>
     </div>
 
     <div class="product-list">

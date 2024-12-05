@@ -227,9 +227,9 @@ export class ApiService {
   }
 
    // Elimina usuario
-  deleteUser(idUser: number): Observable<any> {
-    const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
-    return this.http.delete(url, { responseType: 'text' });
+  async deleteUser(idUser: number): Promise<any> {
+    const url = (`User/deleteUser/${idUser}`);
+    return this.delete(url);
   }
 
 
@@ -239,6 +239,10 @@ export class ApiService {
     return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers })
   }
 
+  // Modificar rol del usuario
+  modifyRole(userId: number): Promise<any> {
+    return this.put(`User/modifyUserRole/${userId}`)
+  }
 
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {

@@ -10,20 +10,22 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment';
 import { ProductDto } from '../../models/productDto';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-admin-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, FormsModule],
+  imports: [FooterComponent, NavComponent, FormsModule, DropdownModule, CommonModule],
   templateUrl: './admin-profile.component.html',
   styleUrl: './admin-profile.component.css'
 })
 export class AdminProfileComponent implements OnInit {
-  user: User | null = null; //datos del usuario
-  isEditing = false; //modo edición
-  orders: any[] = []; //lista de pedidos
-  products: Product[] = []; // Lista de productos
+  user: User | null = null // datos del usuario
+  isEditing = false // modo edición
+  orders: any[] = [] // lista de pedidos
+  products: Product[] = [] // Lista de productos
   users: User[] = [] // lista de usuarios
+  selectedRole: string
 
   // Datos nuevo producto
   insertProductName: string
@@ -46,7 +48,9 @@ export class AdminProfileComponent implements OnInit {
 
     this.products = await this.apiService.allProducts();
     this.users = await this.apiService.allUser();
-
+  
+    let element = document.getElementById("newProduct");
+    element.setAttribute("hidden", "hidden");
   }
 
   //logica para habilitar la edición solo en el campo necesario
@@ -75,18 +79,20 @@ export class AdminProfileComponent implements OnInit {
 
         const productData: ProductDto = {
           name: this.insertProductName,
-          price: this.insertProductPrice,
+          price: this.insertProductPrice * 100,
           stock: this.insertProductStock,
           description: this.insertProductDescription,
           image: this.insertProductImage
         };
 
-        const result = await this.apiService.insertProduct(productData);
+        await this.apiService.insertProduct(productData);
+        console.log("Producto creado con éxito")
       }
     } catch (error) {
-      console.error('Error al crear el producto: ', error);
+      alert("Error al crear el producto")
+      console.error("Error al crear el producto: ", error);
     }
-
+    this.products = await this.apiService.allProducts(); // Recargar lista de productos automáticamente
   }
 
   async deleteUser(id: number) {
@@ -94,9 +100,15 @@ export class AdminProfileComponent implements OnInit {
     console.log(confirmation)
     if(confirmation){
       console.log(id);
-      const remove = await this.apiService.deleteUser(id); // NO BORRA
-      console.log(remove)
+      await this.apiService.deleteUser(id);
+      console.log("Usuario", id, "eliminado con éxito")
     } 
+    this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
+  }
 
+  async modifyUserRole(userId: number){
+    if (this.user.role === "Admin"){
+      await this.apiService.modifyRole(userId)
+    }
   }
 }
