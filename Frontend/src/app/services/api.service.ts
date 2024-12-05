@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, forkJoin, lastValueFrom } from 'rxjs';
+import { Observable, catchError, forkJoin, lastValueFrom, map } from 'rxjs';
 import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
 import { Product } from '../models/product';
@@ -15,6 +15,9 @@ import { ReviewDto } from '../models/reviewDto';
 export class ApiService {
 
   private readonly BASE_URL = environment.apiUrl;
+
+  private readonly USER_KEY = 'user';
+  private readonly TOKEN_KEY = 'jwtToken';
 
   jwt: string;
 
@@ -222,7 +225,6 @@ export class ApiService {
       return users;
     }
 
-
   async publicReview(reviewData: ReviewDto): Promise<Result<any>> { // Registro
     return this.post<any>('Review/newReview', reviewData);
   }
@@ -233,7 +235,11 @@ export class ApiService {
     return this.http.delete(url, { responseType: 'text' });
   }
 
+  // actualizar info de usuario
+  updateUser(user: any): Observable<any> {
+    const headers = this.getHeader(); // para q me lea el token del usuario actual
+    return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers })
+  }
 
-  
 }
 

@@ -68,12 +68,15 @@ namespace Ecommerce.Controllers
 
             if (userData == null)
             {
+                Console.WriteLine("Token inválido o usuario no encontrado.");
                 return BadRequest("El usuario es null");
             }
 
+            Console.WriteLine($"Usuario autenticado: ID = {userData.UserId}, Email = {userData.Email}");
+            userDto.UserId = userData.UserId;
             try
             {
-                await _userService.ModifyUserAsync(userData);
+                await _userService.ModifyUserAsync(userDto);
                 return Ok("Usuario actualizado correctamente.");
             }
             catch (InvalidOperationException)

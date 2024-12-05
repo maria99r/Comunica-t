@@ -76,13 +76,13 @@ export class NavComponent implements OnInit {
         }
       } catch (error) {
         console.error('Error al obtener el carrito de la base de datos:', error);
-        
+        /*
         Swal.fire({ 
           title: "Se ha producido un error",
           text: "Error al obtener los productos del carrito.",
           icon: "error",
           confirmButtonText: "Vale"
-        });
+        });*/
         
         this.cartProductCount = 0;
       }

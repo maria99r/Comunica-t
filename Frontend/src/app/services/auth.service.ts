@@ -67,5 +67,5 @@ export class AuthService {
     const user = this.getUser();
     return user?.role === 'admin'; 
   }
-  
+
 }
