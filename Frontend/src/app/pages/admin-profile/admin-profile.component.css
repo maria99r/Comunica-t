@@ -116,3 +116,17 @@ table img {
     width: 50px;
 }
 
+.new-product-title{
+    font-size: 25px;
+}
+
+#formularioNuevoProducto{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 40%;
+    padding: 3%;
+    border-radius: 10%;
+    background-color: #f7f9ff;
+}
