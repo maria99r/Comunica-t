@@ -7,12 +7,12 @@ import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TemporalOrder } from '../../models/temporal-order';
-import { StripeEmbeddedCheckout } from '@stripe/stripe-js';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CheckoutService } from '../../services/checkout.service';
 import { Order } from '../../models/order';
 import { eth } from 'web3';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-blockchain',
@@ -80,6 +80,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
 
     if (isNaN(this.temporalOrderId)) { // Comprueba que la ID no está vacía
       console.error("El ID de la Orden temporal no es válido: ", this.temporalOrderId);
+      this.throwError("Se ha producido un error procesando tu pedido.");
     }
 
     this.paymentMethod = queryMap.get("paymentMethod");
@@ -96,6 +97,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
       } else {
         console.error("Error al vincular la orden temporal:", linkResponse.error);
+        this.throwError("Se ha producido un error procesando tu pedido.");
       }
     }
 
@@ -116,10 +118,12 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         await this.createTransaction();
       } else {
         console.error("El método de pago no es en blockchain");
+        this.throwError("Se ha producido un error procesando tu pedido.");
       }
 
     } else {
       console.error("Error al cargar los detalles de la orden:", orderResponse.error);
+      this.throwError("Se ha producido un error procesando tu pedido.");
     }
   }
 
@@ -135,6 +139,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
 
     // Si no está instalado Metamask se lanza un error y se corta la ejecución
     if (!window.ethereum) {
+      this.throwError("No está instalado Metamask.");
       throw new Error('Metamask not found');
     }
 
@@ -187,7 +192,15 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     // Notificamos al usuario si la transacción ha sido exitosa o si ha fallado.
     // CREAMOS PEDIDO, PASAMOS A PAGINA DE CONFIRMACION Y MOSTRAMOS DATOS
     if (checkTransactionResult.success && checkTransactionResult.data) {
-      alert('Transacción realizada con éxito');
+      
+      Swal.fire({ // Cuadro de diálogo
+        title: "Transacción realizada con éxito",
+        text: "¡Gracias por tu compra!",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+      });
 
       // creo pedido 
       this.service.newOrder(this.temporalOrderId).subscribe({
@@ -201,11 +214,12 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error('Error al crear el pedido:', err);
+          this.throwError("Se ha producido un error procesando tu pedido.");
         },
       });
 
     } else {
-      alert('Transacción fallida');
+      this.throwError("Transacción fallida");
     }
   }
 
@@ -218,6 +232,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         console.log('Orden temporal refrescada correctamente.');
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
+        this.throwError("Se ha producido un error procesando tu pedido.");
       }
     }, 60000); // Se refresca cada minuto
   }
@@ -234,6 +249,17 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     this.cancelCheckoutDialog(); // Desmontar/destruir el checkout embebido
     // this.router.navigate(['/order-success']);  
     this.router.navigate(['/order-success/', this.createdOrder.id]);
+  }
+
+  // Cuadro de diálogo de error
+  throwError(error: string) {
+    Swal.fire({ 
+      title: "Se ha producido un error",
+      text: error,
+      icon: "error",
+      confirmButtonText: "Volver a inicio",
+      didClose: () => this.router.navigate(['/'])
+    });
   }
 
 }
