@@ -67,14 +67,18 @@
         </table>
     </div>
 
-    <div id="nuevoProducto" style="text-align: center;">
-        <form (ngSubmit)="insertProduct()">
-          <input type="text" name="productName" [(ngModel)]="insertProductName"/> <br>
-          <input type="number" name="productPrice" [(ngModel)]="insertProductPrice"/> <br>
-          <input type="number" name="productStock" [(ngModel)]="insertProductStock"/> <br>
-          <input type="text" name="productDescription" [(ngModel)]="insertProductDescription"/> <br>
-          <input type="file" name="productImage" [(ngModel)]="insertProductImage"/> <br>
-        </form>
+    <div id="newProduct">
+      <div id="formularioNuevoProducto">
+        <h3 class="new-product-title">Crear nuevo producto</h3>
+          <form (ngSubmit)="insertProduct()"> <br>
+            <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName"/> <br><br>
+            <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice"/> <br><br>
+            <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock"/> <br><br>
+            <input type="text" name="productDescription" placeholder="Descripción" [(ngModel)]="insertProductDescription"/> <br><br>
+            <input type="text" name="productImage" placeholder="Ruta de la imagen" [(ngModel)]="insertProductImage"/> <br><br>
+            <button (click)="insertProduct()">Crear producto</button>
+          </form>
+      </div>
     </div>
 
     <div class="product-list">

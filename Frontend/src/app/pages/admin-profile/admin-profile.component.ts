@@ -54,7 +54,7 @@ export class AdminProfileComponent implements OnInit {
   }
 
   toggleInsertProduct(): void { // Muestra u oculta el div de insertar productos
-    let element = document.getElementById("nuevoProducto");
+    let element = document.getElementById("newProduct");
     let hidden = element.getAttribute("hidden");
 
     if (hidden) {
