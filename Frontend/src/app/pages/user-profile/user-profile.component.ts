@@ -8,38 +8,84 @@ import { Router } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/order';
 import { environment } from '../../../environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms'; 
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule],
+  imports: [FooterComponent, NavComponent, CommonModule, ReactiveFormsModule ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent implements OnInit {
-  user: User | null = null; //datos del usuario
+
+  userForm: FormGroup;
+
+  user: any | null = null; //datos del usuario
   isEditing = false; //modo edición
   orders: Order[] = []; //lista de pedidos
 
   public readonly IMG_URL = environment.apiImg;
 
-  constructor(private authService: AuthService, private router: Router, private orderApi : OrderService) { }
+  constructor(private formBuild: FormBuilder, private authService: AuthService, 
+    private router: Router, private orderApi: OrderService, private apiService : ApiService) {
+    // formulario cambio datos
+    this.userForm = this.formBuild.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      address: [''],
+      password: ['']
+    });
+  }
 
-  //obtiene los datos del usuario autenticado
   async ngOnInit() {
+
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
 
     this.user = this.authService.getUser();
 
+    // poner los datos en el formulario
+    if (this.user) {
+      this.userForm.patchValue({
+        name: this.user.name,
+        email: this.user.email,
+        address: this.user.address,
+        password: '' 
+      });
+    }
     this.orders = await this.orderApi.getOrdersByUser(this.user.userId);
-
-    console.log(this.orders)
   }
 
   //logica para habilitar la edición solo en el campo necesario
-  toggleEdit(field: string) {
+  edit() {
     this.isEditing = !this.isEditing;
+    if (!this.isEditing) { // restaura los datos
+      this.userForm.reset(this.user); 
+    }
   }
+
+  // enlaza productos con sus paginas
+  navigateToProduct(productId: number): void {
+    this.router.navigate(['/product', productId]);
+  }
+
+  onSubmit(): void {
+    if (this.userForm.valid) {
+      this.apiService.updateUser(this.userForm.value).subscribe(
+        () => {
+          alert('Perfil actualizado correctamente.');
+          this.isEditing = false;
+        },
+        (error) => {
+          console.log('Error al actualizar el perfil.');
+        }
+      );
+    }
+  }
+
+
 }
