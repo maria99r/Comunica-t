@@ -13,6 +13,7 @@ import { ProductCart } from '../../models/productCart';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -70,7 +71,7 @@ export class CartComponent implements OnInit {
       productBack = await this.api.getProduct(producto.productId);
 
       if (productBack.stock < producto.quantity) {
-        alert(`El producto ${productBack.name} dispone de menor stock del que había añadido.`)
+        this.throwError(`El producto ${productBack.name} dispone de menor stock del que había añadido.`);
         producto.quantity = productBack.stock;
         if (user) {
           this.cartService.updateCartProductBBDD(user.userId, producto.productId, producto.quantity).toPromise();
@@ -107,15 +108,15 @@ export class CartComponent implements OnInit {
       console.log("Nueva cantidad: " + newQuantity)
 
       if (newQuantity <= 0) {
-        alert("La cantidad no puede ser menor o igual a 0")
+        this.throwError("La cantidad no puede ser menor o igual a 0");
       }
       const response = await this.cartService.updateCartProductBBDD(userId, product.productId, newQuantity).toPromise();
       //console.log(response)
       await this.loadCart();
 
     } catch (error) {
-
       console.error('Error al actualizar la cantidad del producto:', error);
+      this.throwError("Error al actualizar la cantidad del producto.");
     }
   }
 
@@ -124,6 +125,7 @@ export class CartComponent implements OnInit {
   removeProductLocal(product: ProductCart): void {
     this.cartService.removeFromCartLocal(product.productId);
     this.cartProducts = this.cartService.getCartFromLocal();
+    this.throwDialog("Producto eliminado del carrito correctamente.");
     console.log('Eliminado producto con la id:', product.productId); // Log :D
   }
 
@@ -132,13 +134,13 @@ export class CartComponent implements OnInit {
     try {
 
       const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
-      alert(response);
+      this.throwDialog(response);
       this.loadCart();
 
     } catch (error) {
 
       console.error('Error al eliminar el producto:', error);
-      alert('Hubo un error al eliminar el producto.');
+      this.throwError("Hubo un error al eliminar el producto.");
     }
   }
 
@@ -204,10 +206,32 @@ export class CartComponent implements OnInit {
       },
       error: (err: any) => {
         console.error("Error al crear la orden: ", err);
+        this.throwError("Error al crear el pedido.");
       },
     });
 
     this.cartService.actionSource = 'checkout';
+  }
+
+  // Cuadro de diálogo de notificación
+  throwDialog(texto: string) {
+    Swal.fire({
+      title: texto,
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true
+    });
+  }
+
+  // Cuadro de diálogo de error
+  throwError(error: string) {
+    Swal.fire({ 
+      title: "Se ha producido un error",
+      text: error,
+      icon: "error",
+      confirmButtonText: "Vale"
+    });
   }
 
 }

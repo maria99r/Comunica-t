@@ -6,6 +6,7 @@ import { ImageModule } from 'primeng/image';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -74,8 +75,15 @@ export class NavComponent implements OnInit {
           //console.log("(NAV) Cantidad de productos: " + this.cartProductCount)
         }
       } catch (error) {
-
         console.error('Error al obtener el carrito de la base de datos:', error);
+        
+        Swal.fire({ 
+          title: "Se ha producido un error",
+          text: "Error al obtener los productos del carrito.",
+          icon: "error",
+          confirmButtonText: "Vale"
+        });
+        
         this.cartProductCount = 0;
       }
     } else {
