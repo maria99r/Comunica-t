@@ -9,13 +9,13 @@ import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/order';
 import { environment } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule, ReactiveFormsModule ],
+  imports: [FooterComponent, NavComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
@@ -27,11 +27,14 @@ export class UserProfileComponent implements OnInit {
   isEditing = false; //modo edición
   orders: Order[] = []; //lista de pedidos
 
+  private readonly USER_KEY = 'user';
+  private readonly TOKEN_KEY = 'jwtToken';
+
   public readonly IMG_URL = environment.apiImg;
 
-  constructor(private formBuild: FormBuilder, private authService: AuthService, 
-    private router: Router, private orderApi: OrderService, private apiService : ApiService) {
-    // formulario cambio datos
+  constructor(private formBuild: FormBuilder, private authService: AuthService,
+    private router: Router, private orderApi: OrderService, private apiService: ApiService) {
+    // formulario para modificar datoss
     this.userForm = this.formBuild.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -54,7 +57,7 @@ export class UserProfileComponent implements OnInit {
         name: this.user.name,
         email: this.user.email,
         address: this.user.address,
-        password: '' 
+        password: ''
       });
     }
     this.orders = await this.orderApi.getOrdersByUser(this.user.userId);
@@ -64,7 +67,7 @@ export class UserProfileComponent implements OnInit {
   edit() {
     this.isEditing = !this.isEditing;
     if (!this.isEditing) { // restaura los datos
-      this.userForm.reset(this.user); 
+      this.userForm.reset(this.user);
     }
   }
 
@@ -73,19 +76,25 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['/product', productId]);
   }
 
+  // envia cambios para mofidicar el usuario
   onSubmit(): void {
     if (this.userForm.valid) {
-      this.apiService.updateUser(this.userForm.value).subscribe(
-        () => {
-          alert('Perfil actualizado correctamente.');
-          this.isEditing = false;
-        },
-        (error) => {
-          console.log('Error al actualizar el perfil.');
-        }
-      );
+
+        this.apiService.updateUser(this.userForm.value).subscribe(
+          () => {
+            this.isEditing = false;
+            /* HAY QUE GUARDAR EL NUEVO TOKEN, ¿hay alguna llamada que te devuelva token nuevo? ¿inicio de sesion? 
+            
+            localStorage.setItem(this.TOKEN_KEY, accessToken);
+            localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+            sessionStorage.setItem(this.TOKEN_KEY, accessToken);
+            sessionStorage.setItem(this.USER_KEY, JSON.stringify(user));*/
+            /*
+            const authData = { email: this.userForm.value, password: this.userForm.password };
+            const loginResult = await this.authService.login(authData, false);*/
+          }
+        );
+        alert('Perfil actualizado correctamente.');
     }
   }
-
-
 }
