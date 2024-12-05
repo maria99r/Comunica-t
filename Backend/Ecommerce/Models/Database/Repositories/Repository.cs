@@ -36,11 +36,6 @@ public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where
         return entry.Entity;
     }
 
-    //public async Task<bool> SaveAsync()
-    //{
-    //    return await _context.SaveChangesAsync() > 0;
-    //}
-
     public TEntity Update(TEntity entity)
     {
         _context.Set<TEntity>().Update(entity);

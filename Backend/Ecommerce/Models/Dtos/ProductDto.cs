@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Ecommerce.Models.Dtos
+﻿namespace Ecommerce.Models.Dtos
 {
     public class ProductDto
     {
