@@ -34,7 +34,7 @@
         </div>
         <div class="profile-row-buttons">
             <button type="button" class="btn btn-secondary" (click)="edit()">
-                {{ isEditing ? 'Cancelar' : 'Editar' }}
+                {{ isEditing? 'Cancelar edición' : 'Editar' }}
             </button>
             <button type="submit" class="btn btn-primary" [disabled]="!isEditing || userForm.invalid">
                 Guardar Cambios
