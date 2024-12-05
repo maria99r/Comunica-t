@@ -113,27 +113,28 @@ public class UserService
         existingUser.Id = userDto.UserId;
         existingUser.Role = userDto.Role;
 
-        if (!string.IsNullOrEmpty(userDto.Name))
+        if (!string.IsNullOrEmpty(userDto.Name) && existingUser.Name != userDto.Name)
         {
             existingUser.Name = userDto.Name;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Email))
+        if (!string.IsNullOrEmpty(userDto.Email) && existingUser.Email != userDto.Email)
         {
             existingUser.Email = userDto.Email;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Password))
+        if (!string.IsNullOrEmpty(userDto.Password) && existingUser.Password != userDto.Password)
         {
             existingUser.Password = userDto.Password;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Address))
+        if (!string.IsNullOrEmpty(userDto.Address) && existingUser.Address != userDto.Address)
         {
             existingUser.Address = userDto.Address;
         }
 
         await UpdateUser(existingUser);
+        Console.WriteLine("Usuario actualizado correctamente.", existingUser);
         await _unitOfWork.SaveAsync();
     }
 

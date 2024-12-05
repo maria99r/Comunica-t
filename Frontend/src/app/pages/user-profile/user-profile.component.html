@@ -11,38 +11,37 @@
 <!-- PROFILE CONTAINER -->
 <div class="profile-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
     <!-- User Info -->
-    <div class="profile-info">
+    <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
         <div class="profile-row">
-            <div class="profile-label">Nombre:</div>
-            <div class="profile-input">
-                <input type="text" [value]="user?.name" [readonly]="!isEditing">
-            </div>
+            <label for="name">Nombre:</label>
+            <input type="text" [value]="user?.name" formControlName="name" [readonly]="!isEditing">
         </div>
         <div class="profile-row">
-            <div class="profile-label">Correo:</div>
-            <div class="profile-input">
-                <input type="text" [value]="user?.email" [readonly]="!isEditing">
-            </div>
+            <label for="email">Correo:</label>
+            <input id="email" type="email" formControlName="email" [readonly]="!isEditing" [value]="user?.email" />
         </div>
         <div class="profile-row">
-            <div class="profile-label">Rol:</div>
-            <div class="profile-input">
-                <input type="text" [value]="user?.role" [readonly]="!isEditing">
-            </div>
+            <label for="role">Rol:</label>
+            <input id="role" type="text" [value]="user?.role" readonly disabled/>
         </div>
         <div class="profile-row">
-            <div class="profile-label">Dirección:</div>
-            <div class="profile-input">
-                <input type="text" [value]="user?.address" [readonly]="!isEditing">
-            </div>
+            <label for="address">Dirección:</label>
+            <input id="address" type="text" formControlName="address" [readonly]="!isEditing" [value]="user?.address" />
         </div>
         <div class="profile-row">
-            <div class="profile-label">Contraseña:</div>
-            <div class="profile-input">
-                <input type="text" [value]="" [readonly]="!isEditing">
-            </div>
+            <label for="password">Contraseña:</label>
+            <input id="password" type="password" formControlName="password" [readonly]="!isEditing" />
         </div>
-    </div>
+        <div class="profile-row-buttons">
+            <button type="button" class="btn btn-secondary" (click)="edit()">
+                {{ isEditing ? 'Cancelar' : 'Editar' }}
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!isEditing || userForm.invalid">
+                Guardar Cambios
+            </button>
+        </div>
+
+    </form>
 
 
 
@@ -54,38 +53,41 @@
         <div class="orders-list">
 
             <div class="orders-container">
-                @for (order of orders ; track order.id) {
-                <div class="order">
-                    <div class="order-header">
-                        <span>Fecha del pedido: {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}} </span>
-                    </div>
-                    <table>
-                        <tr>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio unidad</th>
-                        </tr>
-                        @for (line of order.ProductsOrder; track $index) {
-                        <tr>
-                            <td> <img [src]="IMG_URL + line.Product.image"></td>
-                            <td>{{line.Product.name}}</td>
-                            <td>{{line.Quantity}}</td>
-                            <td>{{line.PricePay/100}}</td>
-                        </tr>
-                        }
-                    </table>
-                    <div class="order-summary">
-                        <span class="payment-method">Pagado con: {{ order.PaymentMethod }}</span>
-                        <span class="total-price">Precio total: {{ order.TotalPrice/100}}€</span>
-                    </div>
+                @if (orders.length <=0 ) { <div>Todavía no ha realizado ningún pedido.</div>
+            }
+            @for (order of orders ; track order.id) {
+            <div class="order">
+                <div class="order-header">
+                    <p><b>Pedido n.º {{order.id}}</b></p>
+                    <span>Fecha del pedido: {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}} </span>
                 </div>
-                }
+                <table>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio unidad</th>
+                    </tr>
+                    @for (line of order.ProductsOrder; track $index) {
+                    <tr (click)="navigateToProduct(line.productId)" class="product-link">
+                        <td> <img [src]="IMG_URL + line.product.image"></td>
+                        <td>{{line.product.name}}</td>
+                        <td>{{line.quantity}}</td>
+                        <td>{{line.pricePay/100}}€</td>
+                    </tr>
+                    }
+                </table>
+                <div class="order-summary">
+                    <span class="payment-method">Método de pago: {{ order.PaymentMethod }}</span>
+                    <span class="total-price">Precio total: {{ order.TotalPrice/100}}€</span>
+                </div>
             </div>
-
-
+            }
         </div>
+
+
     </div>
+</div>
 </div>
 
 

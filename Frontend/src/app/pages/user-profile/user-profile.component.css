@@ -17,10 +17,9 @@
     /* Espacio arriba y abajo de la línea */
 }
 
-.profile-info {
+form {
     max-width: 600px;
     margin: 0 auto;
-    /* Centrar el contenedor */
     padding: 20px;
     border: 1px solid #007acc;
     border-radius: 8px;
@@ -34,7 +33,7 @@
     margin-bottom: 15px;
 }
 
-.profile-label {
+label {
     flex: 1;
     font-weight: bold;
     color: #004a8d;
@@ -43,17 +42,15 @@
     position: relative;
 }
 
-.profile-label::after {
+label::after {
     position: absolute;
     right: 5px;
     color: #004a8d;
 }
 
-.profile-input {
-    flex: 2;
-}
 
-.profile-input input {
+input {
+    flex: 2;
     width: 100%;
     padding: 8px 12px;
     font-size: 14px;
@@ -98,8 +95,8 @@ h3 {
 table {
     border-collapse: collapse;
     width: 90%;
-    margin: auto;
     text-align: left;
+    margin: 20px;
 }
 
 tr,
@@ -135,4 +132,12 @@ table img {
     padding: 2%;
     border: 1px solid gray;
     border-radius: 20px;
+}
+
+.total-price{
+    float: right;
+}
+
+.product-link :hover {
+    cursor : pointer;
 }
