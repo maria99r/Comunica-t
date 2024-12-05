@@ -9,7 +9,7 @@
 </div>
 
 <!-- User Admin Info -->
-<div class="profile-info">
+<div class="profile-info mt-4 m-auto">
     <div class="profile-row">
         <div class="profile-label">Nombre:</div>
         <div class="profile-input">
@@ -42,45 +42,71 @@
     </div>
 </div>
 
-<hr class="line-separator">
 
-<!-- User and Product Lists 
-<div class="lists-container d-flex justify-content-between">
-    
+<div class="container d-flex justify-content-between">
+
     <div class="user-list">
         <h3 class="list-title">Lista de usuarios</h3>
-        <ul class="list">
-            @for (let user of users) {
-            <li class="list-item">
-                <div class="user-icon"></div>
-                <div class="user-info">
-                    <span class="user-name">{{ user.name }}</span>
-                    <span class="user-email">{{ user.email }}</span>
-                </div>
-                <span class="user-role">{{ user.role }}</span>
-                <button class="edit-btn">✎</button>
-            </li>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acción</th>
+            </tr>
+            @for (user of users; track $index) {
+            <tr>
+                <td>{{user.userId}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.role}}</td>
+                <td><button class="edit-btn">✎Edit</button> | <button class="edit-btn"(click)="deleteUser(user.userId)">Eliminar</button></td>
+            </tr>
             }
-        </ul>
+        </table>
     </div>
 
-    
+    <div id="newProduct">
+      <div id="formularioNuevoProducto">
+        <h3 class="new-product-title">Crear nuevo producto</h3>
+          <form (ngSubmit)="insertProduct()"> <br>
+            <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName"/> <br><br>
+            <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice"/> <br><br>
+            <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock"/> <br><br>
+            <input type="text" name="productDescription" placeholder="Descripción" [(ngModel)]="insertProductDescription"/> <br><br>
+            <input type="text" name="productImage" placeholder="Ruta de la imagen" [(ngModel)]="insertProductImage"/> <br><br>
+            <button (click)="insertProduct()">Crear producto</button>
+          </form>
+      </div>
+    </div>
+
     <div class="product-list">
-        <h3 class="list-title">Lista de productos</h3>
-        <ul class="list">
-            @for (let product of products) {
-            <li class="list-item">
-                <div class="product-icon">P</div>
-                <div class="product-info">
-                    <span class="product-name">{{ product.name }}</span>
-                    <span class="product-stock">{{ product.stock }} uds</span>
-                </div>
-                <span class="product-price">{{ product.price }}€/ud</span>
-            </li>
+        <h3 class="list-title">
+            Lista de productos 
+            <button (click)="toggleInsertProduct()">Nuevo producto</button>
+        </h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acción</th>
+            </tr>
+            @for (product of products; track $index) {
+            <tr>
+                <td>{{product.id}}</td>
+                <td> <img [src]="IMG_URL + product.image"></td>
+                <td>{{product.name}}</td>
+                <td>{{product.price/100}}€</td>
+                <td>{{product.stock}} uds.</td>
+                <td><button class="edit-btn">✎Edit</button></td>
+            </tr>
             }
-        </ul>
+        </table>
     </div>
 </div>
--->
-<app-footer></app-footer>
 
+<app-footer></app-footer>

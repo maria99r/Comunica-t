@@ -99,7 +99,7 @@ public class UserService
     }
     
     // Modificar los datos del usuario
-    public async Task ModifyUserAsync(UserProfileDto userDto/*int userId, string newName, string newEmail, string newPassword, string newAddress, string newRole*/)
+    public async Task ModifyUserAsync(UserProfileDto userDto)
     {
         var existingUser = await _unitOfWork.UserRepository.GetUserById(userDto.UserId);
 
@@ -111,35 +111,49 @@ public class UserService
         Console.WriteLine("ID del usuario: " + existingUser.Id);
 
         existingUser.Id = userDto.UserId;
+        existingUser.Role = userDto.Role;
 
-        if (!string.IsNullOrEmpty(userDto.Name))
+        if (!string.IsNullOrEmpty(userDto.Name) && existingUser.Name != userDto.Name)
         {
             existingUser.Name = userDto.Name;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Email))
+        if (!string.IsNullOrEmpty(userDto.Email) && existingUser.Email != userDto.Email)
         {
             existingUser.Email = userDto.Email;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Password))
+        if (!string.IsNullOrEmpty(userDto.Password) && existingUser.Password != userDto.Password)
         {
             existingUser.Password = userDto.Password;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Address))
+        if (!string.IsNullOrEmpty(userDto.Address) && existingUser.Address != userDto.Address)
         {
             existingUser.Address = userDto.Address;
         }
 
-        // Evitar que usuarios no administradores cambien su propio rol
-        if (existingUser.Role != "Admin" && userDto.Role != existingUser.Role && !string.IsNullOrEmpty(userDto.Role))
-        {
-            throw new UnauthorizedAccessException("No tienes permiso para cambiar tu propio rol.");
+        await UpdateUser(existingUser);
+        Console.WriteLine("Usuario actualizado correctamente.", existingUser);
+        await _unitOfWork.SaveAsync();
+    }
 
-        }else if (!string.IsNullOrEmpty(userDto.Role) && existingUser.Role == "Admin")
+
+    // Modificar el rol del usuario
+    public async Task ModifyUserRoleAsync(int userId, string newRole)
+    {
+        var existingUser = await _unitOfWork.UserRepository.GetUserById(userId);
+
+        if (existingUser != null)
         {
-            existingUser.Role = userDto.Role;
+            Console.WriteLine("El usuario con ID ", userId, " no existe.");
+        }
+
+        Console.WriteLine("ID del usuario: " + existingUser.Id);
+
+        if (!string.IsNullOrEmpty(newRole))
+        {
+            existingUser.Role = newRole;
         }
 
         await UpdateUser(existingUser);

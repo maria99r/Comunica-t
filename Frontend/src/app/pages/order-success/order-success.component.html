@@ -20,13 +20,13 @@
     }
 
     <p>Productos:
-        <!--@for (product of products; track product.ProductId) {
+        @for (product of products; track product.productId) {
             <ul>
-                <li>{{product.Product.name}}</li>
-                <li>Cantidad: {{product.Quantity}}</li>
-                <li>Precio: {{product.Product.price/100}}</li>
+                <li>{{product.product.name}}</li>
+                <li>Cantidad: {{product.quantity}}</li>
+                <li>Precio: {{product.product.price/100}}</li>
             </ul>
-        }-->
+        }
     </p>
 </div>
 <app-footer></app-footer>

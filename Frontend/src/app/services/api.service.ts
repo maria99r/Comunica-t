@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, forkJoin, lastValueFrom } from 'rxjs';
+import { Observable, catchError, forkJoin, lastValueFrom, map } from 'rxjs';
 import { Result } from '../models/result';
 import { environment } from '../../environments/environment';
 import { Product } from '../models/product';
@@ -15,6 +15,9 @@ import { ReviewDto } from '../models/reviewDto';
 export class ApiService {
 
   private readonly BASE_URL = environment.apiUrl;
+
+  private readonly USER_KEY = 'user';
+  private readonly TOKEN_KEY = 'jwtToken';
 
   jwt: string;
 
@@ -107,8 +110,6 @@ export class ApiService {
     return new HttpHeaders(header);
   }
 
-
-
   // busqueda de productos (con la paginacion) (devuelve los productos y el nº de paginas)
   async searchProducts(searchDto: SearchDto): Promise<{ products: Product[], totalPages: number }> {
     const url = `${this.BASE_URL}Product/search`;
@@ -119,6 +120,27 @@ export class ApiService {
     return response;
   }
 
+  // devuelve todos los productos
+  async allProducts(): Promise<Product[]> {
+    const request: Observable<Object> = this.http.get(`${this.BASE_URL}Product/all`);
+    const dataRaw: any = await lastValueFrom(request);
+
+    const products: Product[] = [];
+
+    for (const p of dataRaw) {
+      const product: Product = {
+        id: p.id,
+        image: p.image,
+        description: p.description,
+        price: p.price,
+        stock: p.stock,
+        name: p.name,
+        reviews: p.reviews
+      }
+      products.push(product);
+    }
+    return products;
+  }
 
   // devuelve producto con esa id (Para vista detalle de productos)
   async getProduct(id: number): Promise<Product> {
@@ -168,7 +190,7 @@ export class ApiService {
     const dataRaw: any = await lastValueFrom(request);
 
     const user: User = {
-      id: id,
+      userId: id,
       name: dataRaw.name,
       email: dataRaw.email,
       address: dataRaw.address,
@@ -178,11 +200,50 @@ export class ApiService {
     return user;
   }
 
-  async publicReview(reviewData: ReviewDto): Promise<Result<any>> { // Registro
-    return this.post<any>('Review/newReview', reviewData);
+  // devuelve todos los usuarios
+  async allUser(): Promise<User[]> {
+    const request: Observable<Object> = this.http.get(`${this.BASE_URL}User/allUsers`);
+    const dataRaw: any = await lastValueFrom(request);
+
+    const users: User[] = [];
+
+    for (const u of dataRaw) {
+      const user: User = {
+        userId: u.userId,
+        name: u.name,
+        email: u.email,
+        address: u.address,
+        role: u.role
+      }
+      users.push(user);
+    }
+    return users;
   }
 
 
+  // Crear review
+  async publicReview(reviewData: ReviewDto): Promise<Result<any>> {
+    return this.post<any>('Review/newReview', reviewData);
+  }
+
+   // Elimina usuario
+  deleteUser(idUser: number): Observable<any> {
+    const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
+    return this.http.delete(url, { responseType: 'text' });
+  }
+
+
+  // actualizar info de usuario
+  updateUser(user: any): Observable<any> {
+    const headers = this.getHeader(); // para q me lea el token del usuario actual
+    return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers })
+  }
+
+
+  // Crear producto
+  async insertProduct(formData: any): Promise<Result<any>> {
+    return this.post<any>('Product/insertProduct', formData);
+  }
 
 }
 

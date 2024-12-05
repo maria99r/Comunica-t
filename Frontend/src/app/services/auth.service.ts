@@ -3,6 +3,7 @@ import { AuthRequest } from '../models/auth-request';
 import { AuthResponse } from '../models/auth-response';
 import { Result } from '../models/result';
 import { ApiService } from './api.service';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,7 @@ export class AuthService {
     localStorage.removeItem(this.USER_KEY);
   }
 
-  getUser() { // Obtener datos del usuario
+  getUser() : User { // Obtener datos del usuario
     const user = localStorage.getItem(this.USER_KEY) || sessionStorage.getItem(this.USER_KEY);
     return user ? JSON.parse(user) : null;
   }
@@ -64,7 +65,12 @@ export class AuthService {
   //Comprobacion de permisos de administrado 
   isAdmin(): boolean {
     const user = this.getUser();
-    return user?.role === 'admin'; 
+    console.log("Tu rol es: ", user.role)
+    if (user.role == "Admin"){
+      return true
+    } else{
+      return false
+    } 
   }
-  
+
 }
