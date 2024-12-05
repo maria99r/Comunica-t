@@ -239,11 +239,15 @@ export class ApiService {
     return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers })
   }
 
+  // actualizar info de usuario
+  updateProduct(id: number, product: any): Observable<any> {
+    return this.http.put(`${this.BASE_URL}User/modifyProduct/${id}`, product)
+  }
+
 
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {
-    const headers = this.getHeader();
-    return this.post<any>('Product/insertProduct', formData, { headers });
+    return this.post<any>('Product/insertProduct', formData);
   }
 
 }
