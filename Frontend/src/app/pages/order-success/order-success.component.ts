@@ -7,6 +7,7 @@ import { Order } from '../../models/order';
 import { CommonModule } from '@angular/common';
 import { ProductOrder } from '../../models/productOrder';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class OrderSuccessComponent implements OnInit {
     private orderService: OrderService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public cartService: CartService
   ) { }
 
   id: number;
@@ -33,6 +35,9 @@ export class OrderSuccessComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
+
+    // Notificar el cambio en la cantidad de productos del carrito
+    this.cartService.notifyCartChange();
 
     const actualId = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
 

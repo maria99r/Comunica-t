@@ -56,7 +56,7 @@
         </p>
 
         <!-- FORMULARIO PARA HACER RESEÑA -->
-        <div *ngIf="authService.isAuthenticated() && !hasComment">
+        <div *ngIf="authService.isAuthenticated() && hasPurchased && !hasComment">
             <p>Añade una reseña:</p>
             <form (ngSubmit)="publicReview()">
                 <textarea class="w-full" rows="10" pInputText [(ngModel)]="textReview"
@@ -69,6 +69,11 @@
         <!--  si ya ha comentado -->
         <div *ngIf="authService.isAuthenticated() && hasComment">
             <p class="font-bold">Ya has dejado una reseña para este producto. ¡Gracias por tu opinión!</p>
+        </div>
+
+        <!-- Si el usuario no ha comprado el producto -->
+        <div *ngIf="authService.isAuthenticated() && !hasPurchased">
+            <p class="font-bold">Para poder dejar una reseña, debes haber comprado este producto.</p>
         </div>
 
 
