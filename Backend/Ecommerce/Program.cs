@@ -38,6 +38,7 @@ builder.Services.AddScoped<TemporalProductOrderRepository>();
 builder.Services.AddScoped<CartRepository>();
 builder.Services.AddScoped<CheckoutRepository>();
 builder.Services.AddTransient<BlockchainService>();
+builder.Services.AddScoped<ImageRepository>();
 
 // Inyección de Mappers
 builder.Services.AddScoped<UserMapper>();
@@ -46,6 +47,7 @@ builder.Services.AddScoped<ProductMapper>();
 builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<TemporalOrderMapper>();
 builder.Services.AddScoped<OrderMapper>();
+builder.Services.AddScoped<ImageMapper>();
 
 // Inyección de Servicios
 builder.Services.AddScoped<UserService>();
@@ -56,6 +58,7 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<Ecommerce.Services.ProductService>();
 builder.Services.AddScoped<Ecommerce.Services.ReviewService>();
 builder.Services.AddScoped<SmartSearchService>();
+builder.Services.AddScoped<ImageService>();
 
 builder.Services.AddHostedService<OrderExpiresService>();
 builder.Services.AddScoped<IEmailService, EmailService>();

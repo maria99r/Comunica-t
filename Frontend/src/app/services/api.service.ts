@@ -226,7 +226,7 @@ export class ApiService {
     return this.post<any>('Review/newReview', reviewData);
   }
 
-   // Elimina usuario
+  // Elimina usuario
   deleteUser(idUser: number): Observable<any> {
     const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
     return this.http.delete(url, { responseType: 'text' });
@@ -242,7 +242,8 @@ export class ApiService {
 
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {
-    return this.post<any>('Product/insertProduct', formData);
+    const headers = this.getHeader();
+    return this.post<any>('Product/insertProduct', formData, { headers });
   }
 
 }

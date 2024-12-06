@@ -123,9 +123,9 @@ public class UserService
             existingUser.Email = userDto.Email;
         }
 
-        if (!string.IsNullOrEmpty(userDto.Password) && existingUser.Password != userDto.Password)
+        if (!string.IsNullOrEmpty(userDto.Password) && existingUser.Password != PasswordHelper.Hash(userDto.Password))
         {
-            existingUser.Password = userDto.Password;
+            existingUser.Password = PasswordHelper.Hash(userDto.Password);
         }
 
         if (!string.IsNullOrEmpty(userDto.Address) && existingUser.Address != userDto.Address)
