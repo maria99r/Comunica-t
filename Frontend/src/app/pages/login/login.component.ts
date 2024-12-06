@@ -82,6 +82,9 @@ export class LoginComponent implements OnInit {
       }
       // FIN SINCRONIZACIÓN CARRITOS
 
+      // Notificar el cambio en la cantidad de productos del carrito
+      this.cartService.notifyCartChange();
+      
       const name = user ? user.name : null;
       
       Swal.fire({ // Cuadro de diálogo
