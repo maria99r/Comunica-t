@@ -30,6 +30,7 @@ export class OrderSuccessComponent implements OnInit {
   id: number;
   order: Order = null;
   products: ProductOrder[] = [];
+  isLoading: boolean = true;
 
   async ngOnInit(): Promise<void> {
     if (!this.authService.isAuthenticated()) {
@@ -47,7 +48,8 @@ export class OrderSuccessComponent implements OnInit {
     this.order = await this.orderService.getOrderById(this.id);
 
     this.products = this.order.ProductsOrder;
-    console.log(this.order);
+
+    this.isLoading = false;
 
   }
 
