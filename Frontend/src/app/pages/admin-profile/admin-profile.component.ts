@@ -126,7 +126,7 @@ export class AdminProfileComponent implements OnInit {
   editProduct(id :number): void {
     if (this.editProductForm.valid) {
       
-        this.apiService.updateProduct(this.editProductForm.value).subscribe(
+        this.apiService.updateProduct(id, this.editProductForm.value).subscribe(
           () => {
             this.isEditing = false;
           }
