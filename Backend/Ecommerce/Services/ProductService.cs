@@ -148,6 +148,7 @@ public class ProductService
             throw new Exception("El producto ya existe.");
         }
 
+
         var newProduct = new Product
         {
             Id = product.Id, // Se le asigna la ID de arriba (la máxima + 1)
