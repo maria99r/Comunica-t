@@ -25,7 +25,8 @@ export class SignupComponent implements OnInit {
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cartApi: CartService
+    private cartApi: CartService,
+    private cartService: CartService
   ) {
     this.myForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -86,6 +87,9 @@ export class SignupComponent implements OnInit {
 
         if (loginResult.success) {
           console.log('Inicio de sesión exitoso', loginResult);
+
+          // Notificar el cambio en la cantidad de productos del carrito
+          this.cartService.notifyCartChange();
 
           const user = this.authService.getUser();
           const name = user ? user.name : null;
