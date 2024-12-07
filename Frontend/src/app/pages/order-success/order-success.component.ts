@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ProductOrder } from '../../models/productOrder';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class OrderSuccessComponent implements OnInit {
     private authService: AuthService,
     public cartService: CartService
   ) { }
+
+  public readonly IMG_URL = environment.apiImg;
 
   id: number;
   order: Order = null;

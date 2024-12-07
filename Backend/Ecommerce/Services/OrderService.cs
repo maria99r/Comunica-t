@@ -2,6 +2,7 @@
 using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
+using Ecommerce.Services.Blockchain;
 using Ecommerce.Services.Email;
 
 namespace Ecommerce.Services;
@@ -111,6 +112,16 @@ public class OrderService
 
         var serverBaseUrl = _configuration["Settings:ServerBaseUrl"];  // para mostrar las imagenes en el correo
 
+        // precio en ethereum
+        decimal totalEthereum = 0;
+        var totalEthereumHtml = "";
+        if (newOrder.PaymentMethod.Equals("Ethereum", StringComparison.OrdinalIgnoreCase))
+        {
+            CoinGeckoApi coinGeckoApi = new CoinGeckoApi();
+            decimal ethInEur = await coinGeckoApi.GetEthereumPriceAsync();
+            totalEthereum = newOrder.TotalPrice / 100 / ethInEur;
+            totalEthereumHtml = $"<p><strong>Total en Ethereum:</strong> {totalEthereum:F6} ETH</p>";
+        }
 
         // envia correo a user
         var user = await _unitOfWork.UserRepository.GetByIdAsync(newOrder.UserId);
@@ -180,6 +191,7 @@ public class OrderService
             <div class=""summary"">
                 <h4><strong>Total:</strong> {order.TotalPrice / 100}€</h4>
             </div>
+            {totalInEthereumHtml}
 
             <p>¡Gracias por confiar en Innovacom!</p>
 
