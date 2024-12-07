@@ -112,14 +112,12 @@ export class BlockchainComponent implements OnInit, OnDestroy {
       console.log("Productos:", this.orderDetails.temporalProductOrder);
       this.startOrderRefresh(); // refresco de la orden
 
-      // pago
-      if (this.paymentMethod === "blockchain") {
-        this.isLoading = false;
-        await this.createTransaction();
-      } else {
+      if (!(this.paymentMethod === "blockchain")) {
         console.error("El método de pago no es en blockchain");
         this.throwError("Se ha producido un error procesando tu pedido.");
       }
+
+      this.isLoading = false;
 
     } else {
       console.error("Error al cargar los detalles de la orden:", orderResponse.error);
