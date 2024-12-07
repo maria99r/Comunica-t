@@ -39,7 +39,7 @@
     <p><b>Total pagado:</b> {{order.TotalPrice/100}}€</p>
 
     @if (order.PaymentMethod == "blockchain") {
-    <p>Total pagado en Ethereum: {{(order.TotalPrice/100)* 0.00029}}ETH</p>
+    <p><b>Total pagado en Ethereum: </b>{{(order.TotalPrice/100)* 0.00029}}ETH</p>
     }
 
 </div>

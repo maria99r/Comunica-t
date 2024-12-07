@@ -115,7 +115,7 @@ public class OrderService
         // precio en ethereum
         decimal totalEthereum = 0;
         var totalEthereumHtml = "";
-        if (newOrder.PaymentMethod.Equals("Ethereum", StringComparison.OrdinalIgnoreCase))
+        if (newOrder.PaymentMethod.Equals("blockchain", StringComparison.OrdinalIgnoreCase))
         {
             CoinGeckoApi coinGeckoApi = new CoinGeckoApi();
             decimal ethInEur = await coinGeckoApi.GetEthereumPriceAsync();
