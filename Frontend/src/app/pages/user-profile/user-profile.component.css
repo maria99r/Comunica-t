@@ -12,18 +12,26 @@
 .line-separator {
     border: 0;
     border-top: 1px solid #ccc;
-    /* Línea gris */
     margin: 20px 0;
-    /* Espacio arriba y abajo de la línea */
 }
 
-form {
+fieldset {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0 auto 20px;
     padding: 20px;
     border: 1px solid #007acc;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-row-buttons{
+    float: inline-end;
+}
+
+legend{
+    color: #004a8d;
+    font-weight: bold;
+    padding: 5px;
 }
 
 .profile-row {
@@ -57,7 +65,7 @@ input {
     color: #004a8d;
     border: 1px solid #007acc;
     border-radius: 4px;
-    background-color: #f0f8ff;
+    background-color: white;
     transition: border-color 0.3s ease;
 }
 
@@ -65,8 +73,6 @@ input {
     border-color: #004a8d;
     outline: none;
 }
-
-
 
 button:hover {
     cursor: pointer;
@@ -82,10 +88,17 @@ button {
     margin: 10px;
 }
 
+button.btn-edit{
+    background-color: rgb(209, 0, 0);
+}
 
 h3 {
     color: #004a8d;
     margin: 2% 5%;
+}
+
+input:read-only{
+    background-color:  #f0f8ff;
 }
 
 .container {

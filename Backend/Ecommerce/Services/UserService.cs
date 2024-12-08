@@ -94,6 +94,9 @@ public class UserService
 
         await _unitOfWork.UserRepository.InsertUserAsync(newUser);
         await _unitOfWork.SaveAsync();
+        // crea carrito para usuario
+        await _unitOfWork.CartRepository.InsertCartAsync(newUser.Id);
+        await _unitOfWork.SaveAsync();
 
         return newUser;
     }
