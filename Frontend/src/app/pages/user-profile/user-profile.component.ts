@@ -76,6 +76,10 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['/product', productId]);
   }
 
+  editPassword(){
+    
+  }
+
   // envia cambios para mofidicar el usuario
   onSubmit(): void {
     if (this.userForm.valid) {
@@ -83,15 +87,6 @@ export class UserProfileComponent implements OnInit {
         this.apiService.updateUser(this.userForm.value).subscribe(
           () => {
             this.isEditing = false;
-            /* HAY QUE GUARDAR EL NUEVO TOKEN, ¿hay alguna llamada que te devuelva token nuevo? ¿inicio de sesion? 
-            
-            localStorage.setItem(this.TOKEN_KEY, accessToken);
-            localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-            sessionStorage.setItem(this.TOKEN_KEY, accessToken);
-            sessionStorage.setItem(this.USER_KEY, JSON.stringify(user));*/
-            /*
-            const authData = { email: this.userForm.value, password: this.userForm.password };
-            const loginResult = await this.authService.login(authData, false);*/
           }
         );
         alert('Perfil actualizado correctamente.');

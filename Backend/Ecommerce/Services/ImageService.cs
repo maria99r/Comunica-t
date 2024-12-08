@@ -64,7 +64,7 @@ namespace Ecommerce.Services
         public async Task DeleteAsync(int id)
         {
             Image image = await _unitOfWork.ImageRepository.GetByIdAsync(id);
-            _unitOfWork.ImageRepository.Delete(image);
+            await _unitOfWork.ImageRepository.Delete(image);
 
             await _unitOfWork.SaveAsync();
         }

@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Models.Database.Entities
+﻿    namespace Ecommerce.Models.Database.Entities
 {
     public class Image
     {
