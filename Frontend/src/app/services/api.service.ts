@@ -244,6 +244,12 @@ export class ApiService {
     return this.http.put(`${this.BASE_URL}User/modifyProduct/${id}`, product)
   }
 
+  modifyPassword(newPassword : any) : Observable<any>{
+    const headers = this.getHeader('application/json', 'application/json');
+    const body = { newPassword };
+    return this.http.put(`${this.BASE_URL}User/modifyPassword`, body, {headers})
+  }
+
 
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {
