@@ -236,7 +236,7 @@ export class ApiService {
   // actualizar info de usuario
   updateUser(user: any): Observable<any> {
     const headers = this.getHeader(); // para q me lea el token del usuario actual
-    return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers })
+    return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers, responseType: 'text' });
   }
 
   // actualizar info de usuario

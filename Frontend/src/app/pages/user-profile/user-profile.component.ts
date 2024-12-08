@@ -38,18 +38,17 @@ export class UserProfileComponent implements OnInit {
   constructor(private formBuild: FormBuilder, private authService: AuthService,
     private router: Router, private orderApi: OrderService, private apiService: ApiService) {
 
-      this.userForm = this.formBuild.group({
+    this.userForm = this.formBuild.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      address: [''],
-      password: ['']
+      address: ['']
     });
 
     this.passwordForm = this.formBuild.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
-    { validators: this.passwordMatchValidator });
+      { validators: this.passwordMatchValidator });
   }
 
   async ngOnInit() {
@@ -59,8 +58,11 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.actualizarUser();
-   
+
     this.orders = await this.orderApi.getOrdersByUser(this.user.userId);
+
+    // ordena los pedidos por fecha de compra a las más recientes primero
+    this.orders.sort((a, b) => new Date(b.PaymentDate).getTime() - new Date(a.PaymentDate).getTime());
 
     let element = document.getElementById("newPassword");
     element.setAttribute("hidden", "hidden");
@@ -91,7 +93,7 @@ export class UserProfileComponent implements OnInit {
       });
     }
   }
-  
+
 
   //logica para habilitar la edición solo en el campo necesario
   edit() {
@@ -114,7 +116,7 @@ export class UserProfileComponent implements OnInit {
         console.error("Error: El campo de la contraseña está vacío.");
         return;
       }
-      
+
       this.apiService.modifyPassword(newPassword).subscribe(() => {
         Swal.fire({ // Cuadro de diálogo
           title: "Contraseña modificada con éxito.",
@@ -124,10 +126,10 @@ export class UserProfileComponent implements OnInit {
           timerProgressBar: true,
         });
         this.showEditPassword()
-      }      
-    );
+      }
+      );
+    }
   }
-}
 
   showEditPassword() {
     let element = document.getElementById("newPassword");
@@ -147,6 +149,7 @@ export class UserProfileComponent implements OnInit {
       this.apiService.updateUser(this.userForm.value).subscribe(
         () => {
           this.isEditing = false;
+          this.authService.updateUserData(this.userForm.value);
         }
       );
       Swal.fire({ // Cuadro de diálogo
