@@ -116,6 +116,39 @@ namespace Ecommerce.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut("modifyPassword")]
+        public async Task<IActionResult> ModifyPassword([FromBody] NewPasswordDto newPasswordRequest)
+        {       
+
+            if(newPasswordRequest == null)
+            {
+                return BadRequest("La nueva contraseña es nula.");
+            }
+
+            // Obtener datos del usuario para modificarse a si mismo
+            UserProfileDto userData = await ReadToken();
+
+            if (userData == null)
+            {
+                Console.WriteLine("Token inválido o usuario no encontrado.");
+                return BadRequest("El usuario es null");
+            }
+
+            Console.WriteLine($"Usuario autenticado: ID = {userData.UserId}, Email = {userData.Email}");
+
+            try
+            {
+                await _userService.ModifyPasswordAsync(userData.UserId, newPasswordRequest.newPassword);
+                return Ok("Contraseña actualizada correctamente.");
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest("No pudo modificarse la contraseña.");
+            }
+        }
+
+
         // Elimina un usuario
         [HttpDelete("deleteUser/{userId}")]
         public async Task<IActionResult> DeleteUser(int userId)

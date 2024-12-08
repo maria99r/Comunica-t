@@ -27,10 +27,7 @@
             <div *ngIf="myForm.get('name')?.invalid && myForm.get('name')?.touched">
               <div *ngIf="myForm.get('name')?.hasError('required')">Nombre es obligatorio.</div>
             </div>
-          </div>
-
-
-          
+          </div>          
 
           <div class="p-field icon-input-container">
             <i class="pi pi-home input-icon"></i>
@@ -42,8 +39,6 @@
               <div *ngIf="myForm.get('address')?.hasError('required')">Dirección es obligatoria.</div>
             </div>
           </div>
-
-
           
 
           <div class="p-field icon-input-container">
@@ -89,8 +84,6 @@
                 <div *ngIf="myForm.get('confirmPassword')?.hasError('mismatch')">Las contraseñas deben coincidir.</div>
               </div>
             </div>
-          
-
         
           <input type="submit" [disabled]="myForm.invalid" value="Enviar" />
         </div>

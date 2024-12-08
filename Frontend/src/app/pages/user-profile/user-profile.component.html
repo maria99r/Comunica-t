@@ -45,9 +45,32 @@
     </fieldset>
 
     <fieldset>
-            <Label>Contraseña: ***********</Label>
-            <button type="button" class="btn btn-secondary" style="float: right;" (click)="editPassword()"> Cambiar Contraseña </button>
+        <Label>Contraseña: ***********</Label>
+        <button type="button" class="btn btn-secondary" style="float: right;" (click)="showEditPassword()"> Cambiar
+            Contraseña </button>
     </fieldset>
+
+    <div id="newPassword">
+        <fieldset>
+            <form [formGroup]="passwordForm" (ngSubmit)="editPassword()">
+                <label>Cambiar contraseña:</label>
+                <br><br>
+                <input type="password" formControlName="newPassword" required placeholder="Nueva Contraseña" />
+                <br>
+                <div class="error" *ngIf="passwordForm.get('newPassword')?.hasError('minlength') && passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched">La contraseña debe
+                    tener mínimo 6 caracteres.</div>
+                <br>
+                <input class="icon-input" placeholder="Repetir contraseña" type="password"
+                    formControlName="confirmPassword" />
+                <div class="error" *ngIf="passwordForm.get('confirmPassword')?.hasError(('mismatch'))  && passwordForm.get('confirmPassword')?.touched">Las contraseñas no coinciden.</div>
+                <br>
+
+                <button type="submit" [disabled]="passwordForm.invalid">Actualizar contraseña</button>
+            </form>
+        </fieldset>
+    </div>
+
+
 
 
 
