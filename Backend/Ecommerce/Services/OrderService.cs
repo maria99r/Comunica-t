@@ -191,7 +191,7 @@ public class OrderService
             <div class=""summary"">
                 <h4><strong>Total:</strong> {order.TotalPrice / 100}€</h4>
             </div>
-            {totalInEthereumHtml}
+            {totalEthereumHtml}
 
             <p>¡Gracias por confiar en Innovacom!</p>
 
