@@ -1,8 +1,8 @@
 /* 1º block */
 .panel-top {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/fondo-tecnologico.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/fotos-premium/agregar-al-carrito-internet-tienda-web-comprar-concepto-comercio-electronico-linea_628331-86.jpg?w=740");
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-attachment: fixed;
     text-align: center;
     align-content: center;

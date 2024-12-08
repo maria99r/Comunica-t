@@ -50,23 +50,23 @@
                                 <p>{{product.price / 100}}€</p>
 
                                 @if (product.stock > 0) {
-                                    <p style="color:darkgreen">Stock</p>
+                                    <p class="text-sm" style="color:darkgreen">Stock</p>
                                 } @else {
-                                    <p style="color:darkred">No stock</p>
+                                    <p class="text-sm" style="color:darkred">No stock</p>
                                 }
-                                <p><span>
+                                <p class="text-sm "><span>
                                     @switch (calculateAvg(product.reviews)) {
                                     @case (1) {
-                                      😀
+                                      ⭐⭐⭐ 
                                      }
                                     @case (0) {
-                                      😐
+                                        ⭐⭐✩ 
                                      }
                                     @case (-1) {
-                                      🤮
+                                        ⭐✩✩ 
                                      }
                                     }
-                                </span>({{product.reviews.length}})</p>
+                                </span> ({{product.reviews.length}})</p>
                                 
                             </div>
                         </div>
