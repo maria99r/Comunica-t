@@ -36,6 +36,7 @@ button:disabled {
 h1 {
     color: #2A345D;
     font-size: xx-large;
+    margin: 15px 0;
 }
 
 .price {
@@ -57,4 +58,9 @@ img {
 
 :host ::ng-deep .p-inputnumber-button .pi {
     font-size: 9px;
+}
+
+.numRef{
+    color: #5f5f5f;
+    font-size: small;
 }

@@ -30,12 +30,15 @@ export class CartComponent implements OnInit {
 
   isLog: boolean; // para comprobar si esta o no logueado
 
-  constructor(private cartService: CartService, private authService: AuthService, private router: Router, private api: ApiService) { }
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService,
+    private router: Router,
+    private api: ApiService
+  ) { }
 
   async ngOnInit(): Promise<void> {
-
     this.loadCart();
-
   }
 
   async loadCart() {
@@ -58,28 +61,52 @@ export class CartComponent implements OnInit {
       this.checkStock(this.cartProducts)
     }
 
-
   }
 
-  // comprueba el stock del carrito
-  // falta eliminarlo si es 0 !!!!
-  checkStock(carrito: ProductCart[]) {
-    carrito.forEach(async producto => {
-      const user = this.authService.getUser();
+  // Comprueba el stock del carrito y lo actualiza
+  async checkStock(carrito: ProductCart[]): Promise<boolean> {
+    let allProductStock = true; // Para saber si hay suficiente stock de todos los productos
 
+    for (const producto of carrito) {
+      const user = this.authService.getUser();
       let productBack: Product;
       productBack = await this.api.getProduct(producto.productId);
 
       if (productBack.stock < producto.quantity) {
-        this.throwError(`El producto ${productBack.name} dispone de menor stock del que había añadido.`);
+        allProductStock = false;
+
+        // Cuadro de diálogo
+        Swal.fire({
+          title: "Cambio en el stock del producto",
+          text: `El producto ${productBack.name} dispone de menor stock del que había añadido.`,
+          icon: "warning",
+          confirmButtonText: "Vale"
+        });
+
         producto.quantity = productBack.stock;
-        if (user) {
-          this.cartService.updateCartProductBBDD(user.userId, producto.productId, producto.quantity).toPromise();
+
+        // Si el nuevo stock es menor a 1, se elimina del carrito
+        if (producto.quantity < 1) {
+
+          if (user) {
+            await this.cartService.removeFromCartBBDD(this.cart.id, producto.productId).toPromise();
+            this.loadCart();
+          } else {
+            this.cartService.removeFromCartLocal(producto.productId);
+            this.cartProducts = this.cartService.getCartFromLocal();
+          }
+
         } else {
-          this.cartService.updateCartProductLocal(producto);
+          if (user) {
+            await this.cartService.updateCartProductBBDD(user.userId, producto.productId, producto.quantity).toPromise();
+          } else {
+            this.cartService.updateCartProductLocal(producto);
+          }
         }
       }
-    });
+    }
+    this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
+    return allProductStock;
   }
 
   // Método para actualizar la cantidad de un producto en el carrito
@@ -90,6 +117,7 @@ export class CartComponent implements OnInit {
       product.quantity = quantity;
       this.cartService.updateCartProductLocal(product);
     }
+    this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
     this.loadCart();
   }
 
@@ -112,6 +140,7 @@ export class CartComponent implements OnInit {
       }
       const response = await this.cartService.updateCartProductBBDD(userId, product.productId, newQuantity).toPromise();
       //console.log(response)
+      this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
       await this.loadCart();
 
     } catch (error) {
@@ -126,19 +155,19 @@ export class CartComponent implements OnInit {
     this.cartService.removeFromCartLocal(product.productId);
     this.cartProducts = this.cartService.getCartFromLocal();
     this.throwDialog("Producto eliminado del carrito correctamente.");
+    this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
     console.log('Eliminado producto con la id:', product.productId); // Log :D
   }
 
   // eliminar un producto del carrito de la bbdd 
   async removeProductBBDD(productId: number): Promise<void> {
     try {
-
       const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
       this.throwDialog(response);
+      this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
       this.loadCart();
 
     } catch (error) {
-
       console.error('Error al eliminar el producto:', error);
       this.throwError("Hubo un error al eliminar el producto.");
     }
@@ -181,36 +210,56 @@ export class CartComponent implements OnInit {
     this.goToPayment('blockchain', '/blockchain');
   }
 
-  goToPayment(paymentMethod: string, redirectRoute: string) {
-    let createOrder: Observable<any>;
+  async goToPayment(paymentMethod: string, redirectRoute: string) {
+    let allProductStock = true;
 
+    // Comprobar si ha cambiado el stock de los productos
     if (this.isLog) {
-      console.log("Creando orden en BBDD...");
-      createOrder = this.cartService.newTemporalOrderBBDD(this.cart, paymentMethod);
+      console.log("Comprobando stock de los productos para usuario logueado...");
+      allProductStock = await this.checkStock(this.cart.products);
     } else {
-      console.log("Creando orden localmente...");
-      createOrder = this.cartService.newTemporalOrderLocal(this.cartProducts, paymentMethod);
+      console.log("Comprobando stock de los productos para usuario no logueado...");
+      allProductStock = await this.checkStock(this.cartProducts);
     }
 
-    createOrder.subscribe({
-      next: (response: any) => {
-        console.log("Orden creada exitosamente: ", response);
-        const temporalOrderId = response.id;
+    // Si el stock no ha cambiado en ningún producto, se crea la orden
+    if (allProductStock) {
+      let createOrder: Observable<any>;
 
-        this.router.navigate([redirectRoute], {
-          queryParams: {
-            temporalOrderId: temporalOrderId,
-            paymentMethod: paymentMethod,
-          },
-        });
-      },
-      error: (err: any) => {
-        console.error("Error al crear la orden: ", err);
-        this.throwError("Error al crear el pedido.");
-      },
-    });
+      if (this.isLog) {
+        console.log("Creando orden en BBDD...");
+        this.checkStock(this.cart.products);
+        createOrder = this.cartService.newTemporalOrderBBDD(this.cart, paymentMethod);
+      } else {
+        console.log("Creando orden localmente...");
+        this.checkStock(this.cartProducts);
+        createOrder = this.cartService.newTemporalOrderLocal(this.cartProducts, paymentMethod);
+      }
 
-    this.cartService.actionSource = 'checkout';
+      createOrder.subscribe({
+        next: (response: any) => {
+          console.log("Orden creada exitosamente: ", response);
+          const temporalOrderId = response.id;
+
+          this.router.navigate([redirectRoute], {
+            queryParams: {
+              temporalOrderId: temporalOrderId,
+              paymentMethod: paymentMethod,
+            },
+          });
+        },
+        error: (err: any) => {
+          console.error("Error al crear la orden: ", err);
+          this.throwError("Error al crear el pedido.");
+        },
+      });
+
+      this.cartService.actionSource = 'checkout';
+
+      // Si no hay stock en algún producto, no se crea la orden
+    } else {
+      console.error("No hay suficiente stock en algún producto.");
+    }
   }
 
   // Cuadro de diálogo de notificación
@@ -226,7 +275,7 @@ export class CartComponent implements OnInit {
 
   // Cuadro de diálogo de error
   throwError(error: string) {
-    Swal.fire({ 
+    Swal.fire({
       title: "Se ha producido un error",
       text: error,
       icon: "error",

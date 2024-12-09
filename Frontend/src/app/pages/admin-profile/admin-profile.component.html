@@ -90,7 +90,7 @@
 
     <div class="product-list">
         <h3 class="list-title">
-            Lista de productos 
+            Lista de productos
             <button (click)="toggleInsertProduct()">Nuevo producto</button>
         </h3>
         <table>
@@ -103,15 +103,16 @@
                 <th>Acción</th>
             </tr>
             @for (product of products; track $index) {
-            <tr>
-                <td>{{product.id}}</td>
-                <td> <img [src]="IMG_URL + product.image"></td>
-                <td>{{product.name}}</td>
-                <td>{{product.price/100}}€</td>
-                <td>{{product.stock}} uds.</td>
-                <td><button class="edit-btn">✎Edit</button></td>
-            </tr>
+                <tr>
+                    <td>{{product.id}}</td>
+                    <td> <img [src]="IMG_URL + product.image"></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price/100}}€</td>
+                    <td>{{product.stock}} uds.</td>
+                    <td><button class="edit-btn">✎Edit</button></td>
+                </tr>
             }
+            
         </table>
     </div>
     

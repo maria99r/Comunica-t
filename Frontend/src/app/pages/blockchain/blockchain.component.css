@@ -1,8 +1,66 @@
 body {
     margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
 }
 
 h2 {
     text-align: center;
 }
 
+section {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgb(217, 245, 250);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+section section {
+    background-color: rgb(243, 242, 254);
+}
+
+.product-info {
+    margin-bottom: 20px;
+}
+
+.product-info ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-info li {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.product-info img {
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.product-info p {
+    margin: 5px 0 15px;
+}
+
+h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #007bff; 
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

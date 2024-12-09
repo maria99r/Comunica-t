@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { NavComponent } from "../../components/nav/nav.component";
 import { User } from '../../models/user';
@@ -9,13 +9,15 @@ import { Product } from '../../models/product';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment';
-import { ProductDto } from '../../models/productDto';
+import { newProductDto } from '../../models/newProductDto';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-admin-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, FormsModule, DropdownModule, CommonModule],
+  imports: [FooterComponent, NavComponent, FormsModule, CommonModule, ReactiveFormsModule, DropdownModule],
   templateUrl: './admin-profile.component.html',
   styleUrl: './admin-profile.component.css'
 })
@@ -27,16 +29,29 @@ export class AdminProfileComponent implements OnInit {
   users: User[] = [] // lista de usuarios
   selectedRole: string
 
+
   // Datos nuevo producto
   insertProductName: string
   insertProductPrice: number
   insertProductStock: number
   insertProductDescription: string
-  insertProductImage: string
+  insertProductImage: File
+
+  editProductForm : FormGroup;
 
   public readonly IMG_URL = environment.apiImg;
 
-  constructor(private authService: AuthService, private router: Router, private apiService: ApiService) { }
+  constructor(private authService: AuthService, private router: Router, private apiService: ApiService, private formBuild: FormBuilder) {
+
+        // formulario para modificar producto
+        this.editProductForm = this.formBuild.group({
+          name: [''],
+          price: [''],
+          stock: [''],
+          image: ['']
+        });
+
+  }
 
   //obtiene los datos del usuario autenticado
   async ngOnInit() {
@@ -77,7 +92,7 @@ export class AdminProfileComponent implements OnInit {
         alert("El formulario no puede tener datos vacíos.");
       } else {
 
-        const productData: ProductDto = {
+        const productData: newProductDto = {
           name: this.insertProductName,
           price: this.insertProductPrice * 100,
           stock: this.insertProductStock,
@@ -98,7 +113,7 @@ export class AdminProfileComponent implements OnInit {
   async deleteUser(id: number) {
     const confirmation = confirm(`¿Estás seguro de que deseas borrar el usuario con id ${id}?`);
     console.log(confirmation)
-    if(confirmation){
+    if (confirmation) {
       console.log(id);
       await this.apiService.deleteUser(id);
       console.log("Usuario", id, "eliminado con éxito")
@@ -111,4 +126,22 @@ export class AdminProfileComponent implements OnInit {
       await this.apiService.modifyRole(userId)
     }
   }
+
+  // envia cambios para mofidicar producto
+  editProduct(id :number): void {
+    if (this.editProductForm.valid) {
+      
+        this.apiService.updateProduct(id, this.editProductForm.value).subscribe(
+          () => {
+            this.isEditing = false;
+          }
+        );
+        alert('Producto actualizado correctamente.');
+    }
+  }
+
+  /*onFileSelected(event: any) {
+    const image = event.target.files[0] as File;
+    this.newProductForm.patchValue({ file: image });
+  }*/
 }

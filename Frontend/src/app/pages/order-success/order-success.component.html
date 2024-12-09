@@ -1,32 +1,48 @@
 <app-nav></app-nav>
 
-<div>
-    <h2>¡Pago realizado con éxito!</h2>
-    <p>Gracias por tu compra. Tu pago ha sido procesado correctamente.</p>
-</div>
-
-<div class="order-info">
-    <p>Identificador del pedido: {{id}}</p>
-    <b>
-        Detalles:
-    </b>
-
-    <p>Método de pago: {{order.PaymentMethod}}</p>
-    <p>Fecha:  {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</p>
-    @if (order.PaymentMethod == "blockchain") {
-        <p>Total pagado: {{(order.TotalPrice/100)* 0.00029}}ETH</p>
-    } @else {
-        <p>Total pagado: {{order.TotalPrice/100}}€</p>
-    }
-
-    <p>Productos:
-        @for (product of products; track product.productId) {
-            <ul>
-                <li>{{product.product.name}}</li>
-                <li>Cantidad: {{product.quantity}}</li>
-                <li>Precio: {{product.product.price/100}}</li>
-            </ul>
-        }
+<!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
+<div class="panel-top h-15rem d-flex w-full">
+    <p class="m-auto text-white line-height-4 text-5xl uppercase font-bold">
+        ¡Pago realizado con éxito!
     </p>
 </div>
+
+<div>
+    <h3>Gracias por tu compra. Tu pago ha sido procesado correctamente.</h3>
+</div>
+
+@if (!isLoading) {
+<div class="order-info">
+    <p><b>Identificador del pedido:</b> {{id}}</p>
+    <p><b>Método de pago:</b> {{order.PaymentMethod}}</p>
+    <p><b>Fecha de pedido: </b>{{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</p>
+
+
+    <table>
+        <tr>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio unidad</th>
+            <th>Subtotal</th>
+        </tr>
+        @for (product of products; track product.productId) {
+        <tr>
+            <td> <img src="{{ IMG_URL }}{{ product.product.image }}" width="80px" /></td>
+            <td>{{product.product.name}}</td>
+            <td>{{product.quantity}} uds.</td>
+            <td>{{product.product.price/100}}€</td>
+            <td>{{product.product.price*product.quantity/100}}€</td>
+        </tr>
+        }
+    </table>
+    <p><b>Total pagado:</b> {{order.TotalPrice/100}}€</p>
+
+    @if (order.PaymentMethod == "blockchain") {
+    <p><b>Total pagado en Ethereum: </b>{{(order.TotalPrice/100)* 0.00029}}ETH</p>
+    }
+
+</div>
+}
+
 <app-footer></app-footer>

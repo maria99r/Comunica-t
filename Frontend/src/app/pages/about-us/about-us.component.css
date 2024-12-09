@@ -23,7 +23,7 @@ a{
     color: #2A345D;
 }
 
-/* Contenedor general */
+
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -33,15 +33,14 @@ a{
     font-size: larger;
 }
 
-/* Fila específica */
+
 .fila {
     display: flex;
     gap: 5%;
     margin-bottom: 10%;
-    align-items: stretch; /* Fuerza que todas las tarjetas tengan la misma altura */
+    align-items: stretch;
 }
 
-/* Estilos de tarjeta */
 .card-advantage {
     background-color: #f0f0f0;
     color: #2A345D;
@@ -50,19 +49,17 @@ a{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 80%; 
+    height: 100%; 
     width: 50%;
     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.5);
 }
 
-/* Imagen y nombre */
 .card-advantage .text-2xl {
     display: flex;
     align-items: center;
     margin-bottom: 10%;
 }
 
-/* Ajustes para el texto */
 .card-advantage p {
     flex-grow: 1;
     margin: 10;
@@ -73,7 +70,6 @@ a{
     box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
-/* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
     .card-advantage {
         flex: 1 1 100%;              

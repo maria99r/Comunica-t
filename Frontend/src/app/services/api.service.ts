@@ -226,7 +226,7 @@ export class ApiService {
     return this.post<any>('Review/newReview', reviewData);
   }
 
-   // Elimina usuario
+  // Elimina usuario
   async deleteUser(idUser: number): Promise<any> {
     const url = (`User/deleteUser/${idUser}`);
     return this.delete(url);
@@ -236,7 +236,18 @@ export class ApiService {
   // actualizar info de usuario
   updateUser(user: any): Observable<any> {
     const headers = this.getHeader(); // para q me lea el token del usuario actual
-    return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers })
+    return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers, responseType: 'text' });
+  }
+
+  // actualizar info de usuario
+  updateProduct(id: number, product: any): Observable<any> {
+    return this.http.put(`${this.BASE_URL}User/modifyProduct/${id}`, product)
+  }
+
+  modifyPassword(newPassword : any) : Observable<any>{
+    const headers = this.getHeader('application/json', 'application/json');
+    const body = { newPassword };
+    return this.http.put(`${this.BASE_URL}User/modifyPassword`, body, {headers})
   }
 
   // Modificar rol del usuario

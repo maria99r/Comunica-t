@@ -10,6 +10,7 @@ public class EcommerceContext : DbContext
     private const string DATABASE_PATH = "Ecommerce.db";
 
     // Tablas
+    public DbSet<Image> Images { get; set; }
     public DbSet<Cart> Cart { get; set; }
 
     public DbSet<Order> Order { get; set; }

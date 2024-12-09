@@ -16,6 +16,8 @@ import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
 import Swal from 'sweetalert2';
+import { Order } from '../../models/order';
+import { OrderService } from '../../services/order.service';
 
 
 @Component({
@@ -26,7 +28,6 @@ import Swal from 'sweetalert2';
   styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent implements OnInit {
-
 
   product: Product | null = null;
   productCart: ProductCart;
@@ -44,6 +45,9 @@ export class ProductDetailComponent implements OnInit {
   // para ver si el usuario ya ha comentado y que no pueda volver a hacerlo
   hasComment: boolean = false;
 
+  // para verificar si puede poner una reseña
+  hasPurchased: boolean = false;
+
   quantity = 1;
 
   // media reseñas
@@ -54,7 +58,8 @@ export class ProductDetailComponent implements OnInit {
     private api: ApiService,
     private cartApi: CartService,
     private activatedRoute: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private orderApi: OrderService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -85,9 +90,14 @@ export class ProductDetailComponent implements OnInit {
     // revisa si el usuario ya ha comentado para que no pueda comentar
     this.hasComment = this.users.some(u => u.userId === user.userId);
 
+    // obtiene los pedidos para verificar si puede poner una reseña
+    const orders = await this.orderApi.getOrdersByUser(user.userId);
+    this.hasPurchased = orders.some(order =>
+      order.ProductsOrder.some(productOrder => productOrder.productId === Number(this.product.id))
+    );
+
     // calcula la media de las reseñas
     this.calculeAvg();
-
   }
 
 
@@ -152,6 +162,7 @@ export class ProductDetailComponent implements OnInit {
 
       }
     }
+    this.cartApi.notifyCartChange(); // Notificar el cambio en la cantidad
   }
 
   // crear reseña 
@@ -190,6 +201,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
   }
+
   // calculo media de reseñas
   calculeAvg(): void {
     if (this.reviews.length > 0) {
@@ -215,7 +227,7 @@ export class ProductDetailComponent implements OnInit {
 
   // Cuadro de diálogo de error
   throwError(error: string) {
-    Swal.fire({ 
+    Swal.fire({
       title: "Se ha producido un error",
       text: error,
       icon: "error",

@@ -1,6 +1,6 @@
 /* 1º block */
 .panel-top{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/fondo-tecnologico.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-azul-tecnologico_1017-3220.jpg?t=st=1733638153~exp=1733641753~hmac=8b5bc80ed3e442107d7628cf43cd388229690078baf03e19dfbb4cd05d6904d3&w=1980");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
