@@ -4,42 +4,69 @@
 <!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
 <div class="panel-top h-24rem d-flex w-full">
     <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
-        - MI PERFIL (ADMINISTRADOR) -
+        - MI PERFIL -
     </p>
 </div>
 
-<!-- User Admin Info -->
-<div class="profile-info mt-4 m-auto">
-    <div class="profile-row">
-        <div class="profile-label">Nombre:</div>
-        <div class="profile-input">
-            <input type="text" [value]="user?.name" [readonly]="!isEditing">
+<br><br>
+
+<!-- User Info -->
+<fieldset>
+    <legend>Perfil de {{user.role}}</legend>
+    <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+
+        <div class="profile-row">
+            <label for="name">Nombre
+                <input type="text" [value]="user?.name" formControlName="name" [readonly]="!isEditing">
+            </label>
         </div>
-    </div>
-    <div class="profile-row">
-        <div class="profile-label">Correo:</div>
-        <div class="profile-input">
-            <input type="text" [value]="user?.email" [readonly]="!isEditing">
+        <div class="profile-row">
+            <label for="email">Correo
+                <input id="email" type="email" formControlName="email" [readonly]="!isEditing" [value]="user?.email" />
+            </label>
         </div>
-    </div>
-    <div class="profile-row">
-        <div class="profile-label">Rol:</div>
-        <div class="profile-input">
-            <input type="text" [value]="user?.role" [readonly]="!isEditing">
+        <div class="profile-row">
+            <label for="address">Dirección
+                <input id="address" type="text" formControlName="address" [readonly]="!isEditing"
+                [value]="user?.address" />
+            </label>
         </div>
-    </div>
-    <div class="profile-row">
-        <div class="profile-label">Dirección:</div>
-        <div class="profile-input">
-            <input type="text" [value]="user?.address" [readonly]="!isEditing">
+        <div class="profile-row-buttons">
+            <button type="button" [ngClass]="isEditing ? 'btn-edit' : 'btn-secondary'" class="btn btn-secondary"
+                (click)="edit()">
+                {{ isEditing? 'Cancelar edición' : 'Editar' }}
+            </button>
+            <button type="submit" class="btn btn-primary" [hidden]="!isEditing || userForm.invalid">
+                Guardar Cambios
+            </button>
         </div>
-    </div>
-    <div class="profile-row">
-        <div class="profile-label">Contraseña:</div>
-        <div class="profile-input">
-            <input type="password" [value]="123456" [readonly]="!isEditing">
-        </div>
-    </div>
+    </form>
+</fieldset>
+
+<fieldset>
+    <Label>Contraseña <input type="password" placeholder="***********" [readonly]="!isEditing"></Label>
+    <button type="button" class="btn btn-secondary" style="float: right;" (click)="showEditPassword()"> Cambiar
+        Contraseña </button>
+</fieldset>
+
+<div id="newPassword" [hidden]="isNewPasswordHidden">
+    <fieldset>
+        <form [formGroup]="passwordForm" (ngSubmit)="editPassword()">
+            <label>Cambiar contraseña:</label>
+            <br><br>
+            <input type="password" formControlName="newPassword" required placeholder="Nueva Contraseña" />
+            <br>
+            <div class="error" *ngIf="passwordForm.get('newPassword')?.hasError('minlength') && passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched">La contraseña debe
+                tener mínimo 6 caracteres.</div>
+            <br>
+            <input class="icon-input" placeholder="Repetir contraseña" type="password"
+                formControlName="confirmPassword" />
+            <div class="error" *ngIf="passwordForm.get('confirmPassword')?.hasError(('mismatch'))  && passwordForm.get('confirmPassword')?.touched">Las contraseñas no coinciden.</div>
+            <br>
+
+            <button type="submit" [disabled]="passwordForm.invalid">Actualizar contraseña</button>
+        </form>
+    </fieldset>
 </div>
 
 
@@ -61,37 +88,39 @@
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
                 <td>
-                    <select name="Rol" id={{user.role}} [(ngModel)]="user.role">
+                    <select name="Rol" [id]="user.userId" [(ngModel)]="user.role">
                         <option value="Admin">Admin</option>
                         <option value="User">User</option>
                     </select>
                 </td>
-                <td><button class="edit-btn" (click)="modifyUserRole(user.userId)">✎Actualizar</button> | <button class="edit-btn" (click)="deleteUser(user.userId)">Eliminar</button></td>
+                <td>
+                    <button class="edit-btn" (click)="modifyUserRole(user.userId, user.role)">✎Actualizar</button> | 
+                    <button class="edit-btn" (click)="deleteUser(user.userId)">Eliminar</button>
+                </td>
             </tr>
             }
         </table>
     </div>
 
-    <div id="newProduct">
-        <div id="formularioNuevoProducto">
+    <div id="newProduct" [hidden]="isInsertProductHidden">
+        <fieldset class="formularioProducto">
             <h3 class="new-product-title">Crear nuevo producto</h3>
             <form (ngSubmit)="insertProduct()"> <br>
                 <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName"/> <br><br>
                 <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice"/> <br><br>
                 <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock"/> <br><br>
                 <input type="text" name="productDescription" placeholder="Descripción" [(ngModel)]="insertProductDescription"/> <br><br>
-                
                 <label for="productImage">Imagen: </label>
-                <input type="file" name="productImage" placeholder="Ruta de la imagen" [(ngModel)]="insertProductImage"/> <br><br>
+                <input type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)" [(ngModel)]="insertProductImage"/> <br><br>
                 <button (click)="insertProduct()">Crear producto</button>
             </form>
-        </div>
+        </fieldset>
     </div>
 
     <div class="product-list">
         <h3 class="list-title">
             Lista de productos
-            <button (click)="toggleInsertProduct()">Nuevo producto</button>
+            <button (click)="showInsertProductForm()">Nuevo producto</button>
         </h3>
         <table>
             <tr>
@@ -109,30 +138,32 @@
                     <td>{{product.name}}</td>
                     <td>{{product.price/100}}€</td>
                     <td>{{product.stock}} uds.</td>
-                    <td><button class="edit-btn">✎Edit</button></td>
+                    <td><button (click)="showEditProductForm(product)" class="edit-btn" >✎Edit</button></td>
                 </tr>
             }
             
         </table>
     </div>
     
-    <div id="editProdcut">
-        <div id="formularioEditarProducto">
-            <h3 class="new-product-title">Editar producto</h3>
-            <form (ngSubmit)="insertProduct()"> <br>
-                <input type="text" name="productName" placeholder="Nuevo nombre" [(ngModel)]="insertProductName" /> <br><br>
-                <input type="number" name="productPrice" placeholder="Nuevo precio" [(ngModel)]="insertProductPrice" />
-                <br><br>
-                <input type="number" name="productStock" placeholder="Nuevo stock" [(ngModel)]="insertProductStock" />
-                <br><br>
-                <input type="text" name="productDescription" placeholder="Nueva descripción"
-                    [(ngModel)]="insertProductDescription" /> <br><br>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
-                    [(ngModel)]="insertProductImage" /> <br><br>
-                <button (click)="insertProduct()">Confirmar cambios</button>
-            </form>
+    @if (selectedProduct) {
+        <div id="editProduct" [hidden]="isEditProductHidden">
+            <fieldset class="formularioProducto">
+                <h3 class="new-product-title">Editar producto</h3>
+                <form (ngSubmit)="editProduct(selectedProduct.id)"> <br>
+                    <input type="text" name="productName" placeholder="Nuevo nombre" [(ngModel)]="insertProductName" /> <br><br>
+                    <input type="number" name="productPrice" placeholder="Nuevo precio" [(ngModel)]="insertProductPrice" />
+                    <br><br>
+                    <input type="number" name="productStock" placeholder="Nuevo stock" [(ngModel)]="insertProductStock" />
+                    <br><br>
+                    <input type="text" name="productDescription" placeholder="Nueva descripción"
+                        [(ngModel)]="insertProductDescription" /> <br><br>
+                    <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
+                        [(ngModel)]="insertProductImage" /> <br><br>
+                    <button (click)="editProduct(selectedProduct.id)">Confirmar cambios</button>
+                </form>
+            </fieldset>
         </div>
-    </div>
+    }
 </div>
 
 <app-footer></app-footer>

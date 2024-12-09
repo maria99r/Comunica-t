@@ -239,9 +239,9 @@ export class ApiService {
     return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers, responseType: 'text' });
   }
 
-  // actualizar info de usuario
+  // actualizar info de producto
   updateProduct(id: number, product: any): Observable<any> {
-    return this.http.put(`${this.BASE_URL}User/modifyProduct/${id}`, product)
+    return this.http.put(`${this.BASE_URL}Product/modifyProduct/${id}`, product)
   }
 
   modifyPassword(newPassword : any) : Observable<any>{
@@ -251,8 +251,9 @@ export class ApiService {
   }
 
   // Modificar rol del usuario
-  modifyRole(userId: number): Promise<any> {
-    return this.put(`User/modifyUserRole/${userId}`)
+  modifyRole(userId: number, role: string): Promise<any> {
+    const headers = this.getHeader('application/json', 'application/json');
+    return this.put(`User/modifyUserRole/${userId}`, role, { headers })
   }
 
   // Crear producto
