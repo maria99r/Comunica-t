@@ -7,7 +7,7 @@ namespace Ecommerce.Services
 {
     public class ImageService
     {
-        private const string IMAGES_FOLDER = "images";
+        private const string IMAGES_FOLDER = "products";
 
         private readonly UnitOfWork _unitOfWork;
 
@@ -26,7 +26,7 @@ namespace Ecommerce.Services
             return _unitOfWork.ImageRepository.GetByIdAsync(id);
         }
 
-        public async Task<Image> InsertAsync(CreateUpdateImageRequest image)
+        public async Task<Image> InsertImageAsync(CreateUpdateImageRequest image)
         {
             string relativePath = $"{IMAGES_FOLDER}/{Guid.NewGuid()}_{image.File.FileName}";
 

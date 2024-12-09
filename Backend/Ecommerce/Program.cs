@@ -48,6 +48,7 @@ builder.Services.AddScoped<ProductCartMapper>();
 builder.Services.AddScoped<TemporalOrderMapper>();
 builder.Services.AddScoped<OrderMapper>();
 builder.Services.AddScoped<ImageMapper>();
+builder.Services.AddScoped<ImageMapper>();
 
 // Inyección de Servicios
 builder.Services.AddScoped<UserService>();

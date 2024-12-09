@@ -71,20 +71,40 @@
     <div id="newProduct">
         <div id="formularioNuevoProducto">
             <h3 class="new-product-title">Crear nuevo producto</h3>
-            <form (ngSubmit)="insertProduct()"> <br>
-                <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName" /> <br><br>
-                <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice" />
+            <form (ngSubmit)="insertProduct()" [formGroup]="newProductForm">
+                <br>
+                <input type="text" formControlName="productName" placeholder="Nombre" [(ngModel)]="insertProductName" />
                 <br><br>
-                <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock" />
+                <input type="number" formControlName="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice" />
                 <br><br>
-                <input type="text" name="productDescription" placeholder="Descripción"
-                    [(ngModel)]="insertProductDescription" /> <br><br>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
-                    [(ngModel)]="insertProductImage" /> <br><br>
-                <button (click)="insertProduct()">Crear producto</button>
+                <input type="number" formControlName="productStock" placeholder="Stock" [(ngModel)]="insertProductStock" />
+                <br><br>
+                <input type="text" formControlName="productDescription" placeholder="Descripción"
+                    [(ngModel)]="insertProductDescription" />
+                <br><br>
+                <button (click)="addImage()">Añadir imagen</button>
+                <br><br>
+                <button type="submit">Crear producto</button>
             </form>
         </div>
     </div>
+
+    <dialog #addEditDialog>
+        <form [formGroup]="addOrEditForm" (ngSubmit)="createOrUpdateImage()">
+          <label>
+            Name:
+            <input type="text" formControlName="name" />
+          </label>
+          <br>
+          <label>
+            Imagen:
+            <input type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)"/>
+          </label>
+          <br>
+          <button type="button" (click)="closeDialog(addOrEditDialog)">Cancelar</button>
+          <input type="submit" [disabled]="addOrEditForm.valid" />
+        </form>
+      </dialog>
 
     <div class="product-list">
         <h3 class="list-title">
@@ -101,16 +121,16 @@
                 <th>Acción</th>
             </tr>
             @for (product of products; track $index) {
-                <tr>
-                    <td>{{product.id}}</td>
-                    <td> <img [src]="IMG_URL + product.image"></td>
-                    <td>{{product.name}}</td>
-                    <td>{{product.price/100}}€</td>
-                    <td>{{product.stock}} uds.</td>
-                    <td><button class="edit-btn">✎Edit</button></td>
-                </tr>
+            <tr>
+                <td>{{product.id}}</td>
+                <td> <img [src]="IMG_URL + product.image"></td>
+                <td>{{product.name}}</td>
+                <td>{{product.price/100}}€</td>
+                <td>{{product.stock}} uds.</td>
+                <td><button class="edit-btn">✎Edit</button></td>
+            </tr>
             }
-            
+
         </table>
     </div>
     <div id="editProdcut">
@@ -126,7 +146,7 @@
                     [(ngModel)]="insertProductDescription" /> <br><br>
                 <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
                     [(ngModel)]="insertProductImage" /> <br><br>
-                <button (click)="insertProduct()">Crear producto</button>
+                <button (click)="insertProduct()">Editar producto</button>
             </form>
         </div>
     </div>
