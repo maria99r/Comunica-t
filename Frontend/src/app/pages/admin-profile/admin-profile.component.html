@@ -114,6 +114,24 @@
             }
         </table>
     </div>
+    
+    <div id="editProdcut">
+        <div id="formularioEditarProducto">
+            <h3 class="new-product-title">Editar producto</h3>
+            <form (ngSubmit)="insertProduct()"> <br>
+                <input type="text" name="productName" placeholder="Nuevo nombre" [(ngModel)]="insertProductName" /> <br><br>
+                <input type="number" name="productPrice" placeholder="Nuevo precio" [(ngModel)]="insertProductPrice" />
+                <br><br>
+                <input type="number" name="productStock" placeholder="Nuevo stock" [(ngModel)]="insertProductStock" />
+                <br><br>
+                <input type="text" name="productDescription" placeholder="Nueva descripción"
+                    [(ngModel)]="insertProductDescription" /> <br><br>
+                <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
+                    [(ngModel)]="insertProductImage" /> <br><br>
+                <button (click)="insertProduct()">Confirmar cambios</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <app-footer></app-footer>

@@ -86,7 +86,7 @@ export class AdminProfileComponent implements OnInit {
         };
 
         await this.apiService.insertProduct(productData);
-        console.log("Producto creado con éxito")
+        alert("Producto creado con éxito")
       }
     } catch (error) {
       alert("Error al crear el producto")
