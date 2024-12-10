@@ -84,13 +84,14 @@ namespace Ecommerce.Controllers
         }
 
         // Solo pueden usar este método los usuarios cuyo rol sea admin
-        //[Authorize(Roles = "Admin")] //Descomentar esto cuando esté implementado en front (en swagger no se puede probar)
-        [HttpPut("modifyUserRole/{userId}")]
-        public async Task<IActionResult> ModifyUserRole(int userId, [FromBody] string newRole)
+
+        [Authorize(Roles = "Admin")] //Descomentar esto cuando esté implementado en front (en swagger no se puede probar)
+        [HttpPut("modifyUserRole")]
+        public async Task<IActionResult> ModifyUserRole(ModifyRoleRequest request)
         {
 
             // Obtener datos del usuario
-            UserDto userData = await _userService.GetUserByIdAsync(userId);
+            UserDto userData = await _userService.GetUserByIdAsync(request.UserId);
 
             if (userData == null)
             {
@@ -99,9 +100,9 @@ namespace Ecommerce.Controllers
 
             try
             {
-                if (newRole == "User" || newRole == "Admin")
+                if (request.NewRole == "User" || request.NewRole == "Admin")
                 {
-                    await _userService.ModifyUserRoleAsync(userId, newRole);
+                    await _userService.ModifyUserRoleAsync(request.UserId, request.NewRole);
                     return Ok("Rol de usuario actualizado correctamente.");
                 }
                 else

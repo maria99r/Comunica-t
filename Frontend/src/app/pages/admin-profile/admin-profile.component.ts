@@ -142,6 +142,37 @@ export class AdminProfileComponent implements OnInit {
   }
 }
 
+// Editar el rol de un usuario
+async modifyUserRole(userId: number, newRole: string) {
+  console.log("Rol: " , newRole)
+  try {
+    this.apiService.modifyRole(userId, newRole).subscribe(
+      async () => {
+        console.log("Rol modificado correctamente: "),
+        this.users = await this.apiService.allUser();
+      }
+    );
+    
+  } catch (error) {
+    console.error("Error al modificar el rol", error)
+  }
+  this.users = await this.apiService.allUser();
+}
+
+// Eliminar un usuario
+async deleteUser(id: number) {
+
+  const confirmation = confirm(`¿Estás seguro de que deseas borrar el usuario con id ${id}?`);
+  console.log(confirmation)
+
+  if (confirmation) {
+    console.log(id);
+    await this.apiService.deleteUser(id);
+    console.log("Usuario", id, "eliminado con éxito")
+  } 
+  this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
+}
+
   showEditPassword() {
     let element = document.getElementById("newPassword");
     let hidden = element.getAttribute("hidden");
