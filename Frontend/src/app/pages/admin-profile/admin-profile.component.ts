@@ -284,7 +284,6 @@ export class AdminProfileComponent implements OnInit {
 
 
 
-
   openDialog(dialogRef: ElementRef<HTMLDialogElement>) {
     dialogRef.nativeElement.showModal();
   }
