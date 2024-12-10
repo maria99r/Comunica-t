@@ -220,18 +220,16 @@ export class ApiService {
     return users;
   }
 
-
   // Crear review
   async publicReview(reviewData: ReviewDto): Promise<Result<any>> {
     return this.post<any>('Review/newReview', reviewData);
   }
 
   // Elimina usuario
-  async deleteUser(idUser: number): Promise<any> {
-    const url = (`User/deleteUser/${idUser}`);
-    return this.delete(url);
+  deleteUser(idUser: number): Observable<any> {
+    const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
+    return this.http.delete(url, { responseType: 'text' });
   }
-
 
   // actualizar info de usuario
   updateUser(user: any): Observable<any> {
@@ -250,12 +248,6 @@ export class ApiService {
     return this.http.put(`${this.BASE_URL}User/modifyPassword`, body, { headers })
   }
 
-  // Modificar rol del usuario
-  modifyRole(userId: number, role: string): Promise<any> {
-    const headers = this.getHeader('application/json', 'application/json');
-    return this.put(`User/modifyUserRole/${userId}`, role, { headers })
-  }
-
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {
     return this.post<any>('Product/insertProduct', formData);
@@ -272,4 +264,3 @@ export class ApiService {
   }
 
 }
-
