@@ -22,6 +22,7 @@ public class TemporalOrder
 
     // tiempo de expiracion
     public DateTime ExpiresAt { get; set; }
+    public bool Express { get; set; }
 
     public int? UserId { get; set; }
 

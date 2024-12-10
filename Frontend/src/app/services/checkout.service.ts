@@ -29,8 +29,8 @@ export class CheckoutService {
 }
 
   // Inicializa el checkout embebido de Stripe
-  getEmbededCheckout(): Promise<Result<CheckoutSession>> {
-    return this.api.get<CheckoutSession>('Checkout/embedded');
+  getEmbededCheckout(temporalOrderId: number): Promise<Result<CheckoutSession>> {
+    return this.api.get<CheckoutSession>('Checkout/embedded', {"temporalOrderId" : temporalOrderId});
   }
 
   // Refresca la expiración de la orden temporal

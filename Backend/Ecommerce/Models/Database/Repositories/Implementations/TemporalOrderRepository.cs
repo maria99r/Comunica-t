@@ -34,6 +34,22 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         return temporalOrder;
     }
 
+    public async Task<TemporalOrder> GetTemporalOrderByIdWithoutuser(int id)
+    {
+        var temporalOrder = await GetQueryable()
+            .Include(t => t.TemporalProductOrder)
+            .ThenInclude(p => p.Product)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (temporalOrder == null)
+        {
+            throw new InvalidOperationException("La orden temporal no se encontró para esta id.");
+        }
+
+
+        return temporalOrder;
+    }
+
 
 
     // Crear una orden temporal DESDE EL LOCAL
@@ -50,7 +66,8 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             PaymentMethod = paymentMethod,
             TotalPrice = total,
             TemporalProductOrder = new List<TemporalProductOrder>(),
-            ExpiresAt = DateTime.UtcNow.AddMinutes(15) // expira en 15 minutos
+            ExpiresAt = DateTime.UtcNow.AddMinutes(15), // expira en 15 minutos
+            Express = true
         };
 
         // generar el id de la orden temporal
@@ -98,7 +115,8 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             }).ToList(),
             User = null, //  recibo un dto, habria que asignarlo desde el token !!
 
-            ExpiresAt = DateTime.UtcNow.AddMinutes(2) // expira en 2 minutos
+            ExpiresAt = DateTime.UtcNow.AddMinutes(15), // expira en 15 minutos
+            Express = false
         };
 
         var insertedTemporalOrder = await InsertAsync(newTemporalOrder);

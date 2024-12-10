@@ -135,7 +135,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   async embeddedCheckout() {
     console.log("Iniciando el checkout embebido de Stripe...");
     try {
-      const request = await this.service.getEmbededCheckout();
+      const request = await this.service.getEmbededCheckout(this.temporalOrderId);
       if (request.success) {
         const options: StripeEmbeddedCheckoutOptions = {
           clientSecret: request.data.clientSecret,

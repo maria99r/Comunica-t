@@ -49,9 +49,7 @@ public class CartRepository : Repository<Cart, int>
         try
         {
             var cart = await GetQueryable()
-            .Include(cart => cart.User)
             .Include(cart => cart.ProductCarts)
-                .ThenInclude(pc => pc.Product)
                 .FirstOrDefaultAsync(cart => cart.UserId == id);
 
             if (cart == null)
