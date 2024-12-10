@@ -38,7 +38,7 @@ export class AdminProfileComponent implements OnInit {
   imageToEdit: Image = null;
   imageToDelete: Image = null;
 
-  selectedProduct: any = null;
+  selectedProduct: Product = null;
   isEditing = false // modo edición
   isNewPasswordHidden = true // Mostrar div de cambiar contraseña
   isInsertProductHidden = true // Mostrar div de crear producto
@@ -51,15 +51,22 @@ export class AdminProfileComponent implements OnInit {
   insertProductDescription: string;
   insertProductImage: string;
 
+  modifyProductName : string;
+  modifyProductPrice : number;
+  modifyProductStock : number;
+  modifyProductDescription : string;
+  modifyProductImage : string;
+
   newProductForm: FormGroup;
   addOrEditForm: FormGroup;
   editProductForm: FormGroup;
-  userForm : FormGroup;
+  userForm: FormGroup;
   selectedFile: File;
 
   passwordForm: FormGroup;
 
   rutaImgNewProduct: String = "";
+  rutaImgModifyProduct: String = "";
 
 
   public readonly IMG_URL = environment.apiImg;
@@ -85,11 +92,21 @@ export class AdminProfileComponent implements OnInit {
       password: ['']
     });
 
+    this.editProductForm = this.formBuild.group({
+      newProductName: [''],
+      newProductPrice: [null],
+      newProductStock: [null],
+      newProductDescription: [''],
+      newProductImage: ['']
+    });
+
+
+
     this.passwordForm = this.formBuild.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
-    { validators: this.passwordMatchValidator });
+      { validators: this.passwordMatchValidator });
   }
 
   //obtiene los datos del usuario autenticado
@@ -97,7 +114,7 @@ export class AdminProfileComponent implements OnInit {
     if (!this.authService.isAuthenticated() || !this.authService.isAdmin()) {
       this.router.navigate(['/']);
     }
-    
+
     this.actualizarUser();
 
     this.products = await this.apiService.allProducts();
@@ -111,22 +128,34 @@ export class AdminProfileComponent implements OnInit {
       this.userForm.reset(this.user);
     }
   }
-  
+
   // Muestra u oculta el formulario de cambiar contraseña
   showEditPassword() {
     this.isNewPasswordHidden = !this.isNewPasswordHidden;
   }
   // Muestra u oculta el formulario de crear producto
-  showInsertProductForm(){
+  showInsertProductForm() {
     this.isInsertProductHidden = !this.isInsertProductHidden;
   }
-  
-    // Muestra u oculta el formulario de editar producto
-  showEditProductForm(product: any){
-    this.selectedProduct = { ...product };
+
+  // Muestra u oculta el formulario de editar producto
+  showEditProductForm(product: Product) {
+
+    this.selectedProduct = product;
     this.isEditProductHidden = !this.isEditProductHidden;
+
+    console.log(this.selectedProduct)
+
+    this.editProductForm.patchValue({
+      name: product.name,
+      stock: product.stock,
+      price: product.price,
+      description: product.description,
+      image: product.image
+    });
+
   }
-  
+
   editPassword() {
     if (this.passwordForm.valid) {
       const newPassword = this.passwordForm.get('newPassword')?.value;
@@ -135,7 +164,7 @@ export class AdminProfileComponent implements OnInit {
         console.error("Error: El campo de la contraseña está vacío.");
         return;
       }
-      
+
       this.apiService.modifyPassword(newPassword).subscribe(() => {
         Swal.fire({ // Cuadro de diálogo
           title: "Contraseña modificada con éxito.",
@@ -151,15 +180,15 @@ export class AdminProfileComponent implements OnInit {
 
   // Editar el rol de un usuario
   async modifyUserRole(userId: number, newRole: string) {
-    console.log("Rol: " , newRole)
+    console.log("Rol: ", newRole)
     try {
       this.apiService.modifyRole(userId, newRole).subscribe(
         async () => {
           console.log("Rol modificado correctamente: "),
-          this.users = await this.apiService.allUser();
+            this.users = await this.apiService.allUser();
         }
       );
-      
+
     } catch (error) {
       console.error("Error al modificar el rol", error)
     }
@@ -176,7 +205,7 @@ export class AdminProfileComponent implements OnInit {
       console.log(id);
       await this.apiService.deleteUser(id);
       console.log("Usuario", id, "eliminado con éxito")
-    } 
+    }
     this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
   }
 
@@ -185,7 +214,7 @@ export class AdminProfileComponent implements OnInit {
     this.isEditing = !this.isEditing;
   }
 
-  
+
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('newPassword')?.value;
     const confirmPasswordControl = form.get('confirmPassword');
@@ -198,7 +227,7 @@ export class AdminProfileComponent implements OnInit {
     }
   }
 
-  
+
   // envia cambios para mofidicar el usuario
   onSubmit(): void {
     if (this.userForm.valid) {
@@ -206,6 +235,7 @@ export class AdminProfileComponent implements OnInit {
       this.apiService.updateUser(this.userForm.value).subscribe(
         () => {
           this.isEditing = false;
+          this.authService.updateUserData(this.userForm.value);
         }
       );
       Swal.fire({ // Cuadro de diálogo
@@ -219,7 +249,7 @@ export class AdminProfileComponent implements OnInit {
     }
   }
 
-  
+
   actualizarUser() {
     this.user = this.authService.getUser();
 
@@ -235,8 +265,6 @@ export class AdminProfileComponent implements OnInit {
 
   // Crear producto 
   async insertProduct() {
-
-
     const formData = new FormData();
     const price = this.newProductForm.get('productPrice').value * 100;
     formData.append('name', this.newProductForm.get('productName').value);
@@ -255,6 +283,11 @@ export class AdminProfileComponent implements OnInit {
     } catch (error) {
       console.error('Error al crear el producto: ', error);
     }
+
+    this.rutaImgNewProduct = "";
+    this.rutaImgModifyProduct = "";
+    this.resetInsertProductForm();
+
   }
 
   async loadProducts(): Promise<void> {
@@ -269,19 +302,29 @@ export class AdminProfileComponent implements OnInit {
     this.insertProductImage = null;
   }
 
-  // envia cambios para mofidicar producto
-  editProduct(id: number): void {
-    if (this.editProductForm.valid) {
+  // mofidicar producto
+  async editProduct(id: number): Promise<void> {
 
+    const formData = new FormData();
+    const price = this.editProductForm.get('newProductPrice').value * 100;
+    formData.append('name', this.editProductForm.get('newProductName').value);
+    formData.append('price', price.toString());
+    formData.append('stock', this.editProductForm.get('newProductStock').value.toString());
+    formData.append('description', this.editProductForm.get('newProductDescription').value);
+    formData.append('image', this.rutaImgModifyProduct.toString());
+
+    console.log(formData)
       this.apiService.updateProduct(id, this.editProductForm.value).subscribe(
         () => {
-          this.isEditing = false;
+          alert('Producto modificado con éxito.');
+          this.loadProducts();        
         }
       );
-      alert('Producto actualizado correctamente.');
-    }
-  }
 
+      this.rutaImgModifyProduct = "";
+      this.rutaImgNewProduct = "";
+
+  }
 
 
 
@@ -320,7 +363,7 @@ export class AdminProfileComponent implements OnInit {
 
       if (request.success) {
         this.rutaImgNewProduct = request.data.url;
-        alert('Imagen añadida con éxito');
+        this.rutaImgModifyProduct = request.data.url;
 
         this.closeDialog(this.addOrEditDialog);
       } else {

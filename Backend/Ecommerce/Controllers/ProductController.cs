@@ -74,13 +74,14 @@ public class ProductController : ControllerBase
 
     // Modificar producto existente
     [HttpPut("modifyProduct/{productId}")]
-    public async Task<IActionResult> ModifyProduct(int productId, string newName, int newPrice, int newStock, string newDescription, [FromForm] string newImage)
+    public async Task<IActionResult> ModifyProduct(int productId, [FromBody] ProductDto productRequest)
     {
         var product = await _productService.GetProductByIdAsync(productId);
 
         try
         {
-            await _productService.ModifyProductAsync(productId, newName, newPrice, newStock, newDescription, newImage);
+            await _productService.ModifyProductAsync(productId, productRequest.Name,
+                productRequest.Price, productRequest.Stock, productRequest.Description, productRequest.Image);
             return Ok("Producto actualizado correctamente.");
         }
         catch (InvalidOperationException)
