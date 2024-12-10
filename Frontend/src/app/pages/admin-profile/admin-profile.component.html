@@ -7,68 +7,68 @@
         - MI PERFIL -
     </p>
 </div>
-
-<br><br>
-
-<!-- User Info -->
-<fieldset>
-    <legend>Perfil de {{user.role}}</legend>
-    <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
-
-        <div class="profile-row">
-            <label for="name">Nombre
-                <input type="text" [value]="user?.name" formControlName="name" [readonly]="!isEditing">
-            </label>
-        </div>
-        <div class="profile-row">
-            <label for="email">Correo
-                <input id="email" type="email" formControlName="email" [readonly]="!isEditing" [value]="user?.email" />
-            </label>
-        </div>
-        <div class="profile-row">
-            <label for="address">Dirección
-                <input id="address" type="text" formControlName="address" [readonly]="!isEditing"
-                [value]="user?.address" />
-            </label>
-        </div>
-        <div class="profile-row-buttons">
-            <button type="button" [ngClass]="isEditing ? 'btn-edit' : 'btn-secondary'" class="btn btn-secondary"
-                (click)="edit()">
-                {{ isEditing? 'Cancelar edición' : 'Editar' }}
-            </button>
-            <button type="submit" class="btn btn-primary" [hidden]="!isEditing || userForm.invalid">
-                Guardar Cambios
-            </button>
-        </div>
-    </form>
-</fieldset>
-
-<fieldset>
-    <Label>Contraseña <input type="password" placeholder="***********" [readonly]="!isEditing"></Label>
-    <button type="button" class="btn btn-secondary" style="float: right;" (click)="showEditPassword()"> Cambiar
-        Contraseña </button>
-</fieldset>
-
-<div id="newPassword" [hidden]="isNewPasswordHidden">
+<!-- PROFILE CONTAINER -->
+<div class="profile-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
+    <!-- User Info -->
     <fieldset>
-        <form [formGroup]="passwordForm" (ngSubmit)="editPassword()">
-            <label>Cambiar contraseña:</label>
-            <br><br>
-            <input type="password" formControlName="newPassword" required placeholder="Nueva Contraseña" />
-            <br>
-            <div class="error" *ngIf="passwordForm.get('newPassword')?.hasError('minlength') && passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched">La contraseña debe
-                tener mínimo 6 caracteres.</div>
-            <br>
-            <input class="icon-input" placeholder="Repetir contraseña" type="password"
-                formControlName="confirmPassword" />
-            <div class="error" *ngIf="passwordForm.get('confirmPassword')?.hasError(('mismatch'))  && passwordForm.get('confirmPassword')?.touched">Las contraseñas no coinciden.</div>
-            <br>
+        <legend>Rol de {{user.role}}</legend>
+        <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
 
-            <button type="submit" [disabled]="passwordForm.invalid">Actualizar contraseña</button>
+            <div class="profile-row">
+                <label for="name">Nombre:</label>
+                <input type="text" [value]="user?.name" formControlName="name" [readonly]="!isEditing">
+            </div>
+            <div class="profile-row">
+                <label for="email">Correo:</label>
+                <input id="email" type="email" formControlName="email" [readonly]="!isEditing" [value]="user?.email" />
+            </div>
+            <div class="profile-row">
+                <label for="address">Dirección:</label>
+                <input id="address" type="text" formControlName="address" [readonly]="!isEditing"
+                    [value]="user?.address" />
+            </div>
+            <!--<div class="profile-row">
+            <label for="password">Contraseña:</label>
+            <input id="password" type="password" formControlName="password" [readonly]="!isEditing" />
+        </div>-->
+            <div class="profile-row-buttons">
+                <button type="button" [ngClass]="isEditing ? 'btn-edit' : 'btn-secondary'" class="btn btn-secondary"
+                    (click)="edit()">
+                    {{ isEditing? 'Cancelar edición' : 'Editar' }}
+                </button>
+                <button type="submit" class="btn btn-primary" [hidden]="!isEditing || userForm.invalid">
+                    Guardar Cambios
+                </button>
+            </div>
         </form>
     </fieldset>
-</div>
 
+    <fieldset>
+        <Label>Contraseña: ***********</Label>
+        <button type="button" class="btn btn-secondary" style="float: right;" (click)="showEditPassword()"> Cambiar
+            Contraseña </button>
+    </fieldset>
+
+
+    <div id="newPassword">
+        <fieldset>
+            <form [formGroup]="passwordForm" (ngSubmit)="editPassword()">
+                <label>Cambiar contraseña:</label>
+                <br><br>
+                <input type="password" formControlName="newPassword" required placeholder="Nueva Contraseña" />
+                <br>
+                <div class="error" *ngIf="passwordForm.get('newPassword')?.hasError('minlength') && passwordForm.get('password')?.invalid && passwordForm.get('password')?.touched">La contraseña debe
+                    tener mínimo 6 caracteres.</div>
+                <br>
+                <input class="icon-input" placeholder="Repetir contraseña" type="password"
+                    formControlName="confirmPassword" />
+                <div class="error" *ngIf="passwordForm.get('confirmPassword')?.hasError(('mismatch'))  && passwordForm.get('confirmPassword')?.touched">Las contraseñas no coinciden.</div>
+                <br>
+
+                <button type="submit" [disabled]="passwordForm.invalid">Actualizar contraseña</button>
+            </form>
+        </fieldset>
+    </div>
 
 <div class="container d-flex justify-content-between">
 
@@ -105,17 +105,44 @@
     <div id="newProduct" [hidden]="isInsertProductHidden">
         <fieldset class="formularioProducto">
             <h3 class="new-product-title">Crear nuevo producto</h3>
-            <form (ngSubmit)="insertProduct()"> <br>
-                <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName"/> <br><br>
-                <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice"/> <br><br>
-                <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock"/> <br><br>
-                <input type="text" name="productDescription" placeholder="Descripción" [(ngModel)]="insertProductDescription"/> <br><br>
-                <label for="productImage">Imagen: </label>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)" [(ngModel)]="insertProductImage"/> <br><br>
-                <button (click)="insertProduct()">Crear producto</button>
+
+            <form (ngSubmit)="insertProduct()" [formGroup]="newProductForm">
+                <br>
+                <input type="text" formControlName="productName" placeholder="Nombre" [(ngModel)]="insertProductName" />
+                <br><br>
+                <input type="number" formControlName="productPrice" placeholder="Precio"
+                    [(ngModel)]="insertProductPrice" />
+                <br><br>
+                <input type="number" formControlName="productStock" placeholder="Stock"
+                    [(ngModel)]="insertProductStock" />
+                <br><br>
+                <input type="text" formControlName="productDescription" placeholder="Descripción"
+                    [(ngModel)]="insertProductDescription" />
+                <br><br>
+                <input type="text" disabled [placeholder]="rutaImgNewProduct" class="w-4">
+                <input type="button" (click)="addImage()" value="Añadir imagen">
+                <br><br>
+                <button type="submit" [disabled]="newProductForm.invalid">Crear producto</button>
             </form>
         </fieldset>
     </div>
+
+    <dialog #addEditDialog>
+        <form [formGroup]="addOrEditForm" (ngSubmit)="createOrUpdateImage()">
+            <label>
+                Name:
+                <input type="text" formControlName="name" />
+            </label>
+            <br>
+            <label>
+                Imagen:
+                <input type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)" />
+            </label>
+            <br>
+            <button type="button" (click)="closeDialog(addOrEditDialog)">Cancelar</button>
+            <input type="submit" [disabled]="addOrEditForm.valid" />
+        </form>
+    </dialog>
 
     <div class="product-list">
         <h3 class="list-title">
@@ -140,8 +167,9 @@
                     <td>{{product.stock}} uds.</td>
                     <td><button (click)="showEditProductForm(product)" class="edit-btn" >✎Edit</button></td>
                 </tr>
+
             }
-            
+
         </table>
     </div>
     
@@ -162,6 +190,7 @@
                     <button (click)="editProduct(selectedProduct.id)">Confirmar cambios</button>
                 </form>
             </fieldset>
+
         </div>
     }
 </div>

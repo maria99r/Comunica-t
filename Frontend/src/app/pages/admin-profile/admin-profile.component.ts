@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { NavComponent } from "../../components/nav/nav.component";
@@ -12,11 +12,14 @@ import { environment } from '../../../environments/environment';
 import { newProductDto } from '../../models/newProductDto';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { DropdownModule } from 'primeng/dropdown';
 import Swal from 'sweetalert2';
 import { ImageService } from '../../services/image.service';
 import { Image } from '../../models/image';
 import { CreateOrUpdateImageRequest } from '../../models/create-update-image-request';
+import { ImageRequest } from '../../models/image-request';
+
 
 @Component({
   selector: 'app-admin-profile',
@@ -46,19 +49,28 @@ export class AdminProfileComponent implements OnInit {
   images: Image[] = [];
   imageToEdit: Image = null;
 
-  // Datos nuevo producto
-  insertProductName: string
-  insertProductPrice: number
-  insertProductStock: number
-  insertProductDescription: string
-  insertProductImage: File
+  @ViewChild('addEditDialog')
+  addOrEditDialog: ElementRef<HTMLDialogElement>;
 
-  constructor(
-    private authService: AuthService, 
-    private router: Router, 
-    private apiService: ApiService,
-    private imageService: ImageService, 
-    private formBuild: FormBuilder) {
+  images: Image[] = [];
+
+  imageToDelete: Image = null;
+
+  // Datos nuevo producto
+  insertProductName: string;
+  insertProductPrice: number;
+  insertProductStock: number;
+  insertProductDescription: string;
+  insertProductImage: string;
+
+  newProductForm: FormGroup;
+  userForm : FormGroup;
+  selectedFile: File;
+
+  passwordForm: FormGroup;
+
+  rutaImgNewProduct: String = "";
+
 
     this.userForm = this.formBuild.group({
       name: ['', Validators.required],
@@ -66,10 +78,33 @@ export class AdminProfileComponent implements OnInit {
       address: ['']
     });
 
+
+  constructor(private authService: AuthService, private router: Router, private apiService: ApiService, private formBuild: FormBuilder, private imageService: ImageService) {
+    this.newProductForm = this.formBuild.group({
+      productName: ['', Validators.required],
+      productPrice: [null, Validators.required],
+      productStock: [null, Validators.required],
+      productDescription: ['', Validators.required],
+      productImage: ['', Validators.required]
+    });
+
+    this.addOrEditForm = this.formBuild.group({
+      name: ['', Validators.required],
+      file: [null, Validators.required]
+    });
+
+    this.userForm = this.formBuild.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      address: [''],
+      password: ['']
+    });
+
     this.passwordForm = this.formBuild.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
+                                             
       { validators: this.passwordMatchValidator });
 
     // formulario para modificar producto
@@ -79,6 +114,43 @@ export class AdminProfileComponent implements OnInit {
     stock: [''],
     image: ['']
     });
+
+    { validators: this.passwordMatchValidator });
+  }
+
+  
+  editPassword() {
+    if (this.passwordForm.valid) {
+      const newPassword = this.passwordForm.get('newPassword')?.value;
+
+      if (!newPassword) {
+        console.error("Error: El campo de la contraseña está vacío.");
+        return;
+      }
+      
+      this.apiService.modifyPassword(newPassword).subscribe(() => {
+        Swal.fire({ // Cuadro de diálogo
+          title: "Contraseña modificada con éxito.",
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        this.showEditPassword()
+      }      
+    );
+  }
+}
+
+  showEditPassword() {
+    let element = document.getElementById("newPassword");
+    let hidden = element.getAttribute("hidden");
+
+    if (hidden) {
+      element.removeAttribute("hidden");
+    } else {
+      element.setAttribute("hidden", "hidden");
+    }
   }
 
   //obtiene los datos del usuario autenticado
@@ -87,18 +159,21 @@ export class AdminProfileComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
+    
+    this.actualizarUser();
+   
+    let elementPassword = document.getElementById("newPassword");
+    elementPassword.setAttribute("hidden", "hidden");
 
     this.actualizarUser();
 
     this.products = await this.apiService.allProducts();
     this.users = await this.apiService.allUser();
 
-    this.addOrEditForm = this.formBuild.group({
-      name: [''],
-      file: [null]
-    });
 
-    await this.upateImageList();
+    // que aparezca oculto al principio
+    let element = document.getElementById("newProduct");
+    element.setAttribute("hidden", "hidden");
   }
 
   // -------------------------- INICIO activar o desactivar visibilidad divs --------------------------
@@ -199,6 +274,7 @@ export class AdminProfileComponent implements OnInit {
     }
   }
 
+
   // Editar el rol de un usuario
   async modifyUserRole(userId: number, userRole: string) {
     try {
@@ -224,24 +300,82 @@ export class AdminProfileComponent implements OnInit {
     this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
   }
 
+  
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('newPassword')?.value;
+    const confirmPasswordControl = form.get('confirmPassword');
+    const confirmPassword = confirmPasswordControl?.value;
+
+    if (password !== confirmPassword && confirmPasswordControl) {
+      confirmPasswordControl.setErrors({ mismatch: true });
+    } else if (confirmPasswordControl) {
+      confirmPasswordControl.setErrors(null);
+    }
+  }
+
+  
+  // envia cambios para mofidicar el usuario
+  onSubmit(): void {
+    if (this.userForm.valid) {
+
+      this.apiService.updateUser(this.userForm.value).subscribe(
+        () => {
+          this.isEditing = false;
+        }
+      );
+      Swal.fire({ // Cuadro de diálogo
+        title: "Perfil actualizado correctamente.",
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didClose: () => this.actualizarUser()
+      });
+    }
+  }
+
+  
+  actualizarUser() {
+    this.user = this.authService.getUser();
+
+    // poner los datos en el formulario
+    if (this.user) {
+      this.userForm.patchValue({
+        name: this.user.name,
+        email: this.user.email,
+        address: this.user.address,
+      });
+    }
+  }
+
+  
+  //logica para habilitar la edición solo en el campo necesario
+  edit() {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing) { // restaura los datos
+      this.userForm.reset(this.user);
+    }
+  } 
+
   // Crear producto 
   async insertProduct() {
+
+
+    const formData = new FormData();
+    const price = this.newProductForm.get('productPrice').value * 100;
+    formData.append('name', this.newProductForm.get('productName').value);
+    formData.append('price', price.toString());
+    formData.append('stock', this.newProductForm.get('productStock').value.toString());
+    formData.append('description', this.newProductForm.get('productDescription').value);
+    formData.append('image', this.rutaImgNewProduct.toString());
+
     try {
-      // Validar que el texto de la reseña no esté vacío o contenga solo espacios
-      if (!this.insertProductName || !this.insertProductPrice || !this.insertProductStock || !this.insertProductDescription || !this.insertProductImage) {
-        alert("El formulario no puede tener datos vacíos.");
-      } else {
+      const result = await this.apiService.insertProduct(formData);
 
-        const productData: newProductDto = {
-          name: this.insertProductName,
-          price: this.insertProductPrice * 100,
-          stock: this.insertProductStock,
-          description: this.insertProductDescription,
-          image: this.insertProductImage
-        };
+      if (result.success) {
+        alert('Producto creado con éxito');
+        await this.loadProducts();
 
-        await this.apiService.insertProduct(productData);
-        alert("Producto creado con éxito")
       }
     } catch (error) {
       alert("Error al crear el producto")
@@ -263,6 +397,20 @@ export class AdminProfileComponent implements OnInit {
     }
     console.log(this.selectedProduct)
     this.selectedProduct = null;
+
+  }
+
+  async loadProducts(): Promise<void> {
+    this.products = await this.apiService.allProducts();
+  }
+
+  resetInsertProductForm(): void {
+    this.insertProductName = '';
+    this.insertProductPrice = 0;
+    this.insertProductStock = 0;
+    this.insertProductDescription = '';
+    this.insertProductImage = null;
+
   }
 
   // ------------------------------------ LÓGICA IMÁGENES ----------------------------------
@@ -280,35 +428,75 @@ export class AdminProfileComponent implements OnInit {
     this.addOrEditForm.patchValue({ file: image });
   }
 
+
+  // envia cambios para mofidicar producto
+  editProduct(id: number): void {
+    if (this.editProductForm.valid) {
+
+      this.apiService.updateProduct(id, this.editProductForm.value).subscribe(
+        () => {
+          this.isEditing = false;
+        }
+      );
+      alert('Producto actualizado correctamente.');
+    }
+  }
+
+
+
+
+  openDialog(dialogRef: ElementRef<HTMLDialogElement>) {
+    dialogRef.nativeElement.showModal();
+  }
+
+  closeDialog(dialogRef: ElementRef<HTMLDialogElement>) {
+    dialogRef.nativeElement.close();
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.newProductForm.patchValue({ productImage: file });
+      this.newProductForm.get('productImage').updateValueAndValidity();
+    }
+  }
+
+  addImage() {
+    this.openDialog(this.addOrEditDialog);
+  }
+
   async createOrUpdateImage() {
-    const createOrUpdateImageRequest: CreateOrUpdateImageRequest = {
+    const imageRequest: ImageRequest = {
       name: this.addOrEditForm.get('name')?.value,
       file: this.addOrEditForm.get('file')?.value as File
     };
 
+    if (this.selectedFile) { imageRequest.file = this.selectedFile; }
+
     // Añadir nueva imagen
     if (this.imageToEdit == null) {
-      const request = await this.imageService.addImage(createOrUpdateImageRequest);
+      const request = await this.imageService.addImage(imageRequest);
 
       if (request.success) {
+        this.rutaImgNewProduct = request.data.url;
         alert('Imagen añadida con éxito');
-        this.upateImageList();
+
+        this.closeDialog(this.addOrEditDialog);
       } else {
         alert(`Ha ocurrido un error: ${request.error}`)
       }
-    } 
+    }
     // Actualizar imagen existente
     else {
-      const request = await this.imageService.updateImage(this.imageToEdit.id, createOrUpdateImageRequest);
+      const request = await this.imageService.updateImage(this.imageToEdit.id, imageRequest);
 
       if (request.success) {
         alert('Imagen actualizada con éxito');
-        this.upateImageList();
+        this.closeDialog(this.addOrEditDialog);
       } else {
         alert(`Ha ocurrido un error: ${request.error}`)
       }
     }
   }
-
-  // ---------------------------------- FIN LÓGICA IMÁGENES --------------------------------
 }

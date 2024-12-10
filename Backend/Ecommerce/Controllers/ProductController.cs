@@ -91,17 +91,20 @@ public class ProductController : ControllerBase
 
     // Crear nuevo producto
     [HttpPost("insertProduct")]
-    public async Task<ActionResult<ProductDto>> InsertNewProduct([FromBody] ProductDto productDto)
+    public async Task<ActionResult<ProductDto>> InsertNewProduct([FromForm] ProductDto productDto)
     {
+        if (productDto == null)
+        {
+            return BadRequest("El producto no puede ser nulo.");
+        }
 
-        // No necesita verificar si ya existe un producto con la misma id ya que se genera automáticamente
+       // var product = _productMapper.ProductDtoToProduct(productDto);         
 
-        var product = _productMapper.ProductDtoToProduct(productDto);           // Convierte de ProductDto a Product
+        var newProduct = await _productService.InsertProductAsync(productDto);     
 
-        var newProduct = await _productService.InsertProductAsync(product);     // Usa la lógica del servicio
-
-        var newProductDto = _productMapper.ProductToDto(newProduct);            // Vuelve a convertir de Product a ProductDto
+        var newProductDto = _productMapper.ProductToDto(newProduct);
 
         return Ok(newProductDto);
+
     }
 }

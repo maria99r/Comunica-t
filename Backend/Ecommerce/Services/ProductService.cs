@@ -128,8 +128,23 @@ public class ProductService
     }
 
     // Crear un nuevo producto
-    public async Task<Product> InsertProductAsync(Product product)
+    public async Task<Product> InsertProductAsync(ProductDto product)
     {
+
+        // var relativePath = await SaveImageAsync(product.Image);
+
+        //var maxIdProduct = await _unitOfWork.ProductRepository.GetMaxIdProductAsync();
+
+        /*
+        if (maxIdProduct != null) // Asigna el nuevo ID como el mayor ID + 1
+        {
+            product.Id = maxIdProduct.Id + 1;
+        }
+        else // Si no hay productos, comienza con 1
+        {
+            product.Id = 1;
+        }
+
 
         // Verifica si el producto ya existe
         var existingProduct = await GetProductByIdAsync(product.Id);
@@ -137,7 +152,7 @@ public class ProductService
         {
             throw new Exception("El producto ya existe.");
         }
-
+        */
 
         var newProduct = new Product
         {
@@ -158,5 +173,30 @@ public class ProductService
     {
         _unitOfWork.ProductRepository.Update(product);
         await _unitOfWork.SaveAsync();
+    }
+
+    private async Task<string> SaveImageAsync(CreateUpdateImageRequest imageRequest)
+    {
+        if (imageRequest?.File == null)
+        {
+            return null;
+        }
+
+        var folderPath = Path.Combine("wwwroot", "products");
+
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        var uniqueFileName = $"{Guid.NewGuid()}_{imageRequest.File.FileName}";
+        var filePath = Path.Combine(folderPath, uniqueFileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await imageRequest.File.CopyToAsync(stream);
+        }
+
+        return $"/products/{uniqueFileName}";
     }
 }
