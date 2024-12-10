@@ -109,9 +109,6 @@ public class UserService
 
         Console.WriteLine("ID del usuario: " + existingUser.Id);
 
-        existingUser.Id = userDto.UserId;
-        existingUser.Role = userDto.Role;
-
         if (!string.IsNullOrEmpty(userDto.Name) && existingUser.Name != userDto.Name)
         {
             existingUser.Name = userDto.Name;
