@@ -13,18 +13,19 @@ namespace Ecommerce.Controllers
     public class CheckoutController : ControllerBase
     {
         private readonly IOptions<Settings> _settings;
+        private readonly TemporalOrderService _temporalOrderService;
         private readonly CartService _cartService;
         private readonly UserService _userService;
-        public CheckoutController(IOptions<Settings> settings, CartService cartService, UserService userService)
+        public CheckoutController(TemporalOrderService temporalOrderService, CartService cartService, UserService userService)
         {
-            _settings = settings;
+            _temporalOrderService = temporalOrderService;
             _cartService = cartService;
             _userService = userService;
         }
 
         [Authorize]
         [HttpGet("embedded")]
-        public async Task<ActionResult> EmbededCheckout()
+        public async Task<ActionResult> EmbededCheckout([FromQuery] int temporalOrderId)
         {
             // Obtener id de usuario desde el Token
             UserDto user = await ReadToken();
@@ -37,25 +38,25 @@ namespace Ecommerce.Controllers
             var lineItems = new List<SessionLineItemOptions>();
 
             // Hay que importar los productos
-            CartDto cart = await _cartService.GetByUserIdAsync(user.UserId);
+            TemporalOrder order = await _temporalOrderService.GetByIdAsyncWithoutUser(temporalOrderId);
 
 
-            foreach (ProductCart productCart in cart.Products)
+            foreach (TemporalProductOrder product in order.TemporalProductOrder)
             {
                 lineItems.Add( new SessionLineItemOptions()
                 {
                     PriceData = new SessionLineItemPriceDataOptions()
                     {
                         Currency = "eur",
-                        UnitAmount = (long)(productCart.Product.Price),
+                        UnitAmount = (long)(product.Product.Price),
                         ProductData = new SessionLineItemPriceDataProductDataOptions()
                         {
-                            Name = productCart.Product.Name,
-                            Description = productCart.Product.Description,
-                            Images = [productCart.Product.Image]
+                            Name = product.Product.Name,
+                            Description = product.Product.Description,
+                            Images = [product.Product.Image]
                         }
                     },
-                    Quantity = productCart.Quantity,
+                    Quantity = product.Quantity,
                 });
             }
 
@@ -92,7 +93,6 @@ namespace Ecommerce.Controllers
 
             //TODO - Crear orden definitiva
             return null;
-            //return Ok(new { status = session.Status, customerEmail = session.CustomerEmail });
         }
 
         // Leer datos del token

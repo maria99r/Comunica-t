@@ -78,7 +78,7 @@ public class OrderService
         // agregar productos
         foreach (var pc in t.TemporalProductOrder)
         {
-            var product = await _unitOfWork.ProductRepository.GetProductById(pc.ProductId); 
+            var product = pc.Product;
             if (product != null)
             {
                 var productOrder = new ProductOrder
@@ -95,28 +95,16 @@ public class OrderService
         var order = await _unitOfWork.OrderRepository.InsertAsync(newOrder);
 
         // Quitas del carrito
-        var cart = await _unitOfWork.CartRepository.GetCartByUserNoDto((int)t.UserId);
-
-        foreach (var p in t.TemporalProductOrder)
+        if (!t.Express)
         {
-            var quantity = p.Quantity; // cantidad a restar
+            var cart = await _unitOfWork.CartRepository.GetCartByUserNoDto((int)t.UserId);
 
-            foreach (var pc in cart.ProductCarts)
+            foreach (var item in cart.ProductCarts)
             {
-                // busca el producto en el carrito y resta la cantidad
-                if (pc.ProductId == p.ProductId)
-                {
-                    pc.Quantity -= quantity;
-
-                    // si la cantidad es 0, se elimina del carrito
-                    if (pc.Quantity <= 0)
-                    {
-                        await _unitOfWork.ProductCartRepository.Delete(pc);
-                    }
-                    else _unitOfWork.ProductCartRepository.Update(pc);
-                }                
+                await _unitOfWork.ProductCartRepository.Delete(item);
             }
-        };
+
+        }
 
         // Elimino la orden temporal para que no restaure el stock con el servicio
         await _unitOfWork.TemporalOrderRepository.Delete(t);
@@ -218,5 +206,9 @@ public class OrderService
         return order;
 
 
+    }
+    public void UpdateCart(Cart cart)
+    {
+        _unitOfWork.CartRepository.Update(cart);
     }
 }

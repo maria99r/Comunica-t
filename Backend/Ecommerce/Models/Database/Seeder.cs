@@ -24,19 +24,44 @@ public class Seeder
     {
         User[] users = [
                 new User {
-                    Name = "Manolo" ,
-                    Email = "manolo@gmail.com",
+                    Name = "María" ,
+                    Email = "maria@gmail.com",
                     Password = PasswordHelper.Hash("123456"),
                     Address = "Su casa",
-                    Role = "Admin"
-                }
-                ,
+                    Role = "Admin",
+                    Cart = new Cart()
+                },
                 new User {
-                    Name = "Pepa" ,
-                    Email = "pepa@gmail.com",
+                    Name = "Rocío" ,
+                    Email = "rocio@gmail.com",
                     Password = PasswordHelper.Hash("123456"),
                     Address = "Su casa",
-                    Role = "User"
+                    Role = "Admin",
+                    Cart = new Cart()
+                },
+                new User {
+                    Name = "David" ,
+                    Email = "david@gmail.com",
+                    Password = PasswordHelper.Hash("123456"),
+                    Address = "Su casa",
+                    Role = "User",
+                    Cart = new Cart()
+                },
+                new User {
+                    Name = "Agustín" ,
+                    Email = "agustin@gmail.com",
+                    Password = PasswordHelper.Hash("123456"),
+                    Address = "Su casa",
+                    Role = "User",
+                    Cart = new Cart()
+                },
+                new User {
+                    Name = "Miguel" ,
+                    Email = "miguel@gmail.com",
+                    Password = PasswordHelper.Hash("123456"),
+                    Address = "Su casa",
+                    Role = "User",
+                    Cart = new Cart()
                 }
             ];
 

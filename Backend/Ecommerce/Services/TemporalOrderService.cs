@@ -45,6 +45,20 @@ public class TemporalOrderService
 
     }
 
+    public async Task<TemporalOrder> GetByIdAsyncWithoutUser(int id)
+    {
+        if (id <= 0) throw new ArgumentException("El ID no es válido.");
+
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderByIdWithoutuser(id);
+
+        if (temporalOrder == null)
+        {
+            return null;
+        }
+        return temporalOrder;
+
+    }
+
     // obtener por id SIN DTO
     public async Task<TemporalOrder> GetOrderByIdAsync(int id)
     {

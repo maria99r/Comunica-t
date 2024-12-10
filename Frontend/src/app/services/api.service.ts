@@ -239,7 +239,8 @@ export class ApiService {
 
   // actualizar info de producto
   updateProduct(id: number, product: any): Observable<any> {
-    return this.http.put(`${this.BASE_URL}Product/modifyProduct/${id}`, product)
+    const headers = this.getHeader();
+    return this.http.put(`${this.BASE_URL}Product/modifyProduct/${id}`, product , { headers, responseType: 'text' })
   }
 
   modifyPassword(newPassword: any): Observable<any> {

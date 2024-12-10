@@ -84,8 +84,7 @@ namespace Ecommerce.Controllers
         }
 
         // Solo pueden usar este método los usuarios cuyo rol sea admin
-
-        [Authorize(Roles = "Admin")] //Descomentar esto cuando esté implementado en front (en swagger no se puede probar)
+        [Authorize(Roles = "Admin")]
         [HttpPut("modifyUserRole")]
         public async Task<IActionResult> ModifyUserRole(ModifyRoleRequest request)
         {

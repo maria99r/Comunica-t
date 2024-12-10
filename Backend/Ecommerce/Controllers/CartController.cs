@@ -66,11 +66,4 @@ public class CartController : ControllerBase
             return StatusCode(500, $"Error interno: {ex.Message}");
         }
     }
-
-    [HttpPost("deleteAll/{id}")]
-    public async Task<ActionResult<CartDto>> DeleteAllProduct(int id)
-    {
-        var cart = await _cartService.DeleteAllProductCart(id);
-        return Ok(cart);
-    }
 }
