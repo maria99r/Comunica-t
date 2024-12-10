@@ -29,6 +29,7 @@ public class EcommerceContext : DbContext
 
     public DbSet<User> User { get; set; }
 
+
     // Crea archivo SQLite
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
