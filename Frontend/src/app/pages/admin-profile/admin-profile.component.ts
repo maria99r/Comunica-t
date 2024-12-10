@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Image } from '../../models/image';
 import { ImageRequest } from '../../models/image-request';
 import { ImageService } from '../../services/image.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-profile',
@@ -38,6 +39,7 @@ export class AdminProfileComponent implements OnInit {
   imageToEdit: Image = null;
   imageToDelete: Image = null;
 
+
   // Datos nuevo producto
   insertProductName: string;
   insertProductPrice: number;
@@ -45,27 +47,80 @@ export class AdminProfileComponent implements OnInit {
   insertProductDescription: string;
   insertProductImage: string;
 
-  newProductForm: FormGroup; 
-  addOrEditForm: FormGroup; 
-  editProductForm : FormGroup;
+  newProductForm: FormGroup;
+  addOrEditForm: FormGroup;
+  editProductForm: FormGroup;
+  userForm : FormGroup;
   selectedFile: File;
 
-  rutaImgNewProduct : String;
+  passwordForm: FormGroup;
+
+  rutaImgNewProduct: String = "";
 
 
   public readonly IMG_URL = environment.apiImg;
 
   constructor(private authService: AuthService, private router: Router, private apiService: ApiService, private formBuild: FormBuilder, private imageService: ImageService) {
-    this.newProductForm = this.formBuild.group({ 
-      productName: ['', Validators.required], 
-      productPrice: [null, Validators.required], 
-      productStock: [null, Validators.required], 
-      productDescription: ['', Validators.required], 
-      productImage: ['', Validators.required] }); 
+    this.newProductForm = this.formBuild.group({
+      productName: ['', Validators.required],
+      productPrice: [null, Validators.required],
+      productStock: [null, Validators.required],
+      productDescription: ['', Validators.required],
+      productImage: ['', Validators.required]
+    });
 
-      this.addOrEditForm = this.formBuild.group({ 
-        name: ['', Validators.required], 
-        file: [null, Validators.required] });
+    this.addOrEditForm = this.formBuild.group({
+      name: ['', Validators.required],
+      file: [null, Validators.required]
+    });
+
+    this.userForm = this.formBuild.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      address: [''],
+      password: ['']
+    });
+
+    this.passwordForm = this.formBuild.group({
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    },
+    { validators: this.passwordMatchValidator });
+  }
+
+  
+  editPassword() {
+    if (this.passwordForm.valid) {
+      const newPassword = this.passwordForm.get('newPassword')?.value;
+
+      if (!newPassword) {
+        console.error("Error: El campo de la contraseña está vacío.");
+        return;
+      }
+      
+      this.apiService.modifyPassword(newPassword).subscribe(() => {
+        Swal.fire({ // Cuadro de diálogo
+          title: "Contraseña modificada con éxito.",
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        this.showEditPassword()
+      }      
+    );
+  }
+}
+
+  showEditPassword() {
+    let element = document.getElementById("newPassword");
+    let hidden = element.getAttribute("hidden");
+
+    if (hidden) {
+      element.removeAttribute("hidden");
+    } else {
+      element.setAttribute("hidden", "hidden");
+    }
   }
 
   //obtiene los datos del usuario autenticado
@@ -73,6 +128,11 @@ export class AdminProfileComponent implements OnInit {
     if (!this.authService.isAuthenticated() || !this.authService.isAdmin()) {
       this.router.navigate(['/']);
     }
+    
+    this.actualizarUser();
+   
+    let elementPassword = document.getElementById("newPassword");
+    elementPassword.setAttribute("hidden", "hidden");
 
     this.user = this.authService.getUser();
 
@@ -100,17 +160,71 @@ export class AdminProfileComponent implements OnInit {
     }
   }
 
+  
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('newPassword')?.value;
+    const confirmPasswordControl = form.get('confirmPassword');
+    const confirmPassword = confirmPasswordControl?.value;
+
+    if (password !== confirmPassword && confirmPasswordControl) {
+      confirmPasswordControl.setErrors({ mismatch: true });
+    } else if (confirmPasswordControl) {
+      confirmPasswordControl.setErrors(null);
+    }
+  }
+
+  
+  // envia cambios para mofidicar el usuario
+  onSubmit(): void {
+    if (this.userForm.valid) {
+
+      this.apiService.updateUser(this.userForm.value).subscribe(
+        () => {
+          this.isEditing = false;
+        }
+      );
+      Swal.fire({ // Cuadro de diálogo
+        title: "Perfil actualizado correctamente.",
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didClose: () => this.actualizarUser()
+      });
+    }
+  }
+
+  
+  actualizarUser() {
+    this.user = this.authService.getUser();
+
+    // poner los datos en el formulario
+    if (this.user) {
+      this.userForm.patchValue({
+        name: this.user.name,
+        email: this.user.email,
+        address: this.user.address,
+      });
+    }
+  }
+
+  
+  //logica para habilitar la edición solo en el campo necesario
+  edit() {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing) { // restaura los datos
+      this.userForm.reset(this.user);
+    }
+  } 
+
   // Crear producto 
   async insertProduct() {
 
-    if (this.newProductForm.invalid) {
-      alert("El formulario no puede tener datos vacíos.");
-      return;
-    }
 
     const formData = new FormData();
+    const price = this.newProductForm.get('productPrice').value * 100;
     formData.append('name', this.newProductForm.get('productName').value);
-    formData.append('price', this.newProductForm.get('productPrice').value.toString());
+    formData.append('price', price.toString());
     formData.append('stock', this.newProductForm.get('productStock').value.toString());
     formData.append('description', this.newProductForm.get('productDescription').value);
     formData.append('image', this.rutaImgNewProduct.toString());
@@ -164,7 +278,7 @@ export class AdminProfileComponent implements OnInit {
   }
 
 
-  
+
 
   openDialog(dialogRef: ElementRef<HTMLDialogElement>) {
     dialogRef.nativeElement.showModal();
@@ -174,11 +288,11 @@ export class AdminProfileComponent implements OnInit {
     dialogRef.nativeElement.close();
   }
 
-  onFileSelected(event: any): void { 
-    const file = event.target.files[0]; 
-    if (file) { 
-      this.selectedFile = file; 
-      this.newProductForm.patchValue({ productImage: file }); 
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.newProductForm.patchValue({ productImage: file });
       this.newProductForm.get('productImage').updateValueAndValidity();
     }
   }
@@ -202,12 +316,12 @@ export class AdminProfileComponent implements OnInit {
       if (request.success) {
         this.rutaImgNewProduct = request.data.url;
         alert('Imagen añadida con éxito');
-        
+
         this.closeDialog(this.addOrEditDialog);
       } else {
         alert(`Ha ocurrido un error: ${request.error}`)
       }
-    } 
+    }
     // Actualizar imagen existente
     else {
       const request = await this.imageService.updateImage(this.imageToEdit.id, imageRequest);
@@ -221,5 +335,5 @@ export class AdminProfileComponent implements OnInit {
     }
   }
 
-  
+
 }
