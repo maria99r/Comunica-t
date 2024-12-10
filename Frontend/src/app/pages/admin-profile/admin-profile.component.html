@@ -86,9 +86,16 @@
                 <td>{{user.userId}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.role}}</td>
-                <td><button class="edit-btn">✎Edit</button> | <button class="edit-btn"
-                        (click)="deleteUser(user.userId)">Eliminar</button></td>
+                <td>
+                    <select name="Rol" [id]="user.userId" [(ngModel)]="user.role">
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </td>
+                <td>
+                    <button class="edit-btn" (click)="modifyUserRole(user.userId, user.role)">✎Actualizar</button> | 
+                    <button class="edit-btn" (click)="deleteUser(user.userId)">Eliminar</button>
+                </td>
             </tr>
             }
         </table>

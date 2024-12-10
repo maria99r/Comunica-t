@@ -239,21 +239,31 @@ export class ApiService {
     return this.http.put(`${this.BASE_URL}User/modifyUser`, user, { headers, responseType: 'text' });
   }
 
-  // actualizar info de usuario
+  // actualizar info de producto
   updateProduct(id: number, product: any): Observable<any> {
-    return this.http.put(`${this.BASE_URL}User/modifyProduct/${id}`, product)
+    return this.http.put(`${this.BASE_URL}Product/modifyProduct/${id}`, product)
   }
 
-  modifyPassword(newPassword : any) : Observable<any>{
+  modifyPassword(newPassword: any): Observable<any> {
     const headers = this.getHeader('application/json', 'application/json');
     const body = { newPassword };
-    return this.http.put(`${this.BASE_URL}User/modifyPassword`, body, {headers})
+    return this.http.put(`${this.BASE_URL}User/modifyPassword`, body, { headers })
   }
 
 
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {
     return this.post<any>('Product/insertProduct', formData);
+  }
+
+  // Modificar rol del usuario
+  modifyRole(userId: number, newRole: string): Observable<any> {
+    const headers = this.getHeader('application/json', 'application/json');
+    const body = {
+        userId: userId,
+        newRole: newRole
+    }
+    return this.http.put(`${this.BASE_URL}User/modifyUserRole`, body, { headers })
   }
 
 }
