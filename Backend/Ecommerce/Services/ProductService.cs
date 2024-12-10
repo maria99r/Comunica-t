@@ -130,9 +130,10 @@ public class ProductService
     // Crear un nuevo producto
     public async Task<Product> InsertProductAsync(ProductDto product)
     {
+
         // var relativePath = await SaveImageAsync(product.Image);
 
-        var maxIdProduct = await _unitOfWork.ProductRepository.GetMaxIdProductAsync();
+        //var maxIdProduct = await _unitOfWork.ProductRepository.GetMaxIdProductAsync();
 
         /*
         if (maxIdProduct != null) // Asigna el nuevo ID como el mayor ID + 1
@@ -143,6 +144,7 @@ public class ProductService
         {
             product.Id = 1;
         }
+
 
         // Verifica si el producto ya existe
         var existingProduct = await GetProductByIdAsync(product.Id);

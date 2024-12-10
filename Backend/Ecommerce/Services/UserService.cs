@@ -142,7 +142,7 @@ public class UserService
 
         if (existingUser != null)
         {
-            Console.WriteLine("El usuario con ID ", userId, " no existe.");
+            throw new InvalidOperationException("Usuario con ID:" + userId + "no encontrado.");
         }
 
         Console.WriteLine("ID del usuario: " + existingUser.Id);

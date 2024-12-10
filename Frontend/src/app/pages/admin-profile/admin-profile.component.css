@@ -1,5 +1,5 @@
 /* 1º block */
-.panel-top{
+.panel-top {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-placa-base_23-2151733789.jpg?t=st=1729794199~exp=1729797799~hmac=b66faa72f5783a4ba35b83db8f2e033939890d227b5e901bfd1d319ab6580538&w=740");
     background-size: cover;
     background-position: center;
@@ -9,13 +9,50 @@
     background-attachment: fixed;
 }
 
-.profile-info {
+.line-separator {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+h3{
+    color: #004a8d;
+    margin: 2% 5%;
+}
+
+fieldset {
     max-width: 600px;
-    margin: 0 auto; /* Centrar el contenedor */
+    margin: 0 auto 20px;
     padding: 20px;
     border: 1px solid #007acc;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+legend{
+    color: #004a8d;
+    font-weight: bold;
+    padding: 5px;
+}
+
+label {
+    flex: 1;
+    font-weight: bold;
+    color: #004a8d;
+    padding-right: 10px;
+    position: relative;
+}
+
+input {
+    flex: 2;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #004a8d;
+    border: 1px solid #007acc;
+    border-radius: 4px;
+    background-color: white;
+    transition: border-color 0.3s ease;
 }
 
 .profile-row {
@@ -23,6 +60,19 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
+}
+
+.profile-row-buttons{
+    float: inline-end;
+}
+
+.profile-info {
+    max-width: 600px;
+    margin: 0 auto; /* Centrar el contenedor */
+    padding: 20px;
+    border: 1px solid #007acc;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .profile-label {
@@ -52,8 +102,10 @@ input {
     font-size: 14px;
     color: #004a8d;
     border: 1px solid #007acc;
+
     border-radius: 4px;
     background-color: white;
+
     transition: border-color 0.3s ease;
 }
 
@@ -70,13 +122,10 @@ button.btn-edit{
     outline: none;
 }
 
-.container div{
-    margin: 5% 0%;
-}
-
-button:hover {
-    cursor: pointer;
-    background-color: #6f4caf;
+.error{
+    color: rgb(201, 0, 0);
+    font-size: x-small;
+    margin: 5px;
 }
 
 button {
@@ -88,10 +137,17 @@ button {
     margin: 10px;
 }
 
+button:hover {
+    cursor: pointer;
+    background-color: #6f4caf;
+}
 
-h3{
-    color: #004a8d;
-    margin: 2% 5%;
+button.btn-edit{
+    background-color: rgb(209, 0, 0);
+}
+
+.container div{
+    margin: 5% 0%;
 }
 
 .container{
@@ -106,13 +162,13 @@ table{
 }
 
 tr, td {
-    padding: 10px;
+    padding: 1%;
 }
 
 th {
     background-color: #004a8d;
     color: white;
-    padding: 10px;
+    padding: 1%;
 }
 
 table tr:nth-child(odd) {
@@ -130,16 +186,17 @@ table img {
     font-size: 25px;
 }
 
-#formularioNuevoProducto{
+.formularioProducto{
     margin: auto;
     display: flex;
     flex-direction: column;
     text-align: center;
     width: 40%;
     padding: 3%;
-    border-radius: 10%;
-    background-color: #f7f9ff;
+    border: 2px solid #007acc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 
 
 fieldset {
@@ -176,3 +233,4 @@ label {
     padding-right: 10px;
     position: relative;
 }
+

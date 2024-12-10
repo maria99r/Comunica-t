@@ -16,6 +16,7 @@ export class ImageService {
     return this.api.get<Image[]>('images');
   }
 
+
   addImage(imageRequest: ImageRequest): Promise<Result<Image>> {
     const formData = new FormData();
     formData.append('name', imageRequest.name);
@@ -28,7 +29,6 @@ export class ImageService {
     const formData = new FormData();
     formData.append('name', imageRequest.name);
     formData.append('file', imageRequest.file);
-
     return this.api.put(`images/${id}`, formData);
   }
 
