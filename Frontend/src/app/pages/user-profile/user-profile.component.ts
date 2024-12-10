@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   userForm: FormGroup;
 
   passwordForm: FormGroup;
+  isNewPasswordHidden = true // Mostrar div de cambiar contraseña
 
   user: any | null = null; //datos del usuario
   isEditing = false; //modo edición
