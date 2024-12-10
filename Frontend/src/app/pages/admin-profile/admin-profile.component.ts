@@ -137,10 +137,18 @@ async deleteUser(id: number) {
 
   if (confirmation) {
     console.log(id);
-    await this.apiService.deleteUser(id);
-    console.log("Usuario", id, "eliminado con éxito")
+    this.apiService.deleteUser(id).subscribe(
+      async () => {
+        console.log("Usuario ", id, " eliminado con éxito.")
+        alert('Usuario eliminado correctamente.');
+        this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
+
+      },
+      (error) => {
+        console.error('Error al eliminar el usuario:', error);
+        alert('No se pudo eliminar el usuario.');
+      });
   } 
-  this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
 }
 
   showEditPassword() {

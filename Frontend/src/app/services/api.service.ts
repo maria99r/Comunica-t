@@ -220,7 +220,6 @@ export class ApiService {
     return users;
   }
 
-
   // Crear review
   async publicReview(reviewData: ReviewDto): Promise<Result<any>> {
     return this.post<any>('Review/newReview', reviewData);
@@ -231,7 +230,6 @@ export class ApiService {
     const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
     return this.http.delete(url, { responseType: 'text' });
   }
-
 
   // actualizar info de usuario
   updateUser(user: any): Observable<any> {
@@ -249,7 +247,6 @@ export class ApiService {
     const body = { newPassword };
     return this.http.put(`${this.BASE_URL}User/modifyPassword`, body, { headers })
   }
-
 
   // Crear producto
   async insertProduct(formData: any): Promise<Result<any>> {
