@@ -16,14 +16,15 @@
             <li>
                 <b>{{product.product.name}}</b>
             </li>
-            <p>Cantidad: {{product.quantity}} | Precio: {{product.product.price/100 * product.quantity}}€</p>
+            <p>Cantidad: {{product.quantity}} | Subtotal: {{product.product.price/100 * product.quantity}}€</p>
             <br>
             }
         </ul>
     </section>
 
     <section>
-        <h3>Precio total: {{eurosToSend}}€</h3>
+        <h4>Precio total: {{eurosToSend}}€</h4>
+        <h4>Precio en Ethereum: {{priceInEth}}Eth</h4>
         <button (click)="createTransaction()">Crear transacción</button>
     </section>
 </section>

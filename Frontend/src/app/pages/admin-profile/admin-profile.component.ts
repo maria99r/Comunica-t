@@ -12,33 +12,49 @@ import { environment } from '../../../environments/environment';
 import { newProductDto } from '../../models/newProductDto';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Image } from '../../models/image';
-import { ImageRequest } from '../../models/image-request';
-import { ImageService } from '../../services/image.service';
+
+import { DropdownModule } from 'primeng/dropdown';
 import Swal from 'sweetalert2';
+import { ImageService } from '../../services/image.service';
+import { Image } from '../../models/image';
+import { CreateOrUpdateImageRequest } from '../../models/create-update-image-request';
+import { ImageRequest } from '../../models/image-request';
+
 
 @Component({
   selector: 'app-admin-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FooterComponent, NavComponent, FormsModule, CommonModule, ReactiveFormsModule, DropdownModule],
   templateUrl: './admin-profile.component.html',
   styleUrl: './admin-profile.component.css'
 })
 export class AdminProfileComponent implements OnInit {
-  user: User | null = null; //datos del usuario
-  isEditing = false; //modo edición
-  orders: any[] = []; //lista de pedidos
-  products: Product[] = []; // Lista de productos
+  
+  public readonly IMG_URL = environment.apiImg;
+
+  products: Product[] = [] // Lista de productos
   users: User[] = [] // lista de usuarios
+  user: User | null = null // datos del usuario
+  
+  isEditing = false // modo edición
+  isNewPasswordHidden = true // Mostrar div de cambiar contraseña
+  isInsertProductHidden = true // Mostrar div de crear producto
+  isEditProductHidden = true // Mostrar div de editar producto
+
+  userForm: FormGroup
+  passwordForm: FormGroup
+  editProductForm : FormGroup
+  addOrEditForm: FormGroup
+  selectedProduct: any = null;
+  images: Image[] = [];
+  imageToEdit: Image = null;
 
   @ViewChild('addEditDialog')
   addOrEditDialog: ElementRef<HTMLDialogElement>;
 
   images: Image[] = [];
 
-  imageToEdit: Image = null;
   imageToDelete: Image = null;
-
 
   // Datos nuevo producto
   insertProductName: string;
@@ -48,8 +64,6 @@ export class AdminProfileComponent implements OnInit {
   insertProductImage: string;
 
   newProductForm: FormGroup;
-  addOrEditForm: FormGroup;
-  editProductForm: FormGroup;
   userForm : FormGroup;
   selectedFile: File;
 
@@ -58,7 +72,12 @@ export class AdminProfileComponent implements OnInit {
   rutaImgNewProduct: String = "";
 
 
-  public readonly IMG_URL = environment.apiImg;
+    this.userForm = this.formBuild.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['']
+    });
+
 
   constructor(private authService: AuthService, private router: Router, private apiService: ApiService, private formBuild: FormBuilder, private imageService: ImageService) {
     this.newProductForm = this.formBuild.group({
@@ -85,6 +104,17 @@ export class AdminProfileComponent implements OnInit {
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     },
+                                             
+      { validators: this.passwordMatchValidator });
+
+    // formulario para modificar producto
+    this.editProductForm = this.formBuild.group({
+    name: [''],
+    price: [''],
+    stock: [''],
+    image: ['']
+    });
+
     { validators: this.passwordMatchValidator });
   }
 
@@ -156,7 +186,8 @@ async deleteUser(id: number) {
 
   //obtiene los datos del usuario autenticado
   async ngOnInit() {
-    if (!this.authService.isAuthenticated() || !this.authService.isAdmin()) {
+
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
     
@@ -165,30 +196,139 @@ async deleteUser(id: number) {
     let elementPassword = document.getElementById("newPassword");
     elementPassword.setAttribute("hidden", "hidden");
 
-    this.user = this.authService.getUser();
+    this.actualizarUser();
 
     this.products = await this.apiService.allProducts();
     this.users = await this.apiService.allUser();
+
 
     // que aparezca oculto al principio
     let element = document.getElementById("newProduct");
     element.setAttribute("hidden", "hidden");
   }
 
-  //logica para habilitar la edición solo en el campo necesario
-  toggleEdit(field: string) {
+  // -------------------------- INICIO activar o desactivar visibilidad divs --------------------------
+
+  // Habilitar la edición solo en el campo necesario
+  edit() {
     this.isEditing = !this.isEditing;
+    if (!this.isEditing) { // Restaura los datos
+      this.userForm.reset(this.user);
+    }
   }
 
-  toggleInsertProduct(): void { // Muestra u oculta el div de insertar productos
-    let element = document.getElementById("newProduct");
-    let hidden = element.getAttribute("hidden");
+  // Muestra u oculta el formulario de cambiar contraseña
+  showEditPassword() {
+    this.isNewPasswordHidden = !this.isNewPasswordHidden;
+  }
 
-    if (hidden) {
-      element.removeAttribute("hidden");
-    } else {
-      element.setAttribute("hidden", "hidden");
+  // Muestra u oculta el formulario de crear producto
+  showInsertProductForm(){
+    this.isInsertProductHidden = !this.isInsertProductHidden;
+  }
+
+  // Muestra u oculta el formulario de editar producto
+  showEditProductForm(product: any){
+    this.selectedProduct = { ...product };
+    this.isEditProductHidden = !this.isEditProductHidden;
+  }
+
+  // -------------------------- FIN activar o desactivar visibilidad de divs --------------------------
+
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('newPassword')?.value;
+    const confirmPasswordControl = form.get('confirmPassword');
+    const confirmPassword = confirmPasswordControl?.value;
+
+    if (password !== confirmPassword && confirmPasswordControl) {
+      confirmPasswordControl.setErrors({ mismatch: true });
+    } else if (confirmPasswordControl) {
+      confirmPasswordControl.setErrors(null);
     }
+  }
+
+  actualizarUser() {
+    this.user = this.authService.getUser();
+
+    // Poner los datos en el formulario
+    if (this.user) {
+      this.userForm.patchValue({
+        name: this.user.name,
+        email: this.user.email,
+        address: this.user.address,
+      });
+    }
+  }
+
+  // Envía cambios para modificar el usuario
+  onSubmit(): void {
+    if (this.userForm.valid) {
+
+      this.apiService.updateUser(this.userForm.value).subscribe(
+        () => {
+          this.isEditing = false;
+          this.authService.updateUserData(this.userForm.value);
+        }
+      );
+      Swal.fire({ // Cuadro de diálogo
+        title: "Perfil actualizado correctamente.",
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didClose: () => this.actualizarUser()
+      });
+    }
+  }
+
+  // Cambiar la contraseña
+  editPassword() {
+    if (this.passwordForm.valid) {
+      const newPassword = this.passwordForm.get('newPassword')?.value;
+      
+      if (!newPassword) {
+        console.error("Error: El campo de la contraseña está vacío.");
+        return;
+      }
+
+      this.apiService.modifyPassword(newPassword).subscribe(() => {
+        Swal.fire({ // Cuadro de diálogo
+          title: "Contraseña modificada con éxito.",
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        this.showEditPassword()
+      }
+      );
+    }
+  }
+
+
+  // Editar el rol de un usuario
+  async modifyUserRole(userId: number, userRole: string) {
+    try {
+      await this.apiService.modifyRole(userId, userRole);
+      console.log("Rol modificado correctamente: ", userRole)
+    } catch (error) {
+      console.error("Error al modificar el rol", error)
+    }
+    this.users = await this.apiService.allUser();
+  }
+
+  // Eliminar un usuario
+  async deleteUser(id: number) {
+
+    const confirmation = confirm(`¿Estás seguro de que deseas borrar el usuario con id ${id}?`);
+    console.log(confirmation)
+
+    if (confirmation) {
+      console.log(id);
+      await this.apiService.deleteUser(id);
+      console.log("Usuario", id, "eliminado con éxito")
+    } 
+    this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
   }
 
   
@@ -266,10 +406,29 @@ async deleteUser(id: number) {
       if (result.success) {
         alert('Producto creado con éxito');
         await this.loadProducts();
+
       }
     } catch (error) {
-      console.error('Error al crear el producto: ', error);
+      alert("Error al crear el producto")
+      console.error("Error al crear el producto: ", error);
     }
+    this.products = await this.apiService.allProducts(); // Recargar lista de productos automáticamente
+  }
+
+  // envia cambios para modificar producto
+  editProduct(productId: number): void {
+    if (this.editProductForm.valid) {
+      
+      this.apiService.updateProduct(productId, this.editProductForm.value).subscribe(
+        () => {
+          this.isEditing = false;
+        }
+      );
+      alert('Producto actualizado correctamente.');
+    }
+    console.log(this.selectedProduct)
+    this.selectedProduct = null;
+
   }
 
   async loadProducts(): Promise<void> {
@@ -282,9 +441,24 @@ async deleteUser(id: number) {
     this.insertProductStock = 0;
     this.insertProductDescription = '';
     this.insertProductImage = null;
+
   }
 
- 
+  // ------------------------------------ LÓGICA IMÁGENES ----------------------------------
+
+  async upateImageList() {
+    const request = await this.imageService.getAllImages();
+
+    if (request.success) {
+      this.images = request.data;
+    }
+  }
+
+  onFileSelected(event: any) {
+    const image = event.target.files[0] as File;
+    this.addOrEditForm.patchValue({ file: image });
+  }
+
 
   // envia cambios para mofidicar producto
   editProduct(id: number): void {
@@ -356,6 +530,4 @@ async deleteUser(id: number) {
       }
     }
   }
-
-
 }

@@ -4,7 +4,7 @@
 <!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
 <div class="panel-top h-24rem d-flex w-full">
     <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
-        - MI PERFIL (ADMINISTRADOR) -
+        - MI PERFIL -
     </p>
 </div>
 <!-- PROFILE CONTAINER -->
@@ -48,6 +48,7 @@
         <button type="button" class="btn btn-secondary" style="float: right;" (click)="showEditPassword()"> Cambiar
             Contraseña </button>
     </fieldset>
+
 
     <div id="newPassword">
         <fieldset>
@@ -101,9 +102,10 @@
         </table>
     </div>
 
-    <div id="newProduct">
-        <div id="formularioNuevoProducto">
+    <div id="newProduct" [hidden]="isInsertProductHidden">
+        <fieldset class="formularioProducto">
             <h3 class="new-product-title">Crear nuevo producto</h3>
+
             <form (ngSubmit)="insertProduct()" [formGroup]="newProductForm">
                 <br>
                 <input type="text" formControlName="productName" placeholder="Nombre" [(ngModel)]="insertProductName" />
@@ -122,7 +124,7 @@
                 <br><br>
                 <button type="submit" [disabled]="newProductForm.invalid">Crear producto</button>
             </form>
-        </div>
+        </fieldset>
     </div>
 
     <dialog #addEditDialog>
@@ -145,7 +147,7 @@
     <div class="product-list">
         <h3 class="list-title">
             Lista de productos
-            <button (click)="toggleInsertProduct()">Nuevo producto</button>
+            <button (click)="showInsertProductForm()">Nuevo producto</button>
         </h3>
         <table>
             <tr>
@@ -157,35 +159,40 @@
                 <th>Acción</th>
             </tr>
             @for (product of products; track $index) {
-            <tr>
-                <td>{{product.id}}</td>
-                <td> <img [src]="IMG_URL + product.image"></td>
-                <td>{{product.name}}</td>
-                <td>{{product.price/100}}€</td>
-                <td>{{product.stock}} uds.</td>
-                <td><button class="edit-btn">✎Edit</button></td>
-            </tr>
+                <tr>
+                    <td>{{product.id}}</td>
+                    <td> <img [src]="IMG_URL + product.image"></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price/100}}€</td>
+                    <td>{{product.stock}} uds.</td>
+                    <td><button (click)="showEditProductForm(product)" class="edit-btn" >✎Edit</button></td>
+                </tr>
+
             }
 
         </table>
     </div>
-    <div id="editProdcut">
-        <div id="formularioEditarProducto">
-            <h3 class="new-product-title">Editar producto</h3>
-            <form (ngSubmit)="insertProduct()"> <br>
-                <input type="text" name="productName" placeholder="Nombre" [(ngModel)]="insertProductName" /> <br><br>
-                <input type="number" name="productPrice" placeholder="Precio" [(ngModel)]="insertProductPrice" />
-                <br><br>
-                <input type="number" name="productStock" placeholder="Stock" [(ngModel)]="insertProductStock" />
-                <br><br>
-                <input type="text" name="productDescription" placeholder="Descripción"
-                    [(ngModel)]="insertProductDescription" /> <br><br>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
-                    [(ngModel)]="insertProductImage" /> <br><br>
-                <button (click)="insertProduct()">Editar producto</button>
-            </form>
+    
+    @if (selectedProduct) {
+        <div id="editProduct" [hidden]="isEditProductHidden">
+            <fieldset class="formularioProducto">
+                <h3 class="new-product-title">Editar producto</h3>
+                <form (ngSubmit)="editProduct(selectedProduct.id)"> <br>
+                    <input type="text" name="productName" placeholder="Nuevo nombre" [(ngModel)]="insertProductName" /> <br><br>
+                    <input type="number" name="productPrice" placeholder="Nuevo precio" [(ngModel)]="insertProductPrice" />
+                    <br><br>
+                    <input type="number" name="productStock" placeholder="Nuevo stock" [(ngModel)]="insertProductStock" />
+                    <br><br>
+                    <input type="text" name="productDescription" placeholder="Nueva descripción"
+                        [(ngModel)]="insertProductDescription" /> <br><br>
+                    <input type="file" accept="image/png, image/jpeg, image/jpg" name="productImage"
+                        [(ngModel)]="insertProductImage" /> <br><br>
+                    <button (click)="editProduct(selectedProduct.id)">Confirmar cambios</button>
+                </form>
+            </fieldset>
+
         </div>
-    </div>
+    }
 </div>
 
 <app-footer></app-footer>

@@ -105,6 +105,6 @@ public class ProductController : ControllerBase
         var newProductDto = _productMapper.ProductToDto(newProduct);
 
         return Ok(newProductDto);
-        //CreatedAtAction(nameof(GetProductByIdAsync), new { id = newProduct.Id }, newProductDto);
+
     }
 }
