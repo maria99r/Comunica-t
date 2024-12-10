@@ -140,7 +140,8 @@ public class UserService
     {
         var existingUser = await _unitOfWork.UserRepository.GetUserById(userId);
 
-        if (existingUser != null)
+
+        if (existingUser == null)
         {
             throw new InvalidOperationException("Usuario con ID:" + userId + "no encontrado.");
         }
