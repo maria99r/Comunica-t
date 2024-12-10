@@ -66,45 +66,58 @@ public class OrderService
             PaymentDate = DateTime.Now,
             PaymentMethod = t.PaymentMethod,
             TotalPrice = t.TotalPrice,
-            // agregar productos
-            ProductsOrder = t.TemporalProductOrder.Select(pc => new ProductOrder
+            ProductsOrder = new List<ProductOrder>()
+            /*
             {
                 Quantity = pc.Quantity,
                 ProductId = pc.Product.Id,
                 PricePay = pc.Product.Price
-            }).ToList(),
+            }).ToList(),*/
         };
+
+        // agregar productos
+        foreach (var pc in t.TemporalProductOrder)
+        {
+            var product = await _unitOfWork.ProductRepository.GetProductById(pc.ProductId); 
+            if (product != null)
+            {
+                var productOrder = new ProductOrder
+                {
+                    Quantity = pc.Quantity,
+                    ProductId = product.Id,
+                    PricePay = product.Price,
+                };
+                newOrder.ProductsOrder.Add(productOrder);
+            }
+        }
 
         // guardo pedido
         var order = await _unitOfWork.OrderRepository.InsertAsync(newOrder);
 
-
-
-        /*  NO FUNCIONA
         // Quitas del carrito
-        var cart = await _unitOfWork.CartRepository.GetCartByUserId((int)t.UserId); // carrito del usuario
+        var cart = await _unitOfWork.CartRepository.GetCartByUserNoDto((int)t.UserId);
 
-        foreach (var p in temporal.TemporalProductOrder)
+        foreach (var p in t.TemporalProductOrder)
         {
             var quantity = p.Quantity; // cantidad a restar
-            
+
             foreach (var pc in cart.ProductCarts)
             {
                 // busca el producto en el carrito y resta la cantidad
                 if (pc.ProductId == p.ProductId)
                 {
                     pc.Quantity -= quantity;
-                }
 
-                // si la cantidad es 0, se elimina del carrito
-                if (pc.Quantity <= 0)
-                {
-                    await _unitOfWork.ProductCartRepository.Delete(pc);
-                }
-                else _unitOfWork.ProductCartRepository.Update(pc);
+                    // si la cantidad es 0, se elimina del carrito
+                    if (pc.Quantity <= 0)
+                    {
+                        await _unitOfWork.ProductCartRepository.Delete(pc);
+                    }
+                    else _unitOfWork.ProductCartRepository.Update(pc);
+                }                
             }
         };
-*/
+
         // Elimino la orden temporal para que no restaure el stock con el servicio
         await _unitOfWork.TemporalOrderRepository.Delete(t);
 
