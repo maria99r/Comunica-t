@@ -1,9 +1,8 @@
-a{
+a {
     text-decoration: none;
 }
 
-
-.panel-top{
+.panel-top {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/fondo-sobre-nosotros.jpg");
     background-size: cover;
     background-position: center;
@@ -11,67 +10,113 @@ a{
     align-content: center;
     text-shadow: #12182e 0 0 1em;
     background-attachment: fixed;
+    height: 24rem;
+    display: flex;
 }
 
+.panel-top p {
+    margin: auto;
+    font-size: 3rem;
+    color: white;
+    line-height: 1.5;
+    text-transform: uppercase;
+    font-weight: bold;
+}
 
-.panel-down{
-    background:linear-gradient(to bottom, transparent, rgba(71, 115, 246, 0.5)), url("https://img.freepik.com/vector-gratis/diseno-concepto-abstracto-tecnologia-malla-alambre_1017-14624.jpg?t=st=1729795122~exp=1729798722~hmac=dde2bf0b5f7121fdfddc12ee8506d660202912da1677bc675c2bb6fb9535d3c6&w=1280");
+.panel-down {
+    background: linear-gradient(to bottom, transparent, rgba(71, 115, 246, 0.8), rgba(71, 115, 246, 0.5));
     background-size: cover;
     background-position: top;
     text-align: center;
     align-content: center;
-    color: #2A345D;
+    color: #ffffff;
+    padding: 2rem;
 }
 
+.panel-down h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+}
+
+.panel-down p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    text-align: justify;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+}
 
 .card-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20%;
+    gap: 20px;
     justify-content: center;
-    padding: 5%;
-    font-size: larger;
+    padding: 2rem;
 }
-
 
 .fila {
     display: flex;
-    gap: 5%;
-    margin-bottom: 10%;
-    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .card-advantage {
     background-color: #f0f0f0;
     color: #2A345D;
-    padding: 5%;
-    border-radius: 10%;
+    padding: 1rem;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%; 
-    width: 50%;
     box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.5);
+    flex: 1 1 calc(33.333% - 40px); /* 3 columnas */
+    max-width: 300px;
 }
 
 .card-advantage .text-2xl {
     display: flex;
     align-items: center;
-    margin-bottom: 10%;
+    margin-bottom: 1rem;
 }
 
 .card-advantage p {
     flex-grow: 1;
-    margin: 10;
+    margin: 0.5rem 0;
+    text-align: justify;
 }
 
 .card-advantage img {
-    border-radius: 20%;
+    border-radius: 50%;
     box-shadow: 0px 0px 5px 0.5px rgba(0, 0, 0, 0.5);
+    margin-right: 1rem;
 }
 
+/* Estilos responsivos */
 @media (max-width: 768px) {
-    .card-advantage {
-        flex: 1 1 100%;              
+    .panel-top {
+        height: 200px;
     }
-}               
+
+    .panel-top p {
+        font-size: 1.5rem;
+    }
+
+    .card-advantage {
+        flex: 1 1 100%; /* Muestra solo una columna en pantallas pequeñas */
+        max-width: 100%;
+    }
+
+    .panel-down p {
+        font-size: 1rem;
+    }
+
+    .panel-down h2 {
+        font-size: 1.5rem;
+    }
+}
