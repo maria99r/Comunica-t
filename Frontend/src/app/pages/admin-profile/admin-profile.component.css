@@ -43,6 +43,10 @@ label {
     position: relative;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 input {
     flex: 2;
     width: 100%;

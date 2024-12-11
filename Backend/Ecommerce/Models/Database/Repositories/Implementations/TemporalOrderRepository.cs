@@ -15,6 +15,12 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         _temporalOrderMapper = new TemporalOrderMapper();
     }
 
+    public async Task<List<TemporalOrder>> GetTemporalOrderByUser(int id)
+    {
+        return await GetQueryable()
+            .Where(TemporalOrder => TemporalOrder.UserId == id).ToListAsync();
+    }
+
 
     // obtener orden temporal segun id
     public async Task<TemporalOrder> GetTemporalOrderById(int id)

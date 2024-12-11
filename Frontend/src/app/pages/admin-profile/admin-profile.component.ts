@@ -32,6 +32,8 @@ export class AdminProfileComponent implements OnInit {
 
   @ViewChild('addEditDialog')
   addOrEditDialog: ElementRef<HTMLDialogElement>;
+  @ViewChild('editDiv')
+  editDiv: ElementRef<HTMLDialogElement>;
 
   images: Image[] = [];
 
@@ -51,11 +53,11 @@ export class AdminProfileComponent implements OnInit {
   insertProductDescription: string;
   insertProductImage: string;
 
-  modifyProductName : string;
-  modifyProductPrice : number;
-  modifyProductStock : number;
-  modifyProductDescription : string;
-  modifyProductImage : string;
+  modifyProductName: string;
+  modifyProductPrice: number;
+  modifyProductStock: number;
+  modifyProductDescription: string;
+  modifyProductImage: string;
 
   newProductForm: FormGroup;
   addOrEditForm: FormGroup;
@@ -93,14 +95,12 @@ export class AdminProfileComponent implements OnInit {
     });
 
     this.editProductForm = this.formBuild.group({
-      newProductName: [''],
-      newProductPrice: [null],
-      newProductStock: [null],
-      newProductDescription: [''],
-      newProductImage: ['']
+      name: [''],
+      price: [null],
+      stock: [null],
+      description: [''],
+      image: ['']
     });
-
-
 
     this.passwordForm = this.formBuild.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -145,6 +145,7 @@ export class AdminProfileComponent implements OnInit {
     this.isEditProductHidden = !this.isEditProductHidden;
 
     console.log(this.selectedProduct)
+    
 
     this.editProductForm.patchValue({
       name: product.name,
@@ -154,6 +155,7 @@ export class AdminProfileComponent implements OnInit {
       image: product.image
     });
 
+    this.rutaImgModifyProduct = product.image;
   }
 
   editPassword() {
@@ -203,10 +205,23 @@ export class AdminProfileComponent implements OnInit {
 
     if (confirmation) {
       console.log(id);
-      await this.apiService.deleteUser(id);
-      console.log("Usuario", id, "eliminado con éxito")
+      this.apiService.deleteUser(id).subscribe({
+        next: async () => {
+          Swal.fire({ // Cuadro de diálogo
+            title: "Usuario eliminado correctamente.",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didClose: async () => this.users = await this.apiService.allUser()
+          });
+        },
+        error: (err) => {
+            console.error("Error al eliminar usuario:", err);
+        }
+        });
     }
-    this.users = await this.apiService.allUser(); // Recargar lista de usuarios automáticamente
+     
   }
 
   //logica para habilitar la edición solo en el campo necesario
@@ -229,7 +244,7 @@ export class AdminProfileComponent implements OnInit {
 
 
   // envia cambios para mofidicar el usuario
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.userForm.valid) {
 
       this.apiService.updateUser(this.userForm.value).subscribe(
@@ -247,6 +262,7 @@ export class AdminProfileComponent implements OnInit {
         didClose: () => this.actualizarUser()
       });
     }
+    this.users = await this.apiService.allUser();
   }
 
 
@@ -277,8 +293,14 @@ export class AdminProfileComponent implements OnInit {
       const result = await this.apiService.insertProduct(formData);
 
       if (result.success) {
-        alert('Producto creado con éxito');
-        await this.loadProducts();
+        Swal.fire({ // Cuadro de diálogo
+          title: "Producto creado con éxito.",
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didClose: () => this.loadProducts()
+        });
       }
     } catch (error) {
       console.error('Error al crear el producto: ', error);
@@ -305,24 +327,31 @@ export class AdminProfileComponent implements OnInit {
   // mofidicar producto
   async editProduct(id: number): Promise<void> {
 
-    const formData = new FormData();
-    const price = this.editProductForm.get('newProductPrice').value * 100;
-    formData.append('name', this.editProductForm.get('newProductName').value);
-    formData.append('price', price.toString());
-    formData.append('stock', this.editProductForm.get('newProductStock').value.toString());
-    formData.append('description', this.editProductForm.get('newProductDescription').value);
-    formData.append('image', this.rutaImgModifyProduct.toString());
+    const formData = {
+      ...this.editProductForm.value,
+      image: this.rutaImgModifyProduct 
+  };
 
     console.log(formData)
-      this.apiService.updateProduct(id, this.editProductForm.value).subscribe(
-        () => {
-          alert('Producto modificado con éxito.');
-          this.loadProducts();        
-        }
-      );
+    this.apiService.updateProduct(id, formData).subscribe(
+      () => {
+        Swal.fire({ // Cuadro de diálogo
+          title: "Producto actualizado correctamente.",
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didClose: () => this.loadProducts()
+        });
+        this.isEditProductHidden = !this.isEditProductHidden;
+      },
+      (error) => {
+        console.error('Error al actualizar el producto:', error);
+    }
+    );
 
-      this.rutaImgModifyProduct = "";
-      this.rutaImgNewProduct = "";
+    this.rutaImgModifyProduct = "";
+    this.rutaImgNewProduct = "";
 
   }
 
@@ -341,6 +370,7 @@ export class AdminProfileComponent implements OnInit {
     if (file) {
       this.selectedFile = file;
       this.newProductForm.patchValue({ productImage: file });
+      this.editProductForm.patchValue({ productImage: file });
       this.newProductForm.get('productImage').updateValueAndValidity();
     }
   }
