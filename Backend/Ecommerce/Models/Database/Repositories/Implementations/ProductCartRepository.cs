@@ -52,12 +52,6 @@ public class ProductCartRepository : Repository<ProductCart, int>
         }
     }
 
-    // eliminar producto
-    public void DeleteProductFromCartAsync(ProductCart productCart)
-    {
-        _context.Set<ProductCart>().Remove(productCart);;
-    }
-
     // obtener productos de un carrito
     public async Task<List<ProductCart>> GetProductsByCart(int id)
     {

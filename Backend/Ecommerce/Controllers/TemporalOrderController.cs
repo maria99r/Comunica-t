@@ -67,7 +67,6 @@ public class TemporalOrderController : ControllerBase
     }
 
 
-    // hay que hacer dos metodos , uno si esta loguqeado (q recibe el jwt) y otro si no lo esta que recibe el carrito del localstorage
 
     // si lo recibe del front: recibe un array de productCart y el metodo de pago
 

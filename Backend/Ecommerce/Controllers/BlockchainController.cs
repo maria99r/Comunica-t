@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Models.Dtos;
 using Ecommerce.Services.Blockchain;
-using Examples.WebApi.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 

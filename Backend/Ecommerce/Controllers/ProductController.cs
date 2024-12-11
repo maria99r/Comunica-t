@@ -97,9 +97,7 @@ public class ProductController : ControllerBase
         if (productDto == null)
         {
             return BadRequest("El producto no puede ser nulo.");
-        }
-
-       // var product = _productMapper.ProductDtoToProduct(productDto);         
+        }      
 
         var newProduct = await _productService.InsertProductAsync(productDto);     
 
