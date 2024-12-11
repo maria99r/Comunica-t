@@ -227,8 +227,9 @@ export class ApiService {
 
   // Elimina usuario
   deleteUser(idUser: number): Observable<any> {
+    const headers = this.getHeader();
     const url = (`${this.BASE_URL}User/deleteUser/${idUser}`);
-    return this.http.delete(url, { responseType: 'text' });
+    return this.http.delete(url, { headers, responseType: 'text' });
   }
 
   // actualizar info de usuario

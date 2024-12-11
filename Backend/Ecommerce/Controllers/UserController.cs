@@ -136,7 +136,7 @@ namespace Ecommerce.Controllers
 
 
         // Elimina un usuario
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("deleteUser/{userId}")]
         public async Task<IActionResult> DeleteUser(int userId)
         {
