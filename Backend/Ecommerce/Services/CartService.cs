@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Microsoft.EntityFrameworkCore;
@@ -57,5 +56,5 @@ public class CartService
         await _unitOfWork.SaveAsync();
 
         return cart;
-    }   
+    }
 }

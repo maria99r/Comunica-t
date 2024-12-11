@@ -20,7 +20,6 @@ namespace Ecommerce.Controllers
             _userMapper = userMapper;
         }
 
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {

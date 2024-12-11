@@ -1,12 +1,9 @@
-﻿using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
+﻿using Ecommerce.Models.Database;
+using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
-using Nethereum.Model;
-
-
 
 namespace Ecommerce.Controllers;
 
@@ -14,12 +11,10 @@ namespace Ecommerce.Controllers;
 [Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
-    private readonly ProductRepository _productRepository;
     private readonly ProductService _productService;
     private readonly ProductMapper _productMapper;
-    public ProductController(ProductRepository productRepository, ProductService productService, ProductMapper productMapper)
+    public ProductController(ProductService productService, ProductMapper productMapper)
     {
-        _productRepository = productRepository;
         _productService = productService;
         _productMapper = productMapper;
     }
@@ -42,7 +37,7 @@ public class ProductController : ControllerBase
     // busqueda por id de productos
     public async Task<IActionResult> GetProductByIdAsync(int id)
     {
-        var product = await _productRepository.GetProductById(id);
+        var product = await _productService.GetProductByIdAsync(id);
 
         if (product == null)
         {
@@ -97,9 +92,9 @@ public class ProductController : ControllerBase
         if (productDto == null)
         {
             return BadRequest("El producto no puede ser nulo.");
-        }      
+        }
 
-        var newProduct = await _productService.InsertProductAsync(productDto);     
+        var newProduct = await _productService.InsertProductAsync(productDto);
 
         var newProductDto = _productMapper.ProductToDto(newProduct);
 

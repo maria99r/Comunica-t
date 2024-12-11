@@ -1,6 +1,4 @@
-﻿using Ecommerce.Models.Database.Entities;
-
-namespace Ecommerce.Models.Dtos;
+﻿namespace Ecommerce.Models.Dtos;
 
 public class UserDto
 {
@@ -13,10 +11,4 @@ public class UserDto
     public string Address { get; set; } = null!;
 
     public string Role { get; set; } = null!;
-
-    //public Cart Cart { get; set; };
-
-    //public ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    //public ICollection<Review> Reviews { get; set; } = new List<Review>();
 }

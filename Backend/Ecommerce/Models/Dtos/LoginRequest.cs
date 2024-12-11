@@ -1,4 +1,4 @@
-﻿    namespace Ecommerce.Models.Dtos;
+﻿namespace Ecommerce.Models.Dtos;
 
 public class LoginRequest
 {

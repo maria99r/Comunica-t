@@ -198,7 +198,8 @@ public class UserService
         {
             await _unitOfWork.CartRepository.Delete(cart);
         }
-        foreach (var t in temporals){
+        foreach (var t in temporals)
+        {
             await _unitOfWork.TemporalOrderRepository.Delete(t);
         }
         foreach (var r in reviews)

@@ -17,8 +17,3 @@ public class SearchDto
     public int PaginaActual  { get; set; }
 
 }
-
-// 1º filtro la consulta
-// 2º ordeno la consuta
-// 3º pagino y reparto por paginas
-// el resultado de la peticion devuelve los productos[] y el total de paginas

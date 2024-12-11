@@ -1,6 +1,3 @@
-using Ecommerce.Helpers;
-using Ecommerce.Models.Database;
-using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
@@ -111,5 +108,5 @@ public class AuthController : ControllerBase
         var userDto = _userMapper.UserToDto(newUser);
 
         return CreatedAtAction(nameof(Login), new { email = userDto.Email }, userDto);
-    }   
+    }
 }

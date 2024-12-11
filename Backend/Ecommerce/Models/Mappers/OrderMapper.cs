@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
-using System.Collections.Generic;
 
 namespace Ecommerce.Models.Mappers;
 

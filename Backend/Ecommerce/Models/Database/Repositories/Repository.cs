@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Models.Database.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Ecommerce.Models.Database.Repositories;
 

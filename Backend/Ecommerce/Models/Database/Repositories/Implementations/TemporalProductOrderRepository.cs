@@ -1,5 +1,4 @@
 ﻿using Ecommerce.Models.Database.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database.Repositories.Implementations;
 
@@ -8,5 +7,5 @@ public class TemporalProductOrderRepository : Repository<TemporalProductOrder, i
     public TemporalProductOrderRepository(EcommerceContext context) : base(context)
     { }
 
-   
+
 }

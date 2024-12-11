@@ -1,23 +1,18 @@
 ﻿using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
-using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class ReviewController : ControllerBase
 {
-    private readonly ReviewRepository _reviewRepository;
     private readonly ReviewService _reviewService;
 
-    public ReviewController(ReviewRepository reviewRepository, ReviewService reviewService)
+    public ReviewController(ReviewService reviewService)
     {
-        _reviewRepository = reviewRepository;
         _reviewService = reviewService;
     }
 

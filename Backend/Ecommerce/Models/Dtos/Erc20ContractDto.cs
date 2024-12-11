@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace Ecommerce.Models.Dtos;
+﻿namespace Ecommerce.Models.Dtos;
 
 
 public class Erc20ContractDto

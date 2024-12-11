@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Models.Dtos;
 using Ecommerce.Services.Email;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers;

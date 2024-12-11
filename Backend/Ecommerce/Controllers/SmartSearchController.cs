@@ -1,7 +1,7 @@
 ﻿using Ecommerce.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Examples.WebApi.Controllers;
+namespace Ecommerce.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

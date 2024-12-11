@@ -1,11 +1,6 @@
-﻿using Ecommerce.Helpers;
-using Ecommerce.Models.Database;
+﻿using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
 
 namespace Ecommerce.Services;
 
@@ -24,8 +19,6 @@ public class ProductService
     {
         return await _unitOfWork.ProductRepository.GetAllProductsAsync();
     }
-
-
     public async Task<Product> GetProductByIdAsync(int id)
     {
         return await _unitOfWork.ProductRepository.GetProductById(id);

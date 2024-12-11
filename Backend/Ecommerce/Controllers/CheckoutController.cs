@@ -43,7 +43,7 @@ namespace Ecommerce.Controllers
 
             foreach (TemporalProductOrder product in order.TemporalProductOrder)
             {
-                lineItems.Add( new SessionLineItemOptions()
+                lineItems.Add(new SessionLineItemOptions()
                 {
                     PriceData = new SessionLineItemPriceDataOptions()
                     {
@@ -88,7 +88,7 @@ namespace Ecommerce.Controllers
 
             if (session.PaymentStatus == "paid")
             {
-                    //Crear la orden definitiva :(
+                //Crear la orden definitiva :(
             }
 
             //TODO - Crear orden definitiva
@@ -96,7 +96,7 @@ namespace Ecommerce.Controllers
         }
 
         // Leer datos del token
-        private async Task<UserDto> ReadToken() 
+        private async Task<UserDto> ReadToken()
         {
             try
             {

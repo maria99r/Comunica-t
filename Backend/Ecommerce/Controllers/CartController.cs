@@ -1,8 +1,5 @@
 ﻿using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
-using Ecommerce.Models.Dtos;
 using Ecommerce.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers;

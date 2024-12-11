@@ -6,13 +6,10 @@ namespace Ecommerce.Models.Mappers;
 public class CartMapper
 {
     private readonly UserMapper _userMapper;
-
-
     public CartMapper()
     {
         _userMapper = new UserMapper();
     }
-
 
     public CartDto CartToDto(Cart cart)
     {

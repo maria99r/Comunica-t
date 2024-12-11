@@ -3,8 +3,6 @@ using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
 
 namespace Ecommerce.Models.Mappers
-
-
 {
     public class ImageMapper
     {

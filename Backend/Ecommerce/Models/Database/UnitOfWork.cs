@@ -1,6 +1,4 @@
-﻿using Ecommerce.Models.Database.Repositories;
-using Ecommerce.Models.Database.Repositories.Implementations;
-using TorchSharp.Modules;
+﻿using Ecommerce.Models.Database.Repositories.Implementations;
 
 namespace Ecommerce.Models.Database
 {
@@ -21,7 +19,7 @@ namespace Ecommerce.Models.Database
         public ImageRepository ImageRepository { get; init; }
 
         public UnitOfWork(
-            EcommerceContext context, 
+            EcommerceContext context,
             UserRepository userRepository,
             ReviewRepository reviewRepository,
             ProductRepository productRepository,

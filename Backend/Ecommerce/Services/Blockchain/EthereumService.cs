@@ -2,7 +2,6 @@
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
 using System.Numerics;
-using System.Transactions;
 using Transaction = Nethereum.RPC.Eth.DTOs.Transaction;
 
 namespace Ecommerce.Services.Blockchain;
@@ -55,7 +54,7 @@ public class EthereumService
                 && Equals(transaction.To, "0x8964FD1CAB4B9323F55cAC1a56648F8253CD0577")
                 && Equals(transaction.Value.HexValue, value);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             result = false;
         }
@@ -63,7 +62,7 @@ public class EthereumService
         return result;
     }
 
-    private bool Equals(string hex1, string hex2)
+    private static bool Equals(string hex1, string hex2)
     {
         return hex1.Equals(hex2, StringComparison.OrdinalIgnoreCase);
     }

@@ -1,5 +1,4 @@
 ﻿using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Dtos;
 using Ecommerce.Models.Mappers;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,8 +29,8 @@ namespace Ecommerce.Models.Database.Repositories.Implementations
 
             // suma precios de los productos en el carrito
             double totalPrice = cart.ProductCarts
-                .Where(pc => pc.Product?.Price > 0 && pc.Quantity > 0) 
-                .Sum(pc => (pc.Product.Price  * pc.Quantity) / 100);
+                .Where(pc => pc.Product?.Price > 0 && pc.Quantity > 0)
+                .Sum(pc => (pc.Product.Price * pc.Quantity) / 100);
 
             return totalPrice;
         }

@@ -1,9 +1,9 @@
-﻿ namespace Ecommerce.Services
+﻿namespace Ecommerce.Services
 {
-    using System.Globalization;
-    using System.Text;
     using F23.StringSimilarity;
     using F23.StringSimilarity.Interfaces;
+    using System.Globalization;
+    using System.Text;
 
     public class SmartSearchService
     {
@@ -25,7 +25,7 @@
             "Paquetes",
             "Lote",
             "Lora"
-            
+
         ];
 
         private readonly INormalizedStringSimilarity _stringSimilarityComparer;

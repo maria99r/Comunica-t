@@ -1,5 +1,4 @@
-﻿
-using Ecommerce.Models.Database;
+﻿using Ecommerce.Models.Database;
 
 namespace Ecommerce.Services;
 
@@ -31,9 +30,10 @@ public class OrderExpiresService : BackgroundService
                     if (order.ExpiresAt < DateTime.UtcNow)
                     {
                         await unitOfWork.TemporalOrderRepository.Delete(order);
-                        
+
                         // restaura stock
-                        foreach(var lineProduct in order.TemporalProductOrder){
+                        foreach (var lineProduct in order.TemporalProductOrder)
+                        {
 
                             var producto = await unitOfWork.ProductRepository.GetByIdAsync(lineProduct.ProductId);
 
@@ -48,7 +48,7 @@ public class OrderExpiresService : BackgroundService
                 await unitOfWork.SaveAsync();
             }
 
-                await Task.Delay(60000, stoppingToken); // 1 min
+            await Task.Delay(60000, stoppingToken); // 1 min
         }
     }
 }

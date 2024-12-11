@@ -1,7 +1,5 @@
-﻿using Ecommerce.Helpers;
-using Ecommerce.Models.Database;
+﻿using Ecommerce.Models.Database;
 using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Database.Repositories.Implementations;
 using Ecommerce.Models.Dtos;
 using Ecommerce.Models.ReviewModels;
 using Microsoft.Extensions.ML;
@@ -12,31 +10,27 @@ public class ReviewService
 {
 
     private readonly UnitOfWork _unitOfWork;
-
-    private readonly ReviewRepository _reviewRepository;
-
     private readonly PredictionEnginePool<ModelInput, ModelOutput> _model;
 
-    public ReviewService(ReviewRepository reviewRepository, UnitOfWork unitOfWork, PredictionEnginePool<ModelInput, ModelOutput> model)
+    public ReviewService(UnitOfWork unitOfWork, PredictionEnginePool<ModelInput, ModelOutput> model)
     {
-        _reviewRepository = reviewRepository;
         _unitOfWork = unitOfWork;
         _model = model;
     }
 
     public async Task<List<Review>> GetAllReviewsAsync()
     {
-        return await _reviewRepository.GetAllReviewsAsync();
+        return await _unitOfWork.ReviewRepository.GetAllReviewsAsync();
     }
 
     public async Task<Review> GetReviewByIdAsync(int id)
     {
-        return await _reviewRepository.GetReviewById(id);
+        return await _unitOfWork.ReviewRepository.GetReviewById(id);
     }
 
     public async Task<List<Review>> GetReviewByProductAsync(int id)
     {
-        return await _reviewRepository.GetReviewByProduct(id);
+        return await _unitOfWork.ReviewRepository.GetReviewByProduct(id);
     }
 
 
