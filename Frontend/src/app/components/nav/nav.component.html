@@ -3,7 +3,8 @@
 
     <!-- Logo Innovacom-->
     <ng-template pTemplate="start">
-        <img height="30px" src="logo_oscuro.png" alt="Logo Innovacom" style="margin: 10px;" />
+        <img src="logo_oscuro.png" alt="Logo Innovacom" class="logo desktop-logo">
+        <img src="innova-logo.png" alt="Logo Innovacom" class="logo mobile-logo">
     </ng-template>
 
     <ng-template pTemplate="end">
@@ -12,13 +13,13 @@
         </span>
 
         <a routerLink="/cart">
-            <img src="icons/cart.png" alt="carrito compra" class="vertical-align-middle" width="40px">
-            <span>{{ cartProductCount }}</span> 
+            <img src="icons/cart.png" alt="carrito compra" class="cart vertical-align-middle" width="40px">
+            <span>{{ cartProductCount }}</span>
         </a>
 
         <a>
             <img *ngIf="authService.isAuthenticated()" src="icons/user-icon.png" alt="icono-user"
-                class="vertical-align-middle" width="40px" class="mr-2 ml-4 vertical-align-middle clickable"
+                class="vertical-align-middle" width="40px" class="user-icon vertical-align-middle clickable"
                 (click)="navigateToProfile()">
         </a>
 
@@ -27,7 +28,7 @@
             <!--<img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">-->
         </a>
         <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
-            <img src="icons/logout.png" alt="icono-logout" width="40px" class="mr-2 ml-4 vertical-align-middle ">
+            <img src="icons/logout.png" alt="icono-logout" width="40px" class="logout vertical-align-middle ">
         </a>
 
     </ng-template>

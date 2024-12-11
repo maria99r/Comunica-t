@@ -22,7 +22,7 @@ img:hover {
     cursor: pointer;
 }
 
-button{
+button {
     border: 0px;
     background-color: #6f42c1;
     color: white;
@@ -32,19 +32,85 @@ button{
     letter-spacing: 1px;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
     background-color: #4d20a1;
 }
 
 .clickable {
     cursor: pointer;
-  }
-  
+}
 
-@media (max-width: 600px) {
-    ng-template{
-        display: flex;
-        flex-wrap: wrap
+.logo {
+    margin: 10px;
+}
+
+.desktop-logo {
+    display: block;
+}
+
+.mobile-logo {
+    display: none;
+}
+
+.user-icon {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.logout{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.logo{
+    height: 30px;
+}
+
+@media (max-width: 768px) {
+    .menu-items {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .greeting,
+    .icon,
+    .p-button {
+        margin-bottom: 10px;
+    }
+
+    .icon {
+        width: 30px;
+    }
+
+    .logout{
+        margin: 5px;
+    }
+
+    .desktop-logo {
+        display: none;
+    }
+
+    .mobile-logo {
+        display: block;
+    }
+
+    .user-icon {
+        margin: 5px;
+    }
+
+    .cart{
+        margin: 5px;
+    }
+
+
+    .logo {
+        height: 40px;
+        margin: 0;
+    }
+
+    .p-button {
+        padding: 10px;
+        font-size: smaller;
     }
 }

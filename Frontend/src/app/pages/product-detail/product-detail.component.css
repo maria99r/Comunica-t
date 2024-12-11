@@ -12,6 +12,30 @@ p {
     font-size: larger;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+
+.imageProduct,
+.infoProduct {
+    width: 90%;
+    margin: auto;
+}
+
+/* Media Queries */ 
+@media (min-width: 768px) { 
+    .imageProduct { width: 30%; } 
+    .infoProduct { width: 45%; } 
+    .review { width: 100%;}
+    .container {
+        margin: 100px;
+    }
+}
+
 button {
     border: 0px;
     background-color: #4d20a1;
@@ -60,7 +84,7 @@ img {
     font-size: 9px;
 }
 
-.numRef{
+.numRef {
     color: #5f5f5f;
     font-size: small;
 }
