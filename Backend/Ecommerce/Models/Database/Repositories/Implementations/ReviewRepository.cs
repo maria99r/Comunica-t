@@ -21,6 +21,11 @@ public class ReviewRepository : Repository<Review, int>
         return await GetQueryable()
             .Where(Review => Review.ProductId == id).ToListAsync();
     }
+    public async Task<List<Review>> GetReviewByUser(int id)
+    {
+        return await GetQueryable()
+            .Where(Review => Review.UserId == id).ToListAsync();
+    }
 
 
     public async Task<List<Review>> GetAllReviewsAsync()

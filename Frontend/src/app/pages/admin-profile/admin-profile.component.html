@@ -118,7 +118,10 @@
                     [(ngModel)]="insertProductStock" /><br><br>
                 <input type="text" formControlName="productDescription" placeholder="Descripción"
                     [(ngModel)]="insertProductDescription" /><br><br>
-                <input type="text" [placeholder]="rutaImgNewProduct" class="w-4" disabled><br><br>
+                @if (rutaImgNewProduct) {
+                <img width="50px" [src]="IMG_URL + rutaImgNewProduct">
+                <input type="text" [placeholder]="rutaImgNewProduct" class="w-8" disabled><br><br>
+                }
                 <input type="button" (click)="addImage()" value="Añadir imagen" id="addImageButton"><br><br>
                 <button type="submit" [disabled]="newProductForm.invalid">Crear producto</button>
             </form>
@@ -175,21 +178,17 @@
             <h3 class="new-product-title">Editar producto {{selectedProduct.id}}</h3>
             <form (ngSubmit)="editProduct(selectedProduct.id)" [formGroup]="editProductForm"> <br>
                 <span>Nombre:</span>
-                <input type="text" formControlName="newProductName" placeholder="Nuevo nombre" [value]="selectedProduct?.name"
-                    /> <br><br>
-                    <span>Precio:</span>
-                <input type="number" min="0" formControlName="newProductPrice" placeholder="Nuevo precio" [value]="selectedProduct?.price/100"
-                     /><br><br>
-                    <span>Stock:</span>
-                <input type="number" formControlName="newProductStock" placeholder="Nuevo stock" min="0" [value]="selectedProduct?.stock"
-                   /><br><br>
-                    <span>Descripción:</span>
-                <input type="text" formControlName="newProductDescription" placeholder="Nueva descripción"
-                    [value]="selectedProduct?.description" /> <br><br>
-                    <span>Imagen:</span>
-                    <img width="50px" [src]="IMG_URL + selectedProduct.image">
-                <input type="text" [value]="selectedProduct?.image" class="w-8" disabled><br><br>
-                <input type="button" (click)="addImage()" value="Añadir imagen" id="addImageButton" ><br><br>
+                <input type="text" formControlName="name" placeholder="Nuevo nombre" /> <br><br>
+                <span>Precio:</span>
+                <input type="number" min="0" formControlName="price" placeholder="Nuevo precio" /><br><br>
+                <span>Stock:</span>
+                <input type="number" formControlName="stock" placeholder="Nuevo stock" min="0" /><br><br>
+                <span>Descripción:</span>
+                <input type="text" formControlName="description" placeholder="Nueva descripción" /> <br><br>
+                <span>Imagen:</span>
+                <img width="50px" [src]="IMG_URL + rutaImgModifyProduct">
+                <input type="text" [value]="rutaImgModifyProduct" disabled><br><br>
+                <input type="button" (click)="addImage()" value="Cambiar imagen" id="addImageButton"><br><br>
                 <button type="submit">Confirmar cambios</button>
 
             </form>
