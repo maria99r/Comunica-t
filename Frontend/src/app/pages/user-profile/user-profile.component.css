@@ -9,6 +9,11 @@
     background-attachment: fixed;
 }
 
+h3{
+    color: #004a8d;
+    margin: 2% 5%;
+}
+
 .line-separator {
     border: 0;
     border-top: 1px solid #ccc;
@@ -97,24 +102,25 @@ button.btn-edit{
     background-color: rgb(209, 0, 0);
 }
 
-h3 {
-    color: #004a8d;
-    margin: 2% 5%;
-}
-
 input:read-only{
     background-color:  #f0f8ff;
 }
 
-.container {
+.container div{
+    margin: 2% 0%;
+}
+
+.container{
     margin: 5%;
+    padding: 1%;
 }
 
 table {
     border-collapse: collapse;
-    width: 90%;
+    width: 100%;
+    min-width: 600px;
+    margin: auto;
     text-align: left;
-    margin: 20px;
 }
 
 tr,
@@ -140,16 +146,10 @@ table img{
     width: 50px;
 }
 
-
-.container div {
-    margin: 5% 0%;
-}
-
-.order {
-    margin: auto;
-    padding: 2%;
-    border: 1px solid gray;
-    border-radius: 20px;
+.orders-list{
+    overflow-x: auto; /* Desplazamiento horizontal responsivo*/
+    -webkit-overflow-scrolling: touch;
+    margin: 0 auto;
 }
 
 .total-price{

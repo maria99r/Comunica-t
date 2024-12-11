@@ -71,45 +71,47 @@
     <hr class="line-separator">
 
     <!-- PEDIDOS -->
-    <div class="orders-container p-6 w-full max-w-4xl mx-auto bg-white shadow-2 border-round">
-        <h2 class="text-2xl font-bold mb-4">Mis Pedidos</h2>
+    <div class="container shadow-2 border-round">
         <div class="orders-list">
+            <h3>Mis Pedidos</h3>
 
-            <div class="orders-container">
-                @if (orders.length <=0 ) { <div>Todavía no ha realizado ningún pedido.</div>
+            @if (orders.length <=0 ) { 
+                <div>Todavía no ha realizado ningún pedido.</div>
             }
+
             @for (order of orders ; track order.id) {
+                
             <div class="order">
                 <div class="order-header">
                     <p><b>Pedido n.º {{order.id}}</b></p>
                     <span>Fecha del pedido: {{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}} </span>
                 </div>
                 <table>
+
                     <tr>
                         <th>Imagen</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio unidad</th>
                     </tr>
+
                     @for (line of order.ProductsOrder; track $index) {
-                    <tr (click)="navigateToProduct(line.productId)" class="product-link">
-                        <td> <img [src]="IMG_URL + line.product.image"></td>
-                        <td>{{line.product.name}}</td>
-                        <td>{{line.quantity}}</td>
-                        <td>{{line.pricePay/100}}€</td>
-                    </tr>
+                        <tr (click)="navigateToProduct(line.productId)" class="product-link">
+                            <td> <img [src]="IMG_URL + line.product.image"></td>
+                            <td>{{line.product.name}}</td>
+                            <td>{{line.quantity}}</td>
+                            <td>{{line.pricePay/100}}€</td>
+                        </tr>
                     }
+
                 </table>
                 <div class="order-summary">
                     <span class="payment-method">Método de pago: {{ order.PaymentMethod }}</span>
-                    <span class="total-price">Precio total: {{ order.TotalPrice/100}}€</span>
+                    <span class="total-price">Precio total: <b>{{ order.TotalPrice/100}}€</b></span>
                 </div>
             </div>
             }
         </div>
-
-
     </div>
-</div>
 
 <app-footer></app-footer>

@@ -1,4 +1,10 @@
-/* 1º block */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 .panel-top {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/hexagonos-rueda-engranajes-placa-circuitos_587448-4939.jpg?t=st=1733882566~exp=1733886166~hmac=2ab72809b923b29cda3c4635b5736d7a6ae7f67d272282422bf3658b9cb10ff2&w=1980");
     background-size: cover;
@@ -8,7 +14,6 @@
     text-shadow: #12182e 0 0 1em;
     background-attachment: fixed;
 }
-
 
 h3{
     color: #004a8d;
@@ -30,8 +35,6 @@ legend{
     padding: 5px;
 }
 
-
-
 label {
     flex: 1;
     font-weight: bold;
@@ -39,7 +42,6 @@ label {
     padding-right: 10px;
     position: relative;
 }
-
 
 input {
     flex: 2;
@@ -141,7 +143,8 @@ button.btn-edit{
 
 table{
     border-collapse: collapse;
-    width: 90%;
+    width: 100%;
+    min-width: 600px;
     margin: auto;
     text-align: left;
 }
@@ -167,6 +170,12 @@ table img {
     width: 50px;
 }
 
+.table-list{
+    overflow-x: auto; /* Desplazamiento horizontal responsivo*/
+    -webkit-overflow-scrolling: touch;
+    margin: 0 auto;
+}
+
 .new-product-title{
     font-size: 25px;
 }
@@ -176,7 +185,6 @@ table img {
     display: flex;
     flex-direction: column;
     text-align: center;
-    width: 40%;
     padding: 3%;
     border: 2px solid #007acc;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
