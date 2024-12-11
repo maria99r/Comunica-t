@@ -1,4 +1,3 @@
-/* 1º block */
 .panel-top{
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-azul-tecnologico_1017-3220.jpg?t=st=1733638153~exp=1733641753~hmac=8b5bc80ed3e442107d7628cf43cd388229690078baf03e19dfbb4cd05d6904d3&w=1980");
     background-size: cover;
@@ -9,7 +8,6 @@
     text-shadow: #12182e 0 0 1em;
 }
 
-/* Block with advantages  */
 .card-container {
     gap: 10px;                        
     align-items: center;              
@@ -18,7 +16,6 @@
     vertical-align: middle;
 }
 
-/* Each advantage */
 .card-advantage {
     display: flex; 
     flex-direction: column; 
@@ -29,7 +26,6 @@
     overflow: hidden; 
 }
 
-/* Card content */
 .card-content {
     background-color: #0341b4ac;
     flex-grow: 10; 
@@ -103,5 +99,12 @@ a{
 @media (max-width: 768px) {
     .card-advantage {
         flex: 1 1 100%;              
+    }
+    .panel-top p{
+        font-size: x-large;
+    }
+
+    .panel-top{
+        height: 200px;
     }
 }               
