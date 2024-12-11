@@ -143,11 +143,11 @@ export class CatalogComponent implements OnInit {
   search() {
     this.currentPage = 1;
     this.loadProducts();
-    console.log('Datos enviados:', {
+   /* console.log('Datos enviados:', {
       query: this.query,
       currentPage: this.currentPage,
       pageSize: this.pageSize,
-    });
+    });*/
   }
 
   // nº de productos por pagina

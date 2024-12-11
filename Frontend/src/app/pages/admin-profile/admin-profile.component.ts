@@ -26,17 +26,12 @@ import Swal from 'sweetalert2';
 })
 export class AdminProfileComponent implements OnInit {
   user: User | null = null; //datos del usuario
-  orders: any[] = []; //lista de pedidos
   products: Product[] = []; // Lista de productos
   users: User[] = [] // lista de usuarios
 
   @ViewChild('addEditDialog')
   addOrEditDialog: ElementRef<HTMLDialogElement>;
-  @ViewChild('editDiv')
-  editDiv: ElementRef<HTMLDialogElement>;
-
-  images: Image[] = [];
-
+  
   imageToEdit: Image = null;
   imageToDelete: Image = null;
 
@@ -52,12 +47,6 @@ export class AdminProfileComponent implements OnInit {
   insertProductStock: number;
   insertProductDescription: string;
   insertProductImage: string;
-
-  modifyProductName: string;
-  modifyProductPrice: number;
-  modifyProductStock: number;
-  modifyProductDescription: string;
-  modifyProductImage: string;
 
   newProductForm: FormGroup;
   addOrEditForm: FormGroup;
@@ -144,7 +133,7 @@ export class AdminProfileComponent implements OnInit {
     this.selectedProduct = product;
     this.isEditProductHidden = !this.isEditProductHidden;
 
-    console.log(this.selectedProduct)
+   // console.log(this.selectedProduct)
     
 
     this.editProductForm.patchValue({
@@ -182,11 +171,11 @@ export class AdminProfileComponent implements OnInit {
 
   // Editar el rol de un usuario
   async modifyUserRole(userId: number, newRole: string) {
-    console.log("Rol: ", newRole)
+    //console.log("Rol: ", newRole)
     try {
       this.apiService.modifyRole(userId, newRole).subscribe(
         async () => {
-          console.log("Rol modificado correctamente: "),
+         // console.log("Rol modificado correctamente: "),
             this.users = await this.apiService.allUser();
         }
       );
@@ -201,10 +190,10 @@ export class AdminProfileComponent implements OnInit {
   async deleteUser(id: number) {
 
     const confirmation = confirm(`¿Estás seguro de que deseas borrar el usuario con id ${id}?`);
-    console.log(confirmation)
+    //console.log(confirmation)
 
     if (confirmation) {
-      console.log(id);
+     // console.log(id);
       this.apiService.deleteUser(id).subscribe({
         next: async () => {
           Swal.fire({ // Cuadro de diálogo
@@ -223,12 +212,6 @@ export class AdminProfileComponent implements OnInit {
     }
      
   }
-
-  //logica para habilitar la edición solo en el campo necesario
-  toggleEdit(field: string) {
-    this.isEditing = !this.isEditing;
-  }
-
 
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('newPassword')?.value;
@@ -327,12 +310,15 @@ export class AdminProfileComponent implements OnInit {
   // mofidicar producto
   async editProduct(id: number): Promise<void> {
 
+    const price = this.editProductForm.get('price').value * 100;
+
     const formData = {
       ...this.editProductForm.value,
+      price: price,
       image: this.rutaImgModifyProduct 
   };
 
-    console.log(formData)
+    //console.log(formData)
     this.apiService.updateProduct(id, formData).subscribe(
       () => {
         Swal.fire({ // Cuadro de diálogo

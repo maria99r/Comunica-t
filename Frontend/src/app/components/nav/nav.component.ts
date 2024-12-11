@@ -36,7 +36,6 @@ export class NavComponent implements OnInit, OnDestroy {
     this.name = user ? user.name : null;
     this.userId = user ? user.userId : null;
 
-    // Suscripción al observable del número de productos
     const cartSub = this.cartService.cartProductCount$.subscribe(count => {
       this.cartProductCount = count;
     });
@@ -63,7 +62,7 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe(); // Eliminar la suscripción
+    this.subscriptions.unsubscribe();
   }
 
   authClick() {

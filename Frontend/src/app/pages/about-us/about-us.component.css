@@ -2,9 +2,9 @@ a{
     text-decoration: none;
 }
 
-/* 1º block */
+
 .panel-top{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/foto-gratis/fondo-placa-base_23-2151733789.jpg?t=st=1729794199~exp=1729797799~hmac=b66faa72f5783a4ba35b83db8f2e033939890d227b5e901bfd1d319ab6580538&w=740");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("/fondo-sobre-nosotros.jpg");
     background-size: cover;
     background-position: center;
     text-align: center;
@@ -13,7 +13,7 @@ a{
     background-attachment: fixed;
 }
 
-/* 2º block */
+
 .panel-down{
     background:linear-gradient(to bottom, transparent, rgba(71, 115, 246, 0.5)), url("https://img.freepik.com/vector-gratis/diseno-concepto-abstracto-tecnologia-malla-alambre_1017-14624.jpg?t=st=1729795122~exp=1729798722~hmac=dde2bf0b5f7121fdfddc12ee8506d660202912da1677bc675c2bb6fb9535d3c6&w=1280");
     background-size: cover;

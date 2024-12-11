@@ -30,7 +30,7 @@ export class CartService {
     this.initializeCartProductCount();
   }
 
-  // Inicializa el número de productos del carrito
+  // NOtificacion nº de productos del carrito en nav
   private async initializeCartProductCount() {
     const count = await this.updateCartProductCount();
     this.cartProductCountSubject.next(count);
@@ -58,15 +58,6 @@ export class CartService {
       user: dataRaw.user,
     };
     return cart;
-  }
-
-  createCart(idUser: number): Observable<any> {
-    const url = `${this.BASE_URL}Cart/newCart`;
-    const body = {
-      userId: idUser,
-    };
-
-    return this.http.post(url, idUser);
   }
 
   // Guardar productos del carrito en localStorage
@@ -100,7 +91,7 @@ export class CartService {
     cartId: number,
     productId: number
   ): Promise<any> {
-    console.log('Carritos sincronizados');
+    //console.log('Carritos sincronizados');
     const url = `ProductCart/addProduct`;
     const body = {
       quantity: quantity,
@@ -117,7 +108,7 @@ export class CartService {
     } else {
       const cart = this.getCartFromLocal();
       const index = cart.findIndex((p) => p.productId == id);
-      console.log('Índice: ' + index);
+      //console.log('Índice: ' + index);
 
       if (index !== -1) {
         cart.splice(index, 1);

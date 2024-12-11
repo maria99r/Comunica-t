@@ -6,14 +6,11 @@ export const redirectionGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot, 
   state: RouterStateSnapshot) => {
 
-    // Inyectamos servicios
     const authService = inject(AuthService);
     const router = inject(Router);
 
     // Verificamos si el usuario está autenticado
     if (!authService.isAuthenticated()) {
-
-      // Guardamos que es una autenticación reciente
       sessionStorage.setItem('authRedirection', 'true');
 
       // Navegamos al login indicando que después redireccione a donde queríamos ir en un principio

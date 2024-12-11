@@ -117,7 +117,7 @@ export class ProductDetailComponent implements OnInit {
     if (this.isLog) {
       if (this.product) {
         let cart = await this.cartApi.getCartByUser(this.currentUser.userId);
-        console.log(cart)
+        // console.log(cart)
         // añade producto
         try {
           await this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
@@ -133,7 +133,7 @@ export class ProductDetailComponent implements OnInit {
       if (this.product) {
         try {
 
-          console.log("Sesión NO iniciada")
+          //console.log("Sesión NO iniciada")
           const cart = JSON.parse(localStorage.getItem('cartProducts') || '[]');
 
           if (this.quantity > this.product.stock) {
@@ -151,7 +151,7 @@ export class ProductDetailComponent implements OnInit {
               cart.push({ ...this.productCart });
             }
             localStorage.setItem('cartProducts', JSON.stringify(cart));
-            console.log('Producto añadido al carrito:', this.productCart);
+            //console.log('Producto añadido al carrito:', this.productCart);
             this.throwDialog("El producto se ha añadido correctamente su carrito.");
           }
 
