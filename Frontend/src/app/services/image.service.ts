@@ -12,11 +12,6 @@ export class ImageService {
 
   constructor(private api: ApiService) { }
 
-  getAllImages(): Promise<Result<Image[]>> {
-    return this.api.get<Image[]>('images');
-  }
-
-
   addImage(imageRequest: ImageRequest): Promise<Result<Image>> {
     const formData = new FormData();
     formData.append('name', imageRequest.name);
@@ -32,7 +27,4 @@ export class ImageService {
     return this.api.put(`images/${id}`, formData);
   }
 
-  deleteImage(id: number): Promise<Result> {
-    return this.api.delete(`images/${id}`);
-  }
 }

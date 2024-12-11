@@ -47,16 +47,16 @@ export class CartComponent implements OnInit {
 
     // dependiendo de si el usuario esta o no logueado
     if (user) {
-      console.log("Carrito: Sesión iniciada")
+      //console.log("Carrito: Sesión iniciada")
       this.cart = await this.cartService.getCartByUser(userId);
-      console.log("Carrito bbdd: ", this.cart)
+      //console.log("Carrito bbdd: ", this.cart)
       this.isLog = true;
       this.checkStock(this.cart.products)
     }
     else {
-      console.log("Carrito: Sesión NO iniciada")
+      //console.log("Carrito: Sesión NO iniciada")
       this.cartProducts = this.cartService.getCartFromLocal();
-      console.log(this.cartProducts)
+      //console.log(this.cartProducts)
       this.isLog = false;
       this.checkStock(this.cartProducts)
     }
@@ -215,10 +215,10 @@ export class CartComponent implements OnInit {
 
     // Comprobar si ha cambiado el stock de los productos
     if (this.isLog) {
-      console.log("Comprobando stock de los productos para usuario logueado...");
+      //console.log("Comprobando stock de los productos para usuario logueado...");
       allProductStock = await this.checkStock(this.cart.products);
     } else {
-      console.log("Comprobando stock de los productos para usuario no logueado...");
+      //console.log("Comprobando stock de los productos para usuario no logueado...");
       allProductStock = await this.checkStock(this.cartProducts);
     }
 
@@ -227,18 +227,18 @@ export class CartComponent implements OnInit {
       let createOrder: Observable<any>;
 
       if (this.isLog) {
-        console.log("Creando orden en BBDD...");
+       // console.log("Creando orden en BBDD...");
         this.checkStock(this.cart.products);
         createOrder = this.cartService.newTemporalOrderBBDD(this.cart, paymentMethod);
       } else {
-        console.log("Creando orden localmente...");
+        //console.log("Creando orden localmente...");
         this.checkStock(this.cartProducts);
         createOrder = this.cartService.newTemporalOrderLocal(this.cartProducts, paymentMethod);
       }
 
       createOrder.subscribe({
         next: (response: any) => {
-          console.log("Orden creada exitosamente: ", response);
+          //console.log("Orden creada exitosamente: ", response);
           const temporalOrderId = response.id;
 
           this.router.navigate([redirectRoute], {

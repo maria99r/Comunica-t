@@ -1,8 +1,6 @@
-<!-- NAV BAR -->
 <app-nav></app-nav>
 
-<!-- FIRST BLOCK WITH IMAGE AND SLOGAN -->
-<div class="panel-top h-24rem d-flex w-full">
+<div class="panel-top h-16rem d-flex w-full">
     <p class="m-auto text-white line-height-4 text-6xl uppercase font-bold">
         - MI PERFIL -
     </p>
@@ -20,11 +18,13 @@
                 <input type="text" [value]="user?.name" formControlName="name" [readonly]="!isEditing">
             </label>
         </div>
+        <br>
         <div class="profile-row">
             <label for="email">Correo:
                 <input id="email" type="email" formControlName="email" [readonly]="!isEditing" [value]="user?.email" />
             </label>
         </div>
+        <br>
         <div class="profile-row">
             <label for="address">Dirección:
                 <input id="address" type="text" formControlName="address" [readonly]="!isEditing"

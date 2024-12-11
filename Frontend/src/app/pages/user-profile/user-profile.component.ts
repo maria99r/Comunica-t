@@ -31,9 +31,6 @@ export class UserProfileComponent implements OnInit {
   isEditing = false; //modo edición
   orders: Order[] = []; //lista de pedidos
 
-  private readonly USER_KEY = 'user';
-  private readonly TOKEN_KEY = 'jwtToken';
-
   public readonly IMG_URL = environment.apiImg;
 
   constructor(private formBuild: FormBuilder, private authService: AuthService,

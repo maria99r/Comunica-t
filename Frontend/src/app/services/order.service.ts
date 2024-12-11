@@ -22,7 +22,7 @@ export class OrderService {
 
     const dataRaw: any = await lastValueFrom(request);
 
-    console.log(dataRaw);
+    //console.log(dataRaw);
 
     const order: Order = {
       id: dataRaw.id,
