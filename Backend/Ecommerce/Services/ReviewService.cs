@@ -44,8 +44,6 @@ public class ReviewService
     // crea una reseña
     public async Task<Review> CreateReviewAsync(ReviewDto model)
     {
-        // hay que verificar que el usuario este logueado!!
-
         // entrada de texto a la ia que predice 
         var input = new ModelInput
         {

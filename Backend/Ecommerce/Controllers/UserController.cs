@@ -20,19 +20,6 @@ namespace Ecommerce.Controllers
             _userMapper = userMapper;
         }
 
-        // devuelve un usuario buscado por email
-        [HttpGet("/email/{email}")]
-        public async Task<IActionResult> GetByEmailAsync(string email)
-        {
-            var user = await _userService.GetUserByEmailAsync(email);
-
-            if (user == null) // si no se encuentra el correo
-            {
-                return NotFound(new { message = $"El usuario con el correo: '{email}' no ha sido encontrado." });
-            }
-
-            return Ok(user);
-        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
@@ -150,6 +137,7 @@ namespace Ecommerce.Controllers
 
 
         // Elimina un usuario
+        [Authorize(Roles = "Admin")]
         [HttpDelete("deleteUser/{userId}")]
         public async Task<IActionResult> DeleteUser(int userId)
         {

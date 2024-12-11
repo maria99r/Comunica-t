@@ -8,24 +8,6 @@ public class OrderRepository : Repository<Order, int>
     public OrderRepository(EcommerceContext context) : base(context) { }
 
 
-    // crear pedido desde orden temporal
-    /*
-    public async Task<Order> InsertOrderAsync(TemporalOrder temporalOrder)
-    {
-       
-
-        var insertedOrder = await InsertAsync(newOrder);
-
-
-        if (insertedOrder == null)
-        {
-            throw new Exception("No se pudo insertar el pedido.");
-        }
-
-        return newOrder;
-    }*/
-
-
     // pedidos por usuario
     public async Task<List<Order>> GetOrderByUser(int id)
     {
@@ -51,9 +33,6 @@ public class OrderRepository : Repository<Order, int>
         {
             throw new InvalidOperationException("El pedido no se encontró para esta id.");
         }
-
-        
-
         return order;
     }
 

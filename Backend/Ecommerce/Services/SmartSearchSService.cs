@@ -8,6 +8,7 @@
     public class SmartSearchService
     {
         private const double THRESHOLD = 0.75;
+
         private static readonly string[] ITEMS = [
             "GPS",
             "Localizador",

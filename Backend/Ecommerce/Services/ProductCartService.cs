@@ -47,7 +47,7 @@ public class ProductCartService
             throw new InvalidOperationException("El producto no se encuentra en el carrito.");
         }
 
-        _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
+        await _unitOfWork.ProductCartRepository.Delete(productCart);
         await _unitOfWork.SaveAsync();
     }
 
@@ -73,7 +73,7 @@ public class ProductCartService
         // si al actualizar la cantidad es menor o igual a 0, se elimina
         if (productCart.Quantity <= 0)
         {
-            _unitOfWork.ProductCartRepository.DeleteProductFromCartAsync(productCart);
+            await _unitOfWork.ProductCartRepository.Delete(productCart);
         }
 
         await _unitOfWork.SaveAsync();

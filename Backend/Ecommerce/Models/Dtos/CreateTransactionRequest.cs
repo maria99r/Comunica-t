@@ -1,4 +1,4 @@
-﻿namespace Examples.WebApi.Models.Dtos;
+﻿namespace Ecommerce.Models.Dtos;
 
 public class CreateTransactionRequest
 {

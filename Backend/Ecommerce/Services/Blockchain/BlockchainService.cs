@@ -4,7 +4,6 @@ using System.Numerics;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
-using Examples.WebApi.Models.Dtos;
 
 namespace Ecommerce.Services.Blockchain;
 

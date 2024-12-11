@@ -1,6 +1,4 @@
-﻿using Ecommerce.Helpers;
-using Ecommerce.Models.Database.Entities;
-using Ecommerce.Models.Dtos;
+﻿using Ecommerce.Models.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Models.Database.Repositories.Implementations;
