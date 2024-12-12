@@ -29,8 +29,7 @@
             <div *ngIf="authService.isAuthenticated()" style="cursor: pointer;" class="dropdown">
                 <a>
                     <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px"
-                        class="user-icon vertical-align-middle clickable; cursor: pointer;"
-                        (click)="navigateToProfile()">
+                        class="user-icon vertical-align-middle clickable; cursor: pointer;">
                     <div *ngIf="authService.isAdmin()" class="dropdown-content">
                         <a [routerLink]="'/user-profile'">Perfil</a>
                         <a [routerLink]="'/admin-profile'">Administración</a>

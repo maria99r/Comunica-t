@@ -94,12 +94,7 @@ export class NavComponent implements OnInit, OnDestroy {
   // Funcion para navegar a vista admin o usuario
   navigateToProfile(): void {
     if (this.authService.isAdmin()) {
-      // Verifica si es administrador
-      this.router.navigate(['/admin-profile']);
-      console.log("Tu rol es administrador");
-    } else {
       this.router.navigate(['/user-profile']);
-      console.log("Tu rol es usuario");
     }
   }
 }
