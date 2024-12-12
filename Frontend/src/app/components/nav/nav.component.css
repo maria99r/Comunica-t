@@ -2,7 +2,7 @@
     background-color: white;
 }
 
-.logo-container{
+.logo-container {
     display: flex;
     align-items: center;
     vertical-align: middle;
@@ -48,7 +48,7 @@ button:hover {
 }
 
 .logo {
-    display:block;
+    display: block;
     height: 50px;
 }
 
@@ -67,7 +67,7 @@ button:hover {
     margin-right: 10px;
 }
 
-.logout{
+.logout {
     margin-left: 20px;
     margin-right: 10px;
 }
@@ -76,34 +76,34 @@ button:hover {
 .dropdown {
     position: relative;
     display: inline-block;
-  }
+}
 
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-  }
+}
 
-  .dropdown-content a {
+.dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-  }
+}
 
-  .dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content {
     display: block;
-  }
+}
 
-  .dropdown-content a:hover {
+.dropdown-content a:hover {
     background-color: #f1f1f1;
-  }
+}
 
 
-@media (max-width: 1126px) {
+@media (max-width: 1180px) {
     .desktop-logo {
         display: none;
     }
@@ -113,6 +113,8 @@ button:hover {
     }
 
 }
+
+
 
 @media (max-width: 500px) {
     .menu-items {
@@ -130,7 +132,7 @@ button:hover {
         width: 30px;
     }
 
-    .logout{
+    .logout {
         margin: 5px;
     }
 
@@ -138,7 +140,7 @@ button:hover {
         display: none;
     }
 
-    .medium{
+    .medium {
         display: none;
     }
 
