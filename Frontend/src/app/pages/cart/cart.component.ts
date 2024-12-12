@@ -28,6 +28,8 @@ export class CartComponent implements OnInit {
   cart: Cart;  // bbdd
   public readonly IMG_URL = environment.apiImg;
 
+  numProducts : number = 0;
+
   isLog: boolean; // para comprobar si esta o no logueado
 
   constructor(
@@ -51,6 +53,7 @@ export class CartComponent implements OnInit {
       this.cart = await this.cartService.getCartByUser(userId);
       //console.log("Carrito bbdd: ", this.cart)
       this.isLog = true;
+      this.numProducts = this.cart.products.length;
       this.checkStock(this.cart.products)
     }
     else {
@@ -58,6 +61,7 @@ export class CartComponent implements OnInit {
       this.cartProducts = this.cartService.getCartFromLocal();
       //console.log(this.cartProducts)
       this.isLog = false;
+      this.numProducts = this.cartProducts.length;
       this.checkStock(this.cartProducts)
     }
 
