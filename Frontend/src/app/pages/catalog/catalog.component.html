@@ -31,7 +31,7 @@
     </select>
 </div>
 
-<div class="product-flex justify-content-center">
+<div class="product-flex-container">
     @if (isLoading) {
         <div style="padding: 5%;">Cargando...</div>
     } @else {
@@ -50,24 +50,27 @@
                                 <p>{{product.price / 100}}€</p>
 
                                 @if (product.stock > 0) {
-                                    <p class="text-sm" style="color:darkgreen">Stock</p>
+                                    <p class="text-m stock" style="color:#5aff4b"><b>Stock</b></p>
                                 } @else {
-                                    <p class="text-sm" style="color:darkred">No stock</p>
+                                    <p class="text-m stock" style="color:rgb(255, 107, 107)"><b>No stock</b></p>
                                 }
-                                <p class="text-sm "><span>
+                            </div>
+                            <div class="reviews">
+                                <p class="text-m ">
+                                    <span>
                                     @switch (calculateAvg(product.reviews)) {
-                                    @case (1) {
-                                      ⭐⭐⭐ 
-                                     }
-                                    @case (0) {
-                                        ⭐⭐✩ 
-                                     }
-                                    @case (-1) {
-                                        ⭐✩✩ 
-                                     }
+                                        @case (1) {
+                                            ⭐⭐⭐ 
+                                        }
+                                        @case (0) {
+                                            ⭐⭐✩ 
+                                        }
+                                        @case (-1) {
+                                            ⭐✩✩ 
+                                        }
                                     }
-                                </span> ({{product.reviews.length}})</p>
-                                
+                                    </span> ({{product.reviews.length}})
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -86,9 +89,8 @@
         [totalRecords]="totalPages * pageSize"></p-paginator>
 
     <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
-        <option [ngValue]="8">8</option>
-        <option [ngValue]="16">16</option>
-        <option [ngValue]="24">24</option>
+        <option [ngValue]="9">9</option>
+        <option [ngValue]="18">18</option>
     </select>
 </div>
 
