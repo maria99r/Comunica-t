@@ -2,6 +2,12 @@
     background-color: white;
 }
 
+.logo-container{
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
 span {
     color: #75308a;
     font-weight: 400;
@@ -13,7 +19,7 @@ a {
     text-decoration-color: none;
 }
 
-img:hover {
+a img:hover {
     /* transform: scale(0.95); */
     filter: drop-shadow(0px 4px 10px rgb(208, 223, 255));
 }
@@ -42,12 +48,15 @@ button:hover {
 }
 
 .logo {
-    margin: 10px;
+    display:block;
+    height: 50px;
 }
 
 .desktop-logo {
     display: block;
 }
+
+
 
 .mobile-logo {
     display: none;
@@ -63,11 +72,19 @@ button:hover {
     margin-right: 10px;
 }
 
-.logo{
-    height: 30px;
+
+@media (max-width: 1126px) {
+    .desktop-logo {
+        display: none;
+    }
+
+    .mobile-logo {
+        display: block;
+    }
+
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
     .menu-items {
         flex-direction: column;
         align-items: flex-start;
@@ -91,22 +108,12 @@ button:hover {
         display: none;
     }
 
+    .medium{
+        display: none;
+    }
+
     .mobile-logo {
         display: block;
-    }
-
-    .user-icon {
-        margin: 5px;
-    }
-
-    .cart{
-        margin: 5px;
-    }
-
-
-    .logo {
-        height: 40px;
-        margin: 0;
     }
 
     .p-button {
