@@ -84,18 +84,18 @@ input {
     outline: none;
 }
 
-button:hover {
-    cursor: pointer;
-    background-color: #6f4caf;
-}
-
 button {
     padding: 8px;
     border: 0px;
-    background-color: #875fd1;
+    background-color: #3c747c;
     color: white;
     border-radius: 30px;
     margin: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #0b4258;
 }
 
 button.btn-edit{

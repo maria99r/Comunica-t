@@ -51,16 +51,16 @@ h3 {
 }
 
 button {
-    background-color: #007bff; 
+    background-color: #3c747c; 
     color: white;
     font-size: 16px;
     font-weight: bold;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    cursor: pointer;
+    background-color: #0b4258;
 }

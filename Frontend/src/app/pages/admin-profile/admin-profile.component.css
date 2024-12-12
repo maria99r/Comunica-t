@@ -118,7 +118,7 @@ input {
 button {
     padding: 8px;
     border: 0px;
-    background-color: #875fd1;
+    background-color: #3c747c;
     color: white;
     border-radius: 30px;
     margin: 10px;
@@ -126,7 +126,7 @@ button {
 
 button:hover {
     cursor: pointer;
-    background-color: #6f4caf;
+    background-color: #0b4258;
 }
 
 button.btn-edit{

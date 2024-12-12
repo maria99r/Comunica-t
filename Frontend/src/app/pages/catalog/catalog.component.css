@@ -82,9 +82,14 @@ img{
 
 .p-button{
     border: 0px;
-    background-color: #6f42c1;
+    background-color: #3c747c;
     color: white;
     border-radius: 30px;
+}
+
+.p-button:hover {
+    cursor: pointer;
+    background-color: #0b4258;
 }
 
 .product-flex {
@@ -101,7 +106,7 @@ img{
 }
 
 select{
-    border: 1px solid #6f42c1;
+    border: 1px solid #0b4258;
     border-radius: 5px;
     margin: 10px 20px;
     font-size: medium;

@@ -9,7 +9,7 @@
 }
 
 span {
-    color: #75308a;
+    color: #042431;
     font-weight: 400;
     font-size: larger;
 }
@@ -30,7 +30,7 @@ a img:hover {
 
 button {
     border: 0px;
-    background-color: #6f42c1;
+    background-color: #3c747c;
     color: white;
     border-radius: 30px;
     padding: 15px;
@@ -40,7 +40,7 @@ button {
 
 button:hover {
     cursor: pointer;
-    background-color: #4d20a1;
+    background-color: #0b4258;
 }
 
 .clickable {
@@ -56,8 +56,6 @@ button:hover {
     display: block;
 }
 
-
-
 .mobile-logo {
     display: none;
 }
@@ -71,7 +69,6 @@ button:hover {
     margin-left: 20px;
     margin-right: 10px;
 }
-
 
 .dropdown {
     position: relative;
@@ -113,8 +110,6 @@ button:hover {
     }
 
 }
-
-
 
 @media (max-width: 500px) {
     .menu-items {

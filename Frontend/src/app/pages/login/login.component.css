@@ -5,22 +5,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh; 
-  background: linear-gradient(135deg, #182c53, #305aa8, #834ac8, #4b2b73);
+  background: linear-gradient(45deg, #0b4258, #3c747c, #69a9a4, #acd4cc);
   position: relative;
-}
-
-/* Estilo para el logo de la parte superior */
-.logo {
-  position: absolute;
-  top: 20px; 
-  left: 50%; 
-  transform: translateX(-50%); 
-}
-
-/* Tamaño del logo */
-.logo img {
-  width: 250px; 
-  height: auto;
 }
 
 /* Caja de inicio de sesión */
@@ -37,7 +23,7 @@
 }
 
 /* Logo del usuario que aparece en la parte superior de la caja */
-.user-logo {
+.logo {
   position: absolute; 
   top: -50px; 
   left: 50%; 
@@ -45,7 +31,7 @@
 }
 
 /* Tamaño y estilo del logo del usuario */
-.user-logo img {
+.logo img {
   width: 100px; 
   height: auto; 
   border-radius: 50%;
@@ -95,7 +81,7 @@ p {
 
 /* Estilo cuando el campo de entrada está enfocado */
 .icon-input:focus {
-  border-color: #fdbb2d;
+  border-color: #ffffff;
   outline: none;
 }
 
@@ -109,7 +95,7 @@ p {
 
 /* Estilo para el enlace de registro */
 .register-link a {
-  color: #fdbb2d;
+  color: #ffffff;
   text-decoration: none;
   font-weight: bold;
 }
@@ -123,11 +109,16 @@ p {
 /* Estilo para el botón de envío */
 .p-button {
   border: 0px;
-  background-color: #6f42c1;
+  background-color: #3c747c;
   color: white;
   border-radius: 30px;
   padding: 15px;
   margin: 10px;
+}
+
+.p-button:hover {
+  cursor: pointer;
+  background-color: #0b4258;
 }
 
 /* Estilos para el texto "Recuérdame" */
@@ -149,7 +140,7 @@ p {
     max-width: 90%;
   }
 
-  .user-logo img {
+  .logo img {
     width: 70px;
   }
 

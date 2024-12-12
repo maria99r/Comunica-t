@@ -65,10 +65,6 @@
     font-weight: bold;
 }
 
-button:hover {
-    cursor: pointer;
-}
-
 .pay-button button:disabled{
     background-color: gray;
 }
@@ -85,17 +81,21 @@ button:hover {
 .pay-button button {
     padding: 8px;
     border: 0px;
-    background-color: #6f42c1;
+    background-color: #3c747c;
     color: white;
     border-radius: 30px;
     margin: 10px;
 }
 
-.pay-button button:hover button:active{
-    background-color: #6337b4;
+.pay-button button:hover {
+    cursor: pointer;
+    background-color: #0b4258;
 }
 
-
+.p-button-danger:hover {
+    cursor: pointer;
+    background-color: darkred;
+}
 
 .cart-total {
     font-size: larger;
@@ -103,16 +103,8 @@ button:hover {
     margin-left: 20px;
 }
 
-
 img {
     height: 215px;
-}
-
-.p-button {
-    border: 0px;
-    background-color: #6f42c1;
-    color: white;
-    border-radius: 30px;
 }
 
 .product-flex {
@@ -136,7 +128,7 @@ img {
 }
 
 select {
-    border: 1px solid #6f42c1;
+    border: 1px solid #0b4258;
     border-radius: 5px;
     margin: 10px 20px;
     font-size: medium;

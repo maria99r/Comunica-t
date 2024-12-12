@@ -44,6 +44,18 @@ a{
     text-align: left;
 }
 
+.p-button {
+    font-weight: bold;
+    border: 0px; 
+    background-color: #3c747c; 
+    color: white; 
+    border-radius: 30px;
+}
+
+.p-button:hover {
+    cursor: pointer;
+    background-color: #0b4258;
+}
 
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
