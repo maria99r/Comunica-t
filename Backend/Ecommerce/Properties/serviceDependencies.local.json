@@ -1,14 +1,17 @@
 {
   "dependencies": {
-    "secrets1": {
-      "type": "secrets.user"
-    },
     "sqlite1": {
       "secretStore": "LocalSecretsFile",
       "resourceId": null,
       "type": "sqlite.local",
       "connectionId": "Ecommerce",
       "dynamicId": null
+    },
+    "secrets1": {
+      "secretStore": null,
+      "resourceId": null,
+      "type": "secrets.user",
+      "connectionId": null
     }
   }
 }
