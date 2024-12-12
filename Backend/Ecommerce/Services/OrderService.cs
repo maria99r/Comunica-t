@@ -194,7 +194,7 @@ public class OrderService
             </div>
             {totalEthereumHtml}
 
-            <p>¡Gracias por confiar en Innovacom!</p>
+            <p>¡Gracias por confiar en Comunica-T!</p>
 
 
     </body>
