@@ -67,10 +67,10 @@
     </div>
 
     <div class="pay-button">
-      <button (click)="goToBlockchain()">
+      <button  [disabled]="numProducts<=0" (click)="goToBlockchain()">
         Pagar con ethereum
       </button>
-      <button (click)="goToCheckout()">
+      <button [disabled]="numProducts<=0" (click)="goToCheckout()">
         Pagar con tarjeta
       </button>
       

@@ -4,8 +4,8 @@
     <!-- Logo Innovacom-->
     <ng-template pTemplate="start">
         <div class="logo-container">
-            <img src="logos/Logotipo_del_Ministerio_de_Educación_y_Formación_Profesional.png" class="logo desktop-logo"
-                alt="Logotipo del Ministerio de Educación y Formación Profesional">
+            <img style=" height: 60px; margin-right: 5px;" src="logos/Logotipo_del_Ministerio_de_Educación_y_Formación_Profesional.png" id="ministero"
+                class="logo desktop-logo" alt="Logotipo del Ministerio de Educación y Formación Profesional">
             <img src="logos/gobierno-responsive.png" alt="Logotipo del Gobierno de España" class="logo mobile-logo">
 
             <img src="logos/comunicat-icono.png" class="logo" alt="Logotipo comunica-t">
@@ -26,16 +26,23 @@
                 <span>{{ cartProductCount }}</span>
             </a>
 
-            <a>
-                <img *ngIf="authService.isAuthenticated()" src="icons/user-icon.png" alt="icono-user"
-                    class="vertical-align-middle" width="40px" class="user-icon vertical-align-middle clickable"
-                    (click)="navigateToProfile()">
-            </a>
+            <div *ngIf="authService.isAuthenticated()" style="cursor: pointer;" class="dropdown">
+                <a>
+                    <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px"
+                        class="user-icon vertical-align-middle clickable; cursor: pointer;"
+                        (click)="navigateToProfile()">
+                    <div *ngIf="authService.isAdmin()" class="dropdown-content">
+                        <a [routerLink]="'/user-profile'">Perfil</a>
+                        <a [routerLink]="'/admin-profile'">Administración</a>
+                    </div>
+                </a>
+            </div>
 
             <a id="inicio-sesion" *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
                 <button class="p-button font-bold ml-4 vertical-align-middle">Iniciar sesión</button>
                 <!--<img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">-->
             </a>
+            <!-- cerrar sesion-->
             <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
                 <img src="icons/logout.png" alt="icono-logout" width="40px" class="logout vertical-align-middle ">
             </a>
@@ -44,6 +51,8 @@
                 <img src="logos/Andalucía-responsive.png" alt="Logo Junta de Andalucía" class="logo mobile-logo">
             </span>
         </div>
+
+
     </ng-template>
 
 </p-menubar>

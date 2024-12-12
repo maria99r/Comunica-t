@@ -9,6 +9,7 @@ import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 
+
 @Component({
   selector: 'app-nav',
   standalone: true,
