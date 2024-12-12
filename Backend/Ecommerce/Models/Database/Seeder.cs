@@ -72,180 +72,67 @@ public class Seeder
     {
         Product[] products = [
                 new Product {
-                    Name = "Menú electrónico" ,
-                    Price = 2500,
-                    Stock = 0,
-                    Description = "Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu/menu-electronico.png"
+                    Name = "Visualizador de Baño ocupado" ,
+                    Price = 1999,
+                    Stock = 24,
+                    Description = "Colocación: Colocar el dispositivo con el sensor de ultrasonido pegado en la pared encima de la cisterna del WC. Colocar el dispositivo con la pantalla TFT en la puerta del baño por la parte exterior.\r\nFuncionamiento: cuando algún usuario está usando el WC, la pantalla exterior se ilumina en rojo, indicando que el baño esta ocupado, en cualquier otro momento la pantalla exterior está iluminada en verde, indicando que se puede entrar al baño.\r\nAlimentación: conector USB de carga. Posibilidad de enchufarlo o powerbank.\r\nPosibilidad de adquirir una parte por separado (debe ser programado por personal especialista)\r\n",
+                    Image = "products/visualizadorbañoocupado.jpg"
                 },
                 new Product {
-                    Name = "Menú electrónico - Modo Oscuro" ,
-                    Price = 2500,
+                    Name = "Organizador de Tareas" ,
+                    Price = 2499,
                     Stock = 47,
-                    Description = "Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu/menu-electronico-oscuro.png"
+                    Description = "Dispositivo portátil de sobremesa. \r\nDisponible también en formato pared.\r\nFuncionamiento: el maestro y/o tutor dispone las tareas en orden en los soportes de tarjetas, para que el usuario las realice. El usuario cuando va a realizar la primera tarea la coge de su soporte y la pone en el dispositivo lector. El dispositivo emite un sonido \"leyendo la tarea\". En ese momento el usuario empieza a realizar la tarea. Cuando termina la misma, la coge y la introduce en el depósito de tareas. Así sucesivamente con las demás.\r\nAlimentación:4 pilas AA \r\nPosibilidad de ampliar tarjetas con pictogramas distintos bajo petición.\r\nPosibilidad de pedir soporte de tarjeta.\r\n",
+                    Image = "products/organizador.jpg"
                 },
                 new Product {
-                    Name = "LOTE DE 5 - Menú electrónico" ,
-                    Price = 11500,
+                    Name = "Pantalla TFT - Repuesto" ,
+                    Price = 499,
                     Stock = 120,
-                    Description = "LOTE DE 5 - Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu/menu-electronico.png"
+                    Description = "Pantalla TFT de repuesto para el visualizador de baño ocupado. Para su funcionamiento necesita dispositivo sensor ultrasonido.",
+                    Image = "products/repuestos-visualizador/pantallatft.jpg"
                 },
                 new Product {
-                    Name = "LOTE DE 10 - Menú electrónico - Colores mixtos" ,
-                    Price = 20000,
+                    Name = "Sensor Ultrasonido - Repuesto" ,
+                    Price = 699,
                     Stock = 256,
-                    Description = "LOTE DE 5 - Carta de bar con selectores que, al pulsarlos, te indican por voz lo que estás eligiendo. Con el botón de enviar puedes comandar lo que hayas elegido.",
-                    Image = "products/menu/lote-menu.png"
+                    Description = "Sensor ultrasonido de repuesto para el visualizador de baño ocupado. Para su funcionamiento necesita dispositivo pantalla TFT asociada.",
+                    Image = "products/repuestos-visualizador/sensorultrasonido.jpg"
                 },
                 new Product {
-                    Name = "Selector de opciones" ,
-                    Price = 1500,
+                    Name = "Depósito de Tarjetas - Repuesto" ,
+                    Price = 399,
                     Stock = 187,
-                    Description = "Con este apoyo visual, la persona con problemas de comunicacion pueda elegir entre las dos opciones y comunicar lo que prefiere.",
-                    Image = "products/selector/selector-opciones.png"
+                    Description = "Depósito de tarjetas de repuesto para el organizador de tareas. Cuando el usuario termine la tarea, puede introducir la tarjeta en el depósito.",
+                    Image = "products/repuestos-organizador/deposito.jpg"
                 },
                 new Product {
-                    Name = "Selector de opciones - Modo Oscuro" ,
-                    Price = 1500,
+                    Name = "Dispositivo lector - Repuesto" ,
+                    Price = 599,
                     Stock = 34,
-                    Description = "Con este apoyo visual, la persona con problemas de comunicacion pueda elegir entre las dos opciones y comunicar lo que prefiere.",
-                    Image = "products/selector/selector-opciones-oscuro.png"
+                    Description = "Dispositivo lector de repuesto para el organizador de tareas.",
+                    Image = "products/repuestos-organizador/lector.jpg"
                 },
                 new Product {
-                    Name = "LOTE DE 10 - Selector de opciones" ,
-                    Price = 13500,
+                    Name = "MicroSD Grabada - Repuesto" ,
+                    Price = 899,
                     Stock = 199,
-                    Description = "LOTE DE 10 - Con este apoyo visual, la persona con problemas de comunicacion pueda elegir entre las dos opciones y comunicar lo que prefiere.",
-                    Image = "products/selector/lote-selector.png"
+                    Description = "MicroSD de repuesto con audios para el organizador de tareas.",
+                    Image = "products/repuestos-organizador/microsd.jpg"
                 },
                 new Product {
-                    Name = "Calendario de rutinas" ,
-                    Price = 1275,
+                    Name = "Soporte - Repuesto" ,
+                    Price = 499,
                     Stock = 84,
-                    Description = "Con una base de datos y una aplicación, a cada persona se le pondrían unas tareas durante la mañana y otras durante la noche.",
-                    Image = "products/calendario/calendario-rutinas.png"
+                    Description = "Soporte de repuesto para el organizador de tareas.",
+                    Image = "products/repuestos-organizador/soporte.jpg"
                 },
                 new Product {
-                    Name = "LOTE DE 10 - Calendario de rutinas" ,
-                    Price = 11500,
+                    Name = "Tarjetas con Pictogramas - Repuesto" ,
+                    Price = 999,
                     Stock = 234,
-                    Description = "LOTE DE 10 - Con una base de datos y una aplicación, a cada persona se le pondrían unas tareas durante la mañana y otras durante la noche.",
-                    Image = "products/calendario/calendario-rutinas.png"
-                },
-                new Product {
-                    Name = "Localizador gps con Lora" ,
-                    Price = 1000,
-                    Stock = 67,
-                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/localizador-lora.png"
-                },
-                new Product {
-                    Name = "Localizador gps con Lora - Azul" ,
-                    Price = 1000,
-                    Stock = 0,
-                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/localizador-lora-azul.png"
-                },
-                new Product {
-                    Name = "Localizador gps con Lora - Morado" ,
-                    Price = 1000,
-                    Stock = 78,
-                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/localizador-lora-morado.png"
-                },
-                new Product {
-                    Name = "Localizador gps con Lora - Naranja" ,
-                    Price = 1000,
-                    Stock = 0,
-                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/localizador-lora-naranja.png"
-                },
-                new Product {
-                    Name = "Localizador gps con Lora - Verde" ,
-                    Price = 1000,
-                    Stock = 93,
-                    Description = "Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/localizador-lora-verde.png"
-                },
-                new Product {
-                    Name = "LOTE DE 10 - Localizador gps con Lora" ,
-                    Price = 9000,
-                    Stock = 189,
-                    Description = "LOTE DE 10 - Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/lote-localizadores.png"
-                },
-                new Product {
-                    Name = "LOTE DE 25 - Localizador gps con Lora" ,
-                    Price = 22500,
-                    Stock = 45,
-                    Description = "LOTE DE 25 - Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/lote-localizadores.png"
-                },
-                new Product {
-                    Name = "LOTE DE 50 - Localizador gps con Lora" ,
-                    Price = 45000,
-                    Stock = 110,
-                    Description = "LOTE DE 50 - Localizador pequeño con tecnología LoRa. Permite el funcionamiento en condiciones donde no haya cobertura. " +
-                    "El localizador del monitor avisa sonoramente si algún otro localizador se separa en un rádio de 2km. Además, el localizador tiene un detector de caída.",
-                    Image = "products/localizador/lote-localizadores.png"
-                },
-                new Product {
-                    Name = "Identificador de zonas" ,
-                    Price = 3550,
-                    Stock = 275,
-                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/identificador-zonas.png"
-                },
-                new Product {
-                    Name = "Identificador de zonas - Azul" ,
-                    Price = 3550,
-                    Stock = 3,
-                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/identificador-zonas-azul.png"
-                },
-                new Product {
-                    Name = "Identificador de zonas - Beige" ,
-                    Price = 3550,
-                    Stock = 176,
-                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/identificador-zonas-beige.png"
-                },
-                new Product {
-                    Name = "Identificador de zonas - Gris" ,
-                    Price = 3550,
-                    Stock = 0,
-                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/identificador-zonas-gris.png"
-                },
-                new Product {
-                    Name = "Identificador de zonas - Morado" ,
-                    Price = 3550,
-                    Stock = 0,
-                    Description = "Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/identificador-zonas-morado.png"
-                },
-                new Product {
-                    Name = "LOTE DE 5 - Identificador de zonas - Colores mixtos" ,
-                    Price = 32500,
-                    Stock = 29,
-                    Description = "LOTE DE 5 - Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/lote-identificador.png"
-                },
-                new Product {
-                    Name = "LOTE DE 10 - Identificador de zonas - Colores mixtos" ,
-                    Price = 60000,
-                    Stock = 145,
-                    Description = "LOTE DE 10 - Sistema auditivo pensado para ayudar a personas con autismo a identificar las diferentes áreas de su entorno mediante mensajes de audio simples.",
-                    Image = "products/identificador/lote-identificador.png"
+                    Description = "Lote de tarjetas con pictogramas de repuesto para el organizador de tareas.",
+                    Image = "products/repuestos-organizador/tarjetas.jpg"
                 }
             ];
 

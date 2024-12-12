@@ -33,7 +33,7 @@ public class ProductService
         if (!string.IsNullOrEmpty(searchDto.consulta))
         {
             // usa smart search para buscar aquellos productos que coincidan con la consulta
-            var matchedNames = _smartSearchService.Search(searchDto.consulta).ToHashSet();
+            var matchedNames = await _smartSearchService.Search(searchDto.consulta);
 
             Console.WriteLine($"Búsqueda: {searchDto.consulta}, Coincidencias: {string.Join(", ", matchedNames)}");
 

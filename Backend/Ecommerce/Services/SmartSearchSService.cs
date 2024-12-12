@@ -1,5 +1,7 @@
 ﻿namespace Ecommerce.Services
 {
+    using Ecommerce.Models.Database;
+    using Ecommerce.Models.Database.Entities;
     using F23.StringSimilarity;
     using F23.StringSimilarity.Interfaces;
     using System.Globalization;
@@ -9,35 +11,31 @@
     {
         private const double THRESHOLD = 0.75;
 
-        private static readonly string[] ITEMS = [
-            "GPS",
-            "Localizador",
-            "Menu",
-            "Electronico",
-            "Carta",
-            "Selector",
-            "Opciones",
-            "Calendario",
-            "Rutinas",
-            "Identificador",
-            "Zonas",
-            "Packs",
-            "Paquetes",
-            "Lote",
-            "Lora"
+        private static List<string> ITEMS = new List<string>();
 
-        ];
+        private readonly UnitOfWork _unitOfWork;
 
         private readonly INormalizedStringSimilarity _stringSimilarityComparer;
 
-        public SmartSearchService()
+        public SmartSearchService(UnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
             _stringSimilarityComparer = new JaroWinkler();
         }
 
-        public IEnumerable<string> Search(string query)
+        public async Task GetProductName()
+        {
+            List<Product> product = await _unitOfWork.ProductRepository.GetAllProductsAsync();
+            foreach (var item in product)
+            {
+                ITEMS.Add(item.Name);
+            }
+        }
+
+        public async Task<IEnumerable<string>> Search(string query)
         {
             IEnumerable<string> result;
+            await GetProductName();
 
             if (string.IsNullOrWhiteSpace(query))
             {

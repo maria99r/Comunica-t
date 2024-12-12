@@ -1,4 +1,6 @@
-﻿using Ecommerce.Services;
+﻿using Ecommerce.Models.Database;
+using Ecommerce.Services;
+using F23.StringSimilarity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers;
@@ -7,11 +9,15 @@ namespace Ecommerce.Controllers;
 [ApiController]
 public class SmartSearchController : ControllerBase
 {
-    [HttpGet]
-    public IEnumerable<string> Search([FromQuery] string query)
+    private readonly SmartSearchService _smartSearchService;
+    public SmartSearchController(SmartSearchService smartSearchService)
     {
-        SmartSearchService smartSearchService = new SmartSearchService();
+        _smartSearchService = smartSearchService;
+    }
 
-        return smartSearchService.Search(query);
+    [HttpGet]
+    public async Task<IEnumerable<string>> Search([FromQuery] string query)
+    {
+        return await _smartSearchService.Search(query);
     }
 }
