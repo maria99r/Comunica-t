@@ -33,7 +33,7 @@ export class CatalogComponent implements OnInit {
 
   query: string = '';
   currentPage = 1;
-  pageSize = 4;
+  pageSize = 9;
   totalPages = 0;
 
   sortOrder: boolean = true; // asc por defecto

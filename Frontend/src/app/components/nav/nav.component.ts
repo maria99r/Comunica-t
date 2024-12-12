@@ -90,11 +90,4 @@ export class NavComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
     }
   }
-
-  // Funcion para navegar a vista admin o usuario
-  navigateToProfile(): void {
-    if (this.authService.isAdmin()) {
-      this.router.navigate(['/user-profile']);
-    }
-  }
 }
