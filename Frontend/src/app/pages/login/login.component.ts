@@ -6,11 +6,14 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ProductCart } from '../../models/productCart';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
+import { FooterComponent } from "../../components/footer/footer.component";
+import { NavComponent } from "../../components/nav/nav.component";
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterModule, CheckboxModule],
+  imports: [FormsModule, RouterModule, CheckboxModule, NavComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })

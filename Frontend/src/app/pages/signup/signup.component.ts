@@ -6,11 +6,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
+import { NavComponent } from "../../components/nav/nav.component";
+import { FooterComponent } from "../../components/footer/footer.component";
+import { Footer } from 'primeng/api';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, NgIf], //ReactiveFormsModule, FormsModule, NgIf
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, NgIf, NavComponent, FooterComponent], //ReactiveFormsModule, FormsModule, NgIf
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })

@@ -107,6 +107,7 @@ button:hover {
 
     .mobile-logo {
         display: block;
+        margin-right: 10px;
     }
 
 }
