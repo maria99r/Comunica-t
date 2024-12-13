@@ -33,8 +33,6 @@ export class CatalogComponent implements OnInit {
 
   query: string = '';
   currentPage = 1;
-  pageSize = 9;
-  totalPages = 0;
 
   sortOrder: boolean = true; // asc por defecto
   sortCriterio: CriterioOrden = CriterioOrden.Name; // nombre por defecto
@@ -68,7 +66,6 @@ export class CatalogComponent implements OnInit {
       consulta: this.query,
       Criterio: this.sortCriterio,
       Orden: this.sortOrder,
-      CantidadPaginas: this.pageSize,
       PaginaActual: this.currentPage,
     };
     sessionStorage.setItem(this.USER_CONFIG, JSON.stringify(config));
@@ -81,7 +78,6 @@ export class CatalogComponent implements OnInit {
       consulta: this.query,
       Criterio: this.sortCriterio,
       Orden: this.sortOrder, //por defecto asc
-      CantidadPaginas: this.pageSize,
       PaginaActual: this.currentPage,
     };
 
@@ -95,8 +91,6 @@ export class CatalogComponent implements OnInit {
     try {
       const result = await this.apiService.searchProducts(searchDto);
       this.filteredProducts = result.products;
-      this.totalPages = result.totalPages;
-
     } catch (error) {
       console.error('Error al cargar los productos:', error);
       this.throwError("Error al cargar los productos.");
@@ -114,15 +108,8 @@ export class CatalogComponent implements OnInit {
     this.query = config.consulta;
     this.sortCriterio = config.Criterio;
     this.sortOrder = config.Orden;
-    this.pageSize = config.CantidadPaginas;
     this.currentPage = config.PaginaActual;
 
-  }
-
-  // al avanzar la pagina
-  onPageChange(event: PaginatorState) {
-    this.currentPage = event.page + 1;
-    this.loadProducts();
   }
 
   // cuando cambie criterio de orden se vuelve a cargar la pagina
@@ -143,17 +130,11 @@ export class CatalogComponent implements OnInit {
   search() {
     this.currentPage = 1;
     this.loadProducts();
-   /* console.log('Datos enviados:', {
-      query: this.query,
-      currentPage: this.currentPage,
-      pageSize: this.pageSize,
-    });*/
   }
 
   // nº de productos por pagina
   onPageSizeChange(size: number) {
     this.currentPage = 1;
-    this.pageSize = size;
     this.loadProducts();
   }
 

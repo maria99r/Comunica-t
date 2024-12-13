@@ -13,7 +13,6 @@ public class SearchDto
     }
     public CriterioOrden Criterio { get; set; }
     public bool Orden { get; set; } // o tamb enum, asc o desc
-    public int CantidadPaginas { get; set; }  
     public int PaginaActual  { get; set; }
 
 }
