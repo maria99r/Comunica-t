@@ -58,12 +58,12 @@ public class ProductController : ControllerBase
 
         var result = await _productService.SearchProductsAsync(searchDto);
 
-        if (result.Product == null || result.Product.Count == 0)
+        if (result.Count == 0)
         {
             return Ok(new { products = new List<Product>(), totalPages = 0 });
         }
 
-        return Ok(new { products = result.Product, totalPages = result.TotalPages });
+        return Ok(new { products = result, totalPages = result.Count });
 
     }
 

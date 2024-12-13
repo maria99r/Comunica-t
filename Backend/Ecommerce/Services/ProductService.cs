@@ -24,7 +24,7 @@ public class ProductService
         return await _unitOfWork.ProductRepository.GetProductById(id);
     }
 
-    public async Task<(List<Product> Product, int TotalPages)> SearchProductsAsync(SearchDto searchDto)
+    public async Task<List<Product>> SearchProductsAsync(SearchDto searchDto)
     {
 
         var products = await _unitOfWork.ProductRepository.GetAllProductsAsync();
@@ -46,7 +46,7 @@ public class ProductService
 
         if (products.Count == 0)
         {
-            return (new List<Product>(), 0); // totalPages será 0 en este caso
+            return new List<Product>(); // totalPages será 0 en este caso
         }
 
 
@@ -55,17 +55,7 @@ public class ProductService
             ? products.OrderBy(p => GetOrderingValue(p, searchDto.Criterio)).ToList()
             : products.OrderByDescending(p => GetOrderingValue(p, searchDto.Criterio)).ToList();
 
-
-
-        // paginacion
-        var totalItems = products.Count();
-        var totalPages = (int)Math.Ceiling(totalItems / (double)searchDto.CantidadPaginas);
-        var pagedProducts = products.Skip((searchDto.PaginaActual - 1) * searchDto.CantidadPaginas)
-                                    .Take(searchDto.CantidadPaginas)
-                                    .ToList();
-
-
-        return (pagedProducts, totalPages);
+        return (products);
 
     }
 

@@ -211,7 +211,14 @@ export class CartComponent implements OnInit {
 
   // BLOCKCHAIN
   goToBlockchain() {
-    this.goToPayment('blockchain', '/blockchain');
+
+    if (!window.ethereum) {
+      this.throwError("No está instalado Metamask.");
+      throw new Error('Metamask not found');
+    } else{
+      this.goToPayment('blockchain', '/blockchain');
+    }
+    
   }
 
   async goToPayment(paymentMethod: string, redirectRoute: string) {

@@ -82,19 +82,7 @@
     }
 </div>
 
-<br>
-
-<div class="card flex justify-content-center">
-    <p-paginator (onPageChange)="onPageChange($event)" [first]="(currentPage - 1) * pageSize" [rows]="pageSize"
-        [totalRecords]="totalPages * pageSize"></p-paginator>
-
-    <select [(ngModel)]="pageSize" (change)="onPageSizeChange(pageSize)">
-        <option [ngValue]="9">9</option>
-        <option [ngValue]="18">18</option>
-    </select>
-</div>
-
-<br>
+<br><br>
 
 <!-- FOOTER -->
 <app-footer></app-footer>
