@@ -5,11 +5,11 @@
     <!-- Logo Innovacom-->
     <ng-template pTemplate="start">
         <div class="logo-container">
-            <img style=" height: 60px; margin-right: 5px;" src="logos/Logotipo_del_Ministerio_de_Educación_y_Formación_Profesional.png" id="ministero"
+            <img style=" height: 60px; margin-right: 5px;" src="logos/Logotipo_del_Ministerio_de_Educación_y_Formación_Profesional.webp" id="ministero"
                 class="logo desktop-logo" alt="Logotipo del Ministerio de Educación y Formación Profesional">
-            <img src="logos/gobierno-responsive.png" alt="Logotipo del Gobierno de España" class="logo mobile-logo">
+            <img src="logos/gobierno-responsive.webp" alt="Logotipo del Gobierno de España" class="logo mobile-logo">
 
-            <img src="logos/comunicat-icono.png" class="logo" alt="Logotipo comunica-t">
+            <img src="logos/comunicat-icono.webp" class="logo" alt="Logotipo comunica-t">
         </div>
 
     </ng-template>
@@ -24,14 +24,14 @@
                 }
             </span>
 
-            <a routerLink="/cart">
-                <img src="icons/cart.png" alt="carrito compra" class="cart vertical-align-middle" width="40px">
+            <a routerLink="/cart" class="cart">
+                <img src="icons/cart.webp" alt="carrito compra" class="vertical-align-middle" width="40px">
                 <span>{{ cartProductCount }}</span>
             </a>
 
             <div *ngIf="authService.isAuthenticated()" style="cursor: pointer;" class="dropdown">
                 <a>
-                    <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px"
+                    <img src="icons/user-icon.webp" alt="icono-user" class="vertical-align-middle" width="40px"
                         class="user-icon vertical-align-middle clickable; cursor: pointer;">
                     <div class="dropdown-content">
                         <a [routerLink]="'/user-profile'">Perfil</a>
@@ -48,8 +48,8 @@
                 <button class="p-button font-bold ml-4 vertical-align-middle">Iniciar sesión</button>
             </a>
             <span style="float: right;">
-                <img src="logos/logo junta.png" alt="Logo Junta de Andalucía" class="logo desktop-logo">
-                <img src="logos/Andalucía-responsive.png" alt="Logo Junta de Andalucía" class="logo mobile-logo">
+                <img src="logos/logo junta.webp" alt="Logo Junta de Andalucía" class="logo desktop-logo">
+                <img src="logos/Andalucía-responsive.webp" alt="Logo Junta de Andalucía" class="logo mobile-logo">
             </span>
         </div>
 
