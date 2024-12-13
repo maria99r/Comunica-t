@@ -16,10 +16,14 @@ public class Seeder
     {
         await SeedUsersAsync();
         await SeedProductAsync();
+        await _context.SaveChangesAsync();
+
+        await SeedReviewAsync();
 
         await _context.SaveChangesAsync();
     }
 
+    
     private async Task SeedUsersAsync()
     {
         User[] users = [
@@ -67,6 +71,8 @@ public class Seeder
 
         await _context.User.AddRangeAsync(users);
     }
+
+
 
     private async Task SeedProductAsync()
     {
@@ -139,5 +145,69 @@ public class Seeder
         await _context.Product.AddRangeAsync(products);
     }
 
+
+    private async Task SeedReviewAsync()
+    {
+        Review[] reviews = [
+               new Review {
+                    Text = "Un producto fantástico para fomentar la autonomía de los niños. El detector de baño ha sido una gran ayuda para mi hijo. Ahora puede usar el baño de forma independiente, y nosotros sabemos si está ocupado o no sin invadir su privacidad. El sistema es muy intuitivo y no intrusivo. Además, el diseño espequeño y encaja perfectamente en cualquier baño. ¡Altamente recomendado!",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow,
+                    UserId = 1,
+                    ProductId = 1
+                },
+                new Review {
+                    Text = "¡Un cambio de vida para nuestro centro! Este detector ha eliminado muchas de las preocupaciones que teníamos al monitorear la seguridad de nuestros alumnos mientras usan el baño. La señal clara en el exterior nos da tranquilidad y también les enseña sobre límites personales y autonomía. Muy fácil de instalar y usar.",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-6).AddHours(-3).AddMinutes(5),
+                    UserId = 3,
+                    ProductId = 1
+                },
+                new Review {
+                    Text = "¡Increíble herramienta para organizar el día a día! Mi hija se siente mucho más segura al saber qué tareas tiene que realizar y en qué orden. Las tarjetas con audio le dan instrucciones claras y el sonido que celebra cuando completa una tarea la motiva muchísimo. Este panel ha sido fundamental para ayudarnos a estructurar las rutinas diarias. ¡Lo recomendamos al 100%!",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-15).AddHours(4).AddMinutes(12),
+                    UserId = 2,
+                    ProductId = 1
+                },
+                new Review {
+                    Text = "Un producto innovador que entiende las necesidades de los niños autistas. El panel organizador ha ayudado a mi hijo a ser más independiente y a entender mejor el concepto de inicio y finalización de tareas. Los sonidos que reproducen las tarjetas lo mantienen motivado y concentrado. Estamos encantados.",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-30).AddHours(-7).AddMinutes(20),
+                    UserId = 5,
+                    ProductId = 1
+                },
+                new Review {
+                    Text = "Nuestro equipo docente está impresionado con los resultados del panel organizador de tareas y los pictogramas. Los estudiantes han demostrado mayor autonomía y una mejor comprensión de sus rutinas diarias gracias a las tarjetas interactivas. Es increíble ver cómo se motivan al escuchar el sonido al completar una tarea. Además, el diseño permite que cada alumno personalice su panel, lo que refuerza su sentido de logro y organización.",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-20).AddHours(-10).AddMinutes(32),
+                    UserId = 1,
+                    ProductId = 9
+                },
+                new Review {
+                    Text = "La instalación del detector de baño en nuestras instalaciones ha marcado una gran diferencia. Antes, era difícil monitorear a los estudiantes sin invadir su espacio personal, pero ahora contamos con un sistema claro y confiable que indica si el baño está ocupado. Los alumnos con autismo se han adaptado rápidamente a este dispositivo, y el diseño accesible facilita su uso para todos. Es una inversión que realmente mejora la experiencia escolar.",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-18).AddMinutes(-5),
+                    UserId = 4,
+                    ProductId = 3
+                },
+                new Review {
+                    Text = "En nuestro colegio, este detector de baño ha sido una gran solución para mejorar la autonomía de nuestros alumnos y fomentar el respeto por su privacidad. Ahora, los niños pueden usar el baño de forma más independiente y los profesores saben cuándo está ocupado sin interrumpir. Es una herramienta sencilla pero muy efectiva, y ha sido muy bien aceptada tanto por los alumnos como por el personal. ¡Definitivamente vamos a instalar más unidades!",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-1).AddHours(-4).AddMinutes(8),
+                    UserId = 2,
+                    ProductId = 3
+                },
+                new Review {
+                    Text = "Hemos incorporado varios paneles organizadores en nuestras aulas de apoyo y los resultados han sido excepcionales. Los estudiantes, especialmente aquellos con autismo, ahora tienen una herramienta clara y estructurada para gestionar sus actividades. El audio y los sonidos son muy efectivos para mantener su atención y motivación. Tanto los niños como los profesores han notado un gran avance en la independencia y la facilidad para completar tareas. ¡Es un recurso indispensable para cualquier centro educativo inclusivo!",
+                    Label = 1,
+                    PublicationDate = DateTime.UtcNow.AddDays(-3).AddHours(-4).AddMinutes(16),
+                    UserId = 1,
+                    ProductId = 8
+                }
+           ];
+
+        await _context.Review.AddRangeAsync(reviews);
+    }
 
 }
