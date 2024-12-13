@@ -17,7 +17,7 @@
         <div class="logo-container">
 
             <span class="medium vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">
-                ¡Hola, {{ name }}!
+                ¡Hola, {{ user.name }}!
             </span>
 
             <a routerLink="/cart">
@@ -31,7 +31,7 @@
                         class="user-icon vertical-align-middle clickable; cursor: pointer;">
                     <div class="dropdown-content">
                         <a [routerLink]="'/user-profile'">Perfil</a>
-                        <a *ngIf="authService.isAdmin()" [routerLink]="'/admin-profile'">Administración</a>
+                        <a *ngIf="user.role == 'Admin'" [routerLink]="'/admin-profile'">Administración</a>
                         <a (click)="authClick()" class="logout-text">Cerrar Sesión</a>
                     </div>
                 </a>
