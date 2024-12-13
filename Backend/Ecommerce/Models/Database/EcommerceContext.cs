@@ -35,15 +35,13 @@ public class EcommerceContext : DbContext
     {
         string basedir = AppDomain.CurrentDomain.BaseDirectory;
 
-        // ruta a servidor despliegue
-        string stringConnection = "Server=db11350.databaseasp.net; Database=db11350; Uid=db11350; Pwd=sM%2A@3w-nS9;";
-
         // aqui especifica si usa sqlite o mysql en produccion
 #if DEBUG
         optionsBuilder.UseSqlite($"DataSource={basedir}{DATABASE_PATH}");
 
 #else
-        optionsBuilder.UseMySql(stringConnection, ServerVersion.AutoDetect(stringConnection));
+        string connection = Environment.GetEnvironmentVariable("DATABASE");
+        optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection));
 
 #endif
 
