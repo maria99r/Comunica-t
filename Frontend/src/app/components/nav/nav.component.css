@@ -8,6 +8,25 @@
     vertical-align: middle;
 }
 
+.cart{
+    position: relative;
+}
+
+.cart span{
+    position: absolute;
+    background-color: var(--primary-color);
+    border: 2px var(--primary-color) solid;
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    height:1rem;
+    width: 1rem;
+    line-height: 0.8rem;
+    right: -0.4rem;
+    top: 0;
+    font-size: small;
+}
+
 span {
     color: #042431;
     font-weight: 400;

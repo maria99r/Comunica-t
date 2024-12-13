@@ -2,7 +2,7 @@ footer{
     color: #ebf1ff;
     text-align: center;
     margin: 0;
-    background-color: #2A345D;
+    background-color:var(--primary-color);
     display: flex;
 }
 

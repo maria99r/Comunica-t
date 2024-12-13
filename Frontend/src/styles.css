@@ -10,8 +10,12 @@ html, body {
 }
 
 :root {
-    --primary-color: #305AA8; 
-    --secondary-color: #7461C7;
-    --primary-color-dark: #2A345D;
+    /*Esquema de colores del logo*/
+    --primary-color: #073953 !important; 
+    --secondary-color: #70ADA9 !important;
+    --terciary-color: #447B83 !important;
+    --secondary-color-dark: #5E9F9D !important; 
+    --primary-color-light : #2B5F6E !important;
+
     /* --font-family: 'Helvetica Neue' !important; */
 }
