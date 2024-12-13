@@ -16,7 +16,6 @@
     <ng-template pTemplate="end">
         <div class="logo-container">
 
-
             <span class="medium vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">
                 ¡Hola, {{ name }}!
             </span>
@@ -30,20 +29,16 @@
                 <a>
                     <img src="icons/user-icon.png" alt="icono-user" class="vertical-align-middle" width="40px"
                         class="user-icon vertical-align-middle clickable; cursor: pointer;">
-                    <div *ngIf="authService.isAdmin()" class="dropdown-content">
+                    <div class="dropdown-content">
                         <a [routerLink]="'/user-profile'">Perfil</a>
-                        <a [routerLink]="'/admin-profile'">Administración</a>
+                        <a *ngIf="authService.isAdmin()" [routerLink]="'/admin-profile'">Administración</a>
+                        <a (click)="authClick()" class="logout-text">Cerrar Sesión</a>
                     </div>
                 </a>
             </div>
 
             <a id="inicio-sesion" *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
                 <button class="p-button font-bold ml-4 vertical-align-middle">Iniciar sesión</button>
-                <!--<img src="icons/login.png" alt="icono-login" class="vertical-align-middle" width="40px" class="mr-2 ml-4">-->
-            </a>
-            <!-- cerrar sesion-->
-            <a *ngIf="authService.isAuthenticated()" class="session-link" (click)="authClick()">
-                <img src="icons/logout.png" alt="icono-logout" width="40px" class="logout vertical-align-middle ">
             </a>
             <span style="float: right;">
                 <img src="logos/logo junta.png" alt="Logo Junta de Andalucía" class="logo desktop-logo">

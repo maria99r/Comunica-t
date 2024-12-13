@@ -3,8 +3,8 @@
 
 }
 
-.inputQuantity {
-    width: 50px;
+::ng-deep input#horizontal {
+    width: 50px !important;
 }
 
 p {

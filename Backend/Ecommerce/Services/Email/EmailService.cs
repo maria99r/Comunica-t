@@ -34,7 +34,7 @@ public class EmailService : IEmailService
             SecureSocketOptions.StartTls
             );
 
-        smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:Password").Value);
+        smtp.Authenticate(_config.GetSection("Email:UserName").Value, Environment.GetEnvironmentVariable("EmailPassword"));
         smtp.Send(email);
 
         smtp.Disconnect(true);
