@@ -139,7 +139,7 @@ export class AdminProfileComponent implements OnInit {
     this.editProductForm.patchValue({
       name: product.name,
       stock: product.stock,
-      price: product.price,
+      price: product.price/100,
       description: product.description,
       image: product.image
     });
