@@ -40,7 +40,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         return temporalOrder;
     }
 
-    public async Task<TemporalOrder> GetTemporalOrderByIdWithoutuser(int id)
+    public async Task<TemporalOrder> GetTemporalOrderByIdWithoutUser(int id)
     {
         var temporalOrder = await GetQueryable()
             .Include(t => t.TemporalProductOrder)
@@ -56,7 +56,14 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
         return temporalOrder;
     }
 
+    public async Task<IEnumerable<TemporalOrder>> GetAllOrdersAsync()
+    {
+        var temporalOrder = await GetQueryable()
+            .Include(t => t.TemporalProductOrder)
+            .ToListAsync();
 
+        return temporalOrder;
+    }
 
     // Crear una orden temporal DESDE EL LOCAL
     public async Task<TemporalOrder> InsertTemporalOrderLocalAsync(ProductCartDto[] cart, string paymentMethod)
@@ -72,7 +79,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             PaymentMethod = paymentMethod,
             TotalPrice = total,
             TemporalProductOrder = new List<TemporalProductOrder>(),
-            ExpiresAt = DateTime.UtcNow.AddMinutes(15), // expira en 15 minutos
+            ExpiresAt = DateTime.UtcNow.AddMinutes(2), // expira en 2 minutos
             Express = true
         };
 
@@ -121,7 +128,7 @@ public class TemporalOrderRepository : Repository<TemporalOrder, int>
             }).ToList(),
             User = null,
 
-            ExpiresAt = DateTime.UtcNow.AddMinutes(15), // expira en 15 minutos
+            ExpiresAt = DateTime.UtcNow.AddMinutes(2), // expira en 2 minutos
             Express = false
         };
 

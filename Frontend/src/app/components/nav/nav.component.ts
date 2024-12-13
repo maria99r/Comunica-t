@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import { User } from '../../models/user';
 
 
 @Component({
@@ -18,10 +19,9 @@ import { Subscription } from 'rxjs';
   styleUrl: './nav.component.css',
 })
 export class NavComponent implements OnInit, OnDestroy {
-  name: string | null = null; // nombre del usuario
-  userId: number | null = null; // id del usuario
   cartProductCount: number = 0; // número de productos
   private subscriptions: Subscription = new Subscription();
+  user: User | null = null;
 
   constructor(
     public authService: AuthService,
@@ -33,9 +33,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // usuario logueado
-    const user = this.authService.getUser();
-    this.name = user ? user.name : null;
-    this.userId = user ? user.userId : null;
+    this.user = this.authService.getUser();
 
     const cartSub = this.cartService.cartProductCount$.subscribe(count => {
       this.cartProductCount = count;
@@ -71,7 +69,7 @@ export class NavComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated()) {
       Swal.fire({ // Cuadro de diálogo
         title: "Has cerrado sesión con éxito",
-        text: `¡Hasta pronto ${this.name}!`,
+        text: `¡Hasta pronto ${this.user.name}!`,
         icon: 'success',
         showConfirmButton: false,
         timer: 3000,

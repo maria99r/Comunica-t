@@ -49,7 +49,7 @@ public class TemporalOrderService
     {
         if (id <= 0) throw new ArgumentException("El ID no es válido.");
 
-        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderByIdWithoutuser(id);
+        var temporalOrder = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderByIdWithoutUser(id);
 
         if (temporalOrder == null)
         {

@@ -23,7 +23,7 @@ public class OrderExpiresService : BackgroundService
             {
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<UnitOfWork>();
 
-                var orders = await unitOfWork.TemporalOrderRepository.GetAllAsync();
+                var orders = await unitOfWork.TemporalOrderRepository.GetAllOrdersAsync();
 
                 foreach (var order in orders)
                 {

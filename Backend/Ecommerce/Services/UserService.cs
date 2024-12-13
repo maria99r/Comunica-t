@@ -188,28 +188,6 @@ public class UserService
             throw new InvalidOperationException("El usuario no existe.");
         }
 
-        // elimina sus reseñas, ordenes y carrito
-        var cart = await _unitOfWork.CartRepository.GetCartByUserNoDto(user.Id);
-        var reviews = await _unitOfWork.ReviewRepository.GetReviewByUser(user.Id);
-        var temporals = await _unitOfWork.TemporalOrderRepository.GetTemporalOrderByUser(user.Id);
-        var orders = await _unitOfWork.OrderRepository.GetOrderByUser(user.Id);
-
-        if (cart != null)
-        {
-            await _unitOfWork.CartRepository.Delete(cart);
-        }
-        foreach (var t in temporals)
-        {
-            await _unitOfWork.TemporalOrderRepository.Delete(t);
-        }
-        foreach (var r in reviews)
-        {
-            await _unitOfWork.ReviewRepository.Delete(r);
-        }
-        foreach (var o in orders)
-        {
-            await _unitOfWork.OrderRepository.Delete(o);
-        }
         _unitOfWork.UserRepository.DeleteUser(user);
 
         await _unitOfWork.SaveAsync();
