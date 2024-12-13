@@ -1,22 +1,23 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { ImageModule } from 'primeng/image';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { User } from '../../models/user';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [MenubarModule, ImageModule, RouterModule, CommonModule],
+  imports: [MenubarModule, ImageModule, RouterModule, CommonModule, ToastModule, ButtonModule],
   templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css',
+  styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit, OnDestroy {
   cartProductCount: number = 0; // número de productos
@@ -26,7 +27,8 @@ export class NavComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthService,
     public router: Router,
-    public cartService: CartService
+    public cartService: CartService,
+    public messageService: MessageService
   ) { }
 
   items: MenuItem[] = [];
@@ -64,23 +66,22 @@ export class NavComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
+  // Toast de cerrar sesión
+  showLogoutSuccess() {
+    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Has cerrado sesión con éxito' });
+  }
+
+  goToLogin(){
+    this.router.navigate(['/login']) // Al cerrarse el toast te redirige al login
+  }
+
   authClick() {
     // Cerrar sesión
     if (this.authService.isAuthenticated()) {
-      Swal.fire({ // Cuadro de diálogo
-        title: "Has cerrado sesión con éxito",
-        text: `¡Hasta pronto ${this.user.name}!`,
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didClose: () => {
-          this.authService.logout(),
-            this.router.navigate(['/login']),
-            // Notificar el cambio en la cantidad de productos del carrito
-            this.cartService.notifyCartChange();
-        }
-      });
+
+      this.authService.logout()
+      this.cartService.notifyCartChange();      
+      this.showLogoutSuccess() // Muestra el toast al cerrar sesión con éxito
 
       // Iniciar sesión
     } else {

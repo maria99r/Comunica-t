@@ -1,4 +1,5 @@
 <!-- NAVBAR MENU RESPONSIVE -->
+<p-toast position="bottom-right" (onClose)="goToLogin()" life=1000/>
 <p-menubar [model]="items" styleClass="custom-menubar">
 
     <!-- Logo Innovacom-->
@@ -17,7 +18,10 @@
         <div class="logo-container">
 
             <span class="medium vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">
-                ¡Hola, {{ user.name }}!
+                @if(user)
+                {
+                    ¡Hola, {{ user.name}}!
+                }
             </span>
 
             <a routerLink="/cart">
@@ -31,7 +35,10 @@
                         class="user-icon vertical-align-middle clickable; cursor: pointer;">
                     <div class="dropdown-content">
                         <a [routerLink]="'/user-profile'">Perfil</a>
-                        <a *ngIf="user.role == 'Admin'" [routerLink]="'/admin-profile'">Administración</a>
+                        @if(user && user.role == "Admin")
+                        {
+                            <a [routerLink]="'/admin-profile'">Administración</a>
+                        }
                         <a (click)="authClick()" class="logout-text">Cerrar Sesión</a>
                     </div>
                 </a>

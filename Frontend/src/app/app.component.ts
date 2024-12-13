@@ -11,7 +11,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
-  title = 'Ecommerce';
+  title = 'Comunica-T';
   ngOnInit(): void {
     console.log(window.ethereum);
   }
