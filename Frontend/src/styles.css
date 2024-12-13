@@ -4,6 +4,7 @@
 @import "primeicons/primeicons.css";
 
 html, body {
+    background-color: red;
     margin: 0;
     font: inherit;
 }
@@ -12,4 +13,5 @@ html, body {
     --primary-color: #305AA8; 
     --secondary-color: #7461C7;
     --primary-color-dark: #2A345D;
+    --font-family: 'Helvetica Neue' !important;
 }
