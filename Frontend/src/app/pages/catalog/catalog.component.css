@@ -10,8 +10,8 @@
 
 .product-flex-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);  /* Dos columnas */
-    gap: 20px;  /* Espaciado entre los productos */
+    grid-template-columns: repeat(3, 1fr);  /* Tres columnas */
+    gap: 20px;
     justify-content: center;
     padding: 20px;
 }
@@ -120,9 +120,11 @@ a{
 
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
-    .card-advantage {
-        flex: 1 1 100%;              
+    .product-flex-container {
+        grid-template-columns: 1fr;
+        justify-items: center;
     }
+
     .panel-top p{
         font-size: x-large;
     }
