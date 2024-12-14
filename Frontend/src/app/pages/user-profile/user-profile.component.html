@@ -76,7 +76,7 @@
             <h3>Mis Pedidos</h3>
 
             @if (orders.length <=0 ) { 
-                <div>Todavía no ha realizado ningún pedido.</div>
+                <div class="noOrders">Todavía no ha realizado ningún pedido.</div>
             }
 
             @for (order of orders ; track order.id) {

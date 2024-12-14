@@ -170,7 +170,7 @@ select {
 .empty-cart {
     text-align: center;
     margin-top: 50px;
-    font-size: 18px;
+    font-size: 1.5rem;
     color: gray;
 }
 

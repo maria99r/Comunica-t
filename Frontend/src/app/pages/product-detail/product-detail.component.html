@@ -16,7 +16,7 @@
         <span class="price">{{product.price/100}}€</span>
         <p>{{product.description}}</p>
 
-        <p class="text-sm text-indigo-500">{{product.stock}} en stock</p>
+        <p class="stockQuantityText">{{product.stock}} en stock</p>
         <div class="inputQuantity">
             @if (product.stock > 0) {
                 <p-inputNumber [(ngModel)]="quantity"  [showButtons]="true" buttonLayout="horizontal"

@@ -117,6 +117,15 @@ button:hover {
     background-color: #f1f1f1;
 }
 
+::ng-deep .custom-menubar .p-icon{ /* Edita el icono responsive del nav*/
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+}
+
+::ng-deep .custom-menubar span{ /* Edita el texto de los botones del nav*/
+    font-size: 1.2rem;
+}
 
 @media (max-width: 1180px) {
     .desktop-logo {

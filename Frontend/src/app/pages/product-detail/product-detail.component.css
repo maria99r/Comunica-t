@@ -108,10 +108,16 @@ img {
 }
 
 :host ::ng-deep .p-inputnumber-button .pi {
-    font-size: 9px;
+    font-size: 1rem;
 }
 
 .numRef {
     color: #5f5f5f;
-    font-size: small;
+    font-size: 1rem;
+}
+
+.stockQuantityText{
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1rem;
 }

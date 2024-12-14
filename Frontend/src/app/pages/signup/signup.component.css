@@ -39,7 +39,7 @@
 
 /* titulo registro*/
 .registrar {
-  font-size: 20px; 
+  font-size: 1.5rem; 
   margin-bottom: 20px; 
   font-weight: bold;
 }
@@ -56,7 +56,7 @@
   left: 10px; 
   transform: translateY(-50%);
   color: gray;
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
 /*campos entrada*/
@@ -75,7 +75,7 @@
 }
 
 p {
-  font-size: 0.8em; 
+  font-size: 0.8rem; 
   white-space: nowrap; 
   margin-top: 1rem; 
   color: white; 
@@ -100,7 +100,7 @@ input[type="submit"] {
   border: none;
   border-radius: 100px; 
   cursor: pointer;
-  font-size: 16px; 
+  font-size: 1rem; 
   transition: background-color 0.3s; 
 }
 
@@ -121,7 +121,7 @@ input[type="submit"]:disabled {
 .error {
   color: darkred;
   text-align: left;
-  font-size: small;
+  font-size: 0.9rem;
   height: 14px;
   padding-top: 2px;
   margin-bottom: 10px;

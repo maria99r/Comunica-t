@@ -1,5 +1,6 @@
-<!-- NAVBAR MENU RESPONSIVE -->
 <p-toast position="bottom-right" (onClose)="goToLogin()" life=1000/>
+
+<!-- NAVBAR MENU RESPONSIVE -->
 <p-menubar [model]="items" styleClass="custom-menubar">
 
     <!-- Logo Innovacom-->
@@ -45,7 +46,7 @@
             </div>
 
             <a id="inicio-sesion" *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
-                <button class="p-button font-bold ml-4 vertical-align-middle">Iniciar sesión</button>
+                <button class="p-button font-bold ml-3 mr-1 mt-2">Acceder</button>
             </a>
             <span style="float: right;">
                 <img src="logos/logo junta.webp" alt="Logo Junta de Andalucía" class="logo desktop-logo">

@@ -63,12 +63,12 @@
     <dialog #addEditDialog>
         <form [formGroup]="addOrEditForm" (ngSubmit)="createOrUpdateImage()">
             <label>
-                Name:
+                Nombre: <br>
                 <input type="text" formControlName="name" />
             </label>
             <br>
             <label>
-                Imagen:
+                Imagen: <br>
                 <input type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)" />
             </label>
             <br>
