@@ -16,7 +16,6 @@ import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
 import Swal from 'sweetalert2';
-import { Order } from '../../models/order';
 import { OrderService } from '../../services/order.service';
 
 
@@ -199,7 +198,31 @@ export class ProductDetailComponent implements OnInit {
       console.error('Error al publicar la reseña: ', error);
       this.throwError("Error al publicar la reseña.");
     }
+  }
 
+  // Eliminar una reseña
+  async deleteReview(reviewId: number) {
+
+    const confirmation = confirm(`¿Estás seguro de que deseas borrar la reseña?`);
+
+    if (confirmation) {
+     // console.log(reviewId);
+      this.api.deleteReview(reviewId).subscribe({
+        next: async () => {
+          Swal.fire({ // Cuadro de diálogo
+            title: "Reseña eliminada correctamente.",
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didClose: async () => this.reviews = await this.api.loadReviews(this.product.id)
+          });
+        },
+        error: (err) => {
+            console.error("Error al eliminar la reseña:", err);
+        }
+      });
+    }
   }
 
   // calculo media de reseñas

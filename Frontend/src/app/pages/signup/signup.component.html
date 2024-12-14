@@ -7,7 +7,7 @@
 
       <div class="logo">
         <a routerLink="/">
-          <img src="logos\comunicat-icono-borde-sm.png" alt="User Logo" />
+          <img src="logos\comunicat-icono-borde-sm.webp" alt="Logo" />
         </a>
       </div>
 
@@ -62,7 +62,7 @@
           <div class="error">
             <div *ngIf="myForm.get('password')?.invalid && myForm.get('password')?.touched">
               <div *ngIf="myForm.get('password')?.hasError('required')">La contraseña es obligatoria.</div>
-              <div *ngIf="myForm.get('password')?.hasError('minlength')">La contraseña debe tener mínimo 6 caracteres.
+              <div *ngIf="myForm.get('password')?.hasError('minlength')">Debe tener mínimo 6 caracteres.
               </div>
             </div>
           </div>

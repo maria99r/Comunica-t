@@ -72,6 +72,11 @@ a{
     background-color: #0b4258;
 }
 
+.highlight{
+    color: var(--primary-color-light);
+    font-weight: bold;
+}
+
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
     .card-advantage {

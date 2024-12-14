@@ -5,6 +5,18 @@
 
 ::ng-deep input#horizontal {
     width: 50px !important;
+    text-align: center;
+}
+
+.delete-icon{
+    vertical-align: top;
+    width: 20px;
+    margin-left: 0.5%;
+}
+
+.delete-icon:hover{
+    cursor: pointer;
+    filter: invert(12%) sepia(87%) saturate(7025%) hue-rotate(5deg) brightness(105%) contrast(117%);
 }
 
 p {

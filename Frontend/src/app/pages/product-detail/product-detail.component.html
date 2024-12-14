@@ -18,20 +18,24 @@
 
         <p class="text-sm text-indigo-500">{{product.stock}} en stock</p>
         <div class="inputQuantity">
-            <p-inputNumber [(ngModel)]="quantity"  [showButtons]="true" buttonLayout="horizontal"
-                inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1" [max]="product.stock"
-                allowEmpty=false decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
-                incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
+            @if (product.stock > 0) {
+                <p-inputNumber [(ngModel)]="quantity"  [showButtons]="true" buttonLayout="horizontal"
+                    inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1" [max]="product.stock"
+                    allowEmpty=false decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
+                    incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
+            } @else {
+                <p-inputNumber [(ngModel)]="product.stock" [showButtons]="true" buttonLayout="horizontal"
+                    inputId="horizontal" spinnerMode="horizontal" decrementButtonClass="p-button-secondary" 
+                    incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" 
+                    decrementButtonIcon="pi pi-minus" readonly />
+            }
         </div>
-
 
         <!-- boton añadir cesta -->
         <button (click)="addToCart()" class="mt-4 p-button font-bold vertical-align-middle"
             [disabled]="product.stock <= 0">Añadir a la cesta</button>
 
-
     </section>
-
 
     <section class="w-full">
         <h1>Reseñas</h1>
@@ -101,6 +105,7 @@
             }
             }
             <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
+            <img src="icons/bin.svg" class="delete-icon" alt="Borrar" (click)="deleteReview(review.reviewId)">
 
             <p class="text-sm">{{review.text}}</p>
         </div>

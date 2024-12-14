@@ -225,6 +225,14 @@ export class ApiService {
     return this.post<any>('Review/newReview', reviewData);
   }
 
+  // Borrar review
+  // Elimina usuario
+  deleteReview(reviewId: number): Observable<any> {
+    const headers = this.getHeader();
+    const url = (`${this.BASE_URL}Review/deleteReview/${reviewId}`);
+    return this.http.delete(url, { headers, responseType: 'text' });
+  }
+
   // Elimina usuario
   deleteUser(idUser: number): Observable<any> {
     const headers = this.getHeader();

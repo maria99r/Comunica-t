@@ -210,7 +210,6 @@ export class AdminProfileComponent implements OnInit {
         }
         });
     }
-     
   }
 
   passwordMatchValidator(form: FormGroup) {

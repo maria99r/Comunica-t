@@ -1,6 +1,9 @@
-﻿using Ecommerce.Models.Database.Entities;
+﻿using Ecommerce.Models.Database;
+using Ecommerce.Models.Database.Entities;
 using Ecommerce.Models.Dtos;
+using Ecommerce.Models.Mappers;
 using Ecommerce.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers;
@@ -10,10 +13,11 @@ namespace Ecommerce.Controllers;
 public class ReviewController : ControllerBase
 {
     private readonly ReviewService _reviewService;
-
-    public ReviewController(ReviewService reviewService)
+    private readonly UserService _userService;
+    public ReviewController(ReviewService reviewService, UserService userService)
     {
         _reviewService = reviewService;
+        _userService = userService;
     }
 
 
@@ -63,4 +67,38 @@ public class ReviewController : ControllerBase
         }
     }
 
+    // Elimina una review
+    [Authorize]
+    [HttpDelete("deleteReview/{reviewId}")]
+    public async Task<IActionResult> DeleteReviewById(int reviewId)
+    {
+        UserDto user = await ReadToken();
+
+        try
+        {
+            await _reviewService.DeleteReviewByIdAsync(reviewId, user);
+
+            return Ok("Usuario eliminado correctamente.");
+        }
+        catch (InvalidOperationException)
+        {
+            return BadRequest("No pudo eliminarse el usuario");
+        }
+    }
+
+    // Leer datos del token
+    private async Task<UserDto> ReadToken()
+    {
+        try
+        {
+            string id = User.Claims.FirstOrDefault().Value;
+            UserDto user = await _userService.GetUserByIdAsync(Int32.Parse(id));
+            return user;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("La ID del usuario es null");
+            return null;
+        }
+    }
 }
