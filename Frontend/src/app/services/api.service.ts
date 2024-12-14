@@ -226,11 +226,10 @@ export class ApiService {
   }
 
   // Borrar review
-  // Elimina usuario
-  deleteReview(reviewId: number): Observable<any> {
+  deleteReview(reviewId: number): Promise<Result<any>> {
     const headers = this.getHeader();
-    const url = (`${this.BASE_URL}Review/deleteReview/${reviewId}`);
-    return this.http.delete(url, { headers, responseType: 'text' });
+    const url = (`Review/deleteReview/${reviewId}`);
+    return this.delete(url, { headers, responseType: 'text' });
   }
 
   // Elimina usuario

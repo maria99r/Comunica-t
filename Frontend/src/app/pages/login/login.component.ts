@@ -6,7 +6,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ProductCart } from '../../models/productCart';
 import { CartService } from '../../services/cart.service';
 import { MessageService } from 'primeng/api';
-import Swal from 'sweetalert2';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { NavComponent } from "../../components/nav/nav.component";
 import { ToastModule } from 'primeng/toast';
@@ -82,13 +81,13 @@ export class LoginComponent implements OnInit {
 
       // Notificar el cambio en la cantidad de productos del carrito
       this.cartService.notifyCartChange();
-      
-      this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Has iniciado sesión con éxito' });
 
+      // Mensaje toast
+      this.messageService.add({ key: 'login', severity: 'success', summary: 'Éxito', detail: 'Has iniciado sesión con éxito' });
       this.redirectTo = "/"
 
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al iniciar sesión' });
+      this.messageService.add({ key: 'login', severity: 'error', summary: 'Error', detail: 'Error al iniciar sesión' });
     }
   }
 

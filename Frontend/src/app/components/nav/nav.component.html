@@ -1,4 +1,4 @@
-<p-toast position="bottom-right" (onClose)="goToLogin()" life=1000/>
+<p-toast position="top-right" key="logout" (onClose)="goToLogin()" life=2000/>
 
 <!-- NAVBAR MENU RESPONSIVE -->
 <p-menubar [model]="items" styleClass="custom-menubar">
@@ -21,7 +21,7 @@
             <span class="medium vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">
                 @if(user)
                 {
-                    ¡Hola, {{ user.name}}!
+                    ¡Hola, {{ user.name }}!
                 }
             </span>
 

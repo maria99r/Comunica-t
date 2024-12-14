@@ -68,7 +68,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
   // Toast de cerrar sesión
   showLogoutSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Has cerrado sesión con éxito' });
+    this.messageService.add({ key: 'logout',severity: 'success', summary: 'Éxito', detail: 'Has cerrado sesión con éxito' });
   }
 
   goToLogin(){

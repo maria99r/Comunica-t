@@ -91,13 +91,13 @@ public class ReviewService
         if (review.UserId == user.UserId || user.Role == "Admin")
         {
             await _unitOfWork.ReviewRepository.Delete(review);
+            Console.WriteLine("Reseña borrada con éxito.");
+            await _unitOfWork.SaveAsync();
         }
         else
         {
             Console.WriteLine("No puedes borrar una reseña que no sea tuya.");
             return;
         }
-
-        await _unitOfWork.SaveAsync();
     }
 }

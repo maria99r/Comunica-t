@@ -17,12 +17,14 @@ import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
 import Swal from 'sweetalert2';
 import { OrderService } from '../../services/order.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule],
+  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule, ToastModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
@@ -58,7 +60,8 @@ export class ProductDetailComponent implements OnInit {
     private cartApi: CartService,
     private activatedRoute: ActivatedRoute,
     public router: Router,
-    private orderApi: OrderService
+    private orderApi: OrderService,
+    public messageService: MessageService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -98,7 +101,6 @@ export class ProductDetailComponent implements OnInit {
     // calcula la media de las reseñas
     this.calculeAvg();
   }
-
 
   // añadir al carrito 
   async addToCart(): Promise<void> {
@@ -192,7 +194,6 @@ export class ProductDetailComponent implements OnInit {
           // revisa si el usuario ya ha comentado para que no pueda comentar
           this.hasComment = this.users.some(u => u.userId === user.userId);
         }
-
       }
     } catch (error) {
       console.error('Error al publicar la reseña: ', error);
@@ -206,22 +207,17 @@ export class ProductDetailComponent implements OnInit {
     const confirmation = confirm(`¿Estás seguro de que deseas borrar la reseña?`);
 
     if (confirmation) {
-     // console.log(reviewId);
-      this.api.deleteReview(reviewId).subscribe({
-        next: async () => {
-          Swal.fire({ // Cuadro de diálogo
-            title: "Reseña eliminada correctamente.",
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didClose: async () => this.reviews = await this.api.loadReviews(this.product.id)
-          });
-        },
-        error: (err) => {
-            console.error("Error al eliminar la reseña:", err);
-        }
-      });
+      // console.log(reviewId);
+      const result = await this.api.deleteReview(reviewId)
+      console.log(result);
+      
+      if (result.statusCode != 200) {
+        console.error("Error al eliminar la reseña.");
+        this.messageService.add({ key: 'delete-review', severity: 'error', summary: 'Error', detail: 'Error al eliminar la reseña' });
+      } else{
+        this.messageService.add({ key: 'delete-review', severity: 'success', summary: 'Éxito', detail: 'Reseña eliminada con éxito' });
+      }
+      this.reviews = await this.api.loadReviews(this.product.id)
     }
   }
 
