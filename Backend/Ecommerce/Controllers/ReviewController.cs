@@ -76,9 +76,15 @@ public class ReviewController : ControllerBase
 
         try
         {
-            await _reviewService.DeleteReviewByIdAsync(reviewId, user);
-
-            return Ok("Usuario eliminado correctamente.");
+            bool deleted = await _reviewService.DeleteReviewByIdAsync(reviewId, user);
+            if (deleted)
+            {
+                return Ok("Usuario eliminado correctamente.");
+            }
+            else
+            {
+                return BadRequest("La reseña no se puede eliminar");
+            }
         }
         catch (InvalidOperationException)
         {

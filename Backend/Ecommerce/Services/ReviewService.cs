@@ -78,14 +78,14 @@ public class ReviewService
     }
 
     // Borrar review; sólo puede ser borrada por el usuario que la ha publicado o por un admin.
-    public async Task DeleteReviewByIdAsync(int reviewId, UserDto user)
+    public async Task<bool> DeleteReviewByIdAsync(int reviewId, UserDto user)
     {
         Review review = await _unitOfWork.ReviewRepository.GetReviewById(reviewId);
 
         if (review == null)
         {
             Console.WriteLine("La reseña con ID ", reviewId, " no existe.");
-            return;
+            return false;
         }
 
         if (review.UserId == user.UserId || user.Role == "Admin")
@@ -93,11 +93,12 @@ public class ReviewService
             await _unitOfWork.ReviewRepository.Delete(review);
             Console.WriteLine("Reseña borrada con éxito.");
             await _unitOfWork.SaveAsync();
+            return true;
         }
         else
         {
             Console.WriteLine("No puedes borrar una reseña que no sea tuya.");
-            return;
+            return false;
         }
     }
 }
