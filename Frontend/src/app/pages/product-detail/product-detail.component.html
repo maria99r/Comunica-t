@@ -1,5 +1,5 @@
 <app-nav></app-nav>
-<p-toast position="top-right" key="delete-review" life=2000/>
+<p-toast position="top-right" key="delete-review" life=2000 />
 
 @if (product) {
 <div class="container">
@@ -19,15 +19,15 @@
         <p class="stockQuantityText">{{product.stock}} en stock</p>
         <div class="inputQuantity">
             @if (product.stock > 0) {
-                <p-inputNumber [(ngModel)]="quantity"  [showButtons]="true" buttonLayout="horizontal"
-                    inputId="horizontal" spinnerMode="horizontal" [step]="1" [min]="1" [max]="product.stock"
-                    allowEmpty=false decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
-                    incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
+            <p-inputNumber [(ngModel)]="quantity" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal"
+                spinnerMode="horizontal" [step]="1" [min]="1" [max]="product.stock" allowEmpty=false
+                decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary"
+                incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
             } @else {
-                <p-inputNumber [(ngModel)]="product.stock" [showButtons]="true" buttonLayout="horizontal"
-                    inputId="horizontal" spinnerMode="horizontal" decrementButtonClass="p-button-secondary" 
-                    incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" 
-                    decrementButtonIcon="pi pi-minus" readonly />
+            <p-inputNumber [(ngModel)]="product.stock" [showButtons]="true" buttonLayout="horizontal"
+                inputId="horizontal" spinnerMode="horizontal" decrementButtonClass="p-button-secondary"
+                incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus" readonly />
             }
         </div>
 
@@ -56,7 +56,7 @@
         </p>
 
         <p *ngIf="!authService.isAuthenticated()">
-            Para poder escribir una reseña debe 
+            Para poder escribir una reseña debe
             <a [routerLink]="'/login'" [queryParams]="{ redirectTo: router.url }">iniciar sesión.</a>
         </p>
 
@@ -64,8 +64,8 @@
         <div *ngIf="authService.isAuthenticated() && hasPurchased && !hasComment">
             <p>Añade una reseña:</p>
             <form (ngSubmit)="publicReview()">
-                <textarea class="w-full" rows="10" pInputText [(ngModel)]="textReview"
-                    [ngModelOptions]="{standalone: true}" placeholder="Escribe aquí tu reseña.">
+                <textarea class="w-full" rows="7" pInputText [(ngModel)]="textReview"
+                    [ngModelOptions]="{standalone: true}" placeholder="¡Comenta aquí que te ha parecido el producto!">
                 </textarea> <br><br>
                 <input type="submit" value="Enviar" class="p-button" />
             </form>
@@ -105,7 +105,11 @@
             }
             }
             <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
-            <img src="icons/bin.svg" class="delete-icon" alt="Borrar" (click)="deleteReview(review.reviewId)">
+            <span *ngIf="authService.isAuthenticated()">
+                <img *ngIf="authService.isAdmin() || review.userId == user.userId" src="icons/bin.svg"
+                class="delete-icon" alt="Borrar" (click)="deleteReview(review.reviewId)">
+            </span>
+            
 
             <p class="text-sm">{{review.text}}</p>
         </div>

@@ -51,6 +51,8 @@ export class ProductDetailComponent implements OnInit {
 
   quantity = 1;
 
+  user : User;  // usuario actual
+
   // media reseñas
   avg: number = 0;
 
@@ -67,6 +69,8 @@ export class ProductDetailComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // usuario actual
     const user = await this.authService.getUser();
+    this.user = user;
+    console.log(this.user)
     if (user != null) { this.isLog = true; }
     this.currentUser = user;
 
@@ -193,6 +197,7 @@ export class ProductDetailComponent implements OnInit {
           }
           // revisa si el usuario ya ha comentado para que no pueda comentar
           this.hasComment = this.users.some(u => u.userId === user.userId);
+          this.calculeAvg();
         }
       }
     } catch (error) {
@@ -218,6 +223,13 @@ export class ProductDetailComponent implements OnInit {
         this.messageService.add({ key: 'delete-review', severity: 'success', summary: 'Éxito', detail: 'Reseña eliminada con éxito' });
       }
       this.reviews = await this.api.loadReviews(this.product.id)
+      this.users = [];
+      for (const review of this.reviews) {
+        this.users.push(await this.api.getUser(review.userId));
+      }
+      this.hasComment = this.users.some(u => u.userId === this.user.userId);
+      this.textReview = "";
+      this.calculeAvg();
     }
   }
 

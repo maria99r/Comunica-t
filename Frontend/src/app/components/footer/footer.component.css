@@ -21,7 +21,11 @@ a{
     color: #D1DEFF;
 }
 
-@media (max-width: 550px) {
+.contact-info {
+    border-left: solid 1px var(--secondary-color);
+}
+
+@media (max-width: 600px) {
     footer {
         flex: 1 1 100%;   
         display: flex;     
@@ -30,6 +34,11 @@ a{
 
     footer div{
         width: 100%;
+    }
+
+    .contact-info {
+        border-left: none;
+        border-top: solid 1px var(--secondary-color);
     }
 
 }   

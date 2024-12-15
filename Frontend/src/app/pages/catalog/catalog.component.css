@@ -14,14 +14,18 @@
     gap: 20px;
     justify-content: center;
     padding: 20px;
+    margin: 0 100px;
 }
 
 .card-container {
-    gap: 10px;                        
+    gap: 10px;  
+    display: flex;
+    justify-content: center;                      
     align-items: center;              
     padding: 10px;
     font-size: larger;
     vertical-align: middle;
+    margin: auto;
 }
 
 .card-advantage {
@@ -35,7 +39,7 @@
 }
 
 .card-content {
-    background-color: #2A345D;
+    background-color: var(--primary-color);
     flex-grow: 10; 
     text-align: center;
     padding: 5%;
@@ -118,6 +122,23 @@ a{
     text-decoration: none;
 }
 
+/* Responsivo para pantallas medianas */
+@media (max-width: 991px) {
+    .product-flex-container {
+        grid-template-columns: repeat(2, 1fr);  /* 2 columnas */
+        grid-template-rows: auto; 
+        justify-items: center;
+    }
+
+    .panel-top p{
+        font-size: x-large;
+    }
+
+    .panel-top{
+        height: 200px;
+    }
+}
+
 /* Responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
     .product-flex-container {
@@ -132,4 +153,17 @@ a{
     .panel-top{
         height: 200px;
     }
-}               
+}      
+
+/* Responsivo para pantallas muy pequeñas */
+@media (max-width: 400px) {
+    ::ng-deep .p-inputtext{
+        width: 170px;
+    }
+
+    .card-advantage {
+        width: 250px !important;
+    }
+
+    
+}   
