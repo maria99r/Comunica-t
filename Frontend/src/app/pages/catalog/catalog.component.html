@@ -1,3 +1,4 @@
+<p-toast position="top-right" key="catalog" life=2000 />
 <!-- NAV BAR -->
 <app-nav></app-nav>
 
@@ -33,7 +34,7 @@
 
 <div class="product-flex-container">
     @if (isLoading) {
-        <div style="padding: 5%;">Cargando...</div>
+        <p class="loading">Cargando...</p>
     } @else {
         @for (product of filteredProducts; track product.id) {
 
@@ -77,7 +78,7 @@
                 </a>
             </div>
         } @empty {
-            <div style="padding: 5%;">No hay resultados</div>
+            <p class="loading">No hay resultados</p>
         }
     }
 </div>

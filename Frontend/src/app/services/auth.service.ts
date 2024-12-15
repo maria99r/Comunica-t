@@ -65,7 +65,6 @@ export class AuthService {
   // comprueba si es admin
   isAdmin(): boolean {
     const user = this.getUser();
-    console.log("Tu rol es: ", user.role)
     if (user.role == "Admin") {
       return true
     } else {

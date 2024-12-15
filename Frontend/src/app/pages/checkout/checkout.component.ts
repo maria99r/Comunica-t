@@ -9,12 +9,13 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { TemporalOrder } from '../../models/temporal-order';
 import { environment } from '../../../environments/environment';
 import { Order } from '../../models/order';
-import Swal from 'sweetalert2';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [NavComponent, FooterComponent],
+  imports: [NavComponent, FooterComponent, ToastModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -37,7 +38,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private service: CheckoutService,
     private stripe: StripeService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -72,7 +74,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     if (isNaN(this.temporalOrderId)) { // Comprueba que la ID no está vacía
       console.error("El ID de la Orden temporal no es válido: ", this.temporalOrderId);
-      this.throwError("Se ha producido un error procesando tu pedido.");
+      this.throwError("catalogError");
     }
 
     this.paymentMethod = queryMap.get("paymentMethod");
@@ -89,7 +91,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       //  console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
       } else {
         console.error("Error al vincular la orden temporal:", linkResponse.error);
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("catalogError");
       }
     }
 
@@ -108,12 +110,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         await this.embeddedCheckout();
       } else {
         console.error("El método de pago no es en stripe");
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("catalogError");
       }
 
     } else {
       console.error("Error al cargar los detalles de la orden:", orderResponse.error);
-      this.throwError("Se ha producido un error procesando tu pedido.");
+      this.throwError("catalogError");
     }
   }
 
@@ -126,7 +128,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
      //   console.log("Orden temporal refrescada correctamente.");
       } else {
         console.error("Error al refrescar la orden temporal:", refreshResponse.error);
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("catalogError");
       }
     }, 60000); // Se refresca cada minuto
   }
@@ -149,30 +151,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error("Error al inicializar el checkout embebido:", err);
-            this.throwError("Se ha producido un error procesando tu pedido.");
+            this.throwError("catalogError");
           }
         });
       } else {
         console.error("Error al iniciar el checkout embebido:", request.error);
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("catalogError");
       }
     } catch (err) {
       console.error("Error en el proceso de checkout:", err);
-      this.throwError("Se ha producido un error procesando tu pedido.");
+      this.throwError("catalogError");
     }
   }
 
   orderOnComplete() {
-    //console.log("Orden completada");
 
-    Swal.fire({ // Cuadro de diálogo
-      title: "Transacción realizada con éxito",
-      text: "¡Gracias por tu compra!",
-      icon: "success",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    });
+    this.throwDialog("catalog", "Transacción realizada con éxito. ¡Gracias por tu compra!");
 
     // creo pedido 
     this.service.newOrder(this.temporalOrderId).subscribe({
@@ -186,7 +180,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error al crear el pedido:', err);
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("catalogError");
       },
     });
   }
@@ -197,15 +191,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Cuadro de diálogo de error
-  throwError(error: string) {
-    Swal.fire({ 
-      title: "Se ha producido un error",
-      text: error,
-      icon: "error",
-      confirmButtonText: "Volver a inicio",
-      didClose: () => this.router.navigate(['/'])
-    });
+  // Cuadro de notificación de éxito
+  throwDialog(key: string, texto: string) {
+    this.messageService.add({ key: key, severity: 'success', summary: 'Éxito', detail: texto })
+  }
+
+  // Cuadro de notificación de error
+  throwError(key: string) {
+    this.messageService.add({ key: key, severity: 'error', summary: 'Error', detail: "Se ha producido un error procesando tu pedido." })
   }
 
 }

@@ -15,11 +15,9 @@ import { CartService } from '../../services/cart.service';
 import { User } from '../../models/user';
 import { ReviewDto } from '../../models/reviewDto';
 import { ProductCart } from '../../models/productCart';
-import Swal from 'sweetalert2';
 import { OrderService } from '../../services/order.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-
 
 @Component({
   selector: 'app-product-detail',
@@ -126,9 +124,9 @@ export class ProductDetailComponent implements OnInit {
         // añade producto
         try {
           await this.cartApi.addToCartBBDD(this.quantity, cart.id, Number(this.product.id));
-          this.throwDialog("El producto se ha añadido correctamente su carrito.");
+          this.throwDialog("productCart", "El producto se ha añadido correctamente su carrito.");
         } catch (e) {
-          this.throwError("Error al añadir el producto.");
+          this.throwError("productCart", "Error al añadir el producto.");
           console.log(e)
         }
       }
@@ -144,7 +142,7 @@ export class ProductDetailComponent implements OnInit {
           if (this.quantity > this.product.stock) {
 
             this.quantity = this.product.stock;
-            this.throwError("No hay stock suficiente.");
+            this.throwError("productCart", "No hay stock suficiente.");
 
           } else {
 
@@ -157,12 +155,12 @@ export class ProductDetailComponent implements OnInit {
             }
             localStorage.setItem('cartProducts', JSON.stringify(cart));
             //console.log('Producto añadido al carrito:', this.productCart);
-            this.throwDialog("El producto se ha añadido correctamente su carrito.");
+            this.throwDialog("productCart", "El producto se ha añadido correctamente su carrito.");
           }
 
         } catch (error) {
           console.log("Error: " + error)
-          this.throwError("Se ha producido un error con el producto.");
+          this.throwError("productCart", "Se ha producido un error con el producto.");
         }
 
       }
@@ -175,7 +173,7 @@ export class ProductDetailComponent implements OnInit {
     try {
       // Validar que el texto de la reseña no sea vacío o contenga solo espacios
       if (!this.textReview || this.textReview.trim().length === 0) {
-        this.throwError("La reseña no puede estar vacía.");
+        this.throwError("productCart", "La reseña no puede estar vacía.");
       } else {
         const user = this.authService.getUser();
         const idProduct = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
@@ -202,7 +200,7 @@ export class ProductDetailComponent implements OnInit {
       }
     } catch (error) {
       console.error('Error al publicar la reseña: ', error);
-      this.throwError("Error al publicar la reseña.");
+      this.throwError("productCart", "Error al publicar la reseña.");
     }
   }
 
@@ -212,21 +210,24 @@ export class ProductDetailComponent implements OnInit {
     const confirmation = confirm(`¿Estás seguro de que deseas borrar la reseña?`);
 
     if (confirmation) {
-      // console.log(reviewId);
+      
       const result = await this.api.deleteReview(reviewId)
       console.log(result);
       
       if (result.statusCode != 200) {
         console.error("Error al eliminar la reseña.");
-        this.messageService.add({ key: 'delete-review', severity: 'error', summary: 'Error', detail: 'Error al eliminar la reseña' });
+        this.throwError("delete-review", "Error al eliminar la reseña.");
       } else{
-        this.messageService.add({ key: 'delete-review', severity: 'success', summary: 'Éxito', detail: 'Reseña eliminada con éxito' });
+        this.throwDialog("delete-review", "Reseña eliminada con éxito.");
       }
+
       this.reviews = await this.api.loadReviews(this.product.id)
       this.users = [];
+
       for (const review of this.reviews) {
         this.users.push(await this.api.getUser(review.userId));
       }
+
       this.hasComment = this.users.some(u => u.userId === this.user.userId);
       this.textReview = "";
       this.calculeAvg();
@@ -242,27 +243,15 @@ export class ProductDetailComponent implements OnInit {
     } else {
       this.avg = 0;
     }
-
   }
 
-  // Cuadro de diálogo de notificación
-  throwDialog(texto: string) {
-    Swal.fire({
-      title: texto,
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    });
+  // Cuadro de notificación de éxito
+  throwDialog(key: string, texto: string) {
+    this.messageService.add({ key: key, severity: 'success', summary: 'Éxito', detail: texto })
   }
 
-  // Cuadro de diálogo de error
-  throwError(error: string) {
-    Swal.fire({
-      title: "Se ha producido un error",
-      text: error,
-      icon: "error",
-      confirmButtonText: "Vale"
-    });
+  // Cuadro de notificación de error
+  throwError(key: string, error: string) {
+    this.messageService.add({ key: key, severity: 'error', summary: 'Error', detail: error })
   }
 }

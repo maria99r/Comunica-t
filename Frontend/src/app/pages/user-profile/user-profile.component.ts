@@ -11,12 +11,13 @@ import { environment } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import Swal from 'sweetalert2';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule, ReactiveFormsModule],
+  imports: [FooterComponent, NavComponent, CommonModule, ReactiveFormsModule, ToastModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
@@ -33,8 +34,14 @@ export class UserProfileComponent implements OnInit {
 
   public readonly IMG_URL = environment.apiImg;
 
-  constructor(private formBuild: FormBuilder, private authService: AuthService,
-    private router: Router, private orderApi: OrderService, private apiService: ApiService) {
+  constructor(
+    private formBuild: FormBuilder, 
+    private authService: AuthService,
+    private router: Router, 
+    private orderApi: OrderService, 
+    private apiService: ApiService,
+    private messageService: MessageService
+  ) {
 
     this.userForm = this.formBuild.group({
       name: ['', Validators.required],
@@ -92,7 +99,6 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-
   //logica para habilitar la edición solo en el campo necesario
   edit() {
     this.isEditing = !this.isEditing;
@@ -112,20 +118,18 @@ export class UserProfileComponent implements OnInit {
 
       if (!newPassword) {
         console.error("Error: El campo de la contraseña está vacío.");
+        this.throwError("userProfile", "Error al actualizar la contraseña.")
         return;
       }
 
       this.apiService.modifyPassword(newPassword).subscribe(() => {
-        Swal.fire({ // Cuadro de diálogo
-          title: "Contraseña modificada con éxito.",
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-        });
+        this.throwDialog("userProfile", "Contraseña modificada con éxito.")
         this.showEditPassword()
       }
       );
+    } else{
+      console.error("Error: El formulario de contraseña no es válido.")
+      this.throwError("userProfile", "Error al actualizar la contraseña.")
     }
   }
 
@@ -150,15 +154,21 @@ export class UserProfileComponent implements OnInit {
           this.authService.updateUserData(this.userForm.value);
         }
       );
-      Swal.fire({ // Cuadro de diálogo
-        title: "Perfil actualizado correctamente.",
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didClose: () => this.actualizarUser()
-      });
+      this.throwDialog("userProfile", "Perfil actualizado correctamente.")
+
+    } else{
+      this.throwError("userProfile", "Error al actualizar el perfil.")
     }
+  }
+
+  // Cuadro de notificación de éxito
+  throwDialog(key: string, texto: string) {
+    this.messageService.add({ key: key, severity: 'success', summary: 'Éxito', detail: texto })
+  }
+
+  // Cuadro de notificación de error
+  throwError(key: string, error: string) {
+    this.messageService.add({ key: key, severity: 'error', summary: 'Error', detail: error })
   }
 }
 

@@ -17,6 +17,16 @@
     margin: 0 100px;
 }
 
+.product-flex-container.loading{
+    display: flex !important; /* No funciona 🗿 */
+}
+
+.loading{
+    justify-content: center;
+    text-align: center;
+    padding: 5%;
+}
+
 .card-container {
     gap: 10px;  
     display: flex;

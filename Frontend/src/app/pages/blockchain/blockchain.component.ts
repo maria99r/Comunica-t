@@ -11,13 +11,13 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CheckoutService } from '../../services/checkout.service';
 import { Order } from '../../models/order';
-import { eth } from 'web3';
-import Swal from 'sweetalert2';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-blockchain',
   standalone: true,
-  imports: [FormsModule, NavComponent, FooterComponent],
+  imports: [FormsModule, NavComponent, FooterComponent, ToastModule],
   templateUrl: './blockchain.component.html',
   styleUrl: './blockchain.component.css'
 })
@@ -50,7 +50,8 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     private blockchainService: BlockchainService,
     private service: CheckoutService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +81,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
 
     if (isNaN(this.temporalOrderId)) { // Comprueba que la ID no está vacía
       console.error("El ID de la Orden temporal no es válido: ", this.temporalOrderId);
-      this.throwError("Se ha producido un error procesando tu pedido.");
+      this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
     }
 
     this.paymentMethod = queryMap.get("paymentMethod");
@@ -97,7 +98,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
       } else {
         console.error("Error al vincular la orden temporal:", linkResponse.error);
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
       }
     }
 
@@ -114,14 +115,14 @@ export class BlockchainComponent implements OnInit, OnDestroy {
 
       if (!(this.paymentMethod === "blockchain")) {
         console.error("El método de pago no es en blockchain");
-        this.throwError("Se ha producido un error procesando tu pedido.");
+        this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
       }
 
       this.isLoading = false;
 
     } else {
       console.error("Error al cargar los detalles de la orden:", orderResponse.error);
-      this.throwError("Se ha producido un error procesando tu pedido.");
+      this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
     }
   }
 
@@ -137,7 +138,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
 
     // Si no está instalado Metamask se lanza un error y se corta la ejecución
     if (!window.ethereum) {
-      this.throwError("No está instalado Metamask.");
+      this.throwError("blockchainError", "No está instalado Metamask.");
       throw new Error('Metamask not found');
     }
 
@@ -191,14 +192,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     // CREAMOS PEDIDO, PASAMOS A PAGINA DE CONFIRMACION Y MOSTRAMOS DATOS
     if (checkTransactionResult.success && checkTransactionResult.data) {
       
-      Swal.fire({ // Cuadro de diálogo
-        title: "Transacción realizada con éxito",
-        text: "¡Gracias por tu compra!",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true
-      });
+      this.throwDialog("blockchain", "Transacción realizada con éxito. ¡Gracias por tu compra!")
 
       // creo pedido 
       this.service.newOrder(this.temporalOrderId).subscribe({
@@ -212,12 +206,12 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error('Error al crear el pedido:', err);
-          this.throwError("Se ha producido un error procesando tu pedido.");
+          this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
         },
       });
 
     } else {
-      this.throwError("Transacción fallida");
+      this.throwError("blockchainError", "Transacción fallida.");
     }
   }
 
@@ -230,9 +224,8 @@ export class BlockchainComponent implements OnInit, OnDestroy {
         console.log('Orden temporal refrescada correctamente.');
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
-        this.throwError("Se ha producido un error procesando tu pedido.");
-      }
-    }, 60000); // Se refresca cada minuto
+        this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
+      }}, 60000); // Se refresca cada minuto
   }
 
   cancelCheckoutDialog() {
@@ -248,18 +241,17 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     // this.router.navigate(['/order-success']);  
     this.router.navigate(['/order-success/', this.createdOrder.id]);
   }
+  
 
-  // Cuadro de diálogo de error
-  throwError(error: string) {
-    Swal.fire({ 
-      title: "Se ha producido un error",
-      text: error,
-      icon: "error",
-      confirmButtonText: "Volver a inicio",
-      didClose: () => this.router.navigate(['/'])
-    });
+  // Cuadro de notificación de éxito
+  throwDialog(key: string, texto: string) {
+    this.messageService.add({ key: key, severity: 'success', summary: 'Éxito', detail: texto })
   }
 
+  // Cuadro de notificación de error
+  throwError(key: string, error: string) {
+    this.messageService.add({ key: key, severity: 'error', summary: 'Error', detail: error })
+  }
 }
 
 declare global {

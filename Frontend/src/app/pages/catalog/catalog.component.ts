@@ -4,22 +4,22 @@ import { NavComponent } from "../../components/nav/nav.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { PaginatorModule } from 'primeng/paginator';
 import { Product } from '../../models/product';
 import { ApiService } from '../../services/api.service';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { CriterioOrden, SearchDto } from '../../models/searchDto';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import Swal from 'sweetalert2';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-
   imports: [NavComponent, FooterComponent, InputTextModule,
-    FormsModule, PaginatorModule, RouterModule, SelectButtonModule, CommonModule],
-
+            FormsModule, PaginatorModule, RouterModule, SelectButtonModule, 
+            CommonModule, ToastModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
 })
@@ -37,7 +37,7 @@ export class CatalogComponent implements OnInit {
   sortOrder: boolean = true; // asc por defecto
   sortCriterio: CriterioOrden = CriterioOrden.Name; // nombre por defecto
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private messageService: MessageService) { }
 
   // al cargar la pagina se cargan todos lo productos
   async ngOnInit(): Promise<void> {
@@ -55,7 +55,7 @@ export class CatalogComponent implements OnInit {
         this.updateProducts(config);
       } catch (error) {
         console.error('Error al cargar la configuración de usuario:', error);
-        this.throwError("Error al cargar la configuración de usuario.");
+        this.throwError("catalog", "Error al cargar la configuración de usuario.");
       }
     }
   }
@@ -93,7 +93,7 @@ export class CatalogComponent implements OnInit {
       this.filteredProducts = result.products;
     } catch (error) {
       console.error('Error al cargar los productos:', error);
-      this.throwError("Error al cargar los productos.");
+      this.throwError("catalog", "Error al cargar los productos.");
     }
   }
 
@@ -158,14 +158,8 @@ export class CatalogComponent implements OnInit {
     return 0;
   }
 
-  // Cuadro de diálogo de error
-  throwError(error: string) {
-    Swal.fire({ 
-      title: "Se ha producido un error",
-      text: error,
-      icon: "error",
-      confirmButtonText: "Vale"
-    });
+  // Cuadro de notificación de error
+  throwError(key: string, error: string) {
+    this.messageService.add({ key: key, severity: 'error', summary: 'Error', detail: error })
   }
-
 }

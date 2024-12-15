@@ -13,13 +13,14 @@ import { ProductCart } from '../../models/productCart';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Observable } from 'rxjs';
-import Swal from 'sweetalert2';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NavComponent, FooterComponent, ButtonModule, FormsModule, CommonModule],
+  imports: [NavComponent, FooterComponent, ButtonModule, FormsModule, CommonModule, ToastModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
@@ -36,7 +37,8 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private router: Router,
-    private api: ApiService
+    private api: ApiService,
+    private messageService: MessageService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -78,14 +80,6 @@ export class CartComponent implements OnInit {
 
       if (productBack.stock < producto.quantity) {
         allProductStock = false;
-
-        // Cuadro de diálogo
-        Swal.fire({
-          title: "Cambio en el stock del producto",
-          text: `El producto ${productBack.name} dispone de menor stock del que había añadido.`,
-          icon: "warning",
-          confirmButtonText: "Vale"
-        });
 
         producto.quantity = productBack.stock;
 
@@ -140,7 +134,7 @@ export class CartComponent implements OnInit {
       console.log("Nueva cantidad: " + newQuantity)
 
       if (newQuantity <= 0) {
-        this.throwError("La cantidad no puede ser menor o igual a 0");
+        this.throwError("cart", "La cantidad no puede ser menor o igual a 0");
       }
       const response = await this.cartService.updateCartProductBBDD(userId, product.productId, newQuantity).toPromise();
       //console.log(response)
@@ -149,7 +143,7 @@ export class CartComponent implements OnInit {
 
     } catch (error) {
       console.error('Error al actualizar la cantidad del producto:', error);
-      this.throwError("Error al actualizar la cantidad del producto.");
+      this.throwError("cart", "Error al actualizar la cantidad del producto.");
     }
   }
 
@@ -158,7 +152,7 @@ export class CartComponent implements OnInit {
   removeProductLocal(product: ProductCart): void {
     this.cartService.removeFromCartLocal(product.productId);
     this.cartProducts = this.cartService.getCartFromLocal();
-    this.throwDialog("Producto eliminado del carrito correctamente.");
+    this.throwDialog("cart", "Producto eliminado del carrito correctamente.");
     this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
     console.log('Eliminado producto con la id:', product.productId); // Log :D
   }
@@ -167,13 +161,13 @@ export class CartComponent implements OnInit {
   async removeProductBBDD(productId: number): Promise<void> {
     try {
       const response = await this.cartService.removeFromCartBBDD(this.cart.id, productId).toPromise();
-      this.throwDialog(response);
+      this.throwDialog("cart", response);
       this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
       this.loadCart();
 
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
-      this.throwError("Hubo un error al eliminar el producto.");
+      this.throwError("cart", "Hubo un error al eliminar el producto.");
     }
   }
 
@@ -213,7 +207,7 @@ export class CartComponent implements OnInit {
   goToBlockchain() {
 
     if (!window.ethereum) {
-      this.throwError("No está instalado Metamask.");
+      this.throwError("cart", "No está instalado Metamask.");
       throw new Error('Metamask not found');
     } else{
       this.goToPayment('blockchain', '/blockchain');
@@ -261,7 +255,7 @@ export class CartComponent implements OnInit {
         },
         error: (err: any) => {
           console.error("Error al crear la orden: ", err);
-          this.throwError("Error al crear el pedido.");
+          this.throwError("cart", "Error al crear el pedido.");
         },
       });
 
@@ -273,25 +267,14 @@ export class CartComponent implements OnInit {
     }
   }
 
-  // Cuadro de diálogo de notificación
-  throwDialog(texto: string) {
-    Swal.fire({
-      title: texto,
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    });
+  // Cuadro de notificación de éxito
+  throwDialog(key: string, texto: string) {
+    this.messageService.add({ key: key, severity: 'success', summary: 'Éxito', detail: texto })
   }
 
-  // Cuadro de diálogo de error
-  throwError(error: string) {
-    Swal.fire({
-      title: "Se ha producido un error",
-      text: error,
-      icon: "error",
-      confirmButtonText: "Vale"
-    });
+  // Cuadro de notificación de error
+  throwError(key: string, error: string) {
+    this.messageService.add({ key: key, severity: 'error', summary: 'Error', detail: error })
   }
 
 }
