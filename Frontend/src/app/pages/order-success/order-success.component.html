@@ -7,42 +7,44 @@
     </p>
 </div>
 
-<div>
-    <h3>Gracias por tu compra. Tu pago ha sido procesado correctamente.</h3>
-</div>
+<section>
 
-@if (!isLoading) {
-<div class="order-info">
-    <p><b>Identificador del pedido:</b> {{id}}</p>
-    <p><b>Método de pago:</b> {{order.PaymentMethod}}</p>
-    <p><b>Fecha de pedido: </b>{{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</p>
+    <div>
+        <h3><img style="vertical-align: middle;" height="30px" src="box.png" alt="Pedido confirmado"> ¡Gracias por tu
+            compra, {{order.User.name}}! </h3>
+        <p>Tu pago ha sido procesado correctamente. Se le enviará un correo de confirmación a {{order.User.email}}. </p>
+    </div>
 
-
-    <table>
-        <tr>
-            <th>Imagen</th>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio unidad</th>
-            <th>Subtotal</th>
-        </tr>
-        @for (product of products; track product.productId) {
-        <tr>
-            <td> <img src="{{ IMG_URL }}{{ product.product.image }}" width="80px" /></td>
-            <td>{{product.product.name}}</td>
-            <td>{{product.quantity}} uds.</td>
-            <td>{{product.product.price/100}}€</td>
-            <td>{{product.product.price*product.quantity/100}}€</td>
-        </tr>
+    @if (!isLoading) {
+    <div class="order-info">
+        <p>Su número de pedido es:<b> {{id}}.</b></p>
+        <p>Método de pago: <b>{{order.PaymentMethod}}</b></p>
+        <p>Fecha de pedido: <b>{{order.PaymentDate | date:'dd MMM YYYY HH:mm' | lowercase}}</b></p>
+        <p>Total pagado: <b>{{order.TotalPrice/100}}€</b></p>
+        @if (order.PaymentMethod == "blockchain") {
+        <p>Total pagado en Ethereum: <b>{{(order.TotalPrice/100)* 0.00029}}ETH</b></p>
         }
-    </table>
-    <p><b>Total pagado:</b> {{order.TotalPrice/100}}€</p>
 
-    @if (order.PaymentMethod == "blockchain") {
-    <p><b>Total pagado en Ethereum: </b>{{(order.TotalPrice/100)* 0.00029}}ETH</p>
+    </div>
     }
 
-</div>
-}
+    <br><br>
+    <h3>Productos:</h3>
+    <br>
+    <div class="order-info">
+        @for (product of products; track product.productId) {
+        <div class="product-order">
+            <img src="{{ IMG_URL }}{{ product.product.image }}" height="150px" />
+            <ul>
+                <li style="font-size: 1.1rem;"><b>{{product.product.name}}</b></li>
+                <li>Cantidad: {{product.quantity}} uds.</li>
+                <li>Precio unidad:{{product.product.price/100}}€</li>
+                <li>Subtotal: {{product.product.price*product.quantity/100}}€</li>
+            </ul>
+        </div>
+        }
+    </div>
+
+</section>
 
 <app-footer></app-footer>

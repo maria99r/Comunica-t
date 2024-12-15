@@ -1,5 +1,5 @@
 /* 1º block */
-.panel-top{
+.panel-top {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5)), url("https://img.freepik.com/fotos-premium/mujer-recibio-paquete-despues-realizar-pedido-linea-tienda-internet_122732-4046.jpg?w=740");
     background-size: cover;
     background-position: center;
@@ -9,20 +9,63 @@
     text-shadow: #12182e 0 0 1em;
 }
 
-div{
-    justify-items: center;
-    text-align: center;
+section {
+    padding: 3% 10%;
+    text-align: left;
 }
 
-table, tr, td, th{
-    border: 1px solid rgb(179, 179, 179);
+h3 {
+    margin: 0;
+}
+
+.order-info{
+    border: 1px solid var(--secondary-color);
+    padding: 1rem;
+}
+
+
+table,
+tr,
+td,
+th {
+    border: 1px solid var(--secondary-color);
     border-collapse: collapse;
 }
 
-td, th{
+td,
+th {
     padding: 10px;
 }
 
-table{
+th{
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+table {
     margin: 20px auto;
+    width: 100%;
+}
+
+ul{
+    list-style: none;
+}
+
+.product-order {
+    display: flex;
+    align-items: center;
+}
+
+.product-item img {
+    margin-right: 1rem;
+}
+
+.product-order ul {
+    list-style-type: none;
+    margin-left: 20px;
+    padding: 0;
+}
+
+li{
+    line-height: 2rem;
 }
