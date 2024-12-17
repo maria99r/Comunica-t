@@ -11,11 +11,12 @@ import { CheckoutService } from '../../services/checkout.service';
 import { Order } from '../../models/order';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-blockchain',
   standalone: true,
-  imports: [FormsModule, ToastModule],
+  imports: [FormsModule, ToastModule, ProgressSpinnerModule],
   templateUrl: './blockchain.component.html',
   styleUrl: './blockchain.component.css'
 })

@@ -17,7 +17,7 @@
             <input type="submit" value="Buscar" class="p-button font-bold ml-2" />
         </span>
     </form>
-    
+
     <!-- ordenar por nombre o precio-->
     <select [(ngModel)]="sortCriterio" (change)="onSortChange(sortCriterio)">
         <option [ngValue]=0>Ordenar por Nombre</option>
@@ -31,55 +31,61 @@
     </select>
 </div>
 
-<div class="product-flex-container">
+<div class="product-flex-container" [class.empty]="!filteredProducts.length">
     @if (isLoading) {
-        <p class="loading">Cargando...</p>
+        <div class="loading">
+            <p-progressSpinner strokeWidth="4" ariaLabel="cargando" [style]="{ width: '85px', height: '85px' }"/>
+        </div>
     } @else {
-        @for (product of filteredProducts; track product.id) {
+    @for (product of filteredProducts; track product.id) {
 
-            <div class="w-10 h-auto card-container m-auto mt-4">
-                <a [routerLink]="['/product', product.id]">
-                    <div class="m-auto h-20rem card-advantage">
+    <!-------------- Inicio Tarjeta -------------->
+    <a [routerLink]="['/product', product.id]">
+        <div class="m-auto h-20rem card-advantage">
 
-                        <img [src]="IMG_URL + product.image">
+            <img [src]="IMG_URL + product.image">
 
-                        <div class="card-content">
-                            <h2>{{product.name}}</h2>
+            <div class="card-content">
+                <h2>{{product.name}}</h2>
 
-                            <div class="card-data">
-                                <p>{{product.price / 100}}€</p>
+                <div class="card-data">
+                    <p>{{product.price / 100}}€</p>
 
-                                @if (product.stock > 0) {
-                                    <p class="text-m stock" style="color:#5aff4b"><b>Stock</b></p>
-                                } @else {
-                                    <p class="text-m stock" style="color:rgb(255, 107, 107)"><b>No stock</b></p>
-                                }
-                            </div>
-                            <div class="reviews">
-                                <p class="text-m ">
-                                    <span>
-                                    @switch (calculateAvg(product.reviews)) {
-                                        @case (1) {
-                                            ⭐⭐⭐ 
-                                        }
-                                        @case (0) {
-                                            ⭐⭐✩ 
-                                        }
-                                        @case (-1) {
-                                            ⭐✩✩ 
-                                        }
-                                    }
-                                    </span> ({{product.reviews.length}})
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                    @if (product.stock > 0) {
+                    <p class="text-m stock" style="color:#5aff4b"><b>Stock</b></p>
+                    } @else {
+                    <p class="text-m stock" style="color:rgb(255, 107, 107)"><b>No stock</b></p>
+                    }
+                </div>
+
+                <div class="reviews">
+                    <p class="text-m ">
+                        <span>
+                            @switch (calculateAvg(product.reviews)) {
+                            @case (1) {
+                            ⭐⭐⭐
+                            }
+                            @case (0) {
+                            ⭐⭐✩
+                            }
+                            @case (-1) {
+                            ⭐✩✩
+                            }
+                            }
+                        </span> ({{product.reviews.length}})
+                    </p>
+                </div>
             </div>
-        } @empty {
-            <p class="loading">No hay resultados</p>
-        }
+        </div>
+    </a>
+    <!-------------- Fin Tarjeta -------------->
+
+
+    } @empty {
+    <p class="loading">No hay resultados</p>
+    }
     }
 </div>
+
 
 <br><br>

@@ -11,13 +11,14 @@ import { CriterioOrden, SearchDto } from '../../models/searchDto';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
   imports: [InputTextModule,
             FormsModule, PaginatorModule, RouterModule, SelectButtonModule, 
-            CommonModule, ToastModule],
+            CommonModule, ToastModule, ProgressSpinnerModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
 })

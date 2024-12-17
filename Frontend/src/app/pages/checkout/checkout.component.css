@@ -1,11 +1,17 @@
-h2{
+h1{
     text-align: center;
+    color: #004a8d;
 }
-#boton-home{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+hr{
+    border: none;
+    border-top: 3px dotted #999;
+    height: 1px;
+    margin: 20px 0;
+    width: 50%;
+    justify-self: center;
 }
-a{
-    text-decoration: none;
+
+.container{
+    margin: 1%;
 }

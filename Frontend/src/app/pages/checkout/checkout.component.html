@@ -1,12 +1,14 @@
 <p-toast position="top-right" key="catalog" life=2000 />
 <p-toast position="top-right" key="catalogError" (onClose)="this.router.navigate(['/'])" life=2000 />
 
-
-<h2>Pago con tarjeta</h2>
-
-@if (isLoading) {
-  <div style="padding: 5%;">Cargando...</div>
-} @else {
-  <div id="checkout"></div>
-}
-
+<div class="container">
+  <h1>Pago con tarjeta</h1>
+  <hr>
+  @if (isLoading) {
+    <div class="loading">
+      <p-progressSpinner strokeWidth="4" ariaLabel="cargando" [style]="{ width: '85px', height: '85px' }"/>
+    </div>
+  } @else {
+    <div id="checkout"></div>
+  }
+</div>

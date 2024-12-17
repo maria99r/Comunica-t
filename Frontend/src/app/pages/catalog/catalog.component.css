@@ -17,14 +17,12 @@
     margin: 0 100px;
 }
 
-.product-flex-container.loading{
-    display: flex !important; /* No funciona 🗿 */
-}
-
-.loading{
+.product-flex-container.empty {
+    display: flex;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 5%;
+    padding: 20px;
 }
 
 .card-container {
@@ -80,7 +78,7 @@
 .card-content h2{
     color: #ffffff;
     font-weight: normal;
-    font-size: 90%;
+    font-size: 1.1rem;
     margin: 0px; 
     padding: 0px; 
 }
