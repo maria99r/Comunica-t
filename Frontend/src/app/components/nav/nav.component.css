@@ -8,23 +8,23 @@
     vertical-align: middle;
 }
 
-.cart{
+.cart {
     position: relative;
 }
 
-.cart span{
+.cart span {
     position: absolute;
     background-color: var(--primary-color);
     border: 2px var(--primary-color) solid;
     color: white;
     text-align: center;
     border-radius: 50%;
-    height:1rem;
-    width: 1rem;
-    line-height: 0.8rem;
+    height: 1.2rem;
+    width: 1.2rem;
+    line-height: 1rem;
     right: -0.4rem;
     top: 0;
-    font-size: small;
+    font-size: smaller;
 }
 
 span {
@@ -117,20 +117,22 @@ button:hover {
     background-color: #f1f1f1;
 }
 
-::ng-deep .custom-menubar .p-icon{ /* Edita el icono responsive del nav*/
+::ng-deep .custom-menubar .p-icon {
+    /* Edita el icono responsive del nav*/
     height: 30px;
     width: 30px;
-    margin-left: 15px;
 }
 
-::ng-deep .custom-menubar span{ /* Edita el texto de los botones del nav*/
+::ng-deep .custom-menubar span {
+    /* Edita el texto de los botones del nav*/
     font-size: 1.2rem;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 790px) {
     .desktop-logo {
         display: none;
     }
+
 
     .mobile-logo {
         display: block;

@@ -1,8 +1,11 @@
+import { User } from "./user";
+
 export interface Review {
-    reviewId : number,
+    id : number,
     text : string,
     label : number,
-    date : Date,
+    publicationDate : Date,
     userId: number,
     productId: number,
+    user : User
 }

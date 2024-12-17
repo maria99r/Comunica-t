@@ -41,7 +41,6 @@ export class CatalogComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loadUserConfig(); // Cargar la configuración de sessionStorage si existe
     await this.loadProducts();
-    await this.updateReviews();
   }
 
   // Cargar configuración desde sessionStorage
@@ -136,16 +135,6 @@ export class CatalogComponent implements OnInit {
     this.loadProducts();
   }
 
-  // nº de reviews de los productos
-  async updateReviews() {
-    for (const product of this.filteredProducts) {
-      try {
-        product.reviews = await this.apiService.loadReviews(product.id);
-      } catch (error) {
-        product.reviews = [];
-      }
-    }
-  }
 
   // media de reseñas de cada producto
   calculateAvg(reviews: { label: number }[]): number {

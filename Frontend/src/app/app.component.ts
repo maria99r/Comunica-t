@@ -15,7 +15,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 export class AppComponent implements OnInit{
   title = 'Comunica-T';
   ngOnInit(): void {
-    console.log(window.ethereum);
+    //console.log(window.ethereum);
   }
 }
 declare global {

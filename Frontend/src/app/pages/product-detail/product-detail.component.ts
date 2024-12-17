@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
-import { Review } from '../../models/review';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -17,6 +16,10 @@ import { OrderService } from '../../services/order.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
+import { LOCALE_ID, NgModule } from '@angular/core';
+import localeES from '@angular/common/locales/es'
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeES, 'es')
 
 
 @Component({
@@ -24,14 +27,13 @@ import { MessageService } from 'primeng/api';
   standalone: true,
   imports: [InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule, ToastModule],
   templateUrl: './product-detail.component.html',
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }], 
   styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent implements OnInit {
 
   product: Product | null = null;
   productCart: ProductCart;
-
-  reviews: Review[] = [];
 
   textReview: string;
 
@@ -49,7 +51,7 @@ export class ProductDetailComponent implements OnInit {
 
   quantity = 1;
 
-  user : User;  // usuario actual
+  user: User;  // usuario actual
 
   // media reseñas
   avg: number = 0;
@@ -68,7 +70,7 @@ export class ProductDetailComponent implements OnInit {
     // usuario actual
     const user = await this.authService.getUser();
     this.user = user;
-    console.log(this.user)
+    //console.log(this.user)
     if (user != null) { this.isLog = true; }
     this.currentUser = user;
 
@@ -80,19 +82,11 @@ export class ProductDetailComponent implements OnInit {
 
     this.product.id = id;
 
-    // carga sus reseñas
-    this.reviews = await this.api.loadReviews(id);
-
     // ordena las reseñas por fecha de publicación a las más recientes primero
-    this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-    // obtiene info de los usuarios que han comentado
-    for (const review of this.reviews) {
-      this.users.push(await this.api.getUser(review.userId));
-    }
+    this.product.reviews.sort((a, b) => new Date(b.publicationDate).getTime() - new Date(a.publicationDate).getTime());
 
     // revisa si el usuario ya ha comentado para que no pueda comentar
-    this.hasComment = this.users.some(u => u.userId === user.userId);
+    this.hasComment = this.product.reviews.some(r => r.userId === user.userId);
 
     // obtiene los pedidos para verificar si puede poner una reseña
     const orders = await this.orderApi.getOrdersByUser(user.userId);
@@ -188,13 +182,10 @@ export class ProductDetailComponent implements OnInit {
 
         if (result.success) {
           // se recarga la info de reseñas
-          this.reviews = await this.api.loadReviews(idProduct);
-          // obtiene info de los usuarios que han comentado
-          for (const review of this.reviews) {
-            this.users.push(await this.api.getUser(review.userId));
-          }
+          this.product = await this.api.getProduct(this.product.id);
+    
           // revisa si el usuario ya ha comentado para que no pueda comentar
-          this.hasComment = this.users.some(u => u.userId === user.userId);
+          this.hasComment = this.product.reviews.some(r => r.userId === user.userId);
           this.calculeAvg();
         }
       }
@@ -210,25 +201,22 @@ export class ProductDetailComponent implements OnInit {
     const confirmation = confirm(`¿Estás seguro de que deseas borrar la reseña?`);
 
     if (confirmation) {
-      
+
       const result = await this.api.deleteReview(reviewId)
-      console.log(result);
-      
+      // console.log(result);
+
       if (result.statusCode != 200) {
         console.error("Error al eliminar la reseña.");
         this.throwError("delete-review", "Error al eliminar la reseña.");
-      } else{
+      } else {
         this.throwDialog("delete-review", "Reseña eliminada con éxito.");
       }
 
-      this.reviews = await this.api.loadReviews(this.product.id)
-      this.users = [];
+      const id = this.activatedRoute.snapshot.paramMap.get('id') as unknown as number;
 
-      for (const review of this.reviews) {
-        this.users.push(await this.api.getUser(review.userId));
-      }
+      this.product = await this.api.getProduct(id);
 
-      this.hasComment = this.users.some(u => u.userId === this.user.userId);
+      this.hasComment = this.product.reviews.some(r => r.userId === this.user.userId);
       this.textReview = "";
       this.calculeAvg();
     }
@@ -236,9 +224,9 @@ export class ProductDetailComponent implements OnInit {
 
   // calculo media de reseñas
   calculeAvg(): void {
-    if (this.reviews.length > 0) {
-      const sum = this.reviews.reduce((acc, review) => acc + review.label, 0);
-      this.avg = sum / this.reviews.length;
+    if (this.product.reviews.length > 0) {
+      const sum = this.product.reviews.reduce((acc, review) => acc + review.label, 0);
+      this.avg = sum / this.product.reviews.length;
       this.avg = Math.round(this.avg)
     } else {
       this.avg = 0;

@@ -5,17 +5,22 @@ namespace Ecommerce.Models.Database.Repositories.Implementations;
 
 public class ProductRepository : Repository<Product, int>
 {
-    public ProductRepository(EcommerceContext context) : base(context) {}
+    public ProductRepository(EcommerceContext context) : base(context) { }
 
     public async Task<Product> GetProductById(int id)
     {
         return await GetQueryable()
+        .Include(p => p.Reviews)
+        .ThenInclude(r => r.User)
             .FirstOrDefaultAsync(Product => Product.Id == id);
     }
 
     public async Task<List<Product>> GetAllProductsAsync()
     {
-        return await GetQueryable().ToListAsync();
+        return await GetQueryable()
+        .Include(p => p.Reviews)
+        .ThenInclude(r => r.User)
+        .ToListAsync();
     }
 
     // Crear un nuevo producto

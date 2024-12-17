@@ -39,17 +39,29 @@
 
     <section class="w-full">
         <h1>Reseñas</h1>
-        <p>{{reviews.length}} reseñas. Media:
+        <p>{{product.reviews.length}} reseñas. Media:
             <span>
                 @switch (this.avg) {
                 @case (1) {
-                ⭐⭐⭐
+                <span style="display: inline-flex; align-items: center; gap: 2px;">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                </span>
                 }
                 @case (0) {
-                ⭐⭐✩
+                <span style="display: inline-flex; align-items: center; gap: 2px;">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star_vacio.png" style="display: block;" width="20px">
+                </span>
                 }
                 @case (-1) {
-                ⭐✩✩
+                <span style="display: inline-flex; align-items: center; gap: 2px;">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star_vacio.png" style="display: block;" width="20px">
+                    <img src="icons/star_vacio.png" style="display: block;" width="20px">
+                </span>
                 }
                 }
             </span>
@@ -81,45 +93,56 @@
             <p class="font-bold">Para poder dejar una reseña, debes haber comprado este producto.</p>
         </div>
 
-
         <br>
 
-        @for (review of reviews; track review.reviewId) {
+        @for (review of product.reviews; track review.id) {
         <div class="review">
             <!-- nombre usuario que ha comentado-->
-            @for (user of users; track user.userId) {
-            @if(user.userId == review.userId){
-            <span class="font-bold"> 👤 {{user.name}} </span>
-            }
-            }
 
-            @switch (review.label) {
-            @case (1) {
-            <span>⭐⭐⭐</span>
-            }
-            @case (0) {
-            <span> ⭐⭐✩</span>
-            }
-            @case (-1) {
-            <span> ⭐✩✩ </span>
-            }
-            }
-            <span style="float: inline-end; padding-right: 10px;"> {{review.date | date:'dd MMM YYYY HH:mm' |
+            <span class="font-bold" style="display: inline-flex; align-items: center; gap: 7px;">
+                <img src="icons/user-icon.webp" style="display: block;" width="25px" alt="icono usuario">
+                {{review.user.name}}
+
+                @switch (review.label) {
+                @case (1) {
+                <span style="display: inline-flex; align-items: center; gap: 2px;">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                </span>
+                }
+                @case (0) {
+                <span style="display: inline-flex; align-items: center; gap: 2px;">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star_vacio.png" style="display: block;" width="20px">
+                </span>
+                }
+                @case (-1) {
+                <span style="display: inline-flex; align-items: center; gap: 2px;">
+                    <img src="icons/star.png" style="display: block;" width="20px">
+                    <img src="icons/star_vacio.png" style="display: block;" width="20px">
+                    <img src="icons/star_vacio.png" style="display: block;" width="20px">
+                </span>
+                }
+                }
+            </span>
+
+            <span style="float: inline-end; padding-right: 10px;"> 
+                {{review.publicationDate | date:"longDate" |
                 lowercase}}</span>
-
 
             <p class="m-2 text-sm">{{review.text}}
                 <span class="delete" *ngIf="authService.isAuthenticated()">
                     <img *ngIf="authService.isAdmin() || review.userId == user.userId" src="icons/bin.svg"
-                        class="delete-icon" alt="Borrar" (click)="deleteReview(review.reviewId)">
+                        class="delete-icon" alt="Borrar" (click)="deleteReview(review.id)">
                 </span>
             </p>
-
         </div>
 
         }
         @empty {
-        <div>No hay reseñas</div>
+        <div>Aún no hay reseñas.</div>
         }
     </section>
 </div>

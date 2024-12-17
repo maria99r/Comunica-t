@@ -1,4 +1,4 @@
-<p-toast position="top-right" key="logout" (onClose)="goToLogin()" life=2000/>
+<p-toast position="top-right" key="logout" (onClose)="goToLogin()" life=2000 />
 
 <!-- NAVBAR MENU RESPONSIVE -->
 <p-menubar [model]="items" styleClass="custom-menubar">
@@ -6,11 +6,14 @@
     <!-- Logo Innovacom-->
     <ng-template pTemplate="start">
         <div class="logo-container">
-            <img style=" height: 60px; margin-right: 5px;" src="logos/Logotipo_del_Ministerio_de_Educación_y_Formación_Profesional.webp" id="ministero"
+            <img style=" height: 60px; margin-right: 5px;"
+                src="logos/Logotipo_del_Ministerio_de_Educación_y_Formación_Profesional.webp" id="ministero"
                 class="logo desktop-logo" alt="Logotipo del Ministerio de Educación y Formación Profesional">
             <img src="logos/gobierno-responsive.webp" alt="Logotipo del Gobierno de España" class="logo mobile-logo">
 
-            <a routerLink="/" ><img src="logos/comunicat-icono.webp" class="logo" alt="Logotipo comunica-t"></a>
+            <a routerLink="/" style="margin-right: 15px;">
+                <img src="logos/comunicat-icono.webp" class="logo" alt="Logotipo comunica-t">
+            </a>
         </div>
 
     </ng-template>
@@ -21,13 +24,19 @@
             <span class="medium vertical-align-middle lg:m-4" *ngIf="authService.isAuthenticated()">
                 @if(user)
                 {
-                    ¡Hola, {{ user.name }}!
+                ¡Hola, {{ user.name }}!
                 }
             </span>
 
             <a routerLink="/cart" class="cart">
-                <img src="icons/cart.webp" alt="carrito compra" class="vertical-align-middle" width="40px">
-                <span>{{ cartProductCount }}</span>
+                <img src="icons/cart.webp" alt="carrito compra" class="vertical-align-middle" width="45px">
+                <!-- para numeros grandes, tam de letra mas pequeño -->
+                <span style="font-size: x-small;" *ngIf="cartProductCount>=100">
+                    {{ cartProductCount }}
+                </span>
+                <span *ngIf="cartProductCount<100">
+                    {{ cartProductCount }}
+                </span>
             </a>
 
             <div *ngIf="authService.isAuthenticated()" style="cursor: pointer;" class="dropdown">
@@ -42,11 +51,12 @@
                 </a>
             </div>
 
-            <a id="inicio-sesion" *ngIf="!this.isMobile() && !authService.isAuthenticated()" class="session-link" (click)="authClick()">
+            <a id="inicio-sesion" *ngIf="!this.isMobile() && !authService.isAuthenticated()" class="session-link"
+                (click)="authClick()">
                 <button class="p-button font-bold ml-3 mr-1 mt-2">Acceder</button>
             </a>
             <span style="float: right;">
-                <img src="logos/logo junta.webp" alt="Logo Junta de Andalucía" class="logo desktop-logo">
+                <img src="logos/logoJunta.webp" alt="Logo Junta de Andalucía" class="logo desktop-logo">
                 <img src="logos/Andalucía-responsive.webp" alt="Logo Junta de Andalucía" class="logo mobile-logo">
             </span>
         </div>
