@@ -116,18 +116,21 @@ a {
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
+    .contenedor h2 {
+        font-size: 2rem;
+    }
     .panel-top {
         height: 200px;
     }
 
     .panel-top p {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 
     .card-advantage {
         flex: 1 1 100%;
         /* Muestra solo una columna en pantallas pequeñas */
-        max-width: 100%;
+        max-width: 60%;
     }
 
     .panel-down p {
