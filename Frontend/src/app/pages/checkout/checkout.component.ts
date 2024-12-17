@@ -9,11 +9,12 @@ import { environment } from '../../../environments/environment';
 import { Order } from '../../models/order';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [ToastModule],
+  imports: [ToastModule, ProgressSpinnerModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -47,17 +48,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void { // Verifica que la suscripción, el refresco y la sesión existen antes de destruirlos
     if (this.routeQueryMap$) {
       this.routeQueryMap$.unsubscribe();
-     // console.log("Suscripción eliminada");
     }
 
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
-      //console.log("Intervalo eliminado");
     }
 
     if (this.stripeEmbedCheckout) {
       this.cancelCheckoutDialog();
-     // console.log("Sesión eliminada");
     }
   }
 
@@ -77,16 +75,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.paymentMethod = queryMap.get("paymentMethod");
 
-   // console.log("ID de la Orden temporal:", this.temporalOrderId);
-    //console.log("Método de pago:", this.paymentMethod);
-    //console.log("Acaba de iniciar sesión:", justLoggedIn);
-
     if (justLoggedIn) {
-     // console.log("El usuario acaba de iniciar sesión. Vinculando la orden temporal...");
+
       const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
       if (linkResponse.success) {
-      //  console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
+
       } else {
         console.error("Error al vincular la orden temporal:", linkResponse.error);
         this.throwError("catalogError");

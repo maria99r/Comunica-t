@@ -1,32 +1,38 @@
 <p-toast position="top-right" key="blockchain" life=2000 />
 <p-toast position="top-right" key="blockchainError" (onClose)="this.router.navigate(['/'])" life=2000 />
 
-<h2>Pago con blockchain</h2>
+<div class="container">
+    <h1>Pago con blockchain</h1>
+    <hr>
 
-@if (isLoading) {
-<div style="padding: 5%;">Cargando...</div>
-}
+    @if (isLoading) {
+        <div class="loading">
+            <p-progressSpinner strokeWidth="4" ariaLabel="cargando" [style]="{ width: '85px', height: '85px' }"/>
+        </div>
+    }
 
-@if (!isLoading) {
-<section>
-    <h3>Usted va a comprar: </h3>
-    <section class="product-info">
-        <ul>
-            @for(product of this.orderDetails.temporalProductOrder; track product.productId) {
-            <img src="{{ IMG_URL }}{{ product.product.image }}" width="80px" />
-            <li>
-                <b>{{product.product.name}}</b>
-            </li>
-            <p>Cantidad: {{product.quantity}} | Subtotal: {{product.product.price/100 * product.quantity}}€</p>
-            <br>
-            }
-        </ul>
-    </section>
+    @if (!isLoading) {
+        <section>
+            <h2>Usted va a comprar: </h2>
+            <section class="product-info">
+                <ul>
+                    @for(product of this.orderDetails.temporalProductOrder; track product.productId) {
+                        <img src="{{ IMG_URL }}{{ product.product.image }}" width="80px" />
+                        <li>
+                            <b>{{product.product.name}}</b>
+                        </li>
+                        <p>Cantidad: {{product.quantity}} | Subtotal: {{product.product.price/100 * product.quantity}}€</p>
+                        <br>
+                    }
+                </ul>
+            </section>
 
-    <section>
-        <h4>Precio total: {{eurosToSend}}€</h4>
-        <h4>Precio en Ethereum: {{priceInEth}}Eth</h4>
-        <button (click)="createTransaction()">Crear transacción</button>
-    </section>
-</section>
-}
+            <section>
+                <h4>Precio total: {{eurosToSend}}€</h4>
+                <h4>Precio en Ethereum: {{priceInEth}}Eth</h4>
+                <button (click)="createTransaction()">Crear transacción</button>
+            </section>
+        </section>
+    }
+</div>
+<br><br>

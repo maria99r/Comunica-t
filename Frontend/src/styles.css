@@ -4,8 +4,11 @@
 @import "primeicons/primeicons.css";
 
 html, body {
-    margin: 0;
     font: inherit;
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Títulos */
@@ -28,4 +31,16 @@ html, body {
     --primary-color-light : #2B5F6E !important;
     --font-family-title: "Nunito Sans" !important;
     --font-family-text: "Faustina" !important;
+}
+
+.loading{
+    justify-content: center;
+    text-align: center;
+    padding: 5%;
+    font-size: 1.5rem;
+    color: #555555;
+}
+
+.main-content{
+    flex: 1;
 }
