@@ -12,7 +12,7 @@
     <!-- info del producto -->
     <section class="infoProduct">
         <h1>{{product.name}}</h1>
-        <p class="numRef">Número de artículo: {{product.id}}</p>
+        <p class="numRef">Identificador de artículo: {{product.id}}</p>
         <span class="price">{{product.price/100}}€</span>
         <p [innerHTML]="product.description"></p>
 
@@ -89,7 +89,7 @@
             <!-- nombre usuario que ha comentado-->
             @for (user of users; track user.userId) {
             @if(user.userId == review.userId){
-            <span class="font-bold">👤{{user.name}}</span>
+            <span class="font-bold"> 👤 {{user.name}} </span>
             }
             }
 
@@ -98,30 +98,29 @@
             <span>⭐⭐⭐</span>
             }
             @case (0) {
-            <span>⭐⭐✩</span>
+            <span> ⭐⭐✩</span>
             }
             @case (-1) {
-            <span>⭐✩✩ </span>
+            <span> ⭐✩✩ </span>
             }
             }
-            <span> {{review.date | date:'dd MMM YYYY HH:mm' | lowercase}}</span>
-            <span *ngIf="authService.isAuthenticated()">
-                <img *ngIf="authService.isAdmin() || review.userId == user.userId" src="icons/bin.svg"
-                class="delete-icon" alt="Borrar" (click)="deleteReview(review.reviewId)">
-            </span>
-            
+            <span style="float: inline-end; padding-right: 10px;"> {{review.date | date:'dd MMM YYYY HH:mm' |
+                lowercase}}</span>
 
-            <p class="text-sm">{{review.text}}</p>
+
+            <p class="m-2 text-sm">{{review.text}}
+                <span class="delete" *ngIf="authService.isAuthenticated()">
+                    <img *ngIf="authService.isAdmin() || review.userId == user.userId" src="icons/bin.svg"
+                        class="delete-icon" alt="Borrar" (click)="deleteReview(review.reviewId)">
+                </span>
+            </p>
+
         </div>
 
         }
         @empty {
         <div>No hay reseñas</div>
         }
-
-
     </section>
-
-
 </div>
 }

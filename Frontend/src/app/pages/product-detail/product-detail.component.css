@@ -8,6 +8,11 @@
     text-align: center;
 }
 
+.delete{
+    float: inline-end;
+    margin: 5px;
+}
+
 .delete-icon{
     vertical-align: top;
     width: 20px;

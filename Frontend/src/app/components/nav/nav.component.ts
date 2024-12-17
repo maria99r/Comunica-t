@@ -54,8 +54,21 @@ export class NavComponent implements OnInit, OnDestroy {
         icon: '',
         routerLink: '/about-us',
       },
+      {
+        label: 'Acceder',
+        icon: '',
+        visible: !this.authService.isAuthenticated() && this.isMobile(),
+        routerLink: '/login',
+      }
     ];
 
+    window.addEventListener('resize', this.isMobile);
+
+  }
+
+   // Detectar si es móvil
+   isMobile(): boolean {
+    return window.innerWidth <= 960;
   }
 
 

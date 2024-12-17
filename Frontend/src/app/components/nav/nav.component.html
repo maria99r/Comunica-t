@@ -42,7 +42,7 @@
                 </a>
             </div>
 
-            <a id="inicio-sesion" *ngIf="!authService.isAuthenticated()" class="session-link" (click)="authClick()">
+            <a id="inicio-sesion" *ngIf="!this.isMobile() && !authService.isAuthenticated()" class="session-link" (click)="authClick()">
                 <button class="p-button font-bold ml-3 mr-1 mt-2">Acceder</button>
             </a>
             <span style="float: right;">
