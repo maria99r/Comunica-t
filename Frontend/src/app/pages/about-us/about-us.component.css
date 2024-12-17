@@ -92,6 +92,7 @@ a {
     flex-grow: 1;
     margin: 0.5rem 0;
     text-align: left;
+    font-size: 1.1rem;
 }
 
 .card-advantage img {
@@ -102,8 +103,10 @@ a {
 
 .contenedor {
     display: flex;
+    justify-content: center;
     align-items: center;
     margin: 3% 7%;
+    
 }
 
 .contenedor h2 {
@@ -112,13 +115,32 @@ a {
     font-size: 3rem;
 }
 
+.contenedor div {
+    display: flex; 
+    font-size: 1.1rem;
+    flex-direction: column; 
+    justify-content: center;     
+}
+
 
 
 /* Estilos responsivos */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .contenedor h2 {
         font-size: 2rem;
     }
+
+    .contenedor {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .contenedor div {
+        width: 100%;
+    }
+
+}
+@media (max-width: 768px) {
     .panel-top {
         height: 200px;
     }
@@ -142,13 +164,5 @@ a {
     }
 
 
-    .contenedor {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .contenedor div {
-        width: 100%;
-    }
-
+   
 }
