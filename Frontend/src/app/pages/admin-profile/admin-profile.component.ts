@@ -1,7 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
-import { FooterComponent } from "../../components/footer/footer.component";
-import { NavComponent } from "../../components/nav/nav.component";
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -20,9 +18,7 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-admin-profile',
   standalone: true,
-  imports: [FooterComponent, 
-            NavComponent, 
-            FormsModule, 
+  imports: [FormsModule, 
             CommonModule, 
             ReactiveFormsModule,
             ToastModule

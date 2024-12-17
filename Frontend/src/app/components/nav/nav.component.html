@@ -10,7 +10,7 @@
                 class="logo desktop-logo" alt="Logotipo del Ministerio de Educación y Formación Profesional">
             <img src="logos/gobierno-responsive.webp" alt="Logotipo del Gobierno de España" class="logo mobile-logo">
 
-            <img src="logos/comunicat-icono.webp" class="logo" alt="Logotipo comunica-t">
+            <a routerLink="/" ><img src="logos/comunicat-icono.webp" class="logo" alt="Logotipo comunica-t"></a>
         </div>
 
     </ng-template>
@@ -36,10 +36,7 @@
                         class="user-icon vertical-align-middle clickable; cursor: pointer;">
                     <div class="dropdown-content">
                         <a [routerLink]="'/user-profile'">Perfil</a>
-                        @if(user && user.role == "Admin")
-                        {
-                            <a [routerLink]="'/admin-profile'">Administración</a>
-                        }
+                        <a *ngIf="authService.isAdmin()" [routerLink]="'/admin-profile'">Administración</a>
                         <a (click)="authClick()" class="logout-text">Cerrar Sesión</a>
                     </div>
                 </a>

@@ -45,11 +45,6 @@ export class NavComponent implements OnInit, OnDestroy {
     // Nav items
     this.items = [
       {
-        label: 'Inicio',
-        icon: '',
-        routerLink: '/',
-      },
-      {
         label: 'Tienda',
         icon: '',
         routerLink: '/catalog',
@@ -60,7 +55,9 @@ export class NavComponent implements OnInit, OnDestroy {
         routerLink: '/about-us',
       },
     ];
+
   }
+
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

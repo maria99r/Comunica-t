@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { OrderService } from '../../services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from '../../models/order';
@@ -14,7 +12,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-order-success',
   standalone: true,
-  imports: [NavComponent, FooterComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './order-success.component.html',
   styleUrl: './order-success.component.css'
 })

@@ -6,15 +6,13 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ProductCart } from '../../models/productCart';
 import { CartService } from '../../services/cart.service';
 import { MessageService } from 'primeng/api';
-import { FooterComponent } from "../../components/footer/footer.component";
-import { NavComponent } from "../../components/nav/nav.component";
 import { ToastModule } from 'primeng/toast';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterModule, CheckboxModule, NavComponent, FooterComponent, ToastModule],
+  imports: [FormsModule, RouterModule, CheckboxModule,ToastModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })

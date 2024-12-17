@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from 'primeng/paginator';
@@ -17,7 +15,7 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputTextModule,
+  imports: [InputTextModule,
             FormsModule, PaginatorModule, RouterModule, SelectButtonModule, 
             CommonModule, ToastModule],
   templateUrl: './catalog.component.html',

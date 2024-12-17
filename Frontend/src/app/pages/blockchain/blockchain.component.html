@@ -1,8 +1,6 @@
 <p-toast position="top-right" key="blockchain" life=2000 />
 <p-toast position="top-right" key="blockchainError" (onClose)="this.router.navigate(['/'])" life=2000 />
 
-<app-nav></app-nav>
-
 <h2>Pago con blockchain</h2>
 
 @if (isLoading) {
@@ -32,5 +30,3 @@
     </section>
 </section>
 }
-
-<app-footer></app-footer>

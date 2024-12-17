@@ -3,8 +3,6 @@ import { CreateEthTransactionRequest } from '../../models/createEthTransactionRe
 import { Erc20Contract } from '../../models/erc20Contract';
 import { BlockchainService } from '../../services/blockchain.service';
 import { FormsModule } from '@angular/forms';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from '../../components/footer/footer.component';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TemporalOrder } from '../../models/temporal-order';
 import { Subscription } from 'rxjs';
@@ -17,7 +15,7 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-blockchain',
   standalone: true,
-  imports: [FormsModule, NavComponent, FooterComponent, ToastModule],
+  imports: [FormsModule, ToastModule],
   templateUrl: './blockchain.component.html',
   styleUrl: './blockchain.component.css'
 })

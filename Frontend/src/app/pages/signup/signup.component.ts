@@ -4,15 +4,13 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FormsModule, NgIf, NavComponent, FooterComponent, ToastModule],
+  imports: [RouterModule, ReactiveFormsModule, FormsModule, NgIf, ToastModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })

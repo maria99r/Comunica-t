@@ -5,8 +5,6 @@ import { Review } from '../../models/review';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -22,7 +20,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [NavComponent, FooterComponent, InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule, ToastModule],
+  imports: [InputNumberModule, FormsModule, ButtonModule, CommonModule, RouterModule, ToastModule],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })

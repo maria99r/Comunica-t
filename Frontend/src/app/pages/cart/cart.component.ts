@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product';
 import { CartService } from '../../services/cart.service';
 import { environment } from '../../../environments/environment';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -20,7 +18,7 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NavComponent, FooterComponent, ButtonModule, FormsModule, CommonModule, ToastModule],
+  imports: [ButtonModule, FormsModule, CommonModule, ToastModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })

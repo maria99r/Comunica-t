@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FooterComponent } from "../../components/footer/footer.component";
-import { NavComponent } from "../../components/nav/nav.component";
-import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -17,7 +14,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FooterComponent, NavComponent, CommonModule, ReactiveFormsModule, ToastModule],
+  imports: [ CommonModule, ReactiveFormsModule, ToastModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })

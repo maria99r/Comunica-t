@@ -4,8 +4,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StripeEmbeddedCheckout, StripeEmbeddedCheckoutOptions } from '@stripe/stripe-js';
 import { StripeService } from 'ngx-stripe';
-import { NavComponent } from "../../components/nav/nav.component";
-import { FooterComponent } from "../../components/footer/footer.component";
 import { TemporalOrder } from '../../models/temporal-order';
 import { environment } from '../../../environments/environment';
 import { Order } from '../../models/order';
@@ -15,7 +13,7 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [NavComponent, FooterComponent, ToastModule],
+  imports: [ToastModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
