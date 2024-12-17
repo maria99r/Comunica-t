@@ -38,7 +38,8 @@ a {
     margin-bottom: 1rem;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    /* Sombra para resaltar */
 }
 
 .panel-down p {
@@ -67,15 +68,17 @@ a {
 }
 
 .card-advantage {
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     color: #2A345D;
     padding: 1rem;
     border-radius: 10px;
+    margin: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 2px 7px 13px 0px rgba(0, 0, 0, 0.5);
-    flex: 1 1 calc(33.333% - 40px); /* 3 columnas */
+    box-shadow: 2px 7px 13px 0px rgba(50, 75, 99, 0.5);
+    flex: 1 1 calc(33.333% - 40px);
+    /* 3 columnas */
     max-width: 300px;
 }
 
@@ -97,6 +100,20 @@ a {
     margin-right: 1rem;
 }
 
+.contenedor {
+    display: flex;
+    align-items: center;
+    margin: 3% 7%;
+}
+
+.contenedor h2 {
+    font-family: 'LyftProUI', sans-serif;
+    color: var(--primary-color);
+    font-size: 3rem;
+}
+
+
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
     .panel-top {
@@ -108,7 +125,8 @@ a {
     }
 
     .card-advantage {
-        flex: 1 1 100%; /* Muestra solo una columna en pantallas pequeñas */
+        flex: 1 1 100%;
+        /* Muestra solo una columna en pantallas pequeñas */
         max-width: 100%;
     }
 
@@ -119,4 +137,15 @@ a {
     .panel-down h2 {
         font-size: 1.5rem;
     }
+
+
+    .contenedor {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .contenedor div {
+        width: 100%;
+    }
+
 }
