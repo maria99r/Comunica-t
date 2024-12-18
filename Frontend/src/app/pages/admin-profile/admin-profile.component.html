@@ -69,14 +69,14 @@
                 Nombre: <br>
                 <input type="text" formControlName="name" />
             </label>
-            <br>
+            <br><br>
             <label>
                 Imagen: <br>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)" />
+                <input  type="file" accept="image/png, image/jpeg, image/jpg" (change)="onFileSelected($event)" />
             </label>
             <br>
-            <button type="button" (click)="closeDialog(addOrEditDialog)">Cancelar</button>
-            <input type="submit" [disabled]="addOrEditForm.valid" />
+            <button class="btn-edit" type="button" (click)="closeDialog(addOrEditDialog)">Cancelar</button>
+            <input id="envio-img" type="submit" [disabled]="addOrEditForm.valid" />
         </form>
     </dialog>
 
