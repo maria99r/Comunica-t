@@ -91,7 +91,7 @@ public class ReviewService
         if (review.UserId == user.UserId || user.Role == "Admin")
         {
             await _unitOfWork.ReviewRepository.Delete(review);
-            Console.WriteLine("Reseña borrada con éxito.");
+         //   Console.WriteLine("Reseña borrada con éxito.");
             await _unitOfWork.SaveAsync();
             return true;
         }

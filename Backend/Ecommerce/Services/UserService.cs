@@ -107,7 +107,7 @@ public class UserService
             Console.WriteLine("El usuario con ID ", userDto.UserId, " no existe.");
         }
 
-        Console.WriteLine("ID del usuario: " + existingUser.Id);
+      //  Console.WriteLine("ID del usuario: " + existingUser.Id);
 
         if (!string.IsNullOrEmpty(userDto.Name) && existingUser.Name != userDto.Name)
         {
@@ -125,7 +125,7 @@ public class UserService
         }
 
         await UpdateUser(existingUser);
-        Console.WriteLine("Usuario actualizado correctamente.", existingUser);
+       // Console.WriteLine("Usuario actualizado correctamente.", existingUser);
         await _unitOfWork.SaveAsync();
     }
 
@@ -141,7 +141,7 @@ public class UserService
             throw new InvalidOperationException("Usuario con ID:" + userId + "no encontrado.");
         }
 
-        Console.WriteLine("ID del usuario: " + existingUser.Id);
+       // Console.WriteLine("ID del usuario: " + existingUser.Id);
 
         if (!string.IsNullOrEmpty(newRole))
         {
@@ -172,7 +172,7 @@ public class UserService
         }
 
         await UpdateUser(existingUser);
-        Console.WriteLine("Usuario actualizado correctamente.", existingUser);
+       // Console.WriteLine("Usuario actualizado correctamente.", existingUser);
         await _unitOfWork.SaveAsync();
     }
 

@@ -70,7 +70,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   }
 
   async init(queryMap: ParamMap) {
-    console.log("Iniciando la página de checkout (blockchain)...");
+    //console.log("Iniciando la página de checkout (blockchain)...");
 
     // si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem("authRedirection") === 'true';
@@ -85,31 +85,31 @@ export class BlockchainComponent implements OnInit, OnDestroy {
 
     this.paymentMethod = queryMap.get("paymentMethod");
 
-    console.log("ID de la Orden temporal:", this.temporalOrderId);
-    console.log("Método de pago:", this.paymentMethod);
-    console.log("Acaba de iniciar sesión:", justLoggedIn);
+    //console.log("ID de la Orden temporal:", this.temporalOrderId);
+    //console.log("Método de pago:", this.paymentMethod);
+   // console.log("Acaba de iniciar sesión:", justLoggedIn);
 
     if (justLoggedIn) {
-      console.log("El usuario acaba de iniciar sesión. Vinculando la orden temporal...");
+      //console.log("El usuario acaba de iniciar sesión. Vinculando la orden temporal...");
       const linkResponse = await this.service.linkUserToOrder(this.temporalOrderId);
 
       if (linkResponse.success) {
-        console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
+        //console.log("La orden temporal se vinculó exitosamente:", linkResponse.data);
       } else {
         console.error("Error al vincular la orden temporal:", linkResponse.error);
         this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
       }
     }
 
-    console.log("Recuperando los detalles de la orden temporal...");
+    //console.log("Recuperando los detalles de la orden temporal...");
     const orderResponse = await this.service.getOrderDetails(this.temporalOrderId);
 
     if (orderResponse.success) {
       this.orderDetails = orderResponse.data;
       this.eurosToSend = this.orderDetails.totalPrice / 100;  // recordar que esta en centimos
       this.priceInEth = this.eurosToSend * 0.00029;
-      console.log("Detalles de la orden cargados:", this.orderDetails);
-      console.log("Productos:", this.orderDetails.temporalProductOrder);
+      //console.log("Detalles de la orden cargados:", this.orderDetails);
+      //console.log("Productos:", this.orderDetails.temporalProductOrder);
       this.startOrderRefresh(); // refresco de la orden
 
       if (!(this.paymentMethod === "blockchain")) {
@@ -197,7 +197,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
       this.service.newOrder(this.temporalOrderId).subscribe({
         next: (order: Order) => {
           this.createdOrder = order;
-          console.log('Pedido creado:', this.createdOrder);
+         // console.log('Pedido creado:', this.createdOrder);
 
           setTimeout(() => {
             this.orderOnComplete();
@@ -220,7 +220,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
     this.refreshInterval = setInterval(async () => {
       const refreshResponse = await this.service.refreshOrder(this.temporalOrderId);
       if (refreshResponse.success) {
-        console.log('Orden temporal refrescada correctamente.');
+       // console.log('Orden temporal refrescada correctamente.');
       } else {
         console.error('Error al refrescar la orden temporal:', refreshResponse.error);
         this.throwError("blockchainError", "Se ha producido un error procesando tu pedido.");
@@ -234,7 +234,7 @@ export class BlockchainComponent implements OnInit, OnDestroy {
   }
 
   orderOnComplete() {
-    console.log("Orden completada");
+    //console.log("Orden completada");
 
     this.cancelCheckoutDialog(); // Desmontar/destruir el checkout embebido
     // this.router.navigate(['/order-success']);  

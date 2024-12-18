@@ -56,7 +56,7 @@ public class ProductCartService
         var existingCart = await _unitOfWork.CartRepository.GetCartDtoByUserId(userId)
             ?? throw new InvalidOperationException("El carrito no existe.");
 
-        Console.WriteLine("ID del carrito: " + existingCart.Id);
+        //Console.WriteLine("ID del carrito: " + existingCart.Id);
 
         // comprueba si existe el producto
         var productCart = await _unitOfWork.ProductCartRepository.GetProductInCartAsync(existingCart.Id, productId)
@@ -75,7 +75,7 @@ public class ProductCartService
         }
 
         await _unitOfWork.SaveAsync();
-        Console.WriteLine("Cantidad actualizada del producto: " + productCart.Quantity);
+       // Console.WriteLine("Cantidad actualizada del producto: " + productCart.Quantity);
     }
 
 

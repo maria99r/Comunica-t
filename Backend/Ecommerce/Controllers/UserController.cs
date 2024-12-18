@@ -56,7 +56,7 @@ namespace Ecommerce.Controllers
                 return BadRequest("El usuario es null");
             }
 
-            Console.WriteLine($"Usuario autenticado: ID = {userData.UserId}, Email = {userData.Email}");
+            //Console.WriteLine($"Usuario autenticado: ID = {userData.UserId}, Email = {userData.Email}");
             userDto.UserId = userData.UserId;
             try
             {
@@ -121,7 +121,7 @@ namespace Ecommerce.Controllers
                 return BadRequest("El usuario es null");
             }
 
-            Console.WriteLine($"Usuario autenticado: ID = {userData.UserId}, Email = {userData.Email}");
+           // Console.WriteLine($"Usuario autenticado: ID = {userData.UserId}, Email = {userData.Email}");
 
             try
             {

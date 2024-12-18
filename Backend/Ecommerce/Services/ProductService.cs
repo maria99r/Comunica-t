@@ -35,7 +35,7 @@ public class ProductService
             // usa smart search para buscar aquellos productos que coincidan con la consulta
             var matchedNames = await _smartSearchService.Search(searchDto.consulta);
 
-            Console.WriteLine($"Búsqueda: {searchDto.consulta}, Coincidencias: {string.Join(", ", matchedNames)}");
+            //Console.WriteLine($"Búsqueda: {searchDto.consulta}, Coincidencias: {string.Join(", ", matchedNames)}");
 
             products = products.Where(p =>
                 matchedNames.Any(name => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase)) ||
@@ -79,7 +79,7 @@ public class ProductService
         {
             Console.WriteLine("El producto con ID ", productId, " no existe.");
         }
-        Console.WriteLine("ID del producto: " + existingProduct.Id);
+       // Console.WriteLine("ID del producto: " + existingProduct.Id);
 
         if (!string.IsNullOrEmpty(newName))
         {

@@ -60,7 +60,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   async init(queryMap: ParamMap) {
-    console.log("Iniciando la página de checkout (tarjeta)...");
+    //console.log("Iniciando la página de checkout (tarjeta)...");
 
     // si el usuario acaba de iniciar sesión desde el redireccionamiento
     const justLoggedIn = sessionStorage.getItem("authRedirection") === 'true';
@@ -164,7 +164,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.service.newOrder(this.temporalOrderId).subscribe({
       next: (order: Order) => {
         this.createdOrder = order;
-        console.log('Pedido creado:', this.createdOrder);
+       // console.log('Pedido creado:', this.createdOrder);
 
         setTimeout(() => {
           this.router.navigate(['/order-success/', this.createdOrder.id]);

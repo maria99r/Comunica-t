@@ -126,10 +126,10 @@ export class CartComponent implements OnInit {
       const userId = user ? user.userId : null;
 
       if (!userId) {
-        console.log("No hay usuario logueado")
+        //console.log("No hay usuario logueado")
       }
 
-      console.log("Nueva cantidad: " + newQuantity)
+     // console.log("Nueva cantidad: " + newQuantity)
 
       if (newQuantity <= 0) {
         this.throwError("cart", "La cantidad no puede ser menor o igual a 0");
@@ -152,7 +152,7 @@ export class CartComponent implements OnInit {
     this.cartProducts = this.cartService.getCartFromLocal();
     this.throwDialog("cart", "Producto eliminado del carrito correctamente.");
     this.cartService.notifyCartChange(); // Notificar el cambio en la cantidad
-    console.log('Eliminado producto con la id:', product.productId); // Log :D
+   // console.log('Eliminado producto con la id:', product.productId); // Log :D
   }
 
   // eliminar un producto del carrito de la bbdd 
