@@ -90,4 +90,6 @@ Proyecto del segundo año del ciclo formativo de grado superior en Desarrollo de
 
 Curso 2024/2025
 
+Para más información sobre el proyecto, puedes leer el siguiente artículo: https://fpalanturing.es/2025/01/08/comunicate/
+
 
