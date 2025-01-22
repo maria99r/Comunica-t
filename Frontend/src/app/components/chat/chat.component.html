@@ -1,0 +1,28 @@
+<div class="box">
+    @if (chatVisible) {
+    <img id="alan" src="/asistente.png" alt="">
+
+    <div class="chat">
+        <button class="close" (click)="chatVisible= false">✖️</button>
+
+        <div class="content" #scrollMe [scrollTop]="scrollMe.scrollHeight"  >
+
+            @for (mensaje of infoMensajes; track $index) {
+                <div [className]="mensaje[1]" class="mensaje mensajeIn">{{mensaje[0]}}</div>
+            }
+
+            
+        </div>
+
+        <form class="envio">
+            <input type="text" name="mensaje" >
+            <button class="p-button font-bold ml-3">Enviar</button>
+        </form>
+
+
+    </div>
+}
+@else {
+    <img width="80px"  src="/asistente.png" (click)="chatVisible= true" alt="">
+}
+</div>

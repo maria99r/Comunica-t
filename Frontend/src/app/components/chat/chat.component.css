@@ -1,0 +1,99 @@
+.chat {
+    background-color: white;
+    border-radius: 5%;
+    height: 50svh;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.close {
+    background-color: initial;
+    border: 0;
+    width: fit-content;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.close:hover{
+    background-color: rgb(233, 233, 233);
+}
+
+.box {
+    right: 0;
+    z-index: 1;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: end;
+}
+
+#alan {
+    z-index: 1;
+    height: 180px;
+}
+
+.content {
+    display: block;
+    margin: 5px 20px;
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+
+    height: xyz;
+}
+
+.Alan {
+    background-color: rgb(190, 190, 190);
+    border-radius: 20px 20px 20px 5px;
+    clear: both;
+    margin: 10px;
+    padding: 10px 15px;
+    width: fit-content;
+}
+
+.User {
+    background-color: rgb(167, 204, 202);
+    float: inline-end;
+    border-radius: 20px 20px 5px 20px;
+    clear: both;
+    margin: 10px;
+    padding: 10px 15px;
+    width: fit-content;
+}
+
+
+.envio {
+    clear: both;
+    font-size: 1.1rem;
+    display: flex;
+    margin: 10px 30px 5px;
+}
+
+.envio button {
+    border: 0px;
+    background-color: #3c747c;
+    color: white;
+    border-radius: 15px;
+    font-size: small;
+    letter-spacing: 1px;
+}
+
+.envio button:hover {
+    cursor: pointer;
+    background-color: #0b4258;
+
+}
+
+.envio input {
+    height: 2rem;
+    flex: 1 1 auto;
+}
+
+
+@media (max-width: 491px) {
+    .chat {
+        width: 80%
+    }
+}
