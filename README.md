@@ -1,4 +1,4 @@
-Proyecto fullstack de Ecommerce basado en una tienda de dispositivos que ayudan a niños del espectro Autista, realizado con ASP.NET y Angular.
+Proyecto fullstack de Ecommerce basado en una tienda de dispositivos que ayudan a niños con dificultades comunicativas, realizado con ASP.NET y Angular.
 
 Funcionalidades a destacar del proyecto:
 
