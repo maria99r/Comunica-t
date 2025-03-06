@@ -10,9 +10,9 @@ Funcionalidades a destacar del proyecto:
 
 - **Inteligencia Artificial para calificar las reseñas:** Implementa un sistema de IA capaz de evaluar y clasificar las reseñas de los usuarios en malas, neutras o buenas.
 
-- **Busqueda inteligente:** Incorpora un motor de búsqueda avanzado que ofrece resultados precisos incluso si hay errores tipográficos al escribir.
+- **Búsqueda inteligente:** Incorpora un motor de búsqueda avanzado que ofrece resultados precisos incluso si hay errores tipográficos al escribir.
 
-- **Diseño resposivo:** Diseño adaptado a cualquier tamaño de pantalla.
+- **Diseño responsivo:** Diseño adaptado a cualquier tamaño de pantalla.
 
 
 <br>
